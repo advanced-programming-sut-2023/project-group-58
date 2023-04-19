@@ -35,6 +35,6 @@ public class User {
     @Override
     public String toString() {
         return "User [username = " + username + ", password = " + password + ", nickname = " + nickname + ", email = " + email
-                + ", slogan = " + slogan + ", securityQuestion = " + securityQuestion + ", securityAnswer = " + securityAnswer +"\\n" +"]";
+                + ", slogan = " + slogan + ", securityQuestion = " + securityQuestion + ", securityAnswer = " + securityAnswer+"]";
     }
 }

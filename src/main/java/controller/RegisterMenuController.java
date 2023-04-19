@@ -11,8 +11,12 @@ import view.Commands;
 import view.ScanMatch;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -160,6 +164,11 @@ public class RegisterMenuController {
             System.out.println("Your slogan is " + slogan);
         }
 
+        try {
+            password = encryptPassword(password);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
 
         //now, we create a user, and save their info for later use.
         User addingUser = new User(username, password, nickname, email, slogan, questionNumber, answer);
@@ -186,8 +195,15 @@ public class RegisterMenuController {
         return "Registration successful.\nWelcome to the club, mate!";
     }
 
+    private String encryptPassword(String password) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+        String encoded = Base64.getEncoder().encodeToString(hash);
+        return encoded;
+    }
 
-        //Warning: can cause infinite loop:
+
+    //Warning: can cause infinite loop:
     private String findSomethingSimilar(String username) {
         String randomStringWeAddEachTime;
         while (true) {

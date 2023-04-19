@@ -18,6 +18,7 @@ public class RegisterMenu {
             if (command.equals("Exit")) break;
             else if ((matcher = Commands.getMatcher(command, Commands.CREATE_USER)) != null) {
                 System.out.println(registerMenuController.createUser(matcher.group("data")));
+                continue;
             }
             else
                 System.out.println("invalid command");
