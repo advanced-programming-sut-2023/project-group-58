@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import org.json.simple.JSONObject;
 public class LoginMenuController {
 
     int numberOfSlogans = 5;
