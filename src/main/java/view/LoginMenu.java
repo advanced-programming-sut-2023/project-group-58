@@ -1,6 +1,7 @@
 package view;
 
 import controller.LoginMenuController;
+import controller.RegisterMenuController;
 import model.User;
 
 import java.io.*;
@@ -13,16 +14,16 @@ import java.util.regex.Pattern;
 
 public class LoginMenu {
 
-    LoginMenuController logController = new LoginMenuController();
+    RegisterMenuController registerMenuController= new RegisterMenuController();
     public void run() throws IOException {
         Scanner scanner = new Scanner(System.in);
-        logController.setUpSloganDataBase();
+        registerMenuController.setUpSloganDataBase();
         while (true) {
             String command = scanner.nextLine();
             Matcher matcher;
             if (command.equals("Exit")) break;
             else if ((matcher = Commands.getMatcher(command, Commands.CREATE_USER)) != null) {
-                logController.createUser(matcher.group("data"),scanner);
+                registerMenuController.createUser(matcher.group("data"),scanner);
             }
 
         }
