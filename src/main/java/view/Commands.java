@@ -5,7 +5,8 @@ import java.util.regex.Pattern;
 
 public enum Commands {
     CREATE_USER("^\\s*user\\s+create\\s+(?<data>.+)$"),
-    SECURITY_QUESTION_PICK("^question pick -q (?<number>\\d) -a (?<answer>.+) -c (?<answerConfirm>.+)$");
+    SECURITY_QUESTION_PICK("^question pick -q (?<number>\\d) -a (?<answer>.+) -c (?<answerConfirm>.+)$"),
+    USER_LOGIN("^\\s*user\\s+login\\s+(?<data>.+)$");
     public final String regex;
 
     Commands(String regex) {

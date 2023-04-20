@@ -1,5 +1,6 @@
 package view;
 
+import controller.LoginMenuController;
 import controller.RegisterMenuController;
 
 import java.io.*;
@@ -19,6 +20,9 @@ public class RegisterMenu {
             else if ((matcher = Commands.getMatcher(command, Commands.CREATE_USER)) != null) {
                 System.out.println(registerMenuController.createUser(matcher.group("data")));
                 continue;
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.USER_LOGIN))!=null) {
+                LoginMenuController loginMenuController = new LoginMenuController(matcher.group("data"));
             }
             else
                 System.out.println("invalid command");

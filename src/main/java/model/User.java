@@ -37,4 +37,16 @@ public class User {
         return "User [username = " + username + ", password = " + password + ", nickname = " + nickname + ", email = " + email
                 + ", slogan = " + slogan + ", securityQuestion = " + securityQuestion + ", securityAnswer = " + securityAnswer+"]";
     }
+
+    public static ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+    public boolean passwordMatch(String password){
+        if (this.password.equals(password)) return true;
+        return false;
+    }
 }
