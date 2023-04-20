@@ -1,0 +1,116 @@
+        //  Gson gson = new Gson();
+        //        String json = gson.toJson(addingUser);
+        //        JSONArray a = new JSONArray();
+        //        a = readFromAJson(System.getProperty("user.dir") + "/DataBase/userInfo.json");
+        //        //String jsonInString = new Gson().toJson(addingUser);
+        //        Gson gsgon = new Gson();
+        //        String jsgon = gson.toJson(addingUser); //convert
+        //        //JSONObject mJSONObject = new JSONObject(jsgon);
+        //        a.add(jsgon);
+                //a.add(new Gson().toJson(addingUser));
+        ----------------------------------------------------------------------------------------
+        //    public JSONArray readFromAJson(String address) throws IOException {
+        //
+        //        JSONParser jsonParser = new JSONParser();
+        //        JSONArray array = new JSONArray();
+        //        boolean why = false;
+        //        BufferedReader br = null;
+        //        try {
+        //            br = new BufferedReader(new FileReader(address));
+        //        } catch (FileNotFoundException e) {
+        //            throw new RuntimeException(e);
+        //        }
+        //        try {
+        //            if (br.readLine() == null) {
+        //                System.out.println("No errors, and file empty");
+        //                why = true;
+        //            }
+        //        } catch (IOException e) {
+        //            throw new RuntimeException(e);
+        //        }
+        //
+        //        JSONParser parser = new JSONParser();
+        //        try (FileReader reader = new FileReader(address)) {
+        //            Object obj = parser.parse(reader);
+        //            JSONArray jsonArray = (JSONArray) obj;
+        //            for (Object o : jsonArray) {
+        //                JSONObject jsonObject = (JSONObject) o;
+        //
+        //                String firstName = (String) jsonObject.get("username");
+        //                String lastName = (String) jsonObject.get("password");
+        //                long age = (Long) jsonObject.get("email");
+        //
+        //                System.out.println("Name: " + firstName + " " + lastName);
+        //                System.out.println("Age: " + age);
+        //            }
+        //
+        //        } catch (Exception e) {
+        //            e.printStackTrace();
+        //        }
+        //        return null;
+        //    }
+        ----------------------------------------------------------------------------------------
+
+        //
+        //        try {
+        //            File log = new File(address);
+        //            JsonReader jsonReader = new JsonReader(log);
+        //                FileReader fileReader = new FileReader(log);
+        //                BufferedReader bufferedReader = new BufferedReader(fileReader);
+        //                bufferedReader.
+        //                bufferedReader.close();
+        //        } catch (Exception ex) {
+        //            ex.printStackTrace();
+        //        }
+        //        return null;
+        //    }
+
+        //        if(!why)
+        //            try {
+        //            for (JsonObject o : ((JsonObject) jsonParser.parse(address)))
+        //                array.add(o);
+        //            } catch (ParseException e) {
+        //                throw new RuntimeException(e);
+        //            }
+        //        return array;
+        //    }
+        //}
+                ----------------------------------------------------------------------------------------
+            public JSONArray readFromAJson(String address) {
+                JSONObject employeeDetails = new JSONObject();
+                JSONObject employeeObject = new JSONObject();
+                employeeObject.put("employee", employeeDetails);
+
+                //Add employees to list
+                JSONArray employeeList = new JSONArray();
+
+                JSONParser parser = new JSONParser();
+                try (FileReader reader = new FileReader(address)) {
+                    Object obj = parser.parse(reader);
+
+                    JSONArray jsonArray = (JSONArray) obj;
+                    for (Object o : jsonArray) {
+                        employeeList.add(o);
+
+                    }
+                    //Write JSON file
+                    FileWriter file = new FileWriter(address);
+
+                    //We can write any JSONArray or JSONObject instance to the file
+                    try {
+                        file.write(employeeList.toJSONString());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        file.flush();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                return employeeList;
+            }

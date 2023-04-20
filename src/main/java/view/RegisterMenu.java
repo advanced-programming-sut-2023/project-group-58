@@ -1,5 +1,6 @@
 package view;
 
+import com.google.gson.Gson;
 import controller.RegisterMenuController;
 
 import java.io.*;
@@ -11,17 +12,16 @@ public class RegisterMenu {
 
     public void run() throws IOException {
         registerMenuController.setUpSloganDataBase();
-        registerMenuController.createFileWhenNecessary(System.getProperty("user.dir") + "/DataBase/userInfo.json");
+        registerMenuController.setUpUserInfo();
         while (true) {
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
-            if (command.equals("Exit")) break;
+            if (command.equals("exit")) break;
             else if ((matcher = Commands.getMatcher(command, Commands.CREATE_USER)) != null) {
                 System.out.println(registerMenuController.createUser(matcher.group("data")));
-                continue;
             }
-            else
-                System.out.println("invalid command");
+
+            else System.out.println("invalid command");
         }
     }
 }

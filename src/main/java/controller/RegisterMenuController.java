@@ -1,7 +1,6 @@
 package controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import model.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,7 +16,6 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,7 +26,7 @@ public class RegisterMenuController {
 
     public void createFileWhenNecessary(String address) {
         File myFile = new File(address);
-        if(!myFile.exists()) {
+        if (!myFile.exists()) {
             try {
                 myFile.createNewFile();
             } catch (IOException e) {
@@ -37,6 +35,47 @@ public class RegisterMenuController {
         }
     }
 
+
+    public void setUpUserInfo() throws IOException {
+
+        //file should not be overwritten if it's not empty. first, we check if it exists:
+        File userInfo = new File(System.getProperty("user.dir") + "/DataBase/userInfo.json");
+        if(!userInfo.exists()) {
+            userInfo.createNewFile();}
+        else {
+            BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/DataBase/userInfo.json"));
+            if (br.readLine() != null) {
+                return;
+            }
+        }
+
+        JSONObject userDetails = new JSONObject();
+        userDetails.put("username", "");
+        userDetails.put("password", "");
+        userDetails.put("nickname", "");
+        userDetails.put("email", "");
+        userDetails.put("slogan", "");
+        userDetails.put("securityQuestion", 0);
+        userDetails.put("securityAnswer", "");
+
+        JSONObject userObject = new JSONObject();
+        userObject.put("user", userDetails);
+
+        JSONArray userList = new JSONArray();
+        userList.add(userObject);
+
+        FileWriter file = new FileWriter(System.getProperty("user.dir") + "/DataBase/userInfo.json");
+        try {
+            file.write(userList.toJSONString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void setUpSloganDataBase() {
         String allSlogans = "\"It's just a stupid game!\"\nI will rise, from the ashes... your ashes\nhey people!" +
@@ -99,7 +138,7 @@ public class RegisterMenuController {
             return "Username's format is invalid!";
 
         //checking to see if this username already exists:
-        if (findUserByUserNameOrEmail(username, "username")) {
+        if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", username, "username")) {
             username = findSomethingSimilar(username);
             System.out.println("This username is already taken. would like to use " + username + " instead?");
             System.out.println("Type y for yes and n for no");
@@ -121,9 +160,8 @@ public class RegisterMenuController {
 
 
         //check to see if this email is already taken:
-        if (findUserByUserNameOrEmail(email, "email"))
-            return "This email address is already used";
-
+        if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", email, "email"))
+            return "This email address is already used\nRegistration failed";
         //validating email:
         regex = "^[\\w|.]+@[\\w|.]+\\.[\\w|.]+$";
         pattern = Pattern.compile(regex);
@@ -173,25 +211,37 @@ public class RegisterMenuController {
         //now, we create a user, and save their info for later use.
         User addingUser = new User(username, password, nickname, email, slogan, questionNumber, answer);
         addingUser.addUserToArrayList();
-        //write to the file without overwriting:
-        try {
-            JSONParser jsonParser = new JSONParser();
-            //JSONObject obj = new JSONObject(new Gson().toJson(addingUser));
-            // reading the file and creating a json array of it:
-            JSONArray a = new JSONArray();
-            a = (JSONArray) jsonParser.parse(new FileReader(System.getProperty("user.dir") + "/DataBase/userInfo.json"));
-            a.add(a.size(),addingUser.toString());
 
-            File newFile = new File(System.getProperty("user.dir") + "/DataBase/userInfo.json");
-            //a.add(addingUser);
-            //a.add(new Gson().toJson(addingUser));   // adding your created object into the array
-            FileWriter file = new FileWriter(System.getProperty("user.dir") + "/DataBase/userInfo.json");
-            file.write(a.toJSONString());
-            file.close();
-        } catch (ParseException e) {
+        JSONArray usersList = readFromAJson(System.getProperty("user.dir") + "/DataBase/userInfo.json");
+        JSONObject userDetails = new JSONObject();
+        userDetails.put("username", username);
+        userDetails.put("password", password);
+        userDetails.put("nickname", nickname);
+        userDetails.put("email", email);
+        userDetails.put("slogan", slogan);
+        userDetails.put("securityQuestion", questionNumber);
+        userDetails.put("securityAnswer", answer);
+
+
+        JSONObject eachUserAsObject = new JSONObject();
+        eachUserAsObject.put("user", userDetails);
+        //Add the new onw to the list
+        usersList.add(eachUserAsObject);
+
+        //now, we should add the json array to our file.
+        FileWriter file = new FileWriter(System.getProperty("user.dir") + "/DataBase/userInfo.json");
+        try {
+            file.write(usersList.toJSONString());
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//
+        try {
+            file.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        file.close();
+
         return "Registration successful.\nWelcome to the club, mate!";
     }
 
@@ -229,7 +279,7 @@ public class RegisterMenuController {
     public String dataExtractor(String string, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(string);
-        if(!matcher.find()) return "";
+        if (!matcher.find()) return "";
         return matcher.group("wantedPart");
     }
 
@@ -240,7 +290,7 @@ public class RegisterMenuController {
         matcher.find();
         String pass = matcher.group("originalPassword").trim();
         String conf = matcher.group("confirmation").trim();
-        if(pass.equals(conf)) return true;
+        if (pass.equals(conf)) return true;
         else return false;
     }
 
@@ -303,8 +353,48 @@ public class RegisterMenuController {
                     break;
             }
         }
-
         //todo: random password MIGHT BE repetitive
         return randomPassword.toString();
     }
+
+    public JSONArray readFromAJson(String address) {
+        JSONArray userList = new JSONArray();
+        JSONParser parser = new JSONParser();
+        try (FileReader reader = new FileReader(address)) {
+            Object obj = parser.parse(reader);
+            JSONArray jsonArray = (JSONArray) obj;
+            for (Object o : jsonArray)
+                userList.add(o);
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return userList;
+    }
+
+    public boolean isUsernameOrEmailAlreadyTaken(String address, String string, String key) {
+        Gson gson = new Gson();
+        JsonArray jsonArray = null;
+        try {
+            jsonArray = gson.fromJson(new FileReader(address), JsonArray.class);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+            if (key.equals("username")) {
+                if (jsonObject.get("user").getAsJsonObject().get("username").toString().equals("\"" + string + "\""))
+                    return true;
+            } else if (key.equals("email")) {
+                if (jsonObject.get("user").getAsJsonObject().get("email").toString().equals("\"" + string + "\""))
+                    return true;
+            }
+        }
+        return false;
+    }
+
 }
