@@ -15,6 +15,7 @@ public class RegisterMenu {
     public void run() throws IOException, NoSuchAlgorithmException {
         registerMenuController.setUpSloganDataBase();
         registerMenuController.setUpUserInfo();
+        LoginMenuController.extractUserData();
         while (true) {
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
@@ -23,6 +24,7 @@ public class RegisterMenu {
                 System.out.println(registerMenuController.createUser(matcher.group("data")));
                 continue;
             }
+            else if (command.matches("show current menu")) System.out.println("login menu");
             else if ((matcher = Commands.getMatcher(command, Commands.USER_LOGIN))!=null) {
                 LoginMenuController loginMenuController = new LoginMenuController(matcher.group("data"));
             }

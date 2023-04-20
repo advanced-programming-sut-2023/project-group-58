@@ -28,7 +28,7 @@ public class LoginMenuController {
     private String inputPassword;
     private int userTryLogin;
     private User user;
-    public LoginMenuController(String data) throws IOException {
+    public LoginMenuController(String data) throws IOException, NoSuchAlgorithmException {
         this.data = data;
         extractData();
         checkForLogin();
@@ -36,12 +36,8 @@ public class LoginMenuController {
     private void extractData() throws IOException {
         inputUsername = dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
         inputPassword = dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        //System.out.println(inputPassword + " : "+ inputUsername);
-        if (User.getUsers().size() == 0) {
-            extractUserData();
-        }
     }
-    private void checkForLogin(){
+    private void checkForLogin() throws NoSuchAlgorithmException {
         if (!userExist()) {
             System.out.println("Username not found!");
             return;
@@ -51,6 +47,7 @@ public class LoginMenuController {
             return;
         }
         System.out.println("user logged in successfully!");
+        System.out.println("You are in the main menu");
         MainMenu mainMenu = new MainMenu(user);
         mainMenu.run();
     }
@@ -98,7 +95,8 @@ public class LoginMenuController {
             String slogan = jsonObject.get("user").getAsJsonObject().get("slogan").toString().replaceAll("\"", "");
             String email = jsonObject.get("user").getAsJsonObject().get("email").toString().replaceAll("\"", "");
             String username = jsonObject.get("user").getAsJsonObject().get("username").toString().replaceAll("\"", "");
-            User addingUser = new User(username, password, nickname, email, slogan, securityQuestion, securityAnswer);
+            int highScore = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("highScore").toString().replaceAll("\"", ""));
+            User addingUser = new User(username, password, nickname, email, slogan, securityQuestion, securityAnswer, highScore);
             addingUser.addUserToArrayList();
         }
     }

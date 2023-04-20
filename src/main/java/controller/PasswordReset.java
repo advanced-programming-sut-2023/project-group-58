@@ -1,11 +1,16 @@
 package controller;
 
+import com.google.gson.Gson;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import model.User;
 import view.ScanMatch;
 
-import java.io.StringWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -17,9 +22,6 @@ public class PasswordReset {
     private String newPassword;
     public PasswordReset(String inputUsername) throws NoSuchAlgorithmException {
         this.inputUsername = inputUsername;
-        if (User.getUsers().size() == 0) {
-            LoginMenuController.extractUserData();
-        }
         resetPassword();
     }
     private void resetPassword() throws NoSuchAlgorithmException {
@@ -32,7 +34,7 @@ public class PasswordReset {
         scanPassword(false);
         newPassword = encryptPassword(newPassword);
         user.setPassword(newPassword);
-
+        changePassword(inputUsername);
         System.out.println("Your password reset successfully");
     }
     private boolean userExist(){
@@ -100,5 +102,63 @@ public class PasswordReset {
             return false;
         }
         return true;
+    }
+    private void changePassword(String username) {
+        String userInfoAddress = System.getProperty("user.dir") + "/DataBase/userInfo.json";
+        Gson gson = new Gson();
+        JsonArray usersList;
+        JSONArray newUsersList = new JSONArray();
+        try {
+            usersList = gson.fromJson(new FileReader(userInfoAddress), JsonArray.class);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (int i = 0; i < usersList.size(); i++) {
+
+            boolean isTheOne = false;
+            JsonObject jsonObject = usersList.get(i).getAsJsonObject();
+            JSONObject eachUserWithKey = new JSONObject();
+            JSONObject newUserDetails = new JSONObject();
+            if (jsonObject.get("user").getAsJsonObject().get("username").toString().equals("\"" + username + "\""))
+                isTheOne = true;
+            newUserDetails.put("nickname"           , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("nickname").toString()));
+            newUserDetails.put("email"              , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("email").toString()));
+            newUserDetails.put("slogan"             , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("slogan").toString()));
+            newUserDetails.put("securityQuestion"   , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("securityQuestion").toString()));
+            newUserDetails.put("securityAnswer"     , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString()));
+            newUserDetails.put("username"           , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("username").toString()));
+            newUserDetails.put("highScore"          , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("highScore").toString()));
+            if(!isTheOne)
+                newUserDetails.put("password"           , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("password").toString()));
+            if(isTheOne) {
+                newUserDetails.put("password"           , newPassword.toString());
+            }
+            eachUserWithKey.put("user", newUserDetails);
+            newUsersList.add(eachUserWithKey);
+        }
+
+        //now, we should add the json array to our file.
+        FileWriter file = null;
+        try {
+            file = new FileWriter(System.getProperty("user.dir") + "/DataBase/userInfo.json");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file.write(newUsersList.toJSONString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public String correctDoubleQuotation(String input) {
+        if(input.charAt(0) == '"' && input.charAt(input.length()-1) == '"')
+            return input.substring(1,input.length()-1);
+        return input;
     }
 }

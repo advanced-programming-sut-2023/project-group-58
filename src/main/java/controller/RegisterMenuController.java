@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 public class RegisterMenuController {
 
     int numberOfSlogans = 5;
+    String userInfoAddress = System.getProperty("user.dir") + "/DataBase/userInfo.json";
 
     public void createFileWhenNecessary(String address) {
         File myFile = new File(address);
@@ -57,6 +58,7 @@ public class RegisterMenuController {
         userDetails.put("slogan", "");
         userDetails.put("securityQuestion", 0);
         userDetails.put("securityAnswer", "");
+        userDetails.put("highScore", -1);
 
         JSONObject userObject = new JSONObject();
         userObject.put("user", userDetails);
@@ -209,18 +211,19 @@ public class RegisterMenuController {
         }
 
         //now, we create a user, and save their info for later use.
-        User addingUser = new User(username, password, nickname, email, slogan, questionNumber, answer);
+        User addingUser = new User(username, password, nickname, email, slogan, questionNumber, answer, 0);
         addingUser.addUserToArrayList();
 
         JSONArray usersList = readFromAJson(System.getProperty("user.dir") + "/DataBase/userInfo.json");
         JSONObject userDetails = new JSONObject();
         userDetails.put("username", username);
         userDetails.put("password", password);
-        userDetails.put("nickname", nickname);
+        userDetails.put("nickname", nickname.substring(1, nickname.length()-1));
         userDetails.put("email", email);
         userDetails.put("slogan", slogan);
         userDetails.put("securityQuestion", questionNumber);
         userDetails.put("securityAnswer", answer);
+        userDetails.put("highScore", 0);
 
 
         JSONObject eachUserAsObject = new JSONObject();
@@ -258,11 +261,12 @@ public class RegisterMenuController {
         String randomStringWeAddEachTime;
         while (true) {
             randomStringWeAddEachTime = username + createRandomString();
-            if (!findUserByUserNameOrEmail(randomStringWeAddEachTime, "username"))
+            if (!isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json",randomStringWeAddEachTime, "username"))
                 return randomStringWeAddEachTime;
         }
     }
 
+    //todo: save the address somewhere.
     public static String createRandomString() {
         Random rand = new Random();
         int numberOfCharacterWeAdd = rand.nextInt(5) + 1;
@@ -294,31 +298,6 @@ public class RegisterMenuController {
         else return false;
     }
 
-    public boolean findUserByUserNameOrEmail(String username, String type) {
-        boolean isItUsed = false;
-        try {
-
-            BufferedReader reader;
-            reader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/DataBase/userInfo.json"));
-            String line = reader.readLine();
-            while (line != null) {
-                if (type.equals("username")) if (line.equals("username : " + username)) {
-                    isItUsed = true;
-                    break;
-                }
-
-                if (type.equals("email")) if (line.equals("email : " + username)) {
-                    isItUsed = true;
-                    break;
-                }
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return isItUsed;
-    }
 
     private String randomPasswordGenerator() {
         String lowerCases = "abcdefghijklmnopqrstuvwxyz";
@@ -390,7 +369,7 @@ public class RegisterMenuController {
                 if (jsonObject.get("user").getAsJsonObject().get("username").toString().equals("\"" + string + "\""))
                     return true;
             } else if (key.equals("email")) {
-                if (jsonObject.get("user").getAsJsonObject().get("email").toString().equals("\"" + string + "\""))
+                if (jsonObject.get("user").getAsJsonObject().get("email").toString().equalsIgnoreCase("\"" + string + "\""))
                     return true;
             }
         }

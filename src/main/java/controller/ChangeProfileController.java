@@ -1,8 +1,17 @@
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import model.User;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import view.ScanMatch;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,13 +46,13 @@ public class ChangeProfileController {
             System.out.println("Username's format is invalid!");
             return;
         }
+        changeDetail(user.getUsername(), "username", dataToChange);
         user.setUsername(dataToChange);
-
         System.out.println("Username changed to "+dataToChange+" successfully");
     }
     public void changeNickname(){
         user.setNickname(dataToChange);
-
+        changeDetail(user.getUsername(), "nickname", dataToChange);
         System.out.println("Nickname changed to \""+dataToChange+"\" successfully");
     }
     public void changePassword() throws NoSuchAlgorithmException {
@@ -67,7 +76,7 @@ public class ChangeProfileController {
         }
         newPassword = encryptPassword(newPassword);
         user.setPassword(newPassword);
-
+        changeDetail(user.getUsername(), "password", newPassword);
         System.out.println("Your password successfully changed");
     }
     private String encryptPassword(String password) throws NoSuchAlgorithmException {
@@ -118,18 +127,77 @@ public class ChangeProfileController {
             return;
         }
         user.setEmail(dataToChange);
-
+        changeDetail(user.getUsername(), "email", dataToChange);
         System.out.println("Your Email changed to "+dataToChange+" successfully");
     }
     public void changeSlogan(){
         user.setSlogan(dataToChange);
-
+        changeDetail(user.getUsername(), "slogan", dataToChange);
         System.out.println("Your slogan changed successfully");
     }
     public void removeSlogan(){
         user.setSlogan(null);
-
+        changeDetail(user.getUsername(), "slogan", "");
         System.out.println("Your slogan cleared successfully");
     }
+    private void changeDetail(String username, String toChange, String forChange) {
+      //  System.out.println(toChange + ": "+ forChange);
+        String userInfoAddress = System.getProperty("user.dir") + "/DataBase/userInfo.json";
+        Gson gson = new Gson();
+        JsonArray usersList;
+        JSONArray newUsersList = new JSONArray();
+        try {
+            usersList = gson.fromJson(new FileReader(userInfoAddress), JsonArray.class);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
+        for (int i = 0; i < usersList.size(); i++) {
+
+            boolean isTheOne = false;
+            JsonObject jsonObject = usersList.get(i).getAsJsonObject();
+            JSONObject eachUserWithKey = new JSONObject();
+            JSONObject newUserDetails = new JSONObject();
+            if (jsonObject.get("user").getAsJsonObject().get("username").toString().equals("\"" + username + "\""))
+                isTheOne = true;
+            newUserDetails.put("nickname"           , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("nickname").toString()));
+            newUserDetails.put("email"              , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("email").toString()));
+            newUserDetails.put("slogan"             , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("slogan").toString()));
+            newUserDetails.put("securityQuestion"   , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("securityQuestion").toString()));
+            newUserDetails.put("securityAnswer"     , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString()));
+            newUserDetails.put("username"           , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("username").toString()));
+            newUserDetails.put("highScore"          , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("highScore").toString()));
+            newUserDetails.put("password"           , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("password").toString()));
+            if(!isTheOne)
+                newUserDetails.put(""+toChange           , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get(""+toChange).toString()));
+            if(isTheOne) {
+                newUserDetails.replace(""+toChange       , correctDoubleQuotation(forChange.toString()));
+            }
+            eachUserWithKey.put("user", newUserDetails);
+            newUsersList.add(eachUserWithKey);
+        }
+
+        //now, we should add the json array to our file.
+        FileWriter file = null;
+        try {
+            file = new FileWriter(System.getProperty("user.dir") + "/DataBase/userInfo.json");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file.write(newUsersList.toJSONString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public String correctDoubleQuotation(String input) {
+        if(input.charAt(0) == '"' && input.charAt(input.length()-1) == '"')
+            return input.substring(1,input.length()-1);
+        return input;
+    }
 }

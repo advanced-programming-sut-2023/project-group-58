@@ -10,6 +10,7 @@ public class User {
     private String slogan;
     private int securityQuestion;
     private String securityAnswer;
+    private int highScore = 0;
     private static ArrayList<User> users = new ArrayList<>();
 
     public User(String Username,
@@ -18,7 +19,8 @@ public class User {
                 String Email,
                 String Slogan,
                 int SecurityQuestion,
-                String SecurityAnswer)
+                String SecurityAnswer,
+                int HighScore)
     {
         username = Username;
         password = Password;
@@ -27,15 +29,11 @@ public class User {
         slogan = Slogan;
         securityQuestion = SecurityQuestion;
         securityAnswer = SecurityAnswer;
+        highScore = HighScore;
     }
 
     public void addUserToArrayList() {
         User.users.add(this);
-    }
-    @Override
-    public String toString() {
-        return "User [username = " + username + ", password = " + password + ", nickname = " + nickname + ", email = " + email
-                + ", slogan = " + slogan + ", securityQuestion = " + securityQuestion + ", securityAnswer = " + securityAnswer+"]";
     }
 
     public static ArrayList<User> getUsers() {
@@ -100,5 +98,13 @@ public class User {
 
     public void setSecurityAnswer(String securityAnswer) {
         this.securityAnswer = securityAnswer;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
     }
 }

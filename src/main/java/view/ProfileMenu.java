@@ -23,6 +23,7 @@ public class ProfileMenu {
                 System.out.println("Your are in the main menu");
                 return;
             }
+            else if (command.matches("show current menu")) System.out.println("profile menu");
             else if ((matcher = Commands.getMatcher(command, Commands.CHANGE_USERNAME))!=null) {
                 changer = new ChangeProfileController(user, matcher.group("username"));
                 changer.changeUserName();
