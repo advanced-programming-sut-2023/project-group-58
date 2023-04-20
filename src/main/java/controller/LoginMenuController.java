@@ -1,5 +1,8 @@
 package controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import model.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,11 +38,10 @@ public class LoginMenuController {
         inputPassword = dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
         //System.out.println(inputPassword + " : "+ inputUsername);
         if (User.getUsers().size() == 0) {
-            extractFromJson();
+            extractUserData();
         }
     }
     private void checkForLogin(){
-        //System.out.println(User.getUsers().size());
         if (!userExist()) {
             System.out.println("Username not found!");
             return;
@@ -77,29 +79,27 @@ public class LoginMenuController {
         if(!matcher.find()) return "";
         return matcher.group("wantedPart");
     }
-    private void extractFromJson() {
+    public static void extractUserData() {
+        //address here is: System.getProperty("user.dir") + "/DataBase/userInfo.json"
+        String address = System.getProperty("user.dir") + "/DataBase/userInfo.json";
+        Gson gson = new Gson();
+        JsonArray jsonArray = null;
         try {
-            BufferedReader reader;
-            reader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/DataBase/userInfo.json"));
-            String line = reader.readLine();
-           // System.out.println(line);
-            String regex = "\"User \\[username = (?<username>[^\"]+), password = (?<password>[^\"]+), nickname = (?<nickname>[^\"]+), email = (?<email>[^\"]+), slogan = (?<slogan>[^\"]+), securityQuestion = (?<number>\\d+), securityAnswer = (?<answer>[^\"]+)]\"";
-            Matcher matcher = Pattern.compile(regex).matcher(line);
-            while (matcher.find()){
-               // System.out.println(1);
-                String name = matcher.group("username");
-              //  System.out.println(name);
-                String password = matcher.group("password");
-                String nickname = matcher.group("nickname");
-                String email = matcher.group("email");
-                String slogan = matcher.group("slogan");
-                int securityQuestion = Integer.parseInt(matcher.group("number"));
-                String securityAnswer = matcher.group("answer");
-                User addingUser = new User(name, password, nickname, email, slogan, securityQuestion, securityAnswer);
-                addingUser.addUserToArrayList();
-            }
-        } catch (IOException e) {
+            jsonArray = gson.fromJson(new FileReader(address), JsonArray.class);
+        } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
+        }
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+            String password = jsonObject.get("user").getAsJsonObject().get("password").toString().replaceAll("\"", "");
+            int securityQuestion = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("securityQuestion").toString().replaceAll("\"", ""));
+            String securityAnswer = jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString().replaceAll("\"", "");
+            String nickname = jsonObject.get("user").getAsJsonObject().get("nickname").toString().replaceAll("\"", "");
+            String slogan = jsonObject.get("user").getAsJsonObject().get("slogan").toString().replaceAll("\"", "");
+            String email = jsonObject.get("user").getAsJsonObject().get("email").toString().replaceAll("\"", "");
+            String username = jsonObject.get("user").getAsJsonObject().get("username").toString().replaceAll("\"", "");
+            User addingUser = new User(username, password, nickname, email, slogan, securityQuestion, securityAnswer);
+            addingUser.addUserToArrayList();
         }
     }
     private String encryptPassword(String password) throws NoSuchAlgorithmException {

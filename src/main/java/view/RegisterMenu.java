@@ -1,18 +1,20 @@
 package view;
 
 import controller.LoginMenuController;
+import controller.PasswordReset;
 import controller.RegisterMenuController;
 
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 
 public class RegisterMenu {
 
     RegisterMenuController registerMenuController = new RegisterMenuController();
 
-    public void run() throws IOException {
+    public void run() throws IOException, NoSuchAlgorithmException {
         registerMenuController.setUpSloganDataBase();
-        registerMenuController.createFileWhenNecessary(System.getProperty("user.dir") + "/DataBase/userInfo.json");
+        registerMenuController.setUpUserInfo();
         while (true) {
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
@@ -23,6 +25,9 @@ public class RegisterMenu {
             }
             else if ((matcher = Commands.getMatcher(command, Commands.USER_LOGIN))!=null) {
                 LoginMenuController loginMenuController = new LoginMenuController(matcher.group("data"));
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.PASSWORD_FORGOT))!=null){
+                PasswordReset passwordReset = new PasswordReset(matcher.group("username").trim());
             }
             else
                 System.out.println("invalid command");

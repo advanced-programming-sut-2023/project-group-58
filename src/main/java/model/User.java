@@ -49,4 +49,16 @@ public class User {
         if (this.password.equals(password)) return true;
         return false;
     }
+
+    public int getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

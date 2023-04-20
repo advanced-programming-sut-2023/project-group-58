@@ -13,7 +13,10 @@ public class MainMenu {
         while (true){
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
-            if (command.equals("user logout")) return;
+            if (command.equals("user logout")) {
+                System.out.println("You logged out successfully");
+                return;
+            }
             else if (command.equals("profile menu")) {
                 ProfileMenu profileMenu = new ProfileMenu(user);
             }
