@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import view.MainMenu;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -47,8 +48,9 @@ public class LoginMenuController {
             System.out.println("Password is wrong!");
             return;
         }
-        System.out.println("user logged in");
-
+        System.out.println("user logged in successfully!");
+        MainMenu mainMenu = new MainMenu(user);
+        mainMenu.run();
     }
     private boolean userExist(){
 
