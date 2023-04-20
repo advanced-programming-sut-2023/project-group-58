@@ -369,7 +369,7 @@ public class RegisterMenuController {
                 if (jsonObject.get("user").getAsJsonObject().get("username").toString().equals("\"" + string + "\""))
                     return true;
             } else if (key.equals("email")) {
-                if (jsonObject.get("user").getAsJsonObject().get("email").toString().equals("\"" + string + "\""))
+                if (jsonObject.get("user").getAsJsonObject().get("email").toString().equalsIgnoreCase("\"" + string + "\""))
                     return true;
             }
         }
