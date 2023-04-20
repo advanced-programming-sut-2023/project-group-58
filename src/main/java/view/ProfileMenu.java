@@ -33,6 +33,18 @@ public class ProfileMenu {
                 changer = new ChangeProfileController(user, matcher.group("data"));
                 changer.changePassword();
             }
+            else if ((matcher = Commands.getMatcher(command, Commands.EMAIL_CHANGE))!=null) {
+                changer = new ChangeProfileController(user, matcher.group("email"));
+                changer.changeEmail();
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.CHANGE_SLOGAN))!=null){
+                changer = new ChangeProfileController(user, matcher.group("slogan"));
+                changer.changeSlogan();
+            }
+            else if (command.matches("\\s*Profile\\s+remove\\s+slogan\\s*")){
+                changer =new ChangeProfileController(user);
+                changer.removeSlogan();
+            }
             else System.out.println("invalid command");
         }
     }
