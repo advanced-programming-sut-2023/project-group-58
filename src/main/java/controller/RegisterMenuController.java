@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 public class RegisterMenuController {
 
     int numberOfSlogans = 5;
+    String userInfoAddress = System.getProperty("user.dir") + "/DataBase/userInfo.json";
 
     public void createFileWhenNecessary(String address) {
         File myFile = new File(address);
@@ -57,6 +58,7 @@ public class RegisterMenuController {
         userDetails.put("slogan", "");
         userDetails.put("securityQuestion", 0);
         userDetails.put("securityAnswer", "");
+        userDetails.put("highScore", 0);
 
         JSONObject userObject = new JSONObject();
         userObject.put("user", userDetails);
@@ -209,7 +211,7 @@ public class RegisterMenuController {
         }
 
         //now, we create a user, and save their info for later use.
-        User addingUser = new User(username, password, nickname, email, slogan, questionNumber, answer);
+        User addingUser = new User(username, password, nickname, email, slogan, questionNumber, answer, 0);
         addingUser.addUserToArrayList();
 
         JSONArray usersList = readFromAJson(System.getProperty("user.dir") + "/DataBase/userInfo.json");
@@ -221,6 +223,7 @@ public class RegisterMenuController {
         userDetails.put("slogan", slogan);
         userDetails.put("securityQuestion", questionNumber);
         userDetails.put("securityAnswer", answer);
+        userDetails.put("highScore", 0);
 
 
         JSONObject eachUserAsObject = new JSONObject();
@@ -258,11 +261,12 @@ public class RegisterMenuController {
         String randomStringWeAddEachTime;
         while (true) {
             randomStringWeAddEachTime = username + createRandomString();
-            if (!findUserByUserNameOrEmail(randomStringWeAddEachTime, "username"))
+            if (!isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json",randomStringWeAddEachTime, "username"))
                 return randomStringWeAddEachTime;
         }
     }
 
+    //todo: save the address somewhere.
     public static String createRandomString() {
         Random rand = new Random();
         int numberOfCharacterWeAdd = rand.nextInt(5) + 1;
@@ -294,31 +298,6 @@ public class RegisterMenuController {
         else return false;
     }
 
-    public boolean findUserByUserNameOrEmail(String username, String type) {
-        boolean isItUsed = false;
-        try {
-
-            BufferedReader reader;
-            reader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/DataBase/userInfo.json"));
-            String line = reader.readLine();
-            while (line != null) {
-                if (type.equals("username")) if (line.equals("username : " + username)) {
-                    isItUsed = true;
-                    break;
-                }
-
-                if (type.equals("email")) if (line.equals("email : " + username)) {
-                    isItUsed = true;
-                    break;
-                }
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return isItUsed;
-    }
 
     private String randomPasswordGenerator() {
         String lowerCases = "abcdefghijklmnopqrstuvwxyz";
@@ -395,6 +374,133 @@ public class RegisterMenuController {
             }
         }
         return false;
+    }
+
+    public String findSecurityQuestion(String username) {
+        int questionNumber = 0;
+        Gson gson = new Gson();
+        JsonArray jsonArray = new JsonArray();
+        try {
+            jsonArray = gson.fromJson(new FileReader(userInfoAddress), JsonArray.class);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+            if (jsonObject.get("user").getAsJsonObject().get("username").toString().equals("\"" + username + "\"")) {
+                questionNumber = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("securityQuestion").toString());
+                break;
+            }
+        }
+        switch (questionNumber) {
+            case 1:
+                return "What is my father’s name?";
+            case 2:
+                return "What is my father’s name?";
+            case 3:
+                return "What is my mother’s last name?";
+            default:
+                return "";
+        }
+    }
+
+    public String findSecurityAnswer(String username) {
+        String answer = new String();
+        Gson gson = new Gson();
+        JsonArray jsonArray = null;
+        try {
+            jsonArray = gson.fromJson(new FileReader(userInfoAddress), JsonArray.class);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+            if (jsonObject.get("user").getAsJsonObject().get("username").toString().equals("\"" + username + "\"")) {
+                answer = jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString();
+                break;
+            }
+        }
+        return answer;
+    }
+
+    public String passwordReset(String username) {
+        String newPassword = new String();
+        String question = findSecurityQuestion(username);
+        System.out.println("In order to reset your password, please answer the following question:");
+        System.out.println(question);
+        String inputAnswer = ScanMatch.getScanner().nextLine();
+        String properAnswer = findSecurityAnswer(username);
+        if(properAnswer.equals("\"" + inputAnswer + "\"")) {
+            System.out.println("Please enter your new password:");
+            newPassword = ScanMatch.getScanner().nextLine();
+            changePassword(username, newPassword);
+            return "Password reset successful: changed to " + newPassword;
+        }
+        return "Password reset failed: Security answer is not correct.";
+    }
+
+    private void changePassword(String username, String newPassword) {
+        Gson gson = new Gson();
+        JsonArray usersList;
+        JSONArray newUsersList = new JSONArray();
+        try {
+            usersList = gson.fromJson(new FileReader(userInfoAddress), JsonArray.class);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (int i = 0; i < usersList.size(); i++) {
+
+            boolean isTheOne = false;
+            JsonObject jsonObject = usersList.get(i).getAsJsonObject();
+            JSONObject eachUserWithKey = new JSONObject();
+            JSONObject newUserDetails = new JSONObject();
+            if (jsonObject.get("user").getAsJsonObject().get("username").toString().equals("\"" + username + "\""))
+                isTheOne = true;
+                newUserDetails.put("nickname"           , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("nickname").toString()));
+                newUserDetails.put("email"              , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("email").toString()));
+                newUserDetails.put("slogan"             , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("slogan").toString()));
+                newUserDetails.put("securityQuestion"   , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("securityQuestion").toString()));
+                newUserDetails.put("securityAnswer"     , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString()));
+                newUserDetails.put("username"           , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("username").toString()));
+                newUserDetails.put("highScore"          , correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("highScore").toString()));
+            if(!isTheOne)
+                newUserDetails.put("password"           , jsonObject.get("user").getAsJsonObject().get("password").toString());
+                if(isTheOne) {
+                    try {
+                        newUserDetails.put("password"           , encryptPassword(newPassword).toString());
+                    } catch (NoSuchAlgorithmException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            eachUserWithKey.put("user", newUserDetails);
+            newUsersList.add(eachUserWithKey);
+        }
+
+            //now, we should add the json array to our file.
+        FileWriter file = null;
+        try {
+            file = new FileWriter(System.getProperty("user.dir") + "/DataBase/userInfo.json");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file.write(newUsersList.toJSONString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String correctDoubleQuotation(String input) {
+        if(input.charAt(0) == '"' && input.charAt(input.length()-1) == '"')
+            return input.substring(1,input.length()-1);
+        return input;
     }
 
 }

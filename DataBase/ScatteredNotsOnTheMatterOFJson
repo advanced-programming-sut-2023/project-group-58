@@ -8,7 +8,7 @@
         //        //JSONObject mJSONObject = new JSONObject(jsgon);
         //        a.add(jsgon);
                 //a.add(new Gson().toJson(addingUser));
-        ----------------------------------------------------------------------------------------
+            ----------------------------------------------------------------------------------------
         //    public JSONArray readFromAJson(String address) throws IOException {
         //
         //        JSONParser jsonParser = new JSONParser();
@@ -49,7 +49,7 @@
         //        }
         //        return null;
         //    }
-        ----------------------------------------------------------------------------------------
+            ----------------------------------------------------------------------------------------
 
         //
         //        try {
@@ -114,3 +114,23 @@
                 }
                 return employeeList;
             }
+                   ----------------------------------------------------------------------------------------
+            //changing password
+            //
+            //        JSONArray array = new JSONArray("[{\"STATUSUPDATE\":0,\"IDSERV\":\"2\"},{\"STATUSUPDATE\":0,\"IDSERV\":\"3\"},{\"STATUSUPDATE\":0,\"IDSERV\":\"1\"}]");
+            //        System.out.println("Initial array : " + array);
+            //
+            //        for (int i=0; i < array.length(); i++){
+            //            JSONObject jsonObject = new JSONObject(array.get(i).toString());
+            //            if(jsonObject.get("IDSERV").equals("2")) {
+            //                jsonObject.put("STATUSUPDATE", "1");
+            //                array.put(i, jsonObject);
+            //            }
+            //            else if(jsonObject.get("IDSERV").equals("3")) {
+            //                jsonObject.put("STATUSUPDATE", "2");
+            //                array.put(i, jsonObject);
+            //            }
+            //        }
+            //
+            //        System.out.println("Output array : " + array);
+            //    }
