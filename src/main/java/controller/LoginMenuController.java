@@ -24,4 +24,11 @@ public class LoginMenuController {
             }
         }
     }
+
+    //MUST be used when writing "newUserDetails.put(...)"
+    public static String correctDoubleQuotation(String input) {
+        if(input.charAt(0) == '"' && input.charAt(input.length()-1) == '"' && input.indexOf(' ') >= 0)
+            return input.substring(1,input.length()-1);
+        return input;
+    }
 }
