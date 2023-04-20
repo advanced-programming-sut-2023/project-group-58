@@ -1,6 +1,7 @@
 package view;
 
 import controller.ChangeProfileController;
+import controller.ShowProfileController;
 import model.User;
 
 import java.security.NoSuchAlgorithmException;
@@ -14,6 +15,7 @@ public class ProfileMenu {
     }
     public void run() throws NoSuchAlgorithmException {
         ChangeProfileController changer;
+        ShowProfileController show;
         while (true){
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
@@ -44,6 +46,22 @@ public class ProfileMenu {
             else if (command.matches("\\s*Profile\\s+remove\\s+slogan\\s*")){
                 changer =new ChangeProfileController(user);
                 changer.removeSlogan();
+            }
+            else if (command.matches("\\s*profile\\s+display\\s+highscore\\s*")){
+                show = new ShowProfileController(user);
+                show.showScore();
+            }
+            else if (command.matches("\\s*profile\\s+display\\s+rank\\s*")){
+                show = new ShowProfileController(user);
+                show.showRank();
+            }
+            else if (command.matches("\\s*profile\\s+display\\s+slogan\\s*")){
+                show = new ShowProfileController(user);
+                show.showSlogan();
+            }
+            else if (command.matches("\\s*profile\\s+display\\s*")){
+                show = new ShowProfileController(user);
+                show.showDisplay();
             }
             else System.out.println("invalid command");
         }
