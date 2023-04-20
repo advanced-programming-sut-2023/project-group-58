@@ -32,4 +32,9 @@ public class User {
     public void addUserToArrayList() {
         User.users.add(this);
     }
+    @Override
+    public String toString() {
+        return "User [username = " + username + ", password = " + password + ", nickname = " + nickname + ", email = " + email
+                + ", slogan = " + slogan + ", securityQuestion = " + securityQuestion + ", securityAnswer = " + securityAnswer+"]";
+    }
 }

@@ -1,3 +1,4 @@
-public class LoginMenuController {
+package controller;
 
+public class LoginMenuController {
 }
