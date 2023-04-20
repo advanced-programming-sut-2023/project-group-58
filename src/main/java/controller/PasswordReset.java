@@ -70,10 +70,10 @@ public class PasswordReset {
             String command = ScanMatch.getScanner().nextLine();
             if (newPassword == null || sign) {
                 newPassword = command;
-                if (checkPasswordFormat(newPassword)) return;
+                if (checkPasswordFormat(newPassword)) break;
             }
             else if (!sign){
-                if (newPassword.equals(command)) return;
+                if (newPassword.equals(command)) break;
                 else System.out.println("Please re-enter password correctly");
             }
         }
