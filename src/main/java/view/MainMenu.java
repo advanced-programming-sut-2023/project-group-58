@@ -35,7 +35,8 @@ public class MainMenu {
                     else if (command.matches("ok")){
                         if (lobbyController.startGame()) {
                             System.out.println("game started");
-
+                            GameMenu gameMenu = new GameMenu();
+                            gameMenu.run();
                             break;
                         }
                         else {
