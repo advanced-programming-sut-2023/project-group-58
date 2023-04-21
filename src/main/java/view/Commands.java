@@ -14,6 +14,7 @@ public enum Commands {
     CHANGE_PASSWORD("^\\s*profile\\s+change\\s+password\\s+(?<data>.+)$"),
     EMAIL_CHANGE("^\\s*profile\\s+change\\s+-e\\s+(?<email>\\S+)$"),
     CHANGE_SLOGAN("^\\s*profile\\s+change\\s+slogan\\s+-s\\s+\"?(?<slogan>[^\"]*)\"?$"),
+    REMOVE_USER("\\s*remove\\s+(?<username>\\S+)\\s*"),
 
     ;public final String regex;
 
