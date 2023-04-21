@@ -41,9 +41,9 @@ public class RegisterMenuController {
 
         //file should not be overwritten if it's not empty. first, we check if it exists:
         File userInfo = new File(System.getProperty("user.dir") + "/DataBase/userInfo.json");
-        if(!userInfo.exists()) {
-            userInfo.createNewFile();}
-        else {
+        if (!userInfo.exists()) {
+            userInfo.createNewFile();
+        } else {
             BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/DataBase/userInfo.json"));
             if (br.readLine() != null) {
                 return;
@@ -58,8 +58,7 @@ public class RegisterMenuController {
         userDetails.put("slogan", "");
         userDetails.put("securityQuestion", 0);
         userDetails.put("securityAnswer", "");
-        userDetails.put("highScore", 0);
-
+        userDetails.put("highScore", -1);
         JSONObject userObject = new JSONObject();
         userObject.put("user", userDetails);
 
@@ -218,9 +217,9 @@ public class RegisterMenuController {
         JSONObject userDetails = new JSONObject();
         userDetails.put("username", username);
         userDetails.put("password", password);
-        userDetails.put("nickname", nickname);
+        userDetails.put("nickname", correctDoubleQuotation(nickname));
         userDetails.put("email", email);
-        userDetails.put("slogan", slogan);
+        userDetails.put("slogan", correctDoubleQuotation(slogan));
         userDetails.put("securityQuestion", questionNumber);
         userDetails.put("securityAnswer", answer);
         userDetails.put("highScore", 0);
@@ -261,7 +260,7 @@ public class RegisterMenuController {
         String randomStringWeAddEachTime;
         while (true) {
             randomStringWeAddEachTime = username + createRandomString();
-            if (!isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json",randomStringWeAddEachTime, "username"))
+            if (!isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", randomStringWeAddEachTime, "username"))
                 return randomStringWeAddEachTime;
         }
     }
@@ -375,5 +374,9 @@ public class RegisterMenuController {
         }
         return false;
     }
-
+    public String correctDoubleQuotation(String input) {
+        if(input.charAt(0) == '"' && input.charAt(input.length()-1) == '"')
+            return input.substring(1,input.length()-1);
+        return input;
+    }
 }
