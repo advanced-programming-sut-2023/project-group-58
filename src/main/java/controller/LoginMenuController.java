@@ -46,13 +46,38 @@ public class LoginMenuController {
             return;
         }
         if (!passwordMatch()) {
-            System.out.println("Password is wrong!");
-            return;
+            int timeOut = 5;
+            while(timeOut <= 320) {
+                System.out.println("Password is wrong!");
+                System.out.println("You can try again in " + timeOut + " seconds");
+                giveAnotherShot(timeOut);
+                if(passwordMatch()) break;
+                timeOut*=2;
+            }
+            if(timeOut > 320) {
+                System.out.println("Login failed: Password is wrong!");
+                return;
+            }
         }
         System.out.println("user logged in successfully!");
         System.out.println("You are in the main menu");
         MainMenu mainMenu = new MainMenu(user);
         mainMenu.run();
+    }
+
+    public void giveAnotherShot(int timeOut) {
+        long startTime = System.currentTimeMillis()/1000;
+        while(true) {
+            String password = ScanMatch.getScanner().nextLine();
+            long timeNow = System.currentTimeMillis()/1000;
+            if ((timeNow - startTime) > timeOut)
+            {
+                inputPassword = password;
+                return;
+            }
+            else
+                System.out.println("Your have to wait!");
+        }
     }
 
     private boolean userExist() {

@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0888eeba-cd75-4733-af09-19e89dc65ece" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/APP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/APP.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APP.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +46,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/EPO/project",
+    "last_opened_file_path": "D:/IntelliJ/APP2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -80,6 +82,7 @@
       <option name="presentableId" value="Default" />
       <updated>1682067267786</updated>
       <workItem from="1682067269523" duration="2187000" />
+      <workItem from="1682082298834" duration="1454000" />
     </task>
     <servers />
   </component>
