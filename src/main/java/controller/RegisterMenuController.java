@@ -375,7 +375,8 @@ public class RegisterMenuController {
         return false;
     }
     public String correctDoubleQuotation(String input) {
-        if(input.charAt(0) == '"' && input.charAt(input.length()-1) == '"')
+        if(input.length() == 0 || input.equals("\"\"")) return input;
+        if(input.charAt(0) == '"' && input.charAt(input.length()-1) == '"' && input.contains(" "))
             return input.substring(1,input.length()-1);
         return input;
     }
