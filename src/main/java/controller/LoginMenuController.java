@@ -64,7 +64,6 @@ public class LoginMenuController {
         MainMenu mainMenu = new MainMenu(user);
         mainMenu.run();
     }
-
     public void giveAnotherShot(int timeOut) {
         long startTime = System.currentTimeMillis()/1000;
         while(true) {
@@ -79,7 +78,6 @@ public class LoginMenuController {
                 System.out.println("Your have to wait!");
         }
     }
-
     private boolean userExist() {
 
         for (int i = 0; i < User.getUsers().size(); i++) {
@@ -120,17 +118,19 @@ public class LoginMenuController {
             throw new RuntimeException(e);
         }
         for (int i = 0; i < jsonArray.size(); i++) {
-            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-            String password = jsonObject.get("user").getAsJsonObject().get("password").toString().replaceAll("\"", "");
-            int securityQuestion = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("securityQuestion").toString().replaceAll("\"", ""));
-            String securityAnswer = jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString().replaceAll("\"", "");
-            String nickname = jsonObject.get("user").getAsJsonObject().get("nickname").toString().replaceAll("\"", "");
-            String slogan = jsonObject.get("user").getAsJsonObject().get("slogan").toString().replaceAll("\"", "");
-            String email = jsonObject.get("user").getAsJsonObject().get("email").toString().replaceAll("\"", "");
-            String username = jsonObject.get("user").getAsJsonObject().get("username").toString().replaceAll("\"", "");
-            int highScore = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("highScore").toString().replaceAll("\"", ""));
-            User addingUser = new User(username, password, nickname, email, slogan, securityQuestion, securityAnswer, highScore);
-            addingUser.addUserToArrayList();
+            if (i>0) {
+                JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                String password = jsonObject.get("user").getAsJsonObject().get("password").toString().replaceAll("\"", "");
+                int securityQuestion = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("securityQuestion").toString().replaceAll("\"", ""));
+                String securityAnswer = jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString().replaceAll("\"", "");
+                String nickname = jsonObject.get("user").getAsJsonObject().get("nickname").toString().replaceAll("\"", "");
+                String slogan = jsonObject.get("user").getAsJsonObject().get("slogan").toString().replaceAll("\"", "");
+                String email = jsonObject.get("user").getAsJsonObject().get("email").toString().replaceAll("\"", "");
+                String username = jsonObject.get("user").getAsJsonObject().get("username").toString().replaceAll("\"", "");
+                int highScore = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("highScore").toString().replaceAll("\"", ""));
+                User addingUser = new User(username, password, nickname, email, slogan, securityQuestion, securityAnswer, highScore);
+                addingUser.addUserToArrayList();
+            }
         }
     }
 
