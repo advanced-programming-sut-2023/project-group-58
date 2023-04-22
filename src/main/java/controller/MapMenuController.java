@@ -12,12 +12,16 @@ public class MapMenuController {
         System.out.println("Would you like to choose a map from archive?\nType y for yes or n for no");
         if(ScanMatch.getScanner().nextLine().trim().equals("y")) {
             setUpDefaultMaps();
+            int[] range = new int[4];
             System.out.println("This is the first map:");
-            printMap(map1,100,100);
+            range = setRange(49,49,100,100);
+            printMap(map1, range);
             System.out.println("The second:");
-            printMap(map2,200,200);
+            range = setRange(99,99,200,200);
+            printMap(map2, range);
             System.out.println("The third:");
-            printMap(map3,300,300);
+            range = setRange(149,149,300,300);
+            printMap(map3, range);
             System.out.println("What would it be? Type 1 , 2 or 3");
             //todo: handle errors
             int mapNumber = ScanMatch.getScanner().nextInt();
@@ -37,17 +41,26 @@ public class MapMenuController {
         //maps should be initialized like this.
     }
 
-    //todo: The method below shows the "whole" map, when showing it to the user. Some changes should be applied
-    // to make it display just a part of map.
-    // add a guidance table for the colours.
-    // reset the colour to "default background" at the end of each line.
-    public void printMap(Tile map[][], int length, int width) {
+    public int[] setRange(int x, int y, int length, int width) {
+        //showing map range: (5*6) * (5*3)
+        //we first see if the coordinates above our point exist:
+        //int[0] = min y; int[1] = max y; int[2] = min x; int[3] = max x;
+        int[] result = new int[4];
+        result[0] = Math.max(y - 7, 0);
+        result[1] = Math.min(y + 7, width - 1);
+        //assuming: (*14) x (*15)
+        result[2] = Math.max(x - 14, 0);
+        result[3] = Math.min(x + 15, length - 1);
+        return result;
+    }
+
+    public void printMap(Tile[][] map, int[] ranges) {
         char tileOccupation;
-        for(int i=0; i<length; i++)
-            for(int j=0; j<width; j++) {
-                tileOccupation = getTileOccupation(map,i,j);
-                if(j % 3 == 0) {for(int k = 0; k < 99; k++) System.out.print("-"); System.out.println();}
-                if(i % 6 == 0) System.out.print("|");
+        for(int i = ranges[0]; i <= ranges[1]; i++)
+            for(int j = ranges[2]; j <= ranges[3]; j++) {
+                tileOccupation = map[i][j].getTileOccupation();
+                if(i % 3 == 0) {System.out.println();for(int k = 0; k < 99; k++) System.out.print("-"); System.out.println();}
+                if(j % 6 == 0) System.out.print("\033[49m|");
                 switch (map[i][j].getTexture()) {
                     case OIL:
                         System.out.print("\033[100m" + tileOccupation);
@@ -56,16 +69,16 @@ public class MapMenuController {
                         System.out.print("\033[44m" + tileOccupation);
                         break;
                     case EARTH:
-                        System.out.print("\033[49m" + tileOccupation);
-                        break;
-                    case FORD:
-                        System.out.print("\033[46m" + tileOccupation);
-                        break;
-                    case IRON:
                         System.out.print("\033[40m" + tileOccupation);
                         break;
+                    case FORD:
+                        System.out.print("\033[45m" + tileOccupation);
+                        break;
+                    case IRON:
+                        System.out.print("\033[41m" + tileOccupation);
+                        break;
                     case SCRUB:
-                        System.out.print("\033[102m" + tileOccupation);
+                        System.out.print("\033[43m" + tileOccupation);
                         break;
                     case THICK_SCRUB:
                         System.out.print("\033[42m" + tileOccupation);
@@ -74,6 +87,17 @@ public class MapMenuController {
                         System.out.print("\033[104m" + tileOccupation);
                         break;
                 }
+                if(j == ranges[3]) System.out.println("\033[49m");
             }
+        //Adding a guidance table:
+        System.out.println("-------------Table Info-------------");
+        System.out.println("OIL         ----------------    \033[100m    \033[49m");
+        System.out.println("SEA         ----------------    \033[44m    \033[49m");
+        System.out.println("EARTH       ----------------    \033[40m    \033[49m");
+        System.out.println("FORD        ----------------    \033[45m    \033[49m");
+        System.out.println("IRON        ----------------    \033[41m    \033[49m");
+        System.out.println("SCRUB       ----------------    \033[43m    \033[49m");
+        System.out.println("THICK_SCRUB ----------------    \033[42m    \033[49m");
+        System.out.println("SMALL_POND  ----------------    \033[104m    \033[49m");
     }
 }
