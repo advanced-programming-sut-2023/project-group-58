@@ -15,7 +15,10 @@ public enum Commands {
     EMAIL_CHANGE("^\\s*profile\\s+change\\s+-e\\s+(?<email>\\S+)$"),
     CHANGE_SLOGAN("^\\s*profile\\s+change\\s+slogan\\s+-s\\s+\"?(?<slogan>[^\"]*)\"?$"),
     REMOVE_USER("\\s*remove\\s+(?<username>\\S+)\\s*"),
-
+    SET_TEXTURE("^\\s*settexture\\s+(?<data>.+)$"),
+    SHOW_MAP("^\\s*show\\s+map\\s+(?<data>.+)$"),
+    SHOW_DETAIL("^\\s*show\\s+details\\s+(?<data>.+)$"),
+    MOVE_MAP("^\\s*map\\s+(?<data>.+)$"),
     ;public final String regex;
 
     Commands(String regex) {

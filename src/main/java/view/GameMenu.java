@@ -4,16 +4,19 @@ import controller.MapMenuController;
 import model.Tile;
 
 import java.util.ArrayList;
+import model.Map;
 import java.util.regex.Matcher;
 
 public class GameMenu {
 
-    Tile[][] map;
+    Map map;
     public void run(){
+        map = (new MapMenuController()).setUpMap();
         while (true){
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
-            map = (new MapMenuController()).setUpMap();
+            if(command.matches("map menu"))
+                new MapMenu(this.map).run();
         }
     }
 }

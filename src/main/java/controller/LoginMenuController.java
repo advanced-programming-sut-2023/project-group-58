@@ -36,8 +36,8 @@ public class LoginMenuController {
     }
 
     private void extractData() throws IOException {
-        inputUsername = dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        inputPassword = dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
+        inputUsername = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
+        inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
     }
 
     private void checkForLogin() throws NoSuchAlgorithmException {
@@ -97,13 +97,6 @@ public class LoginMenuController {
         }
         if (user.passwordMatch(inputPassword)) return true;
         return false;
-    }
-
-    public String dataExtractor(String string, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(string);
-        if (!matcher.find()) return "";
-        return matcher.group("wantedPart");
     }
 
     public static void extractUserData() throws FileNotFoundException {
