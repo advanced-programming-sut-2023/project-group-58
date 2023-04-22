@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0888eeba-cd75-4733-af09-19e89dc65ece" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/Notes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/ShopMenuController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/TradeMenuController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/newClasses/Trade.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/ShopMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/TradeMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/ForMaps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Commands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MapMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MapMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/Notes" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/Notes" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +86,7 @@
       <workItem from="1682067269523" duration="2187000" />
       <workItem from="1682114418505" duration="6638000" />
       <workItem from="1682122744406" duration="195000" />
-      <workItem from="1682161021260" duration="27297000" />
+      <workItem from="1682161021260" duration="27611000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
