@@ -33,6 +33,9 @@ public class MapMenu {
             else if ((matcher = Commands.getMatcher(command, Commands.MOVE_MAP))!=null){
                 mapMenuController.moveMap(matcher.group("data"));
             }
+            else if ((matcher = Commands.getMatcher(command, Commands.CLEAR))!=null){
+                System.out.println(mapMenuController.clearTile(matcher.group("data")));
+            }
             else if ((matcher = Commands.getMatcher(command, Commands.SHOW_DETAIL))!=null){
                 mapMenuController.showDetail(matcher.group("data"));
             }

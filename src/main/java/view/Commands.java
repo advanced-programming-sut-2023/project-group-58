@@ -19,6 +19,7 @@ public enum Commands {
     SHOW_MAP("^\\s*show\\s+map\\s+(?<data>.+)$"),
     SHOW_DETAIL("^\\s*show\\s+details\\s+(?<data>.+)$"),
     MOVE_MAP("^\\s*map\\s+(?<data>.+)$"),
+    CLEAR("^\\s*clear\\s+(?<data>.+)$"),
     ;public final String regex;
 
     Commands(String regex) {

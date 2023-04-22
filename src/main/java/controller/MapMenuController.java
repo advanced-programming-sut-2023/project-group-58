@@ -101,11 +101,55 @@ public class MapMenuController {
 
     //(0,0) is top left.
     private void setUpDefaultMaps() {
-        for(int i = 0, j = 0; i <= 100; i++) {
-            map1.getTile(i,j).setTexture(TileTexture.SEA);
-            j++;
-        }
-        //maps should be initialized like this.
+        //Designing map template number 1:
+       boolean[][] mark1 = new boolean[100][100];
+       int pickLand;
+       for(int i = 0; i < 15; i++) {
+           for (int j = 0; j < 15; j++)
+           {
+               map1.getTile(i, j).setTexture(TileTexture.SEA);
+               mark1[i][j] = true;
+           }
+           for(int j = 85; j < 100; j++)
+           {
+               map1.getTile(i, j).setTexture(TileTexture.SEA);
+               mark1[i][j] = true;
+           }
+       }
+       for(int i = 85; i < 100; i++) {
+           for (int j = 0; j < 15; j++)
+           {
+               map1.getTile(i, j).setTexture(TileTexture.SMALL_POND);
+               mark1[i][j] = true;
+           }
+           for(int j = 85; j < 100; j++)
+           {
+               map1.getTile(i, j).setTexture(TileTexture.FORD);
+               mark1[i][j] = true;
+           }
+       }
+       for(int i = 15; i < 35; i++) {
+           for(int j = 20; j < 24; j++)
+           {
+               map1.getTile(i , j).setTexture(TileTexture.IRON);
+               mark1[i][j] = true;
+           }
+           if(i > 31)
+               for(int j = 24; j < 30; j++)
+               {
+                   map1.getTile(i , j).setTexture(TileTexture.OIL);
+                   mark1[i][j] = true;
+               }
+       }
+       for(int i = 0; i < 100; i++)
+           for(int j = 0; j < 100; j++)
+                if(!mark1[i][j])
+                   {
+                       pickLand = (int) (3 * Math.random());
+                       if(pickLand == 2) map1.getTile(i,j).setTexture(TileTexture.SCRUB);
+                       if(pickLand == 1) map1.getTile(i,j).setTexture(TileTexture.THICK_SCRUB);
+                       if(pickLand == 0) map1.getTile(i,j).setTexture(TileTexture.EARTH);
+                   }
     }
 
     public int[] setRange(int x, int y, int length, int width) {
@@ -126,7 +170,7 @@ public class MapMenuController {
         int xcounterForBreak = 0;
         int ycounterForBreak = 0;
         for(int i = ranges[0]; i <= ranges[1]; i++) {
-            if(ycounterForBreak % 3 == 0) {for(int k = 0; k < 36; k++) System.out.print("-"); System.out.println();}
+            if(ycounterForBreak % 3 == 0) {for(int k = 0; k < (ranges[3]-ranges[2]+1)*7/6+2; k++) System.out.print("-"); System.out.println();}
             ycounterForBreak++;
             for (int j = ranges[2]; j <= ranges[3]; j++) {
                 tileOccupation = map.getTile(i, j).getTileOccupation();
@@ -256,6 +300,7 @@ public class MapMenuController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        yTexture = selectedMap.getWidth() - 1 - yTexture;
         int[] range = setRange(xTexture,yTexture,selectedMap.getLength(), setUpMap().getWidth());
         printMap(selectedMap,range);
         xShowingMap = xTexture;
@@ -281,6 +326,17 @@ public class MapMenuController {
             System.out.println("Mission failed: invalid coordinates after moving");
         int[] ranges = setRange(xTexture,yTexture,this.selectedMap.getLength(), this.selectedMap.getWidth());
         printMap(this.selectedMap,ranges);
+    }
+
+    public String clearTile(String data) {
+        try {
+            extractDataxandy(data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if(!validateTextureCoordinates(this.selectedMap.getLength(),this.selectedMap.getWidth())) return "failed: invalid coordinates";
+        this.selectedMap.getTile(yTexture,xTexture).clear();
+        return "Tile cleared successfully!";
     }
 
 

@@ -3,8 +3,6 @@ package model;
 import java.util.ArrayList;
 
 public class Tile {
-    private int x = 200;
-    private int y = 200;
     private TileTexture texture = TileTexture.EARTH;
     private ArrayList<Tree> trees = new ArrayList<>();
     //assuming a tile can have more than one tree. (since it can have multiple units)
@@ -12,12 +10,8 @@ public class Tile {
     //OR we can add units. Can have it either way
     private ArrayList<Building> buildings = new ArrayList<>();
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    public ArrayList<Tree> getTrees() {
+        return trees;
     }
 
     public TileTexture getTexture() {
@@ -54,5 +48,12 @@ public class Tile {
             return 'T';
         else
             return '#';
+    }
+
+    public void clear() {
+        this.buildings.clear();
+        this.trees.clear();
+        this.troops.clear();
+        this.texture = TileTexture.EARTH;
     }
 }
