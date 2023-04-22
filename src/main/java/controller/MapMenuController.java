@@ -39,6 +39,8 @@ public class MapMenuController {
 
     //todo: The method below shows the "whole" map, when showing it to the user. Some changes should be applied
     // to make it display just a part of map.
+    // add a guidance table for the colours.
+    // reset the colour to "default background" at the end of each line.
     public void printMap(Tile map[][], int length, int width) {
         char tileOccupation;
         for(int i=0; i<length; i++)
