@@ -40,7 +40,7 @@ public class MainMenu {
                             break;
                         }
                         else {
-                            System.out.println("count of player must be 1-8");
+                            System.out.println("count of player must be 2-8");
                         }
                     }
                     else if ((matcher = Commands.getMatcher(command, Commands.REMOVE_USER))!=null){
