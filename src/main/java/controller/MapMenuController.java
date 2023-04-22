@@ -121,14 +121,18 @@ public class MapMenuController {
         return result;
     }
 
-    public void printMap(Map map, int[] ranges) {
+    public static void printMap(Map map, int[] ranges) {
         char tileOccupation;
-        for(int i = ranges[0]; i <= ranges[1]; i++)
-            for(int j = ranges[2]; j <= ranges[3]; j++) {
-                tileOccupation = map.getTile(i,j).getTileOccupation();
-                if(i % 3 == 0) {System.out.println();for(int k = 0; k < 99; k++) System.out.print("-"); System.out.println();}
-                if(j % 6 == 0) System.out.print("\033[49m|");
-                switch (map.getTile(i,j).getTexture()) {
+        int xcounterForBreak = 0;
+        int ycounterForBreak = 0;
+        for(int i = ranges[0]; i <= ranges[1]; i++) {
+            if(ycounterForBreak % 3 == 0) {for(int k = 0; k < 36; k++) System.out.print("-"); System.out.println();}
+            ycounterForBreak++;
+            for (int j = ranges[2]; j <= ranges[3]; j++) {
+                tileOccupation = map.getTile(i, j).getTileOccupation();
+                if (xcounterForBreak % 6 == 0) System.out.print("\033[49m|");
+                xcounterForBreak++;
+                switch (map.getTile(i, j).getTexture()) {
                     case OIL:
                         System.out.print("\033[100m" + tileOccupation);
                         break;
@@ -154,8 +158,13 @@ public class MapMenuController {
                         System.out.print("\033[104m" + tileOccupation);
                         break;
                 }
-                if(j == ranges[3]) System.out.println("\033[49m");
+                if (j == ranges[3])
+                {
+                    System.out.println("\033[49m|");
+                    xcounterForBreak = 0;
+                }
             }
+        }
         //Adding a guidance table:
         System.out.println("-------------Table Info-------------");
         System.out.println("OIL         ----------------    \033[100m    \033[49m");
@@ -282,7 +291,6 @@ public class MapMenuController {
 //            throw new RuntimeException(e);
 //        }
 //        System.out.println("The texture is: " + selectedMap.getTile(yTexture,xTexture));
-//        System.out.println();
 //        xTexture = 0;
 //        yTexture = 0;
 //    }

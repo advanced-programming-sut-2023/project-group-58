@@ -6,14 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0888eeba-cd75-4733-af09-19e89dc65ece" name="Changes" comment="map started, with a colourful terminal!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/CommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/CommonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/TileTexture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/TileTexture.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Commands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/MapMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MapMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +87,7 @@
       <workItem from="1682067269523" duration="2187000" />
       <workItem from="1682114418505" duration="6638000" />
       <workItem from="1682122744406" duration="195000" />
-      <workItem from="1682161021260" duration="19343000" />
+      <workItem from="1682161021260" duration="21253000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
