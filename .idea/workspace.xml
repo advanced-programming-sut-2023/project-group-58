@@ -5,11 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0888eeba-cd75-4733-af09-19e89dc65ece" name="Changes" comment="map started, with a colourful terminal!">
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Building.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/buildings/BuildingEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Gate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/buildings/ResourceMaker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Storage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Tower.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Trap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/units/NotTroop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/units/Troop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/units/UnitEnum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Commands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/ShopMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ShopMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/TradeMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/TradeMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Building.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Troop.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +28,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -91,7 +100,7 @@
       <workItem from="1682114418505" duration="6638000" />
       <workItem from="1682122744406" duration="195000" />
       <workItem from="1682161021260" duration="27611000" />
-      <workItem from="1682445733238" duration="1479000" />
+      <workItem from="1682445733238" duration="3444000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
