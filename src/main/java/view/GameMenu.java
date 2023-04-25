@@ -24,6 +24,10 @@ public class GameMenu {
                 ShopMenu shopMenu = new ShopMenu(currentUser);
                 shopMenu.run();
             }
+            else if (command.matches("trade menu")){
+                TradeMenu tradeMenu = new TradeMenu(currentUser);
+                tradeMenu.run();
+            }
             else
                 System.out.println("invalid command");
         }
