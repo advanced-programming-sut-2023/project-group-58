@@ -7,6 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import model.User;
 import view.ScanMatch;
+import view.enums.ProfisterControllerOut;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -20,42 +21,33 @@ public class PasswordReset {
     private String newPassword;
     public PasswordReset(String inputUsername) throws NoSuchAlgorithmException {
         this.inputUsername = inputUsername;
-        resetPassword();
     }
-    private void resetPassword() throws NoSuchAlgorithmException {
-        if (!userExist()){
-            System.out.println("Username not found!");
-            return;
-        }
-        askQuestion();
-        scanPassword(true);
-        scanPassword(false);
+    public String resetPassword() throws NoSuchAlgorithmException {
         newPassword = encryptPassword(newPassword);
         user.setPassword(newPassword);
         changePassword(inputUsername);
-        System.out.println("Your password reset successfully");
+        return "Your password reset successfully";
     }
-    private boolean userExist(){
+    public String  userExist(){
 
         for (int i =0; i<User.getUsers().size(); i++){
             if (User.getUsers().get(i).getUsername().equals(inputUsername)){
                 user = User.getUsers().get(i);
-                return true;
+                return null;
             }
         }
-        return false;
+        return "Username not found";
     }
-    private void askQuestion(){
+    public String findQuestion(){
         String question;
         if (user.getSecurityQuestion()==1) question = "What is your father’s name?";
         else if (user.getSecurityQuestion()==2) question = "What was your first pet’s name?";
         else question = "What is your mother’s last name?";
-        System.out.println(question);
-        while (true){
-            String command = ScanMatch.getScanner().nextLine();
-            if (command.equals(user.getSecurityAnswer())) return;
-            else System.out.println("Your answer is wrong. Please enter another answer.");
-        }
+        return question;
+    }
+    public boolean answerCheck(String command){
+        if (command.equals(user.getSecurityAnswer())) return true;
+        else return false;
     }
     private String encryptPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -63,44 +55,34 @@ public class PasswordReset {
         String encoded = Base64.getEncoder().encodeToString(hash);
         return encoded;
     }
-    private void scanPassword(boolean sign){
-        if (sign) System.out.println("Please enter new password");
-        else System.out.println("Please re-enter new password");
-        while (true){
-            String command = ScanMatch.getScanner().nextLine();
-            if (newPassword == null || sign) {
-                newPassword = command;
-                if (checkPasswordFormat(newPassword)) break;
-            }
-            else if (!sign){
-                if (newPassword.equals(command)) break;
-                else System.out.println("Please re-enter password correctly");
-            }
+    public ProfisterControllerOut checkNewPassword(boolean sign, String command){
+        ProfisterControllerOut out;
+        if (newPassword == null || sign) {
+            newPassword = command;
+            out = checkPasswordFormat(newPassword);
+            if (!out.equals(ProfisterControllerOut.VALID)) return out;
+            else return null;
         }
+        else if (!sign){
+            out = ProfisterControllerOut.RE_ENTER_PASSWORD;
+            if (newPassword.equals(command)) return null;
+            else return out;
+        }
+        return null;
     }
     //todo: تابع پایین را در کنترلر common گذاشتم. مستقیما از آن استفاده کنید.
-    private boolean checkPasswordFormat(String password){
-        if (password.length() < 6) {
-            System.out.println("Password is too short!");
-            return false;
-        }
-        if (!password.matches(".*[A-Z].*")) {
-            System.out.println("Password does not include capital letters!");
-            return false;
-        }
-        if (!password.matches(".*[a-z].*")) {
-            System.out.println("Password does not include small letters!");
-            return false;
-        }
-        if (!password.matches(".*[0-9].*")) {
-            System.out.println("Password does not include numbers!");
-            return false;
-        }
-        if (!password.matches(".*[^a-zA-Z0-9].*")) {
-            System.out.println("Password does not include symbols!");
-            return false;
-        }
-        return true;
+    private ProfisterControllerOut checkPasswordFormat(String password){
+        if (password.length() < 6)
+            return ProfisterControllerOut.SHORT_PASSWORD;
+        if (!password.matches(".*[A-Z].*"))
+            return ProfisterControllerOut.NOT_CAPITAL_PASSWORD;
+        if (!password.matches(".*[a-z].*"))
+            return ProfisterControllerOut.NOT_SMALL_PASSWORD;
+        if (!password.matches(".*[0-9].*"))
+            return ProfisterControllerOut.NOT_NUMBERS_PASSWORD;
+        if (!password.matches(".*[^a-zA-Z0-9].*"))
+            return ProfisterControllerOut.NOT_SYMBOLS_PASSWORD;
+        return ProfisterControllerOut.VALID;
     }
     private void changePassword(String username) {
         String userInfoAddress = System.getProperty("user.dir") + "/DataBase/userInfo.json";

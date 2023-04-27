@@ -49,7 +49,7 @@ public class RegisterMenu {
                         System.out.println("Login failed: Password is wrong!");
                 } else System.out.println("Login failed");
             } else if ((matcher = Commands.getMatcher(command, Commands.PASSWORD_FORGOT)) != null) {
-                PasswordReset passwordReset = new PasswordReset(matcher.group("username").trim());
+                reset(matcher);
             }
         }
     }
@@ -87,5 +87,39 @@ public class RegisterMenu {
             return ProfisterControllerOut.FAILED;
         return registerMenuController.createUser();
     }
-
+    public void reset(Matcher matcher) throws NoSuchAlgorithmException {
+        String out;
+        PasswordReset passwordReset = new PasswordReset(matcher.group("username").trim());
+        if ((out = passwordReset.userExist())!=null) {
+            System.out.println(out);
+            return;
+        }
+        String question = passwordReset.findQuestion();
+        System.out.println(question);
+        while (true){
+            String command = ScanMatch.getScanner().nextLine();
+            if (passwordReset.answerCheck(command)) break;
+            else  System.out.println("Your answer is wrong. Please enter another answer.");
+        }
+        System.out.println("Please enter new password");
+        ProfisterControllerOut out1;
+        while (true){
+            String command = ScanMatch.getScanner().nextLine();
+            out1 = passwordReset.checkNewPassword(true, command);
+            if (out1!=null){
+                System.out.println(out1.getContent());
+            }
+            else break;
+        }
+        System.out.println("Please re-enter new password");
+        while (true){
+            String command = ScanMatch.getScanner().nextLine();
+            out1 = passwordReset.checkNewPassword(false, command);
+            if (out1!=null){
+                System.out.println(out1.getContent());
+            }
+            else break;
+        }
+        System.out.println(passwordReset.resetPassword());
+    }
 }

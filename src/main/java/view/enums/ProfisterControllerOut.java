@@ -29,6 +29,7 @@ public enum ProfisterControllerOut {
     INVALID_INPUT_FORMAT("Failed: invalid input format"),
     SUCCESSFULLY_REGISTERED("Registration successful.\nWelcome to the club, mate!"),
     INVALID_NEW_COORDINATES("Mission failed: invalid coordinates after moving"),
+    RE_ENTER_PASSWORD("Please re-enter password correctly"),
     ;
     private String content;
 
