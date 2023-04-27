@@ -3,6 +3,7 @@ package view;
 import controller.MapMenuController;
 import model.Tile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import model.Map;
 import model.User;
@@ -14,7 +15,7 @@ public class GameMenu {
 
     Map map;
     private User currentUser;
-    public void run(){
+    public void run() throws IOException {
         map = (new MapMenu(null)).setUpMap();
         while (true){
             String command = ScanMatch.getScanner().nextLine();

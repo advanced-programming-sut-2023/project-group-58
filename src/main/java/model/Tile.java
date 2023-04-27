@@ -2,8 +2,12 @@ package model;
 
 import model.buildings.Building;
 import model.units.Troop;
+import model.units.UnitEnum;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Tile {
 
@@ -11,6 +15,7 @@ public class Tile {
     private String rockDirection = "#";
     private TileTexture texture = TileTexture.EARTH;
     private ArrayList<Tree> trees = new ArrayList<>();
+    private HashMap<UnitEnum , Integer> troopCount = new HashMap<>();
     //assuming a tile can have more than one tree. (since it can have multiple units)
     private ArrayList<Troop> troops = new ArrayList<>();
     //OR we can add units. Can have it either way
@@ -63,11 +68,34 @@ public class Tile {
         else
             return '#';
     }
-
     public void clear() {
         this.buildings.clear();
         this.trees.clear();
         this.troops.clear();
         this.texture = TileTexture.EARTH;
+    }
+
+    public String countTroops() {
+            String ans = new String();
+            troopCount = new HashMap<>();
+            for (Troop troop : this.troops) {
+                int addingNumber = troopCount.get(troop.getType());
+                troopCount.put(troop.getType(),addingNumber+1);
+            }
+            Iterator<java.util.Map.Entry<UnitEnum, Integer>> it = troopCount.entrySet().iterator();
+            // iterating every set of entry in the HashMap.
+            while (it.hasNext()) {
+                Map.Entry<UnitEnum , Integer> saving = it.next();
+                ans += "Type " + saving.getKey() + " -> " + saving.getValue() + "\n";
+            }
+            return ans;
+    }
+
+    public String showBuildings() {
+        String ans = new String();
+        for (Building building : this.buildings) {
+            ans += building.getType();
+        }
+        return ans;
     }
 }

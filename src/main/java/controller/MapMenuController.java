@@ -414,14 +414,19 @@ public class MapMenuController {
     }
 
 
-//    public void showDetail(String data) {
-//        try {
-//            extractDataxandy(data);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        System.out.println("The texture is: " + selectedMap.getTile(yTexture,xTexture));
-//        xTexture = 0;
-//        yTexture = 0;
-//    }
+    public String showDetail(String data) {
+        String ans = new String();
+        try {
+            extractDataxandy(data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ans += "The texture is: " + selectedMap.getTile(yTexture,xTexture)+"\n";
+        ans += selectedMap.getTile(yTexture,xShowingMap).countTroops()+"\n";
+        //todo: خیلی مهم: نمایش نوع منابع و تعداد آن ها باید اضافه شود.
+        ans += selectedMap.getTile(yTexture,xShowingMap).showBuildings();
+        xTexture = 0;
+        yTexture = 0;
+        return ans;
+    }
 }

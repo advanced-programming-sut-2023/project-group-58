@@ -45,7 +45,7 @@ public class MapMenu {
                 System.out.println(mapMenuController.dropRock(matcher.group("data")));
             }
             else if ((matcher = Commands.getMatcher(command, Commands.SHOW_DETAIL))!=null){
-                mapMenuController.showDetail(matcher.group("data"));
+                System.out.println(mapMenuController.showDetail(matcher.group("data")));
             }
             else
                 System.out.println("invalid command");

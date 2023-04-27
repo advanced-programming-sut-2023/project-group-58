@@ -52,7 +52,7 @@ public class LoginMenuController {
         return LoginMenuControllerOut.VALID;
     }
 
-    public void mainMenuRun() throws NoSuchAlgorithmException {
+    public void mainMenuRun() throws NoSuchAlgorithmException, IOException {
         MainMenu mainMenu = new MainMenu(user);
         mainMenu.run();
     }

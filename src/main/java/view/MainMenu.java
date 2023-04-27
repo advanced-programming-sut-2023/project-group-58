@@ -4,6 +4,7 @@ import controller.gameMenuControllers.LobbyController;
 import model.User;
 
 import java.awt.desktop.OpenURIEvent;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 
@@ -12,7 +13,7 @@ public class MainMenu {
     public MainMenu (User user){
         this.user = user;
     }
-    public void run() throws NoSuchAlgorithmException {
+    public void run() throws NoSuchAlgorithmException, IOException {
         while (true){
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
