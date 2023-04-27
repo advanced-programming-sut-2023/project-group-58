@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class User {
+    private Governance governance;
     private String username;
     private String password;
     private String nickname;
@@ -29,6 +30,10 @@ public class User {
         securityQuestion = SecurityQuestion;
         securityAnswer = SecurityAnswer;
         highScore = HighScore;
+    }
+
+    public Governance getGovernance() {
+        return governance;
     }
 
     public void addUserToArrayList() {

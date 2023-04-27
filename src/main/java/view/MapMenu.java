@@ -2,7 +2,7 @@ package view;
 
 import controller.MapMenuController;
 import model.Map;
-import view.enums.ProfisterControllerOut;
+import view.enums.Commands;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

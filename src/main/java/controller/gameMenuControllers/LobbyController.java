@@ -9,10 +9,17 @@ import java.util.ArrayList;
 public class LobbyController {
     private String username;
     private User user;
+    private User host;
     private ArrayList<User> players = new ArrayList<>();
     public LobbyController(User user){
+        this.host = user;
         players.add(user);
     }
+
+    public User getHost() {
+        return host;
+    }
+
     public LobbyControllerOut getUser(String user){
         this.username = user;
         return addUser();
