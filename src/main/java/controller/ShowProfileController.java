@@ -11,7 +11,7 @@ public class ShowProfileController {
     public ShowProfileController(User user) {
         this.user = user;
     }
-    public void showRank(){
+    public String showRank(){
         ArrayList<User> users = User.getUsers();
         Collections.sort(users, new Comparator<User>() {
             public int compare(User a, User b) {
@@ -27,26 +27,27 @@ public class ShowProfileController {
         });
         for (int i =0; i<users.size(); i++){
             if (users.get(i).getUsername().equals(user.getUsername())) {
-                System.out.println("Your rank is "+(i+1));
-                break;
+                return "Your rank is "+(i+1);
             }
         }
+        return null;
     }
-    public void showScore(){
-        System.out.println("Your highest score is "+ user.getHighScore());
+    public String showScore(){
+        return "Your highest score is "+ user.getHighScore();
     }
-    public void showSlogan(){
-        if (user.getSlogan()==null) System.out.println("Your slogan is empty");
-        else System.out.println("Your slogan is : "+ user.getSlogan());
+    public String showSlogan(){
+        if (user.getSlogan()==null) return "Your slogan is empty";
+        else return "Your slogan is : "+ user.getSlogan();
     }
-    public void showDisplay() throws NoSuchAlgorithmException {
-        System.out.println("username : " + user.getUsername());
-        System.out.println("nickname :" +user.getNickname());
-        System.out.println("email : " + user.getEmail());
-        System.out.println("highest score : "+ user.getHighScore());
-        if (user.getSlogan() == null) System.out.println("slogan : ");
-        else System.out.println("slogan : "+ user.getSlogan());
-        System.out.println("your rank : "+ getRank());
+    public String showDisplay() {
+        String ans = "";
+        ans += "username : " + user.getUsername()+"\n";
+        ans += "nickname :" +user.getNickname()+"\n";
+        ans += "email : " + user.getEmail()+"\n";
+        ans += "highest score : "+ user.getHighScore()+"\n";
+        if (user.getSlogan() != null && user.getSlogan().length() != 0) ans += "slogan : "+ user.getSlogan()+"\n";
+        ans += "your rank : "+ getRank()+"\n";
+        return ans;
     }
     private int getRank(){
         ArrayList<User> users = User.getUsers();

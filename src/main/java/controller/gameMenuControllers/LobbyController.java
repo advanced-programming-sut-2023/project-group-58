@@ -2,6 +2,7 @@ package controller.gameMenuControllers;
 
 import model.Governance;
 import model.User;
+import view.enums.LobbyControllerOut;
 
 import java.util.ArrayList;
 
@@ -12,23 +13,21 @@ public class LobbyController {
     public LobbyController(User user){
         players.add(user);
     }
-    public void getUser(String user){
+    public LobbyControllerOut getUser(String user){
         this.username = user;
-        addUser();
+        return addUser();
     }
-    private void addUser(){
+    private LobbyControllerOut addUser(){
         if (!existUser()){
-            System.out.println("Username not found");
-            return;
+            return LobbyControllerOut.USERNAME_NOT_FOUND;
         }
         for (int i =0; i<players.size(); i++){
             if (players.get(i).equals(user)) {
-                System.out.println("this user already joined lobby");
-                return;
+                return LobbyControllerOut.PLAYER_ALREADY_IN;
             }
         }
         players.add(user);
-        System.out.println("user joined lobby");
+        return LobbyControllerOut.SUCCESSFULLY_JOINED;
     }
     private boolean existUser(){
         for (int i=0; i<User.getUsers().size(); i++){
@@ -46,24 +45,24 @@ public class LobbyController {
         }
         return false;
     }
-    public void removeUser(String user){
+    public LobbyControllerOut removeUser(String user){
         username = user;
         for (int i=0; i<players.size(); i++){
             if (players.get(i).getUsername().equals(username)){
                 if (i==0) {
-                    System.out.println("you cannot remove yourself, because your are owner of lobby");
-                    return;
+                    return LobbyControllerOut.REMOVING_YOURSELF;
                 }
                 players.remove(i);
-                System.out.println(username+" removed successfully");
-                return;
+                return LobbyControllerOut.SUCCESSFULLY_REMOVED_USER.manipulateRemovingFormat(username);
             }
         }
-        System.out.println("there isn't any user by entered username in the lobby");
+        return LobbyControllerOut.NO_SUCH_USER_IN_LOBBY;
     }
-    public void showUsers(){
+    public String showUsers(){
+        StringBuilder ans = new StringBuilder(new String());
         for (int i =0; i<players.size(); i++){
-            System.out.println((i+1)+". "+players.get(i).getUsername());
+            ans.append(i + 1).append(". ").append(players.get(i).getUsername()).append("\n");
         }
+        return ans.toString();
     }
 }

@@ -2,10 +2,11 @@ package controller;
 
 import model.Map;
 import model.TileTexture;
-import view.ScanMatch;
+import model.Tree;
+import view.enums.ProfisterControllerOut;
+import view.enums.TreeTypes;
 
 import java.io.IOException;
-import java.util.Random;
 
 public class MapMenuController {
     private final Map map1 = new Map(100,100);
@@ -26,49 +27,70 @@ public class MapMenuController {
         return selectedMap;
     }
 
-    public Map setUpMap() {
-        System.out.println("Would you like to choose a map from archive?\nType y for yes or n for no");
-        String answer = ScanMatch.getScanner().nextLine().trim();
-        if(answer.equals("y")) {
-            setUpDefaultMaps();
-            int[] range = new int[4];
-            System.out.println("This is the first map:");
-            range = setRange(49,49,100,100);
-            printMap(map1, range);
-            System.out.println("The second:");
-            range = setRange(99,99,200,200);
-            printMap(map2, range);
-            System.out.println("The third:");
-            range = setRange(149,149,300,300);
-            printMap(map3, range);
-            System.out.println("What would it be? Type 1 , 2 or 3");
-            //todo: handle errors
-            int mapNumber = ScanMatch.getScanner().nextInt();
-            if(mapNumber == 1) return map1;
-            else if(mapNumber == 2) return map2;
-            else if(mapNumber == 3) return map3;
-        }
-        else if(answer.equals("n")) {
-            int length;
-            int width;
-            //todo: handle errors when taking input.
-            System.out.println("Then custom map shall it be!");
-            System.out.println("Choose the map scale:");
-            for(int i = 1; i < 9; i++)
-                System.out.println(i + ". " + i * 100 + " * " + i * 100);
-            length = width = ScanMatch.getScanner().nextInt() * 100;
-            System.out.println("I give you this map. You can change the map texture any time with this order:\n" +
-                               "settexture -x [x] -y [y] -t [type]");
-            int[] ranges = setRange(length/2 -1, width/2 - 1, length, width);
-            Map randomMap = makeRandomMap(length,width);
-            printMap(randomMap, ranges);
-            return randomMap;
-        }
-        else {
-            System.out.println("Your answer was not defined. I am tired, so I'll just pick map 1 for you.");
-            return map1;
-        }
-        return null;
+//    public Map setUpMap() {
+//        System.out.println("Would you like to choose a map from archive?\nType y for yes or n for no");
+//        String answer = ScanMatch.getScanner().nextLine().trim();
+//        if(answer.equals("y")) {
+//            setUpDefaultMaps();
+//            int[] range = new int[4];
+//            System.out.println("This is the first map:");
+//            range = setRange(49,49,100,100);
+//            printMap(map1, range);
+//            System.out.println("The second:");
+//            range = setRange(99,99,200,200);
+//            printMap(map2, range);
+//            System.out.println("The third:");
+//            range = setRange(149,149,300,300);
+//            printMap(map3, range);
+//            System.out.println("What would it be? Type 1 , 2 or 3");
+//            //todo: handle errors
+//            int mapNumber = ScanMatch.getScanner().nextInt();
+//            if(mapNumber == 1) return map1;
+//            else if(mapNumber == 2) return map2;
+//            else if(mapNumber == 3) return map3;
+//        }
+//        else if(answer.equals("n")) {
+//            int length;
+//            int width;
+//            //todo: handle errors when taking input.
+//            System.out.println("Then custom map shall it be!");
+//            System.out.println("Choose the map scale:");
+//            for(int i = 1; i < 9; i++)
+//                System.out.println(i + ". " + i * 100 + " * " + i * 100);
+//
+//
+//
+//            length = width = ScanMatch.getScanner().nextInt() * 100;
+//            System.out.println("I give you this map. You can change the map texture any time with this order:\n" +
+//                               "settexture -x [x] -y [y] -t [type]");
+//            int[] ranges = setRange(length/2 -1, width/2 - 1, length, width);
+//            Map randomMap = makeRandomMap(length,width);
+//            printMap(randomMap, ranges);
+//            return randomMap;
+//        }
+//        else {
+//            System.out.println("Your answer was not defined. I am tired, so I'll just pick map 1 for you.");
+//            return map1;
+//        }
+//        return null;
+//    }
+
+
+    public String setUpACustom(int widthAndLength) {
+        int[] ranges = setRange(widthAndLength/2 -1, widthAndLength/2 - 1, widthAndLength, widthAndLength);
+        Map randomMap = makeRandomMap(widthAndLength,widthAndLength);
+        this.selectedMap = randomMap;
+        return printMap(randomMap, ranges);
+    }
+
+    public String setUpATemplate() {
+        setUpDefaultMaps();
+        this.selectedMap = map1;
+        String ans = "I give you a 200*200 map. You can change the map texture any time with this command:\n" +
+                     "settexture -x [x] -y [y] -t [type])";
+        int[] range = setRange(99,99,200,200);
+        ans += printMap(map1, range) + "\n";
+        return ans;
     }
 
     private Map makeRandomMap(int length, int width) {
@@ -165,60 +187,62 @@ public class MapMenuController {
         return result;
     }
 
-    public static void printMap(Map map, int[] ranges) {
+    public static String printMap(Map map, int[] ranges) {
+        String ans = new String();
         char tileOccupation;
         int xcounterForBreak = 0;
         int ycounterForBreak = 0;
         for(int i = ranges[0]; i <= ranges[1]; i++) {
-            if(ycounterForBreak % 3 == 0) {for(int k = 0; k < (ranges[3]-ranges[2]+1)*7/6+2; k++) System.out.print("-"); System.out.println();}
+            if(ycounterForBreak % 3 == 0) {for(int k = 0; k < (ranges[3]-ranges[2]+1)*7/6+2; k++) ans += "-"; ans += "\n";}
             ycounterForBreak++;
             for (int j = ranges[2]; j <= ranges[3]; j++) {
                 tileOccupation = map.getTile(i, j).getTileOccupation();
-                if (xcounterForBreak % 6 == 0) System.out.print("\033[49m|");
+                if (xcounterForBreak % 6 == 0) ans += "\033[49m|";
                 xcounterForBreak++;
                 switch (map.getTile(i, j).getTexture()) {
                     case OIL:
-                        System.out.print("\033[100m" + tileOccupation);
+                        ans += "\033[100m" + tileOccupation;
                         break;
                     case SEA:
-                        System.out.print("\033[44m" + tileOccupation);
+                        ans += "\033[44m" + tileOccupation;
                         break;
                     case EARTH:
-                        System.out.print("\033[40m" + tileOccupation);
+                        ans += "\033[40m" + tileOccupation;
                         break;
                     case FORD:
-                        System.out.print("\033[45m" + tileOccupation);
+                        ans += "\033[45m" + tileOccupation;
                         break;
                     case IRON:
-                        System.out.print("\033[41m" + tileOccupation);
+                        ans += "\033[41m" + tileOccupation;
                         break;
                     case SCRUB:
-                        System.out.print("\033[43m" + tileOccupation);
+                        ans += "\033[43m" + tileOccupation;
                         break;
                     case THICK_SCRUB:
-                        System.out.print("\033[42m" + tileOccupation);
+                        ans += "\033[42m" + tileOccupation;
                         break;
                     case SMALL_POND:
-                        System.out.print("\033[104m" + tileOccupation);
+                        ans += "\033[104m" + tileOccupation;
                         break;
                 }
                 if (j == ranges[3])
                 {
-                    System.out.println("\033[49m|");
+                    ans += "\033[49m|"+"\n";
                     xcounterForBreak = 0;
                 }
             }
         }
         //Adding a guidance table:
-        System.out.println("-------------Table Info-------------");
-        System.out.println("OIL         ----------------    \033[100m    \033[49m");
-        System.out.println("SEA         ----------------    \033[44m    \033[49m");
-        System.out.println("EARTH       ----------------    \033[40m    \033[49m");
-        System.out.println("FORD        ----------------    \033[45m    \033[49m");
-        System.out.println("IRON        ----------------    \033[41m    \033[49m");
-        System.out.println("SCRUB       ----------------    \033[43m    \033[49m");
-        System.out.println("THICK_SCRUB ----------------    \033[42m    \033[49m");
-        System.out.println("SMALL_POND  ----------------    \033[104m    \033[49m");
+        ans += "-------------Table Info-------------"+"\n";
+        ans += "OIL         ----------------    \033[100m    \033[49m"+"\n";
+        ans += "SEA         ----------------    \033[44m    \033[49m"+"\n";
+        ans += "EARTH       ----------------    \033[40m    \033[49m"+"\n";
+        ans += "FORD        ----------------    \033[45m    \033[49m"+"\n";
+        ans += "IRON        ----------------    \033[41m    \033[49m"+"\n";
+        ans += "SCRUB       ----------------    \033[43m    \033[49m"+"\n";
+        ans += "THICK_SCRUB ----------------    \033[42m    \033[49m"+"\n";
+        ans += "SMALL_POND  ----------------    \033[104m    \033[49m"+"\n";
+        return ans;
     }
 
     public String setTextureForTheWholeMap(Map map, String data) {
@@ -294,20 +318,21 @@ public class MapMenuController {
         yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
     }
 
-    public void showMap(String data) {
+    public String showMap(String data) {
+        String ans = new String();
         try {
             extractDataxandy(data);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         yTexture = selectedMap.getWidth() - 1 - yTexture;
-        int[] range = setRange(xTexture,yTexture,selectedMap.getLength(), setUpMap().getWidth());
-        printMap(selectedMap,range);
+        int[] range = setRange(xTexture,yTexture,selectedMap.getLength(), selectedMap.getWidth());
         xShowingMap = xTexture;
         yShowingMap = yTexture;
+        return printMap(selectedMap,range);
     }
 
-    public void moveMap(String data) {
+    public String moveMap(String data) {
         String upStr    = CommonController.dataExtractor(data, "((?<!\\S)up\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
         String leftStr  = CommonController.dataExtractor(data, "((?<!\\S)left\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
         String downStr  = CommonController.dataExtractor(data, "((?<!\\S)down\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
@@ -323,9 +348,9 @@ public class MapMenuController {
         if(doWeHaveUp) yTexture = yShowingMap + up;
         else yTexture = yShowingMap - down;
         if(!validateTextureCoordinates(this.selectedMap.getLength(),this.getSelectedMap().getWidth()))
-            System.out.println("Mission failed: invalid coordinates after moving");
+            return ProfisterControllerOut.INVALID_NEW_COORDINATES.getContent();
         int[] ranges = setRange(xTexture,yTexture,this.selectedMap.getLength(), this.selectedMap.getWidth());
-        printMap(this.selectedMap,ranges);
+        return printMap(this.selectedMap,ranges);
     }
 
     public String clearTile(String data) {
@@ -337,6 +362,55 @@ public class MapMenuController {
         if(!validateTextureCoordinates(this.selectedMap.getLength(),this.selectedMap.getWidth())) return "failed: invalid coordinates";
         this.selectedMap.getTile(yTexture,xTexture).clear();
         return "Tile cleared successfully!";
+    }
+
+    public String dropTree(String data) throws IOException {
+        extractDataForTexture(data);
+        if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
+            return ProfisterControllerOut.FAILED.getContent();
+        switch (typeTexture.trim()) {
+            case "desert shrub":
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.DESERT_SHRUB));
+                break;
+            case "cherry palm":
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.CHERRY));
+                break;
+            case "olive tree":
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.OLIVE));
+                break;
+            case "coconut palm":
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.COCONUT));
+                break;
+            case "date palm":
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.DATE));
+                break;
+        }
+        return "Tree added successfully!";
+    }
+
+    public String dropRock(String data) throws IOException {
+        extractDataForTexture(data);
+        if(typeTexture != null)typeTexture = typeTexture.trim();
+        if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
+            return ProfisterControllerOut.FAILED.getContent();
+        selectedMap.getTile(yTexture,xTexture).setHasRock(true);
+
+        if(typeTexture.equals("r")) {
+            int ranadom = (int) (4 * Math.random());
+            if(ranadom == 0)
+                typeTexture = "n";
+            if(ranadom == 1)
+                typeTexture = "e";
+            if(ranadom == 2)
+                typeTexture = "w";
+            if(ranadom == 3)
+                typeTexture = "s";
+        }
+        if(typeTexture.equals("n") || typeTexture.equals("e") || typeTexture.equals("w") || typeTexture.equals("s"))
+            selectedMap.getTile(yTexture,xTexture).setRockDirection(typeTexture);
+        else
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        return "Rock added successfully!";
     }
 
 

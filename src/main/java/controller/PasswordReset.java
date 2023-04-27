@@ -78,6 +78,7 @@ public class PasswordReset {
             }
         }
     }
+    //todo: تابع پایین را در کنترلر common گذاشتم. مستقیما از آن استفاده کنید.
     private boolean checkPasswordFormat(String password){
         if (password.length() < 6) {
             System.out.println("Password is too short!");

@@ -24,6 +24,8 @@ public enum Commands {
     SELL_SHOP("^\\s*sell\\s+(?<data>.+)$"),
     TRADE("^\\s*trade\\s+(?<data>.+)$"),
     ACCEPT_TRADE("^\\s*trade\\s+accept\\s+(?<data>.+)$"),
+    DROP_TREE("^\\s*droptree^\\s+(?<data>.+)$"),
+    DROP_ROCK("^\\s*droptree^\\s+(?<data>.+)$"),
     ;public final String regex;
 
     Commands(String regex) {

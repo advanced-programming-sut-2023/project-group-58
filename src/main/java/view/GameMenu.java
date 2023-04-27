@@ -6,6 +6,7 @@ import model.Tile;
 import java.util.ArrayList;
 import model.Map;
 import model.User;
+import view.enums.ProfisterControllerOut;
 
 import java.util.regex.Matcher;
 
@@ -14,7 +15,7 @@ public class GameMenu {
     Map map;
     private User currentUser;
     public void run(){
-        map = (new MapMenuController()).setUpMap();
+        map = (new MapMenu(null)).setUpMap();
         while (true){
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;

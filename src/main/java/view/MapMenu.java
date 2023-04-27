@@ -2,7 +2,9 @@ package view;
 
 import controller.MapMenuController;
 import model.Map;
+import view.enums.ProfisterControllerOut;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 
 public class MapMenu {
@@ -15,7 +17,7 @@ public class MapMenu {
         mapMenuController.selectedMap = map;
     }
 
-    public void run(){
+    public void run() throws IOException {
         while (true){
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
@@ -28,13 +30,19 @@ public class MapMenu {
                 this.map = mapMenuController.getSelectedMap();
             }
             else if ((matcher = Commands.getMatcher(command, Commands.SHOW_MAP))!=null){
-                mapMenuController.showMap(matcher.group("data"));
+                System.out.println(mapMenuController.showMap(matcher.group("data")));
             }
             else if ((matcher = Commands.getMatcher(command, Commands.MOVE_MAP))!=null){
-                mapMenuController.moveMap(matcher.group("data"));
+                System.out.println(mapMenuController.moveMap(matcher.group("data")));
             }
             else if ((matcher = Commands.getMatcher(command, Commands.CLEAR))!=null){
                 System.out.println(mapMenuController.clearTile(matcher.group("data")));
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.DROP_TREE))!=null){
+                System.out.println(mapMenuController.dropTree(matcher.group("data")));
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.DROP_ROCK))!=null){
+                System.out.println(mapMenuController.dropRock(matcher.group("data")));
             }
             else if ((matcher = Commands.getMatcher(command, Commands.SHOW_DETAIL))!=null){
                 mapMenuController.showDetail(matcher.group("data"));
@@ -42,5 +50,20 @@ public class MapMenu {
             else
                 System.out.println("invalid command");
         }
+    }
+
+    public Map setUpMap() {
+        System.out.println("Would you like to choose a template map from archive?\nType y for yes or n for no");
+        String answer = ScanMatch.getScanner().nextLine().trim();
+        if (answer.equals("y"))
+            System.out.println(mapMenuController.setUpATemplate());
+        else if (answer.equals("n")) {
+            System.out.println("Then custom map shall it be!\nChoose the map scale:");
+            for (int i = 1; i < 9; i++)
+                System.out.println(i + ". " + i * 100 + " * " + i * 100);
+            System.out.println(mapMenuController.setUpACustom(ScanMatch.getScanner().nextInt() * 100));
+        } else System.out.println("Mission failed: invalid input");
+        this.map = mapMenuController.selectedMap;
+        return this.map;
     }
 }

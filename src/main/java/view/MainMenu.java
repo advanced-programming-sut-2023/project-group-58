@@ -3,6 +3,7 @@ package view;
 import controller.gameMenuControllers.LobbyController;
 import model.User;
 
+import java.awt.desktop.OpenURIEvent;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 
@@ -44,13 +45,13 @@ public class MainMenu {
                         }
                     }
                     else if ((matcher = Commands.getMatcher(command, Commands.REMOVE_USER))!=null){
-                        lobbyController.removeUser(matcher.group("username"));
+                        System.out.println(lobbyController.removeUser(matcher.group("username")).getContent());
                     }
                     else if (command.matches("show players")){
-                        lobbyController.showUsers();
+                        System.out.println(lobbyController.showUsers());
                     }
                     else {
-                        lobbyController.getUser(command);
+                        System.out.println(lobbyController.getUser(command).getContent());
                     }
                 }
             }

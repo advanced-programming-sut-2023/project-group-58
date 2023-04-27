@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import view.*;
+import view.enums.LoginMenuControllerOut;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -29,10 +30,13 @@ public class LoginMenuController {
     private int userTryLogin;
     private User user;
 
-    public LoginMenuController(String data) throws IOException, NoSuchAlgorithmException {
+    public void setInputPassword(String inputPassword) {
+        this.inputPassword = inputPassword;
+    }
+
+    public LoginMenuController(String data) throws IOException {
         this.data = data;
         extractData();
-        checkForLogin();
     }
 
     private void extractData() throws IOException {
@@ -40,45 +44,37 @@ public class LoginMenuController {
         inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
     }
 
-    private void checkForLogin() throws NoSuchAlgorithmException {
-        if (!userExist()) {
-            System.out.println("Username not found!");
-            return;
-        }
-        if (!passwordMatch()) {
-            int timeOut = 5;
-            while(timeOut <= 320) {
-                System.out.println("Password is wrong!");
-                System.out.println("You can try again in " + timeOut + " seconds");
-                giveAnotherShot(timeOut);
-                if(passwordMatch()) break;
-                timeOut*=2;
-            }
-            if(timeOut > 320) {
-                System.out.println("Login failed: Password is wrong!");
-                return;
-            }
-        }
-        System.out.println("user logged in successfully!");
-        System.out.println("You are in the main menu");
+    public LoginMenuControllerOut checkForLogin() {
+        if (!userExist())
+            return LoginMenuControllerOut.USERNAME_NOT_FOUND;
+        if (!passwordMatch())
+            return LoginMenuControllerOut.PASSWORD_WRONG;
+        return LoginMenuControllerOut.VALID;
+    }
+
+    public void mainMenuRun() throws NoSuchAlgorithmException {
         MainMenu mainMenu = new MainMenu(user);
         mainMenu.run();
     }
-    public void giveAnotherShot(int timeOut) {
+
+
+    public void giveAnotherShot(int timeOut, String password) {
         long startTime = System.currentTimeMillis()/1000;
         while(true) {
-            String password = ScanMatch.getScanner().nextLine();
             long timeNow = System.currentTimeMillis()/1000;
             if ((timeNow - startTime) > timeOut)
             {
                 inputPassword = password;
                 return;
             }
-            else
-                System.out.println("Your have to wait!");
+            else {
+                //todo: add a message, maybe?
+                //System.out.println("You have to wait!");
+            }
+
         }
     }
-    private boolean userExist() {
+    public boolean userExist() {
 
         for (int i = 0; i < User.getUsers().size(); i++) {
             if (User.getUsers().get(i).getUsername().equals(inputUsername)) {
@@ -89,7 +85,7 @@ public class LoginMenuController {
         return false;
     }
 
-    private boolean passwordMatch() {
+    public boolean passwordMatch() {
         try {
             inputPassword = encryptPassword(inputPassword);
         } catch (NoSuchAlgorithmException e) {
