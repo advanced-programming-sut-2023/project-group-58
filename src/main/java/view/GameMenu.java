@@ -1,12 +1,16 @@
 package view;
 
 import java.io.IOException;
-
 import controller.gameMenuControllers.GameController;
 import model.Map;
 import model.User;
 import view.enums.Commands;
 import view.enums.GameControllerOut;
+import java.io.IOException;
+import java.util.ArrayList;
+import model.Map;
+import model.User;
+import view.enums.ProfisterControllerOut;
 
 import java.util.regex.Matcher;
 
@@ -47,6 +51,10 @@ public class GameMenu {
             }
             else if ((matcher = Commands.getMatcher(command, Commands.SHOW_TAX_RATE)) != null) {
                 System.out.println(gameController.showTaxRate());
+            }
+            else if (command.matches("trade menu")){
+                TradeMenu tradeMenu = new TradeMenu(currentUser);
+                tradeMenu.run();
             }
             else
                 System.out.println("invalid command");

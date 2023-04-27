@@ -32,6 +32,7 @@ public enum Commands {
     SET_FOOD_RATE("^\\s*food\\s+rate\\s+-r\\s+(?<data>(-)?\\d)$"),
     SET_TAX_RATE("^\\s*tax\\s+rate\\s+-r\\s+(?<data>(-)?\\d)$"),
     SHOW_TAX_RATE("^\\s*tax\\s+rate\\s+show\\s*$"),
+
     ;public final String regex;
 
     Commands(String regex) {

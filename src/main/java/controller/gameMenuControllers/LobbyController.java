@@ -24,6 +24,7 @@ public class LobbyController {
         this.username = user;
         return addUser();
     }
+
     private LobbyControllerOut addUser(){
         if (!existUser()){
             return LobbyControllerOut.USERNAME_NOT_FOUND;
