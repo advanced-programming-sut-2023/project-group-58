@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="0888eeba-cd75-4733-af09-19e89dc65ece" name="Changes" comment="map started, with a colourful terminal!">
 <<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/src/main/java/view/enums/GameControllerOut.java" afterDir="false" />
@@ -37,6 +38,15 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/MapMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MapMenu.java" afterDir="false" />
 >>>>>>> 36e7ea482d4f4fba3cc082ae2b9435e1e48a1011
+=======
+    <list default="true" id="a13b8cb4-6cdf-4bad-ae21-20a406439a39" name="Changes" comment="map started, with a colourful terminal!">
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Church.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Resource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/ResourceEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Weapon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/WeaponEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> fe399d4e728a780c471eae4aa0be85aebffa012c
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,8 +56,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -74,20 +84,20 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/IntelliJ/APPBeforeGame&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/EPO/project",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="view" />
@@ -110,7 +120,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0888eeba-cd75-4733-af09-19e89dc65ece" name="Changes" comment="" />
+      <changelist id="a13b8cb4-6cdf-4bad-ae21-20a406439a39" name="Changes" comment="" />
       <created>1682067267786</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -125,7 +135,13 @@
       <workItem from="1682583660473" duration="19072000" />
 =======
       <workItem from="1682583660473" duration="11733000" />
+<<<<<<< HEAD
 >>>>>>> 36e7ea482d4f4fba3cc082ae2b9435e1e48a1011
+=======
+      <workItem from="1682704967331" duration="2662000" />
+      <workItem from="1682794013828" duration="20000" />
+      <workItem from="1682837638996" duration="1082000" />
+>>>>>>> fe399d4e728a780c471eae4aa0be85aebffa012c
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
@@ -161,7 +177,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/controller/ShowProfileController.java</url>
           <line>13</line>
-          <properties class="controller.ShowProfileController" method="showRank">
+          <properties class="controller.ShowProfileController">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
