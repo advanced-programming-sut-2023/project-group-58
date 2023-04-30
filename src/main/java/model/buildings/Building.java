@@ -1,10 +1,14 @@
 package model.buildings;
 
-public class Building {
-    private BuildingEnum type;
+import model.User;
 
-    public Building(BuildingEnum type) {
+public class Building {
+    protected BuildingEnum type;
+    protected User master;
+
+    public Building(BuildingEnum type, User master) {
         this.type = type;
+        this.master = master;
     }
 
     public BuildingEnum getType() {

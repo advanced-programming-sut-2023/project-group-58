@@ -25,12 +25,12 @@ public class GameMenu {
     }
     //todo: reset every governance in the end.
     public void run() throws IOException {
-        map = (new MapMenu(null)).setUpMap();
+        map = (new MapMenu(null,this.currentUser)).setUpMap();
         while (true){
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
             if(command.matches("map menu"))
-                new MapMenu(this.map).run();
+                new MapMenu(this.map,this.currentUser).run();
             else if(command.matches("shop menu")){
                 new ShopMenu(currentUser).run();
             }

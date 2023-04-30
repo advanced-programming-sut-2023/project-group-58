@@ -2,20 +2,22 @@ package view;
 
 import controller.MapMenuController;
 import model.Map;
+import model.User;
 import view.enums.Commands;
-import view.enums.ProfisterControllerOut;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 
 public class MapMenu {
     Map map;
+    User currentPlayer;
     MapMenuController mapMenuController;
 
-    public MapMenu(Map map) {
+    public MapMenu(Map map, User currentPlayer) {
         this.map = map;
         mapMenuController = new MapMenuController();
         mapMenuController.selectedMap = map;
+        this.currentPlayer = currentPlayer;
     }
 
     public void run() throws IOException {
@@ -47,6 +49,12 @@ public class MapMenu {
             }
             else if ((matcher = Commands.getMatcher(command, Commands.SHOW_DETAIL))!=null){
                 System.out.println(mapMenuController.showDetail(matcher.group("data")));
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.DROP_BUILDING)) != null) {
+                System.out.println(mapMenuController.dropBuilding(matcher.group("data"),currentPlayer).getContent());
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.DROP_UNIT)) != null) {
+                System.out.println(mapMenuController.dropUnit(matcher.group("data"),currentPlayer).getContent());
             }
             else
                 System.out.println("invalid command");

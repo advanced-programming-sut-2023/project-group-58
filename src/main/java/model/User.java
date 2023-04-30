@@ -11,7 +11,7 @@ public class User {
     private String slogan;
     private int securityQuestion;
     private String securityAnswer;
-    private int highScore = 0;
+    private int highScore;
     private static ArrayList<User> users = new ArrayList<>();
 
     public User(String Username,
@@ -112,4 +112,5 @@ public class User {
     public void setHighScore(int highScore) {
         this.highScore = highScore;
     }
+
 }

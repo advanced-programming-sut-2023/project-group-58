@@ -10,6 +10,11 @@ public enum TileTexture {
     SCRUB(true, false, true),
     THICK_SCRUB(true, false, false),
     OIL(false, false, true),
+
+    BIG_POND(false,false,false),
+    RIVER(false,false,false),
+    SAND(false,false,true),
+    //todo: last three should be added to maps
     ;
     final boolean fertility;
     final boolean constructiblity;
@@ -19,5 +24,17 @@ public enum TileTexture {
         this.fertility = fertility;
         this.constructiblity = constructiblity;
         this.walkability = walkability;
+    }
+
+    public boolean isFertility() {
+        return fertility;
+    }
+
+    public boolean isConstructiblity() {
+        return constructiblity;
+    }
+
+    public boolean isWalkability() {
+        return walkability;
     }
 }
