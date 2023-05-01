@@ -1,10 +1,16 @@
 package model.buildings;
 
-public class Storage extends Building{
-    private int capacity;
-    private int stored;
+import model.Asset;
+import model.Governance;
 
-    public Storage(BuildingEnum type) {
-        super(type);
+import java.util.ArrayList;
+
+public class Storage extends Building{
+    private ArrayList<Asset> storedGoods = new ArrayList<>();
+    private int capacity;
+
+    public Storage(BuildingEnum type, Governance owner, int direction) {
+        super(type, owner, direction);
+        this.capacity = 50;
     }
 }
