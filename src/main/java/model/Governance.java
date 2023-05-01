@@ -13,8 +13,10 @@ public class Governance {
     private int foodDiversity=0;
     private int taxRate     = 0;
     private int fearRate    = 0;
-    private Resource resource = new Resource();
     private int gold = 0;
+    private Building granary;
+    private Building stockpile;
+    private Building armoury;
     private ArrayList<Building> buildings = new ArrayList<>();
 
     public void changeUnemployedPopulation(int unemployedPopulation) {this.unemployedPopulation += unemployedPopulation;}
@@ -46,5 +48,4 @@ public class Governance {
     public void changeFoodRate(int number) {this.foodRate += number;}
     public void changeFearRate(int number) {this.fearRate += number;}
     public void changeTaxRate(int number) {this.taxRate += number;}
-    public Resource getResource() {return resource;}
 }
