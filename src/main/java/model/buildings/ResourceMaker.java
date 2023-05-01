@@ -1,18 +1,13 @@
 package model.buildings;
 
-import controller.gameMenuControllers.ModelFunctions;
+import model.Governance;
 import model.Resource;
-import model.User;
 
 public class ResourceMaker extends Building{
-    Resource input = new Resource();
-    Resource output = new Resource();
-    public ResourceMaker(BuildingEnum type, User master) {
-        super(type, master);
-        input = ModelFunctions.makeInput();
-        output =ModelFunctions.makeOutput();
+    public ResourceMaker(BuildingEnum type, Governance owner, int direction) {
+        super(type, owner, direction);
     }
     public void produce() {
-        new ModelFunctions().produce(input,output,master);
+
     }
 }

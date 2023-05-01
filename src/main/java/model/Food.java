@@ -1,16 +1,17 @@
 package model;
 
-public class Weapon extends Asset{
-    private WeaponEnum type;
+public class Food extends Asset{
+    private FoodEnum type;
 
-    public Weapon(int amount, WeaponEnum type) {
+    public Food(int amount, FoodEnum type) {
         super(amount);
         this.type = type;
     }
 
-    public WeaponEnum getType() {
+    public FoodEnum getType() {
         return type;
     }
+
     @Override
     public void addAsset(int amount) {
         super.addAsset(amount);

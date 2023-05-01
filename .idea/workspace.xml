@@ -5,6 +5,9 @@
   </component>
   <component name="ChangeListManager">
 <<<<<<< HEAD
+    <list default="true" id="a13b8cb4-6cdf-4bad-ae21-20a406439a39" name="Changes" comment="map started, with a colourful terminal!" />
+=======
+<<<<<<< HEAD
     <list default="true" id="0888eeba-cd75-4733-af09-19e89dc65ece" name="Changes" comment="map started, with a colourful terminal!">
 <<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/src/main/java/view/enums/GameControllerOut.java" afterDir="false" />
@@ -48,6 +51,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 >>>>>>> fe399d4e728a780c471eae4aa0be85aebffa012c
     </list>
+>>>>>>> main
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,20 +88,20 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/EPO/project",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/EPO/project&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="view" />
@@ -140,8 +144,13 @@
 =======
       <workItem from="1682704967331" duration="2662000" />
       <workItem from="1682794013828" duration="20000" />
+<<<<<<< HEAD
+      <workItem from="1682837638996" duration="4153000" />
+      <workItem from="1682928852700" duration="2749000" />
+=======
       <workItem from="1682837638996" duration="1082000" />
 >>>>>>> fe399d4e728a780c471eae4aa0be85aebffa012c
+>>>>>>> main
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

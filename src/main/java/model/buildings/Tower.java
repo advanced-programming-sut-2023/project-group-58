@@ -1,10 +1,11 @@
 package model.buildings;
 
-import model.User;
+import model.Governance;
 
 public class Tower extends Building{
-
-    public Tower(BuildingEnum type, User master) {
-        super(type, master);
+    private int fireRange;
+    private int defendRange;
+    public Tower(BuildingEnum type, Governance owner, int direction) {
+        super(type, owner, direction);
     }
 }

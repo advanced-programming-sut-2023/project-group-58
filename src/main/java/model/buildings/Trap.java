@@ -1,9 +1,10 @@
 package model.buildings;
 
-import model.User;
+import model.Governance;
 
 public class Trap extends Building{
-    public Trap(BuildingEnum type, User master) {
-        super(type, master);
+    private int damage;
+    public Trap(BuildingEnum type, Governance owner, int direction) {
+        super(type, owner, direction);
     }
 }

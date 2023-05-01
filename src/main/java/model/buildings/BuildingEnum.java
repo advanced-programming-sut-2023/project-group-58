@@ -1,78 +1,104 @@
 package model.buildings;
 
+import model.Resource;
+import model.ResourceEnum;
+
 public enum BuildingEnum {
-    CATHEDRAL(0,0,100,0),
-    //PITCH_DITCH(),
-    CAGED_WAR_DOGS(0,10,100,0),
-    HOPS_FARM(0,15,0,1),
-    ENGINEERS_GUILD(0,10,100,0),
-    INN(0,20,100,1),
-    MILL(0,15,0,1),
-    //PERIMETER_TOWER,
-    //DEFENSE_TURRET,
-    KILLING_PIT(0,6,0,1),
-    //SQUARE_TOWER,
-    //ROUND_TOWER,
-    //SMALL_STONE_GATEHOUSE,
-    //BIG_STONE_GATEHOUSE,
-    //DRAWBRIDGE,
-    //KEEP,
-    //LOOKOUT_TOWER,
-    //CHURCH,
-    ARMORY(0,5,0,0),
-    BARRACKS(15,0,0,0),
-    HOVEL(0,6,0,0),
-    MERCENARY_POST(0,10,0,0),
-    IRON_MINE(0,20,0,2),
-    STOCKPILE(0,0,0,0),
-    WOODCUTTERS(0,3,0,1),
-    OX_TETHER(0,5,0,1),
-    PITCH_RIG(0,20,0,1),
-    QUARRY(0,20,0,3),
-    APPLE_ORCHARD(0,5,0,1),
-    DAIRY_FARMER(0,10,0,1),
-    //MAIN_CASTLE,
-    WHEAT_FARMER(0,15,0,1),
-    BAKERY(0,10,0,1),
-    BLACKSMITH(0,20,100,1),
-    BREWER(0,10,0,1),
-    GRANARY(0,5,0,0),
-    //STAIR,
-    //ARMORER,
-    FLETCHER(0,20,100,1),
-    POLE_TURNER(0,100,10,1),
-    //OIL_SMELTER,
-    //WAL,
-    HUNTERS_POST(0,5,0,1),
-    //SIEGE_TENT,
-    STABLE(0,20,400,0),
-    MARKET(0,5,0,1),
+    CATHEDRAL(BuildingEnumType.CHURCH,"cathedral", 0, 1000, null, 0, 0),
+    PITCH_DITCH(BuildingEnumType.TRAP,"pitch ditch", 0, 0, ResourceEnum.PITCH, 0, 0),
+    CAGED_WAR_DOGS(BuildingEnumType.TRAP,"caged war dogs", 0, 100, ResourceEnum.WOOD, 0, 0),
+    HOPS_FARMER(BuildingEnumType.RESOURCE_MAKER,"hops farmer", 0, 0, ResourceEnum.WOOD, 1, 0),
+    ENGINEERS_GUILD(BuildingEnumType.BUILDING,"engineers guild", 0, 100, ResourceEnum.WOOD, 0, 0),
+    INN(BuildingEnumType.BUILDING,"inn", 0, 100, ResourceEnum.WOOD, 1, 0),
+    MILL(BuildingEnumType.RESOURCE_MAKER,"mill", 0, 0, ResourceEnum.WOOD, 3, 0),
+    PERIMETER_TOWER(BuildingEnumType.TOWER,"perimeter tower", 0, 0, ResourceEnum.STONE, 0, 0),
+    DEFENSE_TURRET(BuildingEnumType.TOWER, "defense turret", 0, 0, ResourceEnum.STONE, 0, 0),
+    KILLING_PIT(BuildingEnumType.TRAP,"killing pit", 0, 0, ResourceEnum.WOOD, 0, 0),
+    SQUARE_TOWER(BuildingEnumType.TOWER, "square tower", 0, 0, ResourceEnum.STONE, 0, 0),
+    ROUND_TOWER(BuildingEnumType.TOWER, "round tower", 0, 0, ResourceEnum.STONE, 0, 0),
+    SMALL_STONE_GATEHOUSE(BuildingEnumType.GATE, "small stone gatehouse", 0, 0, ResourceEnum.STONE, 0, 0),
+    BIG_STONE_GATEHOUSE(BuildingEnumType.GATE, "big stone gatehouse", 0, 0, ResourceEnum.STONE, 0, 0),
+    DRAWBRIDGE(BuildingEnumType.GATE, "drawbridge", 0, 0, ResourceEnum.WOOD, 0, 0),
+    KEEP(BuildingEnumType.BUILDING, "keep", 0, 0, null, 0, 0),
+    LOOKOUT_TOWER(BuildingEnumType.TOWER, "lookout tower", 0, 0, ResourceEnum.STONE, 0, 0),
+    CHURCH(BuildingEnumType.CHURCH, "church", 0, 250, null, 0, 0),
+    ARMOURY(BuildingEnumType.STORAGE, "armoury", 0, 0, ResourceEnum.WOOD, 0, 0),
+    BARRACKS(BuildingEnumType.BUILDING, "barrack", 0, 0, ResourceEnum.STONE, 0, 0),
+    HOVEL(BuildingEnumType.BUILDING, "hovel", 0, 0, ResourceEnum.WOOD, 0, 0),
+    MERCENARY_POST(BuildingEnumType.BUILDING, "mercenary post", 0, 0, ResourceEnum.WOOD, 0, 0),
+    IRON_MINE(BuildingEnumType.RESOURCE_MAKER, "iron mine", 0, 0, ResourceEnum.WOOD, 2, 0),
+    STOCKPILE(BuildingEnumType.STORAGE, "stockpile", 0, 0, null, 0, 0),
+    WOODCUTTERS(BuildingEnumType.RESOURCE_MAKER, "woodcutter", 0, 0, ResourceEnum.WOOD, 1, 0),
+    OX_TETHER(BuildingEnumType.RESOURCE_MAKER, "ox tether", 0, 0, ResourceEnum.WOOD, 1, 0),
+    PITCH_RIG(BuildingEnumType.RESOURCE_MAKER, "pitch rig", 0, 0, ResourceEnum.WOOD, 1, 0),
+    QUARRY(BuildingEnumType.RESOURCE_MAKER, "quarry", 0, 0, ResourceEnum.WOOD, 3, 0),
+    APPLE_ORCHARD(BuildingEnumType.RESOURCE_MAKER, "apple orchard", 0, 0, ResourceEnum.WOOD, 1, 0),
+    DIARY_FARM(BuildingEnumType.RESOURCE_MAKER, "diary farmer", 0, 0, ResourceEnum.WOOD, 1, 0),
+    WHEAT_FARM(BuildingEnumType.RESOURCE_MAKER, "wheat farm", 0, 0, ResourceEnum.WOOD, 1, 0),
+    BAKERY(BuildingEnumType.RESOURCE_MAKER, "bakery", 0, 0, ResourceEnum.WOOD, 1, 0),
+    BLACKSMITH(BuildingEnumType.RESOURCE_MAKER, "blacksmith", 0, 100, ResourceEnum.WOOD, 1, 0),
+    BREWER(BuildingEnumType.RESOURCE_MAKER , "brewer", 0, 0, ResourceEnum.WOOD, 1, 0),
+    GRANARY(BuildingEnumType.STORAGE, "granary", 0, 0 ,ResourceEnum.WOOD, 0, 0),
+    STAIR(BuildingEnumType.BUILDING, "stair", 0, 0, ResourceEnum.STONE, 0, 0),
+    ARMOURER(BuildingEnumType.RESOURCE_MAKER, "armourer",0, 100, ResourceEnum.WOOD, 1, 0),
+    FLETCHER(BuildingEnumType.RESOURCE_MAKER, "fletcher", 0, 100, ResourceEnum.WOOD, 1, 0),
+    POLE_TURNER(BuildingEnumType.RESOURCE_MAKER, "pole turner", 0, 100, ResourceEnum.WOOD, 1, 0),
+    OIL_SMELTER(BuildingEnumType.RESOURCE_MAKER, "oil smelter", 0, 100, ResourceEnum.IRON, 0, 1),
+    WALL(BuildingEnumType.BUILDING, "wall", 0, 0, ResourceEnum.STONE, 0, 0),
+    HUNTERS_POST(BuildingEnumType.RESOURCE_MAKER, "hunter post", 0, 0, ResourceEnum.WOOD, 1, 0),
+    SIEGE_TENT(BuildingEnumType.BUILDING, "siege tent", 0, 0, null, 0, 1),
+    STABLE(BuildingEnumType.BUILDING, "stable", 0, 400, ResourceEnum.WOOD, 0, 0),
+    MARKET(BuildingEnumType.BUILDING, "market", 0, 0, ResourceEnum.WOOD, 1, 0),
     ;
-    private int stoneCost = 0;
-    private int woodCost = 0;
-    private int goldCost = 0;
-    private int workersNeeded = 0;
+    private BuildingEnumType type;
+    private String name;
+    private int hp;
+    private int goldCost;
+    private ResourceEnum resource;
+    private int resourceCount;
+    private int worker;
+    private int Engineer;
 
-    BuildingEnum(int stoneCost, int woodCost, int goldCost, int workersNeeded) {
-        this.stoneCost = stoneCost;
-        this.woodCost = woodCost;
+    BuildingEnum(BuildingEnumType type, String name, int hp, int goldCost, ResourceEnum resource, int resourceCount, int worker, int engineer) {
+        this.type = type;
+        this.name = name;
+        this.hp = hp;
         this.goldCost = goldCost;
-        this.workersNeeded = workersNeeded;
+        this.resource = resource;
+        this.resourceCount = resourceCount;
+        this.worker = worker;
+        Engineer = engineer;
     }
 
-    public int getStoneCost() {
-        return stoneCost;
+    public String getName() {
+        return name;
     }
 
-    public int getWoodCost() {
-        return woodCost;
+    public int getHp() {
+        return hp;
     }
 
     public int getGoldCost() {
         return goldCost;
     }
 
-    public int getWorkersNeeded() {
-        return workersNeeded;
+    public ResourceEnum getResource() {
+        return resource;
+    }
+
+    public int getWorker() {
+        return worker;
+    }
+
+    public BuildingEnumType getType() {
+        return type;
+    }
+
+    public int getResourceCount() {
+        return resourceCount;
+    }
+
+    public int getEngineer() {
+        return Engineer;
     }
 }

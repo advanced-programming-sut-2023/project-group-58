@@ -1,17 +1,17 @@
 package model.buildings;
 
-import model.User;
+import model.Governance;
 
 public class Building {
     protected BuildingEnum type;
-    protected User master;
+    protected int hp;
+    protected Governance owner;
+    protected int direction;
 
-    public Building(BuildingEnum type, User master) {
+    public Building(BuildingEnum type, Governance owner, int direction) {
         this.type = type;
-        this.master = master;
-    }
-
-    public BuildingEnum getType() {
-        return type;
+        this.owner = owner;
+        this.direction = direction;
+        this.hp = type.getHp();
     }
 }
