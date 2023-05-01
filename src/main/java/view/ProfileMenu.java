@@ -3,6 +3,7 @@ package view;
 import controller.ChangeProfileController;
 import controller.ShowProfileController;
 import model.User;
+import view.enums.Commands;
 import view.enums.ProfisterControllerOut;
 
 import java.security.NoSuchAlgorithmException;

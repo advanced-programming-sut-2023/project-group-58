@@ -2,7 +2,7 @@ package view;
 
 import controller.gameMenuControllers.LobbyController;
 import model.User;
-
+import view.enums.Commands;
 import java.awt.desktop.OpenURIEvent;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -37,7 +37,7 @@ public class MainMenu {
                     else if (command.matches("ok")){
                         if (lobbyController.startGame()) {
                             System.out.println("game started");
-                            GameMenu gameMenu = new GameMenu();
+                            GameMenu gameMenu = new GameMenu(lobbyController.getHost());
                             gameMenu.run();
                             break;
                         }

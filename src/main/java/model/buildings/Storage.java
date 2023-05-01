@@ -5,7 +5,7 @@ import model.Governance;
 
 import java.util.ArrayList;
 
-public class Storage extends Building{
+public class Storage extends Building {
     private ArrayList<Asset> storedGoods = new ArrayList<>();
     private int capacity;
 

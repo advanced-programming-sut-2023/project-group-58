@@ -3,6 +3,7 @@ package view;
 import controller.LoginMenuController;
 import controller.PasswordReset;
 import controller.RegisterMenuController;
+import view.enums.Commands;
 import view.enums.LoginMenuControllerOut;
 import view.enums.ProfisterControllerOut;
 

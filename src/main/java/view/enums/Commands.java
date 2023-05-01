@@ -1,4 +1,4 @@
-package view;
+package view.enums;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +26,14 @@ public enum Commands {
     ACCEPT_TRADE("^\\s*trade\\s+accept\\s+(?<data>.+)$"),
     DROP_TREE("^\\s*droptree^\\s+(?<data>.+)$"),
     DROP_ROCK("^\\s*droptree^\\s+(?<data>.+)$"),
+    SHOW_POP_FACTORS("^\\s*show\\s+popularity\\s+factors\\s*$"),
+    SHOW_POPULARITY("^\\s*show\\s+popularity\\s*$"),
+    SHOW_FOOD_RATE("^\\s*food\\s+rate\\s+show\\s*$"),
+    SET_FOOD_RATE("^\\s*food\\s+rate\\s+-r\\s+(?<data>(-)?\\d)$"),
+    SET_TAX_RATE("^\\s*tax\\s+rate\\s+-r\\s+(?<data>(-)?\\d)$"),
+    SHOW_TAX_RATE("^\\s*tax\\s+rate\\s+show\\s*$"),
+    DROP_BUILDING("^dropbuilding\\s+(?<data>(-)?\\d)$"),
+    DROP_UNIT("^dropunit\\s+(?<data>(-)?\\d)$"),
     ;public final String regex;
 
     Commands(String regex) {

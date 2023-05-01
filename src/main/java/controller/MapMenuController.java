@@ -3,6 +3,12 @@ package controller;
 import model.Map;
 import model.TileTexture;
 import model.Tree;
+import model.User;
+import model.buildings.Building;
+import model.buildings.BuildingEnum;
+import model.units.Troop;
+import model.units.Unit;
+import model.units.UnitEnum;
 import view.enums.ProfisterControllerOut;
 import view.enums.TreeTypes;
 
@@ -201,28 +207,37 @@ public class MapMenuController {
                 xcounterForBreak++;
                 switch (map.getTile(i, j).getTexture()) {
                     case OIL:
-                        ans += "\033[100m" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;16m" + tileOccupation;
                         break;
                     case SEA:
-                        ans += "\033[44m" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;19m" + tileOccupation;
                         break;
                     case EARTH:
-                        ans += "\033[40m" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;52m" + tileOccupation;
                         break;
                     case FORD:
-                        ans += "\033[45m" + tileOccupation;
+                        ans += "\033[38;5;251;48;5;38m" + tileOccupation;
                         break;
                     case IRON:
-                        ans += "\033[41m" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;166m" + tileOccupation;
                         break;
                     case SCRUB:
-                        ans += "\033[43m" + tileOccupation;
+                        ans += "\033[38;5;247;48;5;41m" + tileOccupation;
                         break;
                     case THICK_SCRUB:
-                        ans += "\033[42m" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;29m" + tileOccupation;
                         break;
                     case SMALL_POND:
-                        ans += "\033[104m" + tileOccupation;
+                        ans += "\033[1;38;5;249;48;5;123m" + tileOccupation;
+                        break;
+                    case BIG_POND:
+                        ans += "\033[38;5;249;48;5;57m" + tileOccupation;
+                        break;
+                    case RIVER:
+                        ans += "\033[38;5;249;48;5;21m" + tileOccupation;
+                        break;
+                    case SAND:
+                        ans += "\033[38;5;249;48;5;230mSAND" + tileOccupation;
                         break;
                 }
                 if (j == ranges[3])
@@ -234,23 +249,22 @@ public class MapMenuController {
         }
         //Adding a guidance table:
         ans += "-------------Table Info-------------"+"\n";
-        ans += "OIL         ----------------    \033[100m    \033[49m"+"\n";
-        ans += "SEA         ----------------    \033[44m    \033[49m"+"\n";
-        ans += "EARTH       ----------------    \033[40m    \033[49m"+"\n";
-        ans += "FORD        ----------------    \033[45m    \033[49m"+"\n";
-        ans += "IRON        ----------------    \033[41m    \033[49m"+"\n";
-        ans += "SCRUB       ----------------    \033[43m    \033[49m"+"\n";
-        ans += "THICK_SCRUB ----------------    \033[42m    \033[49m"+"\n";
-        ans += "SMALL_POND  ----------------    \033[104m    \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;16m                OIL                \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;19m                SEA                \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;52m                EARTH              \033[49m"+"\n";
+        ans += "\033[38;5;251;48;5;38m                FORD               \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;166m               IRON                \033[49m"+"\n";
+        ans += "\033[38;5;247;48;5;41m                SCRUB              \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;29m                THICK SCRUB        \033[49m"+"\n";
+        ans += "\033[1;38;5;249;48;5;123m             SMALL POND            \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;57m                BIG POND           \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;21m                RIVER              \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;230m               SAND                \033[49m"+"\n";
         return ans;
     }
 
-    public String setTextureForTheWholeMap(Map map, String data) {
-        try {
-            extractDataForTexture(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public String setTextureForTheWholeMap(Map map, String data) throws IOException {
+        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         yTexture = map.getWidth() - 1 - yTexture;
         y2Texture= map.getWidth() - 1 - y2Texture;
         if(!validateTextureCoordinates(map.getLength(), map.getWidth())) return "Mission failed: invalid coordinates!";
@@ -297,12 +311,22 @@ public class MapMenuController {
                 return TileTexture.THICK_SCRUB;
             case "scrub" :
                 return TileTexture.SCRUB;
+            case "big pond":
+                return TileTexture.BIG_POND;
+            case "river":
+                return TileTexture.RIVER;
+            case "sand":
+                return TileTexture.SAND;
         }
         return null;
     }
 
-    public void extractDataForTexture(String data) throws IOException {
-        //todo: handle errors
+    public boolean extractDataForTexture(String data) throws IOException {
+        //todo: handle errors. everytime we use that there should be a type somewhere...
+        if(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>(.+)(?<!\\s))").length() == 0)
+            return false;
         xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
         yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
         typeTexture = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>(.+)(?<!\\s))").trim();
@@ -310,6 +334,7 @@ public class MapMenuController {
         if(x2T.length() != 0) x2Texture = Integer.parseInt(x2T.trim());
         String y2T = CommonController.dataExtractor(data, "((?<!\\S)-y2\\s+(?<wantedPart>(.+)(?<!\\s))");
         if(y2T.length() != 0) y2Texture = Integer.parseInt(y2T.trim());
+        return true;
     }
 
     public void extractDataxandy(String data) throws IOException {
@@ -365,7 +390,7 @@ public class MapMenuController {
     }
 
     public String dropTree(String data) throws IOException {
-        extractDataForTexture(data);
+        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.FAILED.getContent();
         switch (typeTexture.trim()) {
@@ -389,7 +414,7 @@ public class MapMenuController {
     }
 
     public String dropRock(String data) throws IOException {
-        extractDataForTexture(data);
+        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         if(typeTexture != null)typeTexture = typeTexture.trim();
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.FAILED.getContent();
@@ -428,5 +453,67 @@ public class MapMenuController {
         xTexture = 0;
         yTexture = 0;
         return ans;
+    }
+
+    public ProfisterControllerOut dropBuilding(String data, User currentPlayer) throws IOException {
+        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+        if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+        BuildingEnum type = buildingTypeSpecifier(typeTexture);
+        if(!checkLocation(selectedMap,yTexture,xTexture,type)) return ProfisterControllerOut.NOT_A_VALID_PLACE;
+        if(!checkFinance(currentPlayer,type)) return ProfisterControllerOut.NOT_ENOUGH_RESOURCES;
+        this.selectedMap.getTile(yTexture,xTexture).getBuildings().add(new Building(type,currentPlayer));
+        currentPlayer.getGovernance().getBuildings().add(new Building(type,currentPlayer));
+        return ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING;
+    }
+
+    private boolean checkLocation(Map selectedMap, int yTexture, int xTexture, BuildingEnum type) {
+        return selectedMap.getTile(yTexture, xTexture).getTexture().isConstructiblity();
+    }
+
+    private boolean checkFinance(User currentPlayer, BuildingEnum type) {
+        if(type.getGoldCost() > currentPlayer.getGovernance().getGold())
+            return false;
+        if(type.getStoneCost() > currentPlayer.getGovernance().getResource().getStone())
+            return false;
+        if(type.getWoodCost() > currentPlayer.getGovernance().getResource().getWood())
+            return false;
+        if(type.getWorkersNeeded() > currentPlayer.getGovernance().getUnemployedPopulation())
+            return false;
+
+        currentPlayer.getGovernance().getResource().changeStone(-1 * type.getStoneCost());
+        currentPlayer.getGovernance().getResource().changeWood((-1 * type.getWoodCost()));
+        currentPlayer.getGovernance().changeGold(-1 * type.getGoldCost());
+        currentPlayer.getGovernance().changeUnemployedPopulation(-1 * type.getWorkersNeeded());
+        return true;
+    }
+
+    public BuildingEnum buildingTypeSpecifier(String type) {
+        switch (type) {
+            case "mill" :
+                return BuildingEnum.MILL;
+            //todo: to be continued...
+        }
+        return null;
+    }
+    public UnitEnum unitTypeSpecifier(String type) {
+        switch (type) {
+            case "archer" :
+                return UnitEnum.ARCHER;
+            //todo: to be continued...
+        }
+        return null;
+    }
+
+    public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
+        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-c\\s+(?<wantedPart>(\\d+)(?<!\\s))");
+        if(countStr.length() == 0) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+        int count = Integer.parseInt(countStr.trim());
+        //todo: using check location without type. be careful to use the type.
+        if(!checkLocation(selectedMap,yTexture,xTexture,null)) return ProfisterControllerOut.NOT_A_VALID_PLACE;
+        for(int i = 0; i < count; i++)
+            selectedMap.getTile(yTexture,xTexture).getTroops().add(new Troop(unitTypeSpecifier(typeTexture),currentPlayer));
+        return ProfisterControllerOut.UCCESSFULLY_ADDED_UNIT;
     }
 }
