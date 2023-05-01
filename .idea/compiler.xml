@@ -7,7 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="APP3" />
-        <module name="APP" />
+        <module name="project" />
         <module name="APPBeforeGame" />
       </profile>
     </annotationProcessing>
