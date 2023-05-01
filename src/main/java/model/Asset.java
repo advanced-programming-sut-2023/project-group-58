@@ -10,4 +10,7 @@ public class Asset {
     public int getAmount() {
         return amount;
     }
+    public void addAsset(int amount){
+        this.amount += amount;
+    }
 }

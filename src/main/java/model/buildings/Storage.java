@@ -13,7 +13,7 @@ public class Storage extends Building {
 
     public Storage(BuildingEnum type, Governance owner, int direction) {
         super(type, owner, direction);
-        this.capacity = 50;
+        this.capacity = 600;
         switch (type){
             case STOCKPILE:
                 newStockpileResource();
@@ -58,5 +58,53 @@ public class Storage extends Building {
         }
         storedGoods = list;
         countOfAsset = count;
+    }
+    public void changeResource(ResourceEnum resourceEnum, int amount){
+        HashMap <ResourceEnum, Integer> hash = (HashMap<ResourceEnum, Integer>) countOfAsset;
+        int temp = countOfAsset.get(resourceEnum);
+        hash.replace(resourceEnum, temp+amount);
+        countOfAsset = hash;
+        for (Asset s : storedGoods){
+            Resource t = (Resource) s;
+            if (t.getType().equals(resourceEnum)){
+                t.addAsset(amount);
+                break;
+            }
+        }
+    }
+    public void changeWeapon(WeaponEnum weaponEnum, int amount){
+        HashMap<WeaponEnum, Integer> hash = (HashMap<WeaponEnum, Integer>) countOfAsset;
+        int temp = countOfAsset.get(weaponEnum);
+        hash.replace(weaponEnum, temp+amount);
+        countOfAsset = hash;
+        for (Asset s : storedGoods){
+            Weapon w = (Weapon) s;
+            if (w.getType().equals(weaponEnum)){
+                w.addAsset(amount);
+                break;
+            }
+        }
+    }
+    public void changeFood(FoodEnum foodEnum, int amount){
+        HashMap<FoodEnum, Integer> hash = (HashMap<FoodEnum, Integer>) countOfAsset;
+        int temp = countOfAsset.get(foodEnum);
+        hash.replace(foodEnum, temp+amount);
+        countOfAsset = hash;
+        for (Asset s : storedGoods){
+            Food f = (Food) s;
+            if (f.getType().equals(foodEnum)){
+                f.addAsset(amount);
+                break;
+            }
+        }
+    }
+    public int getResource(ResourceEnum resourceEnum){
+        return countOfAsset.get(resourceEnum);
+    }
+    public int getWeapon(WeaponEnum weaponEnum){
+        return countOfAsset.get(weaponEnum);
+    }
+    public int getFood(FoodEnum foodEnum){
+        return countOfAsset.get(foodEnum);
     }
 }

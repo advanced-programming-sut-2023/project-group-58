@@ -7,4 +7,13 @@ public class Food extends Asset{
         super(amount);
         this.type = type;
     }
+
+    public FoodEnum getType() {
+        return type;
+    }
+
+    @Override
+    public void addAsset(int amount) {
+        super.addAsset(amount);
+    }
 }

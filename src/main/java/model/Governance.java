@@ -48,4 +48,28 @@ public class Governance {
     public void changeFoodRate(int number) {this.foodRate += number;}
     public void changeFearRate(int number) {this.fearRate += number;}
     public void changeTaxRate(int number) {this.taxRate += number;}
+
+    public Building getGranary() {
+        return granary;
+    }
+
+    public Building getStockpile() {
+        return stockpile;
+    }
+
+    public Building getArmoury() {
+        return armoury;
+    }
+
+    public void setGranary(Building granary) {
+        this.granary = granary;
+    }
+
+    public void setStockpile(Building stockpile) {
+        this.stockpile = stockpile;
+    }
+
+    public void setArmoury(Building armoury) {
+        this.armoury = armoury;
+    }
 }
