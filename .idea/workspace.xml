@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a13b8cb4-6cdf-4bad-ae21-20a406439a39" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Asset.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Church.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Church.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Resource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Weapon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Building.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/BuildingEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/BuildingEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Gate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Gate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/ResourceMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/ResourceMaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Storage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Tower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Tower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Trap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Trap.java" afterDir="false" />
-    </list>
+    <list default="true" id="a13b8cb4-6cdf-4bad-ae21-20a406439a39" name="Changes" comment="map started, with a colourful terminal!" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -106,7 +92,7 @@
       <workItem from="1682704967331" duration="2662000" />
       <workItem from="1682794013828" duration="20000" />
       <workItem from="1682837638996" duration="4153000" />
-      <workItem from="1682928852700" duration="2347000" />
+      <workItem from="1682928852700" duration="2749000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
