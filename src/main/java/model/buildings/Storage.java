@@ -11,7 +11,7 @@ public class Storage extends Building {
     private int capacity;
     private HashMap<?, Integer> countOfAsset;
 
-    public Storage(BuildingEnum type, Governance owner, int direction) {
+    public Storage(BuildingEnum type, User owner, int direction) {
         super(type, owner, direction);
         this.capacity = 600;
         switch (type){

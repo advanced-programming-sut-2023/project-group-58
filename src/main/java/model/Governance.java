@@ -1,12 +1,17 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import controller.gameMenuControllers.ModelFunctions;
 import model.buildings.Building;
 
+import javax.xml.transform.Source;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Governance {
     //todo: everytime a food type is manipulated, popularity should change if updateFoodDiversity changes.
     private static ArrayList<User> empires = new ArrayList<>();
+    private User master;
     private int unemployedPopulation;
     private int popularity  = 0;
     private int foodRate    = -2;
@@ -18,6 +23,7 @@ public class Governance {
     private Building stockpile;
     private Building armoury;
     private ArrayList<Building> buildings = new ArrayList<>();
+    private ArrayList<Resource> resources = new ArrayList<>();
 
     public void changeUnemployedPopulation(int unemployedPopulation) {this.unemployedPopulation += unemployedPopulation;}
 
@@ -71,5 +77,17 @@ public class Governance {
 
     public void setArmoury(Building armoury) {
         this.armoury = armoury;
+    }
+
+    public ArrayList<Resource> getResources() {return resources;}
+    public void changeResourse(ResourceEnum type, int amount) {
+        ModelFunctions.changeOrAddResource(this.resources, type, amount);
+    }
+    public int getResourceAmount(ResourceEnum type) {
+        for (Resource r : this.resources) {
+            if(r.getType().equals(type))
+                return r.getAmount();
+        }
+        return 0;
     }
 }

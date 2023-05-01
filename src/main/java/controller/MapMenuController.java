@@ -1,18 +1,14 @@
 package controller;
 
-import model.Map;
-import model.TileTexture;
-import model.Tree;
-import model.User;
-import model.buildings.Building;
-import model.buildings.BuildingEnum;
+import model.*;
+import model.buildings.*;
 import model.units.Troop;
-import model.units.Unit;
 import model.units.UnitEnum;
 import view.enums.ProfisterControllerOut;
 import view.enums.TreeTypes;
 
 import java.io.IOException;
+import java.util.EnumSet;
 
 public class MapMenuController {
     private final Map map1 = new Map(100,100);
@@ -462,8 +458,32 @@ public class MapMenuController {
         BuildingEnum type = buildingTypeSpecifier(typeTexture);
         if(!checkLocation(selectedMap,yTexture,xTexture,type)) return ProfisterControllerOut.NOT_A_VALID_PLACE;
         if(!checkFinance(currentPlayer,type)) return ProfisterControllerOut.NOT_ENOUGH_RESOURCES;
-        this.selectedMap.getTile(yTexture,xTexture).getBuildings().add(new Building(type,currentPlayer));
-        currentPlayer.getGovernance().getBuildings().add(new Building(type,currentPlayer));
+        Building addingBuilding = null;
+        switch (type.getType()) {
+            case GATE:
+                addingBuilding = new Gate(type,currentPlayer,0);
+                break;
+            case TRAP:
+                addingBuilding = new Trap(type,currentPlayer,0);
+                break;
+            case TOWER:
+                addingBuilding = new Tower(type,currentPlayer,0);
+                break;
+            case CHURCH:
+                addingBuilding = new Church(type,currentPlayer,0);
+                break;
+            case STORAGE:
+                addingBuilding = new Storage(type,currentPlayer,0);
+                break;
+            case BUILDING:
+                addingBuilding = new Building(type,currentPlayer,0);
+                break;
+            case RESOURCE_MAKER:
+                addingBuilding = new ResourceMaker(type,currentPlayer,0);
+                break;
+        }
+        this.selectedMap.getTile(yTexture,xTexture).getBuildings().add(addingBuilding);
+        currentPlayer.getGovernance().getBuildings().add(addingBuilding);
         return ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING;
     }
 
@@ -471,36 +491,30 @@ public class MapMenuController {
         return selectedMap.getTile(yTexture, xTexture).getTexture().isConstructiblity();
     }
 
-    private boolean checkFinance(User currentPlayer, BuildingEnum type) {
-        if(type.getGoldCost() > currentPlayer.getGovernance().getGold())
+    private boolean checkFinance(User currentPlayer, BuildingEnum buildingType) {
+        if(currentPlayer.getGovernance().getResourceAmount((buildingType.getResource().getType())) < buildingType.getResource().getAmount())
             return false;
-        if(type.getStoneCost() > currentPlayer.getGovernance().getResource().getStone())
+        if(currentPlayer.getGovernance().getGold() < buildingType.getGoldCost())
             return false;
-        if(type.getWoodCost() > currentPlayer.getGovernance().getResource().getWood())
-            return false;
-        if(type.getWorkersNeeded() > currentPlayer.getGovernance().getUnemployedPopulation())
-            return false;
-
-        currentPlayer.getGovernance().getResource().changeStone(-1 * type.getStoneCost());
-        currentPlayer.getGovernance().getResource().changeWood((-1 * type.getWoodCost()));
-        currentPlayer.getGovernance().changeGold(-1 * type.getGoldCost());
-        currentPlayer.getGovernance().changeUnemployedPopulation(-1 * type.getWorkersNeeded());
+        currentPlayer.getGovernance().changeResourse(buildingType.getResource().getType(),-1 * buildingType.getResource().getAmount());
+        currentPlayer.getGovernance().changeGold(-1 * buildingType.getGoldCost());
+        currentPlayer.getGovernance().changeUnemployedPopulation(-1 * buildingType.getWorker());
         return true;
     }
 
     public BuildingEnum buildingTypeSpecifier(String type) {
-        switch (type) {
-            case "mill" :
-                return BuildingEnum.MILL;
-            //todo: to be continued...
+        EnumSet<BuildingEnum> buildingEnums = EnumSet.allOf(BuildingEnum.class);
+        for (BuildingEnum buildingEnum : buildingEnums){
+            if(buildingEnum.getName().equals(type))
+                return buildingEnum;
         }
         return null;
     }
     public UnitEnum unitTypeSpecifier(String type) {
-        switch (type) {
-            case "archer" :
-                return UnitEnum.ARCHER;
-            //todo: to be continued...
+        EnumSet<UnitEnum> unitEnums = EnumSet.allOf(UnitEnum.class);
+        for (UnitEnum unitEnum : unitEnums){
+            if(unitEnum.getName().equals(type))
+                return unitEnum;
         }
         return null;
     }
