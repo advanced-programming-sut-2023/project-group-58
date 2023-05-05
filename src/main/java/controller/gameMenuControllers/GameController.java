@@ -1,6 +1,7 @@
 package controller.gameMenuControllers;
 
 import model.Resource;
+import model.ResourceEnum;
 import model.User;
 import view.enums.GameControllerOut;
 
@@ -16,7 +17,7 @@ public class GameController {
     }
     public String showPopularityFactors() {
         String ans = "";
-        ans += "Food diversity: " + updateFoodDiversity(this.CurrentUser.getGovernance().getResource(),this.CurrentUser) + "\n";
+        ans += "Food diversity: " + getCurrentUser().getGovernance().getFoodDiversity() + "\n";
         ans += "Food rate:      " + this.CurrentUser.getGovernance().getFoodRate() + "\n";
         ans += "Fear rate       " + this.CurrentUser.getGovernance().getFearRate() + "\n";
         ans += "Tax rate:       " + this.CurrentUser.getGovernance().getTaxRate();
@@ -28,10 +29,10 @@ public class GameController {
     }
 
     public GameControllerOut setFoodRate(String rateNumber) {
-        if(this.CurrentUser.getGovernance().getResource().getApples() == 0 &&
-           this.CurrentUser.getGovernance().getResource().getBread() == 0 &&
-           this.CurrentUser.getGovernance().getResource().getCheese() == 0 &&
-           this.CurrentUser.getGovernance().getResource().getMeat() == 0)
+        if(this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.APPLE) == 0 &&
+                this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.BREAD) == 0 &&
+                this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.CHEESE) == 0 &&
+                this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.MEAT) == 0)
             return GameControllerOut.NO_FOOD_NO_RATE_CHANGE;
         int rate = Integer.parseInt(rateNumber.trim());
         switch (rate) {
@@ -110,13 +111,5 @@ public class GameController {
     }
     public String showTaxRate() {
         return "This is tax rate: " + this.CurrentUser.getGovernance().getTaxRate();
-    }
-        public int updateFoodDiversity(Resource resource, User owner) {
-        int nom = 0;
-        if(resource.getMeat() > 0) nom++;
-        if(resource.getApples() > 0) nom++;
-        if(resource.getBread() > 0) nom++;
-        if(resource.getCheese() > 0) nom++;
-        return nom;
     }
 }

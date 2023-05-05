@@ -1,12 +1,9 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import controller.gameMenuControllers.ModelFunctions;
+import controller.modelFunctions.ResourceMakerFuncs;
 import model.buildings.Building;
 
-import javax.xml.transform.Source;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Governance {
     //todo: everytime a food type is manipulated, popularity should change if updateFoodDiversity changes.
@@ -15,7 +12,6 @@ public class Governance {
     private int unemployedPopulation;
     private int popularity  = 0;
     private int foodRate    = -2;
-    private int foodDiversity=0;
     private int taxRate     = 0;
     private int fearRate    = 0;
     private int gold = 0;
@@ -44,7 +40,16 @@ public class Governance {
     public int getPopularity() {return popularity;}
     public int getFoodRate() {return foodRate;}
 
-    public int getFoodDiversity() {return foodDiversity;}
+    public int getFoodDiversity() {
+        int num = 0;
+        for (Resource resource : this.resources) {
+            if((resource.getType().equals(ResourceEnum.APPLE) || resource.getType().equals(ResourceEnum.BREAD) ||
+                resource.getType().equals(ResourceEnum.MEAT)  || resource.getType().equals(ResourceEnum.CHEESE))
+                && resource.getAmount() != 0)
+                num++;
+        }
+      return num;
+    }
 
     public int getTaxRate() {return taxRate;}
 
@@ -81,7 +86,7 @@ public class Governance {
 
     public ArrayList<Resource> getResources() {return resources;}
     public void changeResourse(ResourceEnum type, int amount) {
-        ModelFunctions.changeOrAddResource(this.resources, type, amount);
+        ResourceMakerFuncs.changeOrAddResource(this.resources, type, amount);
     }
     public int getResourceAmount(ResourceEnum type) {
         for (Resource r : this.resources) {

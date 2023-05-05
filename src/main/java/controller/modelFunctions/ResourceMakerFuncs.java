@@ -1,16 +1,13 @@
-package controller.gameMenuControllers;
+package controller.modelFunctions;
 
-import com.fasterxml.jackson.databind.ObjectWriter;
 import model.Governance;
 import model.Resource;
 import model.ResourceEnum;
-import model.User;
 import model.buildings.BuildingEnum;
-import view.enums.GameControllerOut;
 
 import java.util.ArrayList;
 
-public class ModelFunctions {
+public class ResourceMakerFuncs {
     public static ResourceEnum[] setInputAndOutput(BuildingEnum type) {
         ResourceEnum[] ans = new ResourceEnum[3];
         switch (type) {

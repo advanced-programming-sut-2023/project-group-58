@@ -483,7 +483,8 @@ public class MapMenuController {
                 addingBuilding = new Tower(type,currentPlayer,0);
                 break;
             case CHURCH:
-                addingBuilding = new Church(type,currentPlayer,0);
+                boolean isCathedral = type.equals(BuildingEnum.CATHEDRAL);
+                addingBuilding = new Church(type,currentPlayer,0,isCathedral);
                 break;
             case STORAGE:
                 addingBuilding = new Storage(type,currentPlayer,0);

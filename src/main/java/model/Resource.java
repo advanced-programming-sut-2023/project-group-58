@@ -11,9 +11,4 @@ public class Resource extends Asset{
     public ResourceEnum getType() {
         return type;
     }
-
-    @Override
-    public void addAsset(int amount) {
-        super.addAsset(amount);
-    }
 }
