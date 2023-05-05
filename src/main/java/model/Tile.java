@@ -10,8 +10,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Tile {
-
-    private boolean hasRock = false;
     private String rockDirection = "#";
     private TileTexture texture = TileTexture.EARTH;
     private ArrayList<Tree> trees = new ArrayList<>();
@@ -48,10 +46,6 @@ public class Tile {
     public void setBuildings(ArrayList<Building> buildings) {
         this.buildings = buildings;
     }
-
-    public boolean hasRock() {return hasRock;}
-
-    public void setHasRock(boolean hasRock) {this.hasRock = hasRock;}
 
     public String getRockDirection() {return rockDirection;}
 

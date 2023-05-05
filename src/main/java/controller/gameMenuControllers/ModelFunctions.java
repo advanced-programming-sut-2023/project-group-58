@@ -76,7 +76,7 @@ public class ModelFunctions {
 
     private static void produceAndPayThePrice(Governance owner, ResourceEnum usedResources, ResourceEnum producedResource,int rate) {
         owner.changeResourse(usedResources,-1 * rate);
-        owner.changeResourse(producedResource, -1 * rate);
+        owner.changeResourse(producedResource, rate);
     }
 
     private static boolean checkTheStorage(ResourceEnum usedResources, int rate, Governance owner) {

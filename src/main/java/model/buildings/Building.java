@@ -16,4 +16,20 @@ public class Building {
         this.direction = direction;
         this.hp = type.getHp();
     }
+
+    public BuildingEnum getType() {
+        return type;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
 }

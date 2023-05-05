@@ -235,6 +235,12 @@ public class MapMenuController {
                     case SAND:
                         ans += "\033[38;5;249;48;5;230mSAND" + tileOccupation;
                         break;
+                    case LAWN:
+                        ans += "\033[38;5;249;48;5;34mLAWN" + tileOccupation;
+                        break;
+                    case ROCK:
+                        ans += "\033[38;5;249;48;5;8mROCK" + tileOccupation;
+                        break;
                 }
                 if (j == ranges[3])
                 {
@@ -249,13 +255,15 @@ public class MapMenuController {
         ans += "\033[38;5;249;48;5;19m                SEA                \033[49m"+"\n";
         ans += "\033[38;5;249;48;5;52m                EARTH              \033[49m"+"\n";
         ans += "\033[38;5;251;48;5;38m                FORD               \033[49m"+"\n";
-        ans += "\033[38;5;249;48;5;166m               IRON                \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;166m                IRON               \033[49m"+"\n";
         ans += "\033[38;5;247;48;5;41m                SCRUB              \033[49m"+"\n";
         ans += "\033[38;5;249;48;5;29m                THICK SCRUB        \033[49m"+"\n";
-        ans += "\033[1;38;5;249;48;5;123m             SMALL POND            \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;34m                LAWN               \033[49m"+"\n";
+        ans += "\033[1;38;5;249;48;5;123m                SMALL POND         \033[49m"+"\n";
         ans += "\033[38;5;249;48;5;57m                BIG POND           \033[49m"+"\n";
         ans += "\033[38;5;249;48;5;21m                RIVER              \033[49m"+"\n";
-        ans += "\033[38;5;249;48;5;230m               SAND                \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;230m                SAND               \033[49m"+"\n";
+        ans += "\033[38;5;249;48;5;8m                ROCK               \033[49m"+"\n";
         return ans;
     }
 
@@ -313,6 +321,10 @@ public class MapMenuController {
                 return TileTexture.RIVER;
             case "sand":
                 return TileTexture.SAND;
+            case "rock":
+                return TileTexture.ROCK;
+            case "lawn":
+                return TileTexture.LAWN;
         }
         return null;
     }
@@ -414,21 +426,22 @@ public class MapMenuController {
         if(typeTexture != null)typeTexture = typeTexture.trim();
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.FAILED.getContent();
-        selectedMap.getTile(yTexture,xTexture).setHasRock(true);
 
         if(typeTexture.equals("r")) {
-            int ranadom = (int) (4 * Math.random());
-            if(ranadom == 0)
+            int random = (int) (4 * Math.random());
+            if(random == 0)
                 typeTexture = "n";
-            if(ranadom == 1)
+            if(random == 1)
                 typeTexture = "e";
-            if(ranadom == 2)
+            if(random == 2)
                 typeTexture = "w";
-            if(ranadom == 3)
+            if(random == 3)
                 typeTexture = "s";
         }
-        if(typeTexture.equals("n") || typeTexture.equals("e") || typeTexture.equals("w") || typeTexture.equals("s"))
+        if(typeTexture.equals("n") || typeTexture.equals("e") || typeTexture.equals("w") || typeTexture.equals("s")) {
             selectedMap.getTile(yTexture,xTexture).setRockDirection(typeTexture);
+            selectedMap.getTile(yTexture,xTexture).setTexture(TileTexture.ROCK);
+        }
         else
             return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         return "Rock added successfully!";
@@ -488,7 +501,14 @@ public class MapMenuController {
     }
 
     private boolean checkLocation(Map selectedMap, int yTexture, int xTexture, BuildingEnum type) {
-        return selectedMap.getTile(yTexture, xTexture).getTexture().isConstructiblity();
+        boolean[] isException = new boolean[3];
+        if((isException[0] = type.equals(BuildingEnum.IRON_MINE)) && !selectedMap.getTile(yTexture,xTexture).getTexture().equals(TileTexture.IRON))
+            return false;
+        else if((isException[1] = type.equals(BuildingEnum.PITCH_DITCH)) && !selectedMap.getTile(yTexture,xTexture).getTexture().equals(TileTexture.OIL))
+            return false;
+        else if((isException[2] = type.equals(BuildingEnum.QUARRY)) && !selectedMap.getTile(yTexture,xTexture).getTexture().equals(TileTexture.ROCK))
+            return false;
+        else return isException[0] || isException[1] || isException[2] || selectedMap.getTile(yTexture, xTexture).getTexture().isConstructiblity();
     }
 
     private boolean checkFinance(User currentPlayer, BuildingEnum buildingType) {

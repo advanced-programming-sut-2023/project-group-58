@@ -5,7 +5,7 @@ public enum TileTexture {
     SMALL_POND(false, false, true),
     SEA(false, false, false),
     FORD(false, false, false),
-    IRON(true, true, false),
+    IRON(true, false, false),
     EARTH(true, true, true),
     SCRUB(true, false, true),
     THICK_SCRUB(true, false, false),
@@ -14,7 +14,9 @@ public enum TileTexture {
     BIG_POND(false,false,false),
     RIVER(false,false,false),
     SAND(false,false,true),
-    //todo: last three should be added to maps
+    LAWN(true, true, true),
+    ROCK(false,false ,false ),
+    //todo use the last 5 in the map
     ;
     final boolean fertility;
     final boolean constructiblity;
