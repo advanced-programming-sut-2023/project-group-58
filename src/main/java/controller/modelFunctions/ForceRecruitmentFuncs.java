@@ -52,6 +52,7 @@ public class ForceRecruitmentFuncs {
 
     public static void useWeapons(UnitEnum soldierType, User master) {
         ResourceEnum weaponType = soldierType.getWeaponType();
+        if(weaponType.equals(ResourceEnum.NULL)) return;
         if(weaponType.equals(ResourceEnum.HORSEANDBOW)) {
             master.getGovernance().changeResourceAmount(ResourceEnum.HORSE,-1);
             master.getGovernance().changeResourceAmount(ResourceEnum.BOW,-1);
