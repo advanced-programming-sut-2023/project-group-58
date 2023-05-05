@@ -4,7 +4,7 @@ import controller.LoginMenuController;
 import controller.PasswordReset;
 import controller.RegisterMenuController;
 import view.enums.Commands;
-import view.enums.LoginMenuControllerOut;
+import view.enums.LoginControllerOut;
 import view.enums.ProfisterControllerOut;
 
 import java.io.*;
@@ -29,13 +29,13 @@ public class RegisterMenu {
 
             else if ((matcher = Commands.getMatcher(command, Commands.USER_LOGIN)) != null) {
                 LoginMenuController loginMenuController = new LoginMenuController(matcher.group("data"));
-                LoginMenuControllerOut result = loginMenuController.checkForLogin();
+                LoginControllerOut result = loginMenuController.checkForLogin();
                 System.out.println(result.getContent());
 
-                if (result.equals(LoginMenuControllerOut.VALID))
+                if (result.equals(LoginControllerOut.VALID))
                     loginMenuController.mainMenuRun();
 
-                else if (result.equals(LoginMenuControllerOut.PASSWORD_WRONG)) {
+                else if (result.equals(LoginControllerOut.PASSWORD_WRONG)) {
                     int timeOut = 5;
                     while (timeOut <= 320) {
                         System.out.println("You can try again in " + timeOut + " seconds");

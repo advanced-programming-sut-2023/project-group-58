@@ -1,6 +1,7 @@
 package model;
 
 import model.buildings.Building;
+import model.buildings.Trap;
 import model.units.Unit;
 import model.units.UnitEnum;
 
@@ -9,12 +10,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Tile {
+    private boolean hasTrap;
     private String rockDirection = "#";
     private TileTexture texture = TileTexture.EARTH;
     private ArrayList<Tree> trees = new ArrayList<>();
     private HashMap<User , ArrayList<Unit>> playersUnits = new HashMap<>();
     //assuming a tile can have more than one tree. (since it can have multiple units)
     private ArrayList<Building> buildings = new ArrayList<>();
+
+    public boolean isHasTrap() {return hasTrap;}
+
+    public void setHasTrap(boolean hasTrap) {this.hasTrap = hasTrap;}
 
     public ArrayList<Tree> getTrees() {
         return trees;
@@ -88,5 +94,9 @@ public class Tile {
                 return this.playersUnits.get(master);
         }
         return null;
+    }
+
+    public void workingTrap() {
+        //todo
     }
 }

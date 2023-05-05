@@ -4,24 +4,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import model.User;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import view.*;
-import view.enums.LoginMenuControllerOut;
+import view.enums.LoginControllerOut;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LoginMenuController {
     private String data;
@@ -44,12 +36,12 @@ public class LoginMenuController {
         inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
     }
 
-    public LoginMenuControllerOut checkForLogin() {
+    public LoginControllerOut checkForLogin() {
         if (!userExist())
-            return LoginMenuControllerOut.USERNAME_NOT_FOUND;
+            return LoginControllerOut.USERNAME_NOT_FOUND;
         if (!passwordMatch())
-            return LoginMenuControllerOut.PASSWORD_WRONG;
-        return LoginMenuControllerOut.VALID;
+            return LoginControllerOut.PASSWORD_WRONG;
+        return LoginControllerOut.VALID;
     }
 
     public void mainMenuRun() throws NoSuchAlgorithmException, IOException {

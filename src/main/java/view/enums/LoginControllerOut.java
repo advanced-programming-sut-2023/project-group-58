@@ -1,6 +1,6 @@
 package view.enums;
 
-public enum LoginMenuControllerOut {
+public enum LoginControllerOut {
     VALID("User logged in successfully!\nYou are in the main menu"),
     USERNAME_NOT_FOUND("Username not found!"),
     PASSWORD_WRONG("Password is wrong!"),
@@ -12,7 +12,7 @@ public enum LoginMenuControllerOut {
     ;
     private final String content;
 
-    LoginMenuControllerOut(String content) {
+    LoginControllerOut(String content) {
         this.content = content;
     }
 

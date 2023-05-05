@@ -477,6 +477,7 @@ public class MapMenuController {
                 break;
             case TRAP:
                 addingBuilding = new Trap(type,currentPlayer,0);
+                this.selectedMap.getTile(yTexture,xTexture).setHasTrap(true);
                 break;
             case TOWER:
                 addingBuilding = new Tower(type,currentPlayer,0);
