@@ -67,7 +67,7 @@ public class Storage extends Building {
         for (Asset s : storedGoods){
             Resource t = (Resource) s;
             if (t.getType().equals(resourceEnum)){
-                t.addAsset(amount);
+                t.changeAsset(amount);
                 break;
             }
         }
@@ -80,7 +80,7 @@ public class Storage extends Building {
         for (Asset s : storedGoods){
             Weapon w = (Weapon) s;
             if (w.getType().equals(weaponEnum)){
-                w.addAsset(amount);
+                w.changeAsset(amount);
                 break;
             }
         }
@@ -93,7 +93,7 @@ public class Storage extends Building {
         for (Asset s : storedGoods){
             Food f = (Food) s;
             if (f.getType().equals(foodEnum)){
-                f.addAsset(amount);
+                f.changeAsset(amount);
                 break;
             }
         }

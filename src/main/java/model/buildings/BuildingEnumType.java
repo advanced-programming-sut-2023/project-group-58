@@ -2,7 +2,7 @@ package model.buildings;
 
 public enum BuildingEnumType {
     BUILDING,
-    CHURCH,
+    ForceRecruitment,
     GATE,
     RESOURCE_MAKER,
     STORAGE,

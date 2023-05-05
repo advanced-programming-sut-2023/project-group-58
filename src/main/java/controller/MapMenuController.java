@@ -2,7 +2,6 @@ package controller;
 
 import model.*;
 import model.buildings.*;
-import model.units.Troop;
 import model.units.UnitEnum;
 import view.enums.ProfisterControllerOut;
 import view.enums.TreeTypes;
@@ -456,7 +455,7 @@ public class MapMenuController {
             throw new RuntimeException(e);
         }
         ans += "The texture is: " + selectedMap.getTile(yTexture,xTexture)+"\n";
-        ans += selectedMap.getTile(yTexture,xShowingMap).countTroops()+"\n";
+        //ans += selectedMap.getTile(yTexture,xShowingMap).countTroops()+"\n";
         //todo: خیلی مهم: نمایش نوع منابع و تعداد آن ها باید اضافه شود.
         ans += selectedMap.getTile(yTexture,xShowingMap).showBuildings();
         xTexture = 0;
@@ -482,9 +481,8 @@ public class MapMenuController {
             case TOWER:
                 addingBuilding = new Tower(type,currentPlayer,0);
                 break;
-            case CHURCH:
-                boolean isCathedral = type.equals(BuildingEnum.CATHEDRAL);
-                addingBuilding = new Church(type,currentPlayer,0,isCathedral);
+            case ForceRecruitment:
+                addingBuilding = new ForceRecruitment(type,currentPlayer,0,yTexture,xTexture);
                 break;
             case STORAGE:
                 addingBuilding = new Storage(type,currentPlayer,0);
@@ -517,7 +515,7 @@ public class MapMenuController {
             return false;
         if(currentPlayer.getGovernance().getGold() < buildingType.getGoldCost())
             return false;
-        currentPlayer.getGovernance().changeResourse(buildingType.getResource().getType(),-1 * buildingType.getResource().getAmount());
+        currentPlayer.getGovernance().changeResourceAmount(buildingType.getResource().getType(),-1 * buildingType.getResource().getAmount());
         currentPlayer.getGovernance().changeGold(-1 * buildingType.getGoldCost());
         currentPlayer.getGovernance().changeUnemployedPopulation(-1 * buildingType.getWorker());
         return true;
@@ -540,15 +538,15 @@ public class MapMenuController {
         return null;
     }
 
-    public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
-        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
-        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-c\\s+(?<wantedPart>(\\d+)(?<!\\s))");
-        if(countStr.length() == 0) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
-        int count = Integer.parseInt(countStr.trim());
-        //todo: using check location without type. be careful to use the type.
-        if(!checkLocation(selectedMap,yTexture,xTexture,null)) return ProfisterControllerOut.NOT_A_VALID_PLACE;
-        for(int i = 0; i < count; i++)
-            selectedMap.getTile(yTexture,xTexture).getTroops().add(new Troop(unitTypeSpecifier(typeTexture),currentPlayer));
-        return ProfisterControllerOut.UCCESSFULLY_ADDED_UNIT;
-    }
+//    public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
+//        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+//        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-c\\s+(?<wantedPart>(\\d+)(?<!\\s))");
+//        if(countStr.length() == 0) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+//        int count = Integer.parseInt(countStr.trim());
+//        //todo: using check location without type. be careful to use the type.
+//        if(!checkLocation(selectedMap,yTexture,xTexture,null)) return ProfisterControllerOut.NOT_A_VALID_PLACE;
+//        for(int i = 0; i < count; i++)
+//            selectedMap.getTile(yTexture,xTexture).getTroops().add(new Troop(unitTypeSpecifier(typeTexture),currentPlayer));
+//        return ProfisterControllerOut.UCCESSFULLY_ADDED_UNIT;
+//   }
 }

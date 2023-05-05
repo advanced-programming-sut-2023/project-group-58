@@ -85,8 +85,8 @@ public class Governance {
     }
 
     public ArrayList<Resource> getResources() {return resources;}
-    public void changeResourse(ResourceEnum type, int amount) {
-        ResourceMakerFuncs.changeOrAddResource(this.resources, type, amount);
+    public boolean changeResourceAmount(ResourceEnum type, int amount) {
+        return ResourceMakerFuncs.changeOrAddResource(this.resources, type, amount);
     }
     public int getResourceAmount(ResourceEnum type) {
         for (Resource r : this.resources) {

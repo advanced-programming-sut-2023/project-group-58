@@ -4,7 +4,7 @@ import model.Resource;
 import model.ResourceEnum;
 
 public enum BuildingEnum {
-    CATHEDRAL(BuildingEnumType.CHURCH,"cathedral", 0,0, 1000, new Resource(null,0), 0),
+    CATHEDRAL(BuildingEnumType.ForceRecruitment,"cathedral", 0,0, 1000, new Resource(null,0), 0),
     PITCH_DITCH(BuildingEnumType.TRAP,"pitch ditch", 0,0, 0, new Resource(ResourceEnum.OIL,2), 0),
     CAGED_WAR_DOGS(BuildingEnumType.TRAP,"caged war dogs", 0,0, 100, new Resource(ResourceEnum.WOOD, 10), 0),
     HOPS_FARMER(BuildingEnumType.RESOURCE_MAKER,"hops farmer", 0, 0,0, new Resource(ResourceEnum.WOOD, 15), 1),
@@ -21,7 +21,7 @@ public enum BuildingEnum {
     DRAWBRIDGE(BuildingEnumType.GATE, "drawbridge", 0, 0,0, new Resource(ResourceEnum.WOOD, 10), 0),
     //KEEP(BuildingEnumType.BUILDING, "keep", 0, 0, new Resource(null, 0), 0),
     LOOKOUT_TOWER(BuildingEnumType.TOWER, "lookout tower", 0,0, 0, new Resource(ResourceEnum.STONE, 10), 0),
-    CHURCH(BuildingEnumType.CHURCH, "church", 0,0, 250, new Resource(null, 0), 0),
+    CHURCH(BuildingEnumType.ForceRecruitment, "church", 0,0, 250, new Resource(null, 0), 0),
     ARMOURY(BuildingEnumType.STORAGE, "armoury", 0,0, 0, new Resource(ResourceEnum.WOOD, 5), 0),
     BARRACKS(BuildingEnumType.BUILDING, "barrack", 0,0, 0, new Resource(ResourceEnum.STONE, 15), 0),
     HOVEL(BuildingEnumType.BUILDING, "hovel", 0, 0,0, new Resource(ResourceEnum.WOOD, 6), 0),

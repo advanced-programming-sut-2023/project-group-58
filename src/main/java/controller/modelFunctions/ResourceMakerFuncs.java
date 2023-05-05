@@ -72,21 +72,25 @@ public class ResourceMakerFuncs {
     }
 
     private static void produceAndPayThePrice(Governance owner, ResourceEnum usedResources, ResourceEnum producedResource,int rate) {
-        owner.changeResourse(usedResources,-1 * rate);
-        owner.changeResourse(producedResource, rate);
+        owner.changeResourceAmount(usedResources,-1 * rate);
+        owner.changeResourceAmount(producedResource, rate);
     }
 
     private static boolean checkTheStorage(ResourceEnum usedResources, int rate, Governance owner) {
         return usedResources.equals(ResourceEnum.NULL) || owner.getResourceAmount(usedResources) >= rate;
     }
 
-    public static void changeOrAddResource(ArrayList<Resource> resources, ResourceEnum type, int amount) {
+    public static boolean changeOrAddResource(ArrayList<Resource> resources, ResourceEnum type, int amount) {
         for (Resource resource : resources) {
             if(resource.getType().equals(type)) {
-                resource.addAsset(amount);
-                return;
+                resource.changeAsset(amount);
+                return true;
             }
         }
-        resources.add(new Resource(type,amount));
+        if(amount >= 0) {
+            resources.add(new Resource(type,amount));
+            return true;
+        }
+        return false;
     }
 }

@@ -26,7 +26,7 @@ public enum ResourceEnum {
     BOW("bow", 0 , 0),
     METAL_ARMOR("metal armor", 0 , 0),
     MACE("mace", 0 , 0),
-    ;
+    HORSEANDBOW("",0 ,0 );
     private String name;
     private int buyCost;
     private int sellCost;

@@ -12,7 +12,7 @@ public class Weapon extends Asset{
         return type;
     }
     @Override
-    public void addAsset(int amount) {
-        super.addAsset(amount);
+    public void changeAsset(int amount) {
+        super.changeAsset(amount);
     }
 }
