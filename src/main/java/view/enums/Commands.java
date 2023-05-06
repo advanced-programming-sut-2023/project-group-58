@@ -20,7 +20,7 @@ public enum Commands {
     SHOW_DETAIL("^\\s*show\\s+details\\s+(?<data>.+)$"),
     MOVE_MAP("^\\s*map\\s+(?<data>.+)$"),
     CLEAR("^\\s*clear\\s+(?<data>.+)$"),
-    BUY_SHOP("^\\s*buy\\s+(?<data>.+)$"),
+    BUY_SHOP("^\\s*doThePurchase\\s+(?<data>.+)$"),
     SELL_SHOP("^\\s*sell\\s+(?<data>.+)$"),
     TRADE("^\\s*trade\\s+(?<data>.+)$"),
     ACCEPT_TRADE("^\\s*trade\\s+accept\\s+(?<data>.+)$"),

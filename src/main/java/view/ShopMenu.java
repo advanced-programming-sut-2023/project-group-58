@@ -23,29 +23,37 @@ public class ShopMenu {
             else if (command.matches("^\\s*show\\s+price\\s*list\\s*$"))
                 System.out.print(shopMenuController.showPriceList(currentUser));
             else if ((matcher = Commands.getMatcher(command, Commands.BUY_SHOP)) != null)
-                buy(matcher, shopMenuController, currentUser);
+                doThePurchase(matcher, shopMenuController, currentUser,"buy");
             else if ((matcher = Commands.getMatcher(command, Commands.SELL_SHOP)) != null)
-                shopMenuController.sell(matcher.group("data"), currentUser);
+                doThePurchase(matcher, shopMenuController, currentUser,"sell");
             else
                 System.out.println("invalid command");
         }
     }
 
-    public static void buy(Matcher matcher, ShopMenuController shopMenuController, User currentUser) {
-        ShopControllerOut output = shopMenuController.buy(matcher.group("data"), currentUser);
+    public static void doThePurchase(Matcher matcher, ShopMenuController shopMenuController, User currentUser, String typeOfDeal) {
+        ShopControllerOut output;
+        if(typeOfDeal.equals("buy")) output = shopMenuController.buy(matcher.group("data"), currentUser);
+        else output = shopMenuController.sell(matcher.group("data"), currentUser);
         System.out.println(output.getContent());
-        if (!output.equals(ShopControllerOut.PROMPT_CONFIRMATION_FOR_PURCHASE)) {
-        } else {
-            System.out.println(shopMenuController.getBuyProduct().getAmount() + " unit of " +
-                    shopMenuController.getBuyProduct().getType().getName() + "?\n" +
+        if (output.equals(ShopControllerOut.PROMPT_CONFIRMATION_FOR_PURCHASE) && typeOfDeal.equals("buy") ||
+            output.equals(ShopControllerOut.PROMPT_CONFIRMATION_FOR_SELL) && typeOfDeal.equals("sell")) {
+            System.out.println(shopMenuController.getMerchandise().getAmount() + " unit of " +
+                    shopMenuController.getMerchandise().getType().getName() + "?\n" +
                     "Type \"yes\" or no");
             String answer = ScanMatch.getScanner().nextLine();
-            if (answer.matches("^\\s*yes\\s*$"))
-                shopMenuController.purchase();
+            if (answer.matches("^\\s*yes\\s*$")) {
+                if(typeOfDeal.equals("buy"))
+                    shopMenuController.purchase();
+                else if(typeOfDeal.equals("sell"))
+                    shopMenuController.retail();
+            }
             else if (answer.matches("^\\s*no\\s*$"))
                 System.out.println(ShopControllerOut.ABORT_THE_MISSION);
             else
                 System.out.println(ShopControllerOut.INVALID_INPUT_FORMAT);
         }
+
+
     }
 }

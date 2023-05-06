@@ -10,13 +10,13 @@ import java.util.EnumSet;
 
 public class ShopMenuController {
     private final User currentUser;
-    private Resource buyProduct;
+    private Resource merchandise;
 
     public ShopMenuController(User currentUser) {
         this.currentUser = currentUser;
     }
 
-    public Resource getBuyProduct() {return buyProduct;}
+    public Resource getMerchandise() {return merchandise;}
 
     public User getCurrentUser() {
         return currentUser;
@@ -26,27 +26,45 @@ public class ShopMenuController {
         String ans = new String();
         for (ResourceEnum value : ResourceEnum.values()) {
             if(!value.getName().equals(""))
-                ans += value.getName() + ":\n       buy cost -> " + value.getBuyCost() + "\n        sell cost -> " +
+                ans += value.getName() + ":\n       doThePurchase cost -> " + value.getBuyCost() + "\n        sell cost -> " +
                        value.getSellCost() + "\n        storage amount -> " + currentUser.getGovernance().getResourceAmount(value) + "\n";
         }
         return ans;
     }
+    //doThePurchase and sell must be called immediately after extract item and amount
     public ShopControllerOut buy(String data, User master) {
+        ShopControllerOut out = extractItemAndAmount(data);
+        if(!out.equals(ShopControllerOut.SUCCESS))
+            return out;
+        if(this.merchandise.getType().equals(ResourceEnum.NULL))
+            return ShopControllerOut.INVALID_ITEM;
+        if(master.getGovernance().getGold() < this.merchandise.getType().getBuyCost() * this.merchandise.getAmount())
+            return ShopControllerOut.NOT_ENOUGH_GOLD;
+
+        //todo شرط داشتن فضای کافی چک نشده
+        return ShopControllerOut.PROMPT_CONFIRMATION_FOR_PURCHASE;
+    }
+
+    public ShopControllerOut sell(String data, User master) {
+        ShopControllerOut out = extractItemAndAmount(data);
+        if(!out.equals(ShopControllerOut.SUCCESS))
+            return out;
+        if(this.merchandise.getType().equals(ResourceEnum.NULL))
+            return ShopControllerOut.INVALID_ITEM;
+        if(master.getGovernance().getResourceAmount(this.merchandise.getType()) < merchandise.getAmount())
+            return ShopControllerOut.NOT_ENOUGH_COMMODITY;
+        return ShopControllerOut.PROMPT_CONFIRMATION_FOR_SELL;
+    }
+
+    public ShopControllerOut extractItemAndAmount(String data) {
         if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>(\\S+)(?<!\\s))").length() == 0 ||
            CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0)
             return ShopControllerOut.INVALID_INPUT_FORMAT;
-
-        String item   = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
-        int amount    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
+        String item   = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
+        int amount    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
         ResourceEnum resourceItem = resourceFinder(item);
-        if(resourceItem.equals(ResourceEnum.NULL))
-            return ShopControllerOut.INVALID_ITEM;
-        if(master.getGovernance().getGold() < resourceItem.getBuyCost() * amount)
-            return ShopControllerOut.NOT_ENOUGH_GOLD;
-
-        this.buyProduct = new Resource(resourceItem,amount);
-        //todo شرط داشتن فضای کافی چک نشده
-        return ShopControllerOut.PROMPT_CONFIRMATION_FOR_PURCHASE;
+        this.merchandise = new Resource(resourceItem,amount);
+        return ShopControllerOut.SUCCESS;
     }
 
     public ResourceEnum resourceFinder(String resource) {
@@ -57,11 +75,13 @@ public class ShopMenuController {
         }
         return ResourceEnum.NULL;
     }
-    public void sell(String data, User currentUser) {
-
-    }
     public void purchase() {
-        currentUser.getGovernance().changeGold(-1 * buyProduct.getType().getBuyCost() * buyProduct.getAmount());
-        currentUser.getGovernance().changeResourceAmount(buyProduct.getType(), buyProduct.getAmount());
+        currentUser.getGovernance().changeGold(-1 * merchandise.getType().getBuyCost() * merchandise.getAmount());
+        currentUser.getGovernance().changeResourceAmount(merchandise.getType(), merchandise.getAmount());
+    }
+
+    public void retail() {
+        currentUser.getGovernance().changeGold(merchandise.getType().getSellCost() * merchandise.getAmount());
+        currentUser.getGovernance().changeResourceAmount(merchandise.getType(),-1 * merchandise.getAmount());
     }
 }
