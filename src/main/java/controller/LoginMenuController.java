@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import model.Captcha;
 import model.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,6 +29,7 @@ public class LoginMenuController {
     private User user;
     private boolean stayLogin = false;
     private static User userStayLogin;
+    private CaptchaMenu captchaMenu = new CaptchaMenu();
 
     public void setInputPassword(String inputPassword) {
         this.inputPassword = inputPassword;
