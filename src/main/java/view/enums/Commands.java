@@ -34,6 +34,7 @@ public enum Commands {
     SHOW_TAX_RATE("^\\s*tax\\s+rate\\s+show\\s*$"),
     DROP_BUILDING("^dropbuilding\\s+(?<data>(-)?\\d)$"),
     DROP_UNIT("^dropunit\\s+(?<data>(-)?\\d)$"),
+    USER_LOGIN_STAYED("\\s*user\\s+login\\s+-u\\s+\"?(?<username>\\S+)\"?"),
     ;public final String regex;
 
     Commands(String regex) {

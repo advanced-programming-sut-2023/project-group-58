@@ -54,7 +54,7 @@ public class MapMenu {
                 System.out.println(mapMenuController.dropBuilding(matcher.group("data"),currentPlayer).getContent());
             }
             else if ((matcher = Commands.getMatcher(command, Commands.DROP_UNIT)) != null) {
-                System.out.println(mapMenuController.dropUnit(matcher.group("data"),currentPlayer).getContent());
+            //    System.out.println(mapMenuController.dropUnit(matcher.group("data"),currentPlayer).getContent());
             }
             else
                 System.out.println("invalid command");

@@ -21,6 +21,8 @@ public class LoginMenuController {
     private String inputPassword;
     private int userTryLogin;
     private User user;
+    private boolean stayLogin = false;
+    private static User userStayLogin;
 
     public void setInputPassword(String inputPassword) {
         this.inputPassword = inputPassword;
@@ -34,6 +36,9 @@ public class LoginMenuController {
     private void extractData() throws IOException {
         inputUsername = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
         inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
+        if (CommonController.dataExtractor(data, "--stay-logged-in")!=null){
+            stayLogin = true;
+        }
     }
 
     public LoginControllerOut checkForLogin() {
@@ -45,10 +50,14 @@ public class LoginMenuController {
     }
 
     public void mainMenuRun() throws NoSuchAlgorithmException, IOException {
+        if (stayLogin) userStayLogin = user;
         MainMenu mainMenu = new MainMenu(user);
         mainMenu.run();
     }
-
+    public void mainMenuRunStayed(User user) throws NoSuchAlgorithmException, IOException {
+        MainMenu mainMenu = new MainMenu(user);
+        mainMenu.run();
+    }
 
     public void giveAnotherShot(int timeOut, String password) {
         long startTime = System.currentTimeMillis()/1000;
@@ -120,5 +129,12 @@ public class LoginMenuController {
         byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
         String encoded = Base64.getEncoder().encodeToString(hash);
         return encoded;
+    }
+
+    public static User getUserStayLogin() {
+        return userStayLogin;
+    }
+
+    public LoginMenuController() {
     }
 }

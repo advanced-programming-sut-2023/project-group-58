@@ -44,13 +44,22 @@ public class RegisterMenu {
                             loginMenuController.mainMenuRun();
                             break;
                         }
-                        timeOut *= 2;
+                        timeOut += 5;
                     }
                     if (timeOut > 320)
                         System.out.println("Login failed: Password is wrong!");
                 } else System.out.println("Login failed");
             } else if ((matcher = Commands.getMatcher(command, Commands.PASSWORD_FORGOT)) != null) {
                 reset(matcher);
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.USER_LOGIN_STAYED))!=null){
+                if (LoginMenuController.getUserStayLogin().getUsername().equals(matcher.group("username"))){
+                    LoginMenuController loginMenuController = new LoginMenuController();
+                    loginMenuController.mainMenuRunStayed(LoginMenuController.getUserStayLogin());
+                }
+            }
+            else {
+                System.out.printf("invalid command");
             }
         }
     }
