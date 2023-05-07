@@ -148,7 +148,7 @@ public class TradeMenuController {
                     ans += trade.getOneWhoAnswersTheCall().getNickname() + " ( " + trade.getOneWhoAnswersTheCall().getUsername()
                             + " ) has donated " + trade.getAmount() + " unit(s) of " + trade.getTypeName() + " to your empire, and left you this message: "
                             + trade.getMessage() + "\n";
-            trade.setNotified(false);
+            trade.setNotified(true);
             }
         }
         return ans;
