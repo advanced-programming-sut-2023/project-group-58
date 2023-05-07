@@ -1,14 +1,27 @@
 package model;
 
+import java.util.function.BiPredicate;
+
 public class TradeItem {
     private String id;
     private User oneWhoRequests;
     private User oneWhoAnswersTheCall;
-    private String Type;
+    private ResourceEnum type;
     private int amount;
     private int price;
     private String message;
     private Boolean active;
+    private Boolean isNotified = false;
+
+    public TradeItem(String id, User oneWhoRequests, ResourceEnum type, int amount, int price, String message, Boolean active) {
+        this.id = id;
+        this.oneWhoRequests = oneWhoRequests;
+        this.type = type;
+        this.amount = amount;
+        this.price = price;
+        this.message = message;
+        this.active = active;
+    }
 
     public String getId() {
         return id;
@@ -34,12 +47,12 @@ public class TradeItem {
         this.oneWhoAnswersTheCall = oneWhoAnswersTheCall;
     }
 
-    public String getType() {
-        return Type;
+    public String getTypeName() {
+        return this.type.getName();
     }
 
-    public void setType(String type) {
-        Type = type;
+    public ResourceEnum getType() {
+        return this.type;
     }
 
     public int getAmount() {
@@ -72,5 +85,13 @@ public class TradeItem {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public void setNotified(Boolean notified) {
+        isNotified = notified;
+    }
+
+    public Boolean getNotified() {
+        return isNotified;
     }
 }

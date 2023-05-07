@@ -1,7 +1,9 @@
 package controller;
 
+import model.ResourceEnum;
 import view.enums.ProfisterControllerOut;
 
+import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,5 +26,13 @@ public class CommonController {
         if (!password.matches(".*[^a-zA-Z0-9].*"))
             return ProfisterControllerOut.NOT_SYMBOLS_PASSWORD;
         return ProfisterControllerOut.VALID;
+    }
+    public static ResourceEnum resourceFinder(String resource) {
+        EnumSet<ResourceEnum> resourceEnums = EnumSet.allOf(ResourceEnum.class);
+        for (ResourceEnum resourceEnum : resourceEnums) {
+            if(resourceEnum.getName().equals(resource))
+                return resourceEnum;
+        }
+        return ResourceEnum.NULL;
     }
 }

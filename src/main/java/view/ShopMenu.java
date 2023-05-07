@@ -3,7 +3,7 @@ package view;
 import controller.gameMenuControllers.ShopMenuController;
 import model.User;
 import view.enums.Commands;
-import view.enums.ShopControllerOut;
+import view.enums.ShopAndTradeControllerOut;
 
 import java.util.regex.Matcher;
 
@@ -32,12 +32,12 @@ public class ShopMenu {
     }
 
     public static void doThePurchase(Matcher matcher, ShopMenuController shopMenuController, User currentUser, String typeOfDeal) {
-        ShopControllerOut output;
+        ShopAndTradeControllerOut output;
         if(typeOfDeal.equals("buy")) output = shopMenuController.buy(matcher.group("data"), currentUser);
         else output = shopMenuController.sell(matcher.group("data"), currentUser);
         System.out.println(output.getContent());
-        if (output.equals(ShopControllerOut.PROMPT_CONFIRMATION_FOR_PURCHASE) && typeOfDeal.equals("buy") ||
-            output.equals(ShopControllerOut.PROMPT_CONFIRMATION_FOR_SELL) && typeOfDeal.equals("sell")) {
+        if (output.equals(ShopAndTradeControllerOut.PROMPT_CONFIRMATION_FOR_PURCHASE) && typeOfDeal.equals("buy") ||
+            output.equals(ShopAndTradeControllerOut.PROMPT_CONFIRMATION_FOR_SELL) && typeOfDeal.equals("sell")) {
             System.out.println(shopMenuController.getMerchandise().getAmount() + " unit of " +
                     shopMenuController.getMerchandise().getType().getName() + "?\n" +
                     "Type \"yes\" or no");
@@ -48,9 +48,9 @@ public class ShopMenu {
                 else shopMenuController.retail();
             }
             else if (answer.matches("^\\s*no\\s*$"))
-                System.out.println(ShopControllerOut.ABORT_THE_MISSION);
+                System.out.println(ShopAndTradeControllerOut.ABORT_THE_MISSION);
             else
-                System.out.println(ShopControllerOut.INVALID_INPUT_FORMAT);
+                System.out.println(ShopAndTradeControllerOut.INVALID_INPUT_FORMAT);
         }
     }
 }

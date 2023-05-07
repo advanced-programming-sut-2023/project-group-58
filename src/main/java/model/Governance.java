@@ -20,7 +20,8 @@ public class Governance {
     private Building armoury;
     private ArrayList<Building> buildings = new ArrayList<>();
     private ArrayList<Resource> resources = new ArrayList<>();
-    private ArrayList<TradeItem> trades = new ArrayList<>();
+    private ArrayList<TradeItem> userTrades = new ArrayList<>();
+    private static ArrayList<TradeItem> allTrades = new ArrayList<>();
 
     public void changeUnemployedPopulation(int unemployedPopulation) {this.unemployedPopulation += unemployedPopulation;}
 
@@ -84,11 +85,12 @@ public class Governance {
     public void setArmoury(Building armoury) {
         this.armoury = armoury;
     }
-
-    public ArrayList<TradeItem> getTrades() {return trades;}
-    public void addTrade(TradeItem tradeItem) {this.trades.add(tradeItem);}
-
+    public ArrayList<TradeItem> getUserTrades() {return userTrades;}
+    public void addToUserTrades(TradeItem tradeItem) {this.userTrades.add(tradeItem);}
+    public static void addToAllTrades(TradeItem tradeItem) {allTrades.add(tradeItem);}
     public ArrayList<Resource> getResources() {return resources;}
+    public static ArrayList<TradeItem> getAllTrades() {return allTrades;}
+
     public boolean changeResourceAmount(ResourceEnum type, int amount) {
         return ResourceMakerFuncs.changeOrAddResource(this.resources, type, amount);
     }
@@ -98,5 +100,13 @@ public class Governance {
                 return r.getAmount();
         }
         return 0;
+    }
+
+    public void setUserTrades(ArrayList<TradeItem> userTrades) {
+        this.userTrades = userTrades;
+    }
+
+    public static void setAllTrades(ArrayList<TradeItem> allTrades) {
+        Governance.allTrades = allTrades;
     }
 }
