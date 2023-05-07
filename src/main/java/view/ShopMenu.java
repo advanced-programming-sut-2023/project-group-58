@@ -45,15 +45,12 @@ public class ShopMenu {
             if (answer.matches("^\\s*yes\\s*$")) {
                 if(typeOfDeal.equals("buy"))
                     shopMenuController.purchase();
-                else if(typeOfDeal.equals("sell"))
-                    shopMenuController.retail();
+                else shopMenuController.retail();
             }
             else if (answer.matches("^\\s*no\\s*$"))
                 System.out.println(ShopControllerOut.ABORT_THE_MISSION);
             else
                 System.out.println(ShopControllerOut.INVALID_INPUT_FORMAT);
         }
-
-
     }
 }

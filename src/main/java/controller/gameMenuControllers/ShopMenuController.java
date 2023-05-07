@@ -57,10 +57,10 @@ public class ShopMenuController {
     }
 
     public ShopControllerOut extractItemAndAmount(String data) {
-        if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>(\\S+)(?<!\\s))").length() == 0 ||
+        if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+)(?<!\\s))").length() == 0 ||
            CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0)
             return ShopControllerOut.INVALID_INPUT_FORMAT;
-        String item   = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
+        String item   = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+)(?<!\\s))").trim();
         int amount    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
         ResourceEnum resourceItem = resourceFinder(item);
         this.merchandise = new Resource(resourceItem,amount);

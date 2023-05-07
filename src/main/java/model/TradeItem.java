@@ -1,10 +1,6 @@
-package model.newClasses;
+package model;
 
-import model.User;
-
-import java.util.ArrayList;
-
-public class Trade {
+public class TradeItem {
     private String id;
     private User oneWhoRequests;
     private User oneWhoAnswersTheCall;

@@ -20,13 +20,13 @@ public class TradeMenu {
             Matcher matcher;
             if (command.matches("back")) return;
             else if ((matcher = Commands.getMatcher(command, Commands.TRADE))!=null){
-                tradeMenuController.doTheTrade(matcher.group("data"));
+                tradeMenuController.newTradeRequest(matcher.group("data"));
             }
             else if (command.matches("\\s*trade\\s+list\\s*")){
                 tradeMenuController.showTradeList();
             }
             else if ((matcher = Commands.getMatcher(command, Commands.ACCEPT_TRADE))!=null){
-                tradeMenuController.doTheTrade(matcher.group("data"));
+                tradeMenuController.newTradeRequest(matcher.group("data"));
             }
             else if (command.matches("\\s*trade\\s+history\\s*")){
                 tradeMenuController.showTradeHistory();

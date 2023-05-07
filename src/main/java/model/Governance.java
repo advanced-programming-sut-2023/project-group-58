@@ -20,6 +20,7 @@ public class Governance {
     private Building armoury;
     private ArrayList<Building> buildings = new ArrayList<>();
     private ArrayList<Resource> resources = new ArrayList<>();
+    private ArrayList<TradeItem> trades = new ArrayList<>();
 
     public void changeUnemployedPopulation(int unemployedPopulation) {this.unemployedPopulation += unemployedPopulation;}
 
@@ -83,6 +84,9 @@ public class Governance {
     public void setArmoury(Building armoury) {
         this.armoury = armoury;
     }
+
+    public ArrayList<TradeItem> getTrades() {return trades;}
+    public void addTrade(TradeItem tradeItem) {this.trades.add(tradeItem);}
 
     public ArrayList<Resource> getResources() {return resources;}
     public boolean changeResourceAmount(ResourceEnum type, int amount) {
