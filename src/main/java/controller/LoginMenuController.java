@@ -4,16 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import model.User;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import view.*;
 import view.enums.LoginControllerOut;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.regex.Pattern;
+
 
 public class LoginMenuController {
     private String data;
@@ -36,7 +40,7 @@ public class LoginMenuController {
     private void extractData() throws IOException {
         inputUsername = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
         inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        if (CommonController.dataExtractor(data, "--stay-logged-in")!=null){
+        if ((Pattern.compile("--stay-logged-in").matcher(data).find())){
             stayLogin = true;
         }
     }
@@ -50,7 +54,10 @@ public class LoginMenuController {
     }
 
     public void mainMenuRun() throws NoSuchAlgorithmException, IOException {
-        if (stayLogin) userStayLogin = user;
+        if (stayLogin) {
+            userStayLogin = user;
+            saveUserStayed(userStayLogin);
+        }
         MainMenu mainMenu = new MainMenu(user);
         mainMenu.run();
     }
@@ -136,5 +143,128 @@ public class LoginMenuController {
     }
 
     public LoginMenuController() {
+    }
+    public static void setUpStayedLogin() throws IOException {
+        File userInfo = new File(System.getProperty("user.dir") + "/DataBase/stayed.json");
+        if (!userInfo.exists()) {
+            userInfo.createNewFile();
+        } else {
+            BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/DataBase/stayed.json"));
+            if (br.readLine() != null) {
+                return;
+            }
+        }
+
+        JSONObject userDetails = new JSONObject();
+        userDetails.put("username", "");
+        JSONObject userObject = new JSONObject();
+        userObject.put("user", userDetails);
+
+        JSONArray userList = new JSONArray();
+        userList.add(userObject);
+
+        FileWriter file = new FileWriter(System.getProperty("user.dir") + "/DataBase/stayed.json");
+        try {
+            file.write(userList.toJSONString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void saveUserStayed(User user) throws IOException {
+        JSONArray usersList = readFromAJson(System.getProperty("user.dir") + "/DataBase/stayed.json");
+        JSONObject userDetails = new JSONObject();
+        userDetails.put("username", user.getUsername());
+       // System.out.printf(userStayLogin.getUsername());
+        JSONObject eachUserAsObject = new JSONObject();
+        eachUserAsObject.put("user", userDetails);
+        //Add the new onw to the list
+        usersList.add(eachUserAsObject);
+
+        //now, we should add the json array to our file.
+        FileWriter file = new FileWriter(System.getProperty("user.dir") + "/DataBase/stayed.json");
+        try {
+            file.write(usersList.toJSONString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        file.close();
+    }
+    public static JSONArray readFromAJson(String address) {
+        JSONArray userList = new JSONArray();
+        JSONParser parser = new JSONParser();
+        try (FileReader reader = new FileReader(address)) {
+            Object obj = parser.parse(reader);
+            JSONArray jsonArray = (JSONArray) obj;
+            for (Object o : jsonArray)
+                userList.add(o);
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return userList;
+    }
+    public static User checkStayedLogin() throws FileNotFoundException {
+        String address = System.getProperty("user.dir") + "/DataBase/stayed.json";
+        if (new FileReader(address)==null) return null;
+        Gson gson = new Gson();
+        JsonArray jsonArray = null;
+        try {
+            jsonArray = gson.fromJson(new FileReader(address), JsonArray.class);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String username = null;
+        for (int i = 0; i < jsonArray.size(); i++) {
+            if (i>0) {
+                JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                username = jsonObject.get("user").getAsJsonObject().get("username").toString().replaceAll("\"", "");
+            }
+        }
+        User user = null;
+        for (int k=0; k<User.getUsers().size(); k++){
+            if (User.getUsers().get(k).getUsername().equals(username)){
+                user = User.getUsers().get(k);
+                break;
+            }
+        }
+        return user;
+    }
+    public static  void clearStayed() throws IOException {
+        JSONArray usersList = readFromAJson(System.getProperty("user.dir") + "/DataBase/stayed.json");
+        JSONObject userDetails = new JSONObject();
+        userDetails.put("username", "");
+        // System.out.printf(userStayLogin.getUsername());
+        JSONObject eachUserAsObject = new JSONObject();
+        eachUserAsObject.put("user", userDetails);
+        //Add the new onw to the list
+        usersList.add(eachUserAsObject);
+
+        //now, we should add the json array to our file.
+        FileWriter file = new FileWriter(System.getProperty("user.dir") + "/DataBase/stayed.json");
+        try {
+            file.write(usersList.toJSONString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        file.close();
     }
 }

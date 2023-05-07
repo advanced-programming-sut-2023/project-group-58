@@ -3,10 +3,12 @@ package view;
 import controller.LoginMenuController;
 import controller.PasswordReset;
 import controller.RegisterMenuController;
+import model.User;
 import view.enums.Commands;
 import view.enums.LoginControllerOut;
 import view.enums.ProfisterControllerOut;
 
+import javax.swing.*;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -18,7 +20,14 @@ public class RegisterMenu {
     public void run() throws IOException, NoSuchAlgorithmException {
         registerMenuController.setUpSloganDataBase();
         registerMenuController.setUpUserInfo();
+        LoginMenuController.setUpStayedLogin();
         LoginMenuController.extractUserData();
+        User temp;
+        if((temp =LoginMenuController.checkStayedLogin())!=null){
+            MainMenu mainMenu = new MainMenu(temp);
+            mainMenu.run();
+        };
+      //  checkForStayed();
         while (true) {
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
@@ -59,7 +68,7 @@ public class RegisterMenu {
                 }
             }
             else {
-                System.out.printf("invalid command");
+                System.out.println("invalid command");
             }
         }
     }
@@ -132,4 +141,6 @@ public class RegisterMenu {
         }
         System.out.println(passwordReset.resetPassword());
     }
+    //public void checkForStayed()
 }
+

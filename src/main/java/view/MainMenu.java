@@ -1,5 +1,6 @@
 package view;
 
+import controller.LoginMenuController;
 import controller.gameMenuControllers.LobbyController;
 import model.User;
 import view.enums.Commands;
@@ -19,6 +20,7 @@ public class MainMenu {
             Matcher matcher;
             if (command.equals("user logout")) {
                 System.out.println("You logged out successfully");
+                LoginMenuController.clearStayed();
                 return;
             }
             else if (command.matches("show current menu")) System.out.println("main menu");
