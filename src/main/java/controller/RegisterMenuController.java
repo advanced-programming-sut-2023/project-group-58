@@ -160,7 +160,7 @@ public class RegisterMenuController {
 
     public ProfisterControllerOut handleRandomPassword() {
         if (!password.trim().equals("random")) return ProfisterControllerOut.VALID;
-        password = randomPasswordGenerator();
+        this.password = randomPasswordGenerator();
         return ProfisterControllerOut.SUGGESTING_PASSWORD;
     }
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import controller.gameMenuControllers.GameController;
 import model.Map;
 import model.User;
+import model.buildings.Building;
 import view.enums.Commands;
 import view.enums.GameControllerOut;
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class GameMenu {
     Map map;
     private User currentUser;
     private GameController gameController = new GameController();
+    private Building selectedBuilding;
 
     public GameMenu(User host) {
         this.currentUser = host;
@@ -32,7 +34,9 @@ public class GameMenu {
             if(command.matches("map menu"))
                 new MapMenu(this.map,this.currentUser).run();
             else if(command.matches("shop menu")){
-                new ShopMenu(currentUser).run();
+                if(selectedBuilding.getType().getName().equals("market"))
+                    new ShopMenu(currentUser).run();
+                else System.out.println("You should go to the market first!");
             }
             else if (command.matches("trade menu")){
                 new TradeMenu(currentUser).run();
