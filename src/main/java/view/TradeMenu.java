@@ -7,7 +7,7 @@ import view.enums.Commands;
 import java.util.regex.Matcher;
 
 public class TradeMenu {
-    private User currentUser;
+    private final User currentUser;
 
     public TradeMenu(User currentUser) {
         this.currentUser = currentUser;
@@ -15,21 +15,22 @@ public class TradeMenu {
 
     public void run() {
         TradeMenuController tradeMenuController = new TradeMenuController(currentUser);
+        System.out.print(tradeMenuController.popup());
         while (true){
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
             if (command.matches("back")) return;
             else if ((matcher = Commands.getMatcher(command, Commands.TRADE))!=null){
-                tradeMenuController.doTheTrade(matcher.group("data"));
+                System.out.println(tradeMenuController.newTradeRequest(matcher.group("data")).getContent());
             }
             else if (command.matches("\\s*trade\\s+list\\s*")){
-                tradeMenuController.showTradeList();
+                System.out.println(tradeMenuController.showTradeList());
             }
             else if ((matcher = Commands.getMatcher(command, Commands.ACCEPT_TRADE))!=null){
-                tradeMenuController.doTheTrade(matcher.group("data"));
+                System.out.println(tradeMenuController.doTheTrade(matcher.group("data")).getContent());
             }
             else if (command.matches("\\s*trade\\s+history\\s*")){
-                tradeMenuController.showTradeHistory();
+                System.out.print(tradeMenuController.showTradeHistory());
             }
             else
                 System.out.println("invalid command");

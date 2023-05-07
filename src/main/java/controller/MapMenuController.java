@@ -332,14 +332,14 @@ public class MapMenuController {
         //todo: handle errors. everytime we use that there should be a type somewhere...
         if(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0 ||
            CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>(.+)(?<!\\s))").length() == 0)
+           CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+)(?<!\\s))").length() == 0)
             return false;
         xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
         yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
-        typeTexture = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>(.+)(?<!\\s))").trim();
-        String x2T = CommonController.dataExtractor(data, "((?<!\\S)-x2\\s+(?<wantedPart>(.+)(?<!\\s))");
+        typeTexture = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+)(?<!\\s))").trim();
+        String x2T = CommonController.dataExtractor(data, "((?<!\\S)-x2\\s+(?<wantedPart>(\\d+)(?<!\\s))");
         if(x2T.length() != 0) x2Texture = Integer.parseInt(x2T.trim());
-        String y2T = CommonController.dataExtractor(data, "((?<!\\S)-y2\\s+(?<wantedPart>(.+)(?<!\\s))");
+        String y2T = CommonController.dataExtractor(data, "((?<!\\S)-y2\\s+(?<wantedPart>(\\d+)(?<!\\s))");
         if(y2T.length() != 0) y2Texture = Integer.parseInt(y2T.trim());
         return true;
     }

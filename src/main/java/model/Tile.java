@@ -69,8 +69,8 @@ public class Tile {
 //            String ans = new String();
 //            troopCount = new HashMap<>();
 //            for (Troop troop : this.troops) {
-//                int addingNumber = troopCount.get(troop.getType());
-//                troopCount.put(troop.getType(),addingNumber+1);
+//                int addingNumber = troopCount.get(troop.getTypeName());
+//                troopCount.put(troop.getTypeName(),addingNumber+1);
 //            }
 //            Iterator<java.util.Map.Entry<UnitEnum, Integer>> it = troopCount.entrySet().iterator();
 //            // iterating every set of entry in the HashMap.
