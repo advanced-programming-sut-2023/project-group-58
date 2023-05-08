@@ -11,7 +11,7 @@ public class Captcha {
         String number = randomNumber();
         this.number = number;
         int width = number.length()*30;
-        int height = number.length()*15;
+        int height = 15;
         this.width = width;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics g = image.getGraphics();

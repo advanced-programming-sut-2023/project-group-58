@@ -34,6 +34,7 @@ public enum ProfisterControllerOut {
     NOT_A_VALID_PLACE("This is not the spot to put the building. Consider changing the location"),
     SUCCESSFULLY_ADDED_BUILDING("Building added successfully!"),
     UCCESSFULLY_ADDED_UNIT("Unit added successfully!"),
+    REGISTER_CAPTCHA_WRONG("register was unsuccessful"),
     ;
     private String content;
 

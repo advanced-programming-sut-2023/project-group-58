@@ -53,6 +53,8 @@ public class LoginMenuController {
             return LoginControllerOut.USERNAME_NOT_FOUND;
         if (!passwordMatch())
             return LoginControllerOut.PASSWORD_WRONG;
+        if (!captchaMenu.run())
+            return LoginControllerOut.LOGIN_CAPTCHA_WRONG;
         return LoginControllerOut.VALID;
     }
 
