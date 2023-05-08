@@ -9,7 +9,7 @@ public enum LoginControllerOut {
     PASSWORD_NOT_SMALL("Password does not include small letters!"),
     PASSWORD_NOT_NUMBERS("Password does not include numbers!"),
     PASSWORD_NOT_SYMBOLS("Password does not include symbols!"),
-    ;
+    LOGIN_CAPTCHA_WRONG("Login was unsuccessful");
     private final String content;
 
     LoginControllerOut(String content) {

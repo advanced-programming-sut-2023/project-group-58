@@ -104,6 +104,10 @@ public class RegisterMenu {
             return ProfisterControllerOut.FAILED;
         if (!registerMenuController.getSecurityQuestion(temp).equals(ProfisterControllerOut.VALID))
             return ProfisterControllerOut.FAILED;
+        CaptchaMenu captchaMenu = new CaptchaMenu();
+        if (!captchaMenu.run()){
+            return ProfisterControllerOut.REGISTER_CAPTCHA_WRONG;
+        }
         return registerMenuController.createUser();
     }
     public void reset(Matcher matcher) throws NoSuchAlgorithmException {
@@ -138,6 +142,11 @@ public class RegisterMenu {
                 System.out.println(out1.getContent());
             }
             else break;
+        }
+        CaptchaMenu captchaMenu = new CaptchaMenu();
+        if (!captchaMenu.run()){
+            System.out.println("password reset was unsuccessful");
+            return;
         }
         System.out.println(passwordReset.resetPassword());
     }
