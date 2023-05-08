@@ -3,11 +3,9 @@ import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.function.Executable;
+import view.RegisterMenu;
 
 import java.io.IOException;
-import java.util.Objects;
-
 public class TestClass {
 
     RegisterMenuController registerMenuController = new RegisterMenuController();
@@ -33,6 +31,19 @@ public class TestClass {
 
     }
     //auto generate equals
+
+    @Test
+    public void checkRandomPassword() throws IOException {
+      //  RegisterMenu registerMenu = new RegisterMenu();
+        RegisterMenuController registerMenuController1 = new RegisterMenuController();
+        registerMenuController1.validateBeforeCreation("-u username -p password password -email nik_m@yahoo.com -n nik -s nope");
+   //     registerMenu.createUser("-u username -p password password -email nik_m@yahoo.com -n nik -s nope");
+//        String xml = IOUtils.toString(
+//                Objects.requireNonNull(this.getClass().getResourceAsStream(System.getProperty("user.dir") + "/DataBase/userInfo.json")),
+//                StandardCharsets.UTF_8
+//        );
+        //System.out.println(xml);
+    }
 
 
     @BeforeEach

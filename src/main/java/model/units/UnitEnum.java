@@ -23,6 +23,7 @@ public enum UnitEnum {
     SLAVE("slave",ResourceEnum.NULL,0,0,0,0,0,true),
     ENGINEER("engineer",ResourceEnum.NULL,0,0,0,0,0,false),
     SLINGER("slinger",ResourceEnum.STONE,0,0,0,0,0,true),
+    DOGS("dog",ResourceEnum.NULL,0,0,0,0,0,false)
     ;
     private String name;
     private int cost;

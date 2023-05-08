@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 
@@ -68,18 +69,17 @@ public class LoginMenuController {
         mainMenu.run();
     }
 
-    public void giveAnotherShot(int timeOut, String password) {
+    public void giveAnotherShot(int timeOut, Scanner scanner) {
         long startTime = System.currentTimeMillis()/1000;
         while(true) {
             long timeNow = System.currentTimeMillis()/1000;
+            inputPassword = scanner.nextLine();
             if ((timeNow - startTime) > timeOut)
             {
-                inputPassword = password;
                 return;
             }
             else {
-                //todo: add a message, maybe?
-                //System.out.println("You have to wait!");
+                System.out.println("You have to wait");
             }
 
         }

@@ -48,7 +48,7 @@ public class RegisterMenu {
                     int timeOut = 5;
                     while (timeOut <= 320) {
                         System.out.println("You can try again in " + timeOut + " seconds");
-                        loginMenuController.giveAnotherShot(timeOut, ScanMatch.getScanner().nextLine());
+                        loginMenuController.giveAnotherShot(timeOut,ScanMatch.getScanner());
                         if (loginMenuController.passwordMatch()) {
                             loginMenuController.mainMenuRun();
                             break;
@@ -73,7 +73,7 @@ public class RegisterMenu {
         }
     }
 
-    private ProfisterControllerOut createUser(String data) throws IOException {
+    public ProfisterControllerOut createUser(String data) throws IOException {
         Matcher temp;
         ProfisterControllerOut result = registerMenuController.validateBeforeCreation(data);
         if (!result.equals(ProfisterControllerOut.VALID)) return result;
