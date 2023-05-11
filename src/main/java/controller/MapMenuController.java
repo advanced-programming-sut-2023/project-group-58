@@ -232,13 +232,13 @@ public class MapMenuController {
                         ans += "\033[38;5;249;48;5;21m" + tileOccupation;
                         break;
                     case SAND:
-                        ans += "\033[38;5;249;48;5;230mSAND" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;230m" + tileOccupation;
                         break;
                     case LAWN:
-                        ans += "\033[38;5;249;48;5;34mLAWN" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;34m" + tileOccupation;
                         break;
                     case ROCK:
-                        ans += "\033[38;5;249;48;5;8mROCK" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;8m" + tileOccupation;
                         break;
                 }
                 if (j == ranges[3])
@@ -267,12 +267,19 @@ public class MapMenuController {
     }
 
     public String setTextureForTheWholeMap(Map map, String data) throws IOException {
-        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        if(!extractDataForTexture(data))
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         yTexture = map.getWidth() - 1 - yTexture;
         y2Texture= map.getWidth() - 1 - y2Texture;
-        boolean doWeHaveX2 = x2Texture != -1;
+        boolean doWeHaveX2 = x2Texture == -1;
         if(doWeHaveX2) {x2Texture = 0; y2Texture = 0;}
-        if(!validateTextureCoordinates(map.getLength(), map.getWidth())) return "Mission failed: invalid coordinates!";
+        if(!validateTextureCoordinates(map.getLength(), map.getWidth())){
+            System.out.println(xTexture);
+            System.out.println(yTexture);
+            System.out.println(x2Texture);
+            System.out.println(y2Texture);
+            return "Mission failed: invalid coordinates!";
+        }
         if(doWeHaveX2) {
             if(map.getTile(yTexture,xTexture).getBuildings().size() != 0)
                 return "Mission failed: You can't change the" +

@@ -14,6 +14,7 @@ import view.RegisterMenu;
 import view.enums.LoginControllerOut;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.security.NoSuchAlgorithmException;
