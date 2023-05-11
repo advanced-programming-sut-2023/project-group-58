@@ -4,6 +4,7 @@ import controller.MapMenuController;
 import model.Map;
 import model.User;
 import view.enums.Commands;
+import view.enums.ProfisterControllerOut;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -70,7 +71,12 @@ public class MapMenu {
             System.out.println("Then custom map shall it be!\nChoose the map scale:");
             for (int i = 1; i < 9; i++)
                 System.out.println(i + ". " + i * 100 + " * " + i * 100);
-            System.out.println(mapMenuController.setUpACustom(ScanMatch.getScanner().nextInt() * 100));
+            int givenRange = ScanMatch.getScanner().nextInt() * 100;
+            if(givenRange <= 0 || givenRange >= 9) {
+                System.out.println(ProfisterControllerOut.INVALID_INPUT_FORMAT);
+                return null;
+            }
+            System.out.println(mapMenuController.setUpACustom(givenRange));
         } else System.out.println("Mission failed: invalid input");
         this.map = mapMenuController.selectedMap;
         return this.map;

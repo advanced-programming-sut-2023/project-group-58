@@ -99,7 +99,7 @@ public class MapMenuController {
         for(int i = 0; i < width; i++)
             for(int j = 0; j < 35; j++)
                 makingOne.getTile(i,j).setTexture(TileTexture.SEA);
-        for(int i = 0; i < width; i++)
+        for(int i = 0; i < width-40; i++)
         {
             makingOne.getTile(i,i+35).setTexture(TileTexture.FORD);
             makingOne.getTile(i,i+36).setTexture(TileTexture.SMALL_POND);
