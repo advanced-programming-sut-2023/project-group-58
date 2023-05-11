@@ -274,10 +274,6 @@ public class MapMenuController {
         boolean doWeHaveX2 = x2Texture == -1;
         if(doWeHaveX2) {x2Texture = 0; y2Texture = 0;}
         if(!validateTextureCoordinates(map.getLength(), map.getWidth())){
-            System.out.println(xTexture);
-            System.out.println(yTexture);
-            System.out.println(x2Texture);
-            System.out.println(y2Texture);
             return "Mission failed: invalid coordinates!";
         }
         if(doWeHaveX2) {
@@ -306,7 +302,7 @@ public class MapMenuController {
                 x2Texture >= 0 && x2Texture <= mapWidth - 1 && y2Texture >= 0 && y2Texture <= mapLength - 1;
     }
 
-    private TileTexture convertStringTextureToEnum(String typeTexture) {
+    public TileTexture convertStringTextureToEnum(String typeTexture) {
         switch (typeTexture) {
             case "oil" :
                 return TileTexture.OIL;

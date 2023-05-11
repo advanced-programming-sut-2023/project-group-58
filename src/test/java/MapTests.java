@@ -3,8 +3,11 @@ import model.Map;
 import model.TileTexture;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import view.enums.ProfisterControllerOut;
 
 import java.io.IOException;
+import java.util.AbstractSet;
+import java.util.EnumSet;
 
 public class MapTests {
     MapMenuController mapMenuController = new MapMenuController();
@@ -29,7 +32,43 @@ public class MapTests {
         Assertions.assertEquals(mapMenuController.setTextureForTheWholeMap(mapMenuController.selectedMap,"-t iron -y 49 -x 52"),
                 "Texture set successfully!");
         Assertions.assertEquals(mapMenuController.selectedMap.getTile(150,52).getTexture(), TileTexture.IRON);
-        
+        Assertions.assertEquals(mapMenuController.setTextureForTheWholeMap(mapMenuController.selectedMap,"-t iron -y 22222 -x 52"),
+                "Mission failed: invalid coordinates!");
+        Assertions.assertEquals(mapMenuController.setTextureForTheWholeMap(mapMenuController.selectedMap,"-t iron -y 2 -x 52 -y2 5 -x2"),
+                ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent());
+        Assertions.assertEquals(mapMenuController.setTextureForTheWholeMap(mapMenuController.selectedMap,"-t scrub -y 49 -x 49 -y2 35 -x2 54"),
+                "Texture set successfully!");
+        for(int i = 150; i < 165; i++)
+            for(int j = 49; j < 55; j++)
+                Assertions.assertEquals(mapMenuController.selectedMap.getTile(i,j).getTexture(), TileTexture.SCRUB);
+        int icounter = 0;
+        int jcounter = 199;
+        EnumSet<TileTexture> walker = EnumSet.allOf(TileTexture.class);
+        for (TileTexture tileTexture : walker) {
+            Assertions.assertEquals(mapMenuController.setTextureForTheWholeMap(mapMenuController.selectedMap,"-x    "
+                            + icounter++ + "    -y " + jcounter-- + " -t   " +
+                            mapMenuController.convertStringTextureToEnum(tileTexture.toString().toLowerCase().replaceAll("-"," "))),
+                    "Texture set successfully!");
+        }
+    }
 
+    @Test
+    public void outputCheckers() {
+        mapMenuController.setUpACustom(200);
+        Assertions.assertNotNull(mapMenuController.showMap("   -x 56    -y 78"));
+        Assertions.assertNotNull(mapMenuController.moveMap("   up left down "));
+        Assertions.assertNotNull(mapMenuController.moveMap("  right 5 up  0 left "));
+        Assertions.assertNotNull(mapMenuController.moveMap("  right 50000 up  0 left "));
+        Assertions.assertEquals(mapMenuController.clearTile("   -y 22 -x 52"),
+                "Tile cleared successfully!");
+        Assertions.assertEquals(mapMenuController.clearTile("   -y 52562 -x 52"),
+                "failed: invalid coordinates");
+    }
+
+    @Test
+    public void treeDrop() throws IOException {
+        Assertions.assertEquals(mapMenuController.dropTree("-t iron -y 22 -x 52"),
+                "Tree added successfully!");
+        assertTrue(Arrays.asList(yourArray).contains(yourElement));
     }
 }
