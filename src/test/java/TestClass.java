@@ -10,9 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import view.RegisterMenu;
+import view.enums.LoginControllerOut;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+
 public class TestClass {
     @BeforeClass
     public static void settingUp() throws IOException {
@@ -24,7 +27,7 @@ public class TestClass {
         LoginMenuController l = new LoginMenuController("user login -u epo3 -p abC12$");
         Assertions.assertTrue(l.userExist());
         l = new LoginMenuController("user login -u mmmmmm -p efe");
-        Assertions.assertFalse(l.userExist());
+        Assertions.assertEquals(LoginControllerOut.USERNAME_NOT_FOUND, l.checkForLogin());
     }
     @Test
     public void loginUserPasswordMatch() throws IOException {
@@ -33,7 +36,17 @@ public class TestClass {
         Assertions.assertTrue(l.passwordMatch());
         l = new LoginMenuController("user login -u epo -p wefg");
         l.userExist();
-        Assertions.assertFalse(l.passwordMatch());
+        l.passwordMatch();
+        Assertions.assertEquals(LoginControllerOut.PASSWORD_WRONG, l.checkForLogin());
+
+
+    }
+    @Test
+    public void checkStayedLogin() throws IOException, NoSuchAlgorithmException {
+        LoginMenuController l = new LoginMenuController("user login -u epo3 -p abC12$");
+        l.userExist();
+        l.saveUserStayed(l.getUser());
+        Assertions.assertTrue(RegisterMenu.stayLogin());
     }
     static RegisterMenuController registerMenuController = new RegisterMenuController();
 /*    @Test

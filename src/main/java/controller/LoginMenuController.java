@@ -31,10 +31,6 @@ public class LoginMenuController {
     private static User userStayLogin;
     private CaptchaMenu captchaMenu = new CaptchaMenu();
 
-    public void setInputPassword(String inputPassword) {
-        this.inputPassword = inputPassword;
-    }
-
     public LoginMenuController(String data) throws IOException {
         this.data = data;
         extractData();
@@ -146,8 +142,6 @@ public class LoginMenuController {
         return userStayLogin;
     }
 
-    public LoginMenuController() {
-    }
     public static void setUpStayedLogin() throws IOException {
         File userInfo = new File(System.getProperty("user.dir") + "/DataBase/stayed.json");
         if (!userInfo.exists()) {
@@ -270,5 +264,9 @@ public class LoginMenuController {
             throw new RuntimeException(e);
         }
         file.close();
+    }
+
+    public User getUser() {
+        return user;
     }
 }

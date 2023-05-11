@@ -22,11 +22,10 @@ public class RegisterMenu {
         registerMenuController.setUpUserInfo();
         LoginMenuController.setUpStayedLogin();
         LoginMenuController.extractUserData();
-        User temp;
-        if((temp =LoginMenuController.checkStayedLogin())!=null){
-            MainMenu mainMenu = new MainMenu(temp);
+        if(stayLogin()){
+            MainMenu mainMenu = new MainMenu(LoginMenuController.checkStayedLogin());
             mainMenu.run();
-        };
+        }
       //  checkForStayed();
         while (true) {
             String command = ScanMatch.getScanner().nextLine();
@@ -63,7 +62,7 @@ public class RegisterMenu {
             }
             else if ((matcher = Commands.getMatcher(command, Commands.USER_LOGIN_STAYED))!=null){
                 if (LoginMenuController.getUserStayLogin().getUsername().equals(matcher.group("username"))){
-                    LoginMenuController loginMenuController = new LoginMenuController();
+                    LoginMenuController loginMenuController = new LoginMenuController(null);
                     loginMenuController.mainMenuRunStayed(LoginMenuController.getUserStayLogin());
                 }
             }
@@ -149,6 +148,13 @@ public class RegisterMenu {
             return;
         }
         System.out.println(passwordReset.resetPassword());
+    }
+    public static boolean stayLogin() throws IOException, NoSuchAlgorithmException {
+        User temp;
+        if((temp =LoginMenuController.checkStayedLogin())!=null){
+            return true;
+        };
+        return false;
     }
     //public void checkForStayed()
 }
