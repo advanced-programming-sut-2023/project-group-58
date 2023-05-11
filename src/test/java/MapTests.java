@@ -1,13 +1,22 @@
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import controller.MapMenuController;
 import model.Map;
 import model.TileTexture;
+import model.Tree;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import view.enums.ProfisterControllerOut;
+import view.enums.TreeTypes;
 
 import java.io.IOException;
+import java.lang.reflect.Executable;
 import java.util.AbstractSet;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
+
+import static org.hamcrest.CoreMatchers.hasItem;
 
 public class MapTests {
     MapMenuController mapMenuController = new MapMenuController();
@@ -47,14 +56,16 @@ public class MapTests {
         for (TileTexture tileTexture : walker) {
             Assertions.assertEquals(mapMenuController.setTextureForTheWholeMap(mapMenuController.selectedMap,"-x    "
                             + icounter++ + "    -y " + jcounter-- + " -t   " +
-                            mapMenuController.convertStringTextureToEnum(tileTexture.toString().toLowerCase().replaceAll("-"," "))),
+                            mapMenuController.convertStringTextureToEnum(tileTexture.toString().toLowerCase().replaceAll("_"," "))),
                     "Texture set successfully!");
         }
     }
 
     @Test
-    public void outputCheckers() {
+    public void outputCheckers() throws IOException {
         mapMenuController.setUpACustom(200);
+        Assertions.assertNotEquals(mapMenuController.showDetail(" -x 25 -y 25"),ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent());
+        Assertions.assertEquals(mapMenuController.showDetail(" -x 25 -y 23535"),ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent());
         Assertions.assertNotNull(mapMenuController.showMap("   -x 56    -y 78"));
         Assertions.assertNotNull(mapMenuController.moveMap("   up left down "));
         Assertions.assertNotNull(mapMenuController.moveMap("  right 5 up  0 left "));
@@ -67,8 +78,38 @@ public class MapTests {
 
     @Test
     public void treeDrop() throws IOException {
-        Assertions.assertEquals(mapMenuController.dropTree("-t iron -y 22 -x 52"),
-                "Tree added successfully!");
-        assertTrue(Arrays.asList(yourArray).contains(yourElement));
+        mapMenuController.setUpACustom(200);
+        EnumSet<TreeTypes> jungle = EnumSet.allOf(TreeTypes.class);
+        for (TreeTypes tt : jungle) {
+            Assertions.assertEquals(mapMenuController.dropTree("-t " + tt.name().toLowerCase().replaceAll("_"," ") + " -y 22 -x 52"),
+                    "Tree added successfully!");
+            boolean shot = false;
+            for (Tree tree : mapMenuController.selectedMap.getTile(177, 52).getTrees()) {
+                if(tree.getType().equals(tt))
+                {
+                    shot = true; break;
+                }
+            }
+
+            Assertions.assertTrue(shot);
+        }
+        Assertions.assertEquals(mapMenuController.dropTree("-t olive -y 22222 -x 52"),ProfisterControllerOut.FAILED.getContent());;
+        Assertions.assertEquals(mapMenuController.dropTree("-t olive -y  -y 22 -x 554542"),ProfisterControllerOut.FAILED.getContent());
+        Assertions.assertEquals(mapMenuController.dropTree("-t jhhjghj -y  -y 22 -x 554542"),ProfisterControllerOut.FAILED.getContent());
+    }
+
+    @Test
+    public void rockDrop() throws IOException {
+        mapMenuController.setUpACustom(200);
+        Assertions.assertEquals(mapMenuController.dropRock(" -y 22 -x 52 -d n   "),
+                "Rock added successfully!");
+        Assertions.assertEquals(mapMenuController.selectedMap.getTile(177,52).getTexture(), TileTexture.ROCK);
+        Assertions.assertEquals(mapMenuController.selectedMap.getTile(177,52).getRockDirection(), "n");
+        Assertions.assertEquals(mapMenuController.dropRock(" -y 22   -d   r  -x 52   "),
+                "Rock added successfully!");
+        Assertions.assertEquals(mapMenuController.dropRock(" -y 22 -x 554542 -d    "),
+                ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent());
+        Assertions.assertEquals(mapMenuController.dropRock(" -y 22 -x 554542 -d n  s "),
+                ProfisterControllerOut.FAILED.getContent());
     }
 }

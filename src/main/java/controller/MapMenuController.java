@@ -298,6 +298,8 @@ public class MapMenuController {
     }
 
     public boolean validateTextureCoordinates(int mapLength, int mapWidth) {
+        x2Texture = x2Texture == -1? 0 : x2Texture;
+        y2Texture = y2Texture == -1? 0 : y2Texture;
         return xTexture >= 0 && xTexture <= mapWidth - 1 && yTexture >= 0 && yTexture <= mapLength - 1 &&
                 x2Texture >= 0 && x2Texture <= mapWidth - 1 && y2Texture >= 0 && y2Texture <= mapLength - 1;
     }
@@ -354,19 +356,18 @@ public class MapMenuController {
         return true;
     }
 
-    public void extractDataxandy(String data) throws IOException {
-        //todo: handle errors
+    public boolean extractDataxandy(String data) throws IOException {
+        String x = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        String y = CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        if(x.length() == 0 || y.length() == 0) return false;
         xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        return true;
     }
 
-    public String showMap(String data) {
+    public String showMap(String data) throws IOException {
         String ans = new String();
-        try {
-            extractDataxandy(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        if(!extractDataxandy(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         yTexture = selectedMap.getWidth() - 1 - yTexture;
         int[] range = setRange(xTexture,yTexture,selectedMap.getLength(), selectedMap.getWidth());
         xShowingMap = xTexture;
@@ -395,12 +396,8 @@ public class MapMenuController {
         return printMap(this.selectedMap,ranges);
     }
 
-    public String clearTile(String data) {
-        try {
-            extractDataxandy(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public String clearTile(String data) throws IOException {
+        if(!extractDataxandy(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         if(!validateTextureCoordinates(this.selectedMap.getLength(),this.selectedMap.getWidth())) return "failed: invalid coordinates";
         this.selectedMap.getTile(yTexture,xTexture).clear();
         return "Tile cleared successfully!";
@@ -408,6 +405,7 @@ public class MapMenuController {
 
     public String dropTree(String data) throws IOException {
         if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        yTexture = selectedMap.getWidth() -1 - yTexture;
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.FAILED.getContent();
         switch (typeTexture.trim()) {
@@ -415,24 +413,27 @@ public class MapMenuController {
                 selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.DESERT_SHRUB));
                 break;
             case "cherry palm":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.CHERRY));
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.CHERRY_PALM));
                 break;
             case "olive tree":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.OLIVE));
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.OLIVE_TREE));
                 break;
             case "coconut palm":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.COCONUT));
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.COCONUT_PALM));
                 break;
             case "date palm":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.DATE));
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.DATE_PALM));
                 break;
         }
         return "Tree added successfully!";
     }
 
     public String dropRock(String data) throws IOException {
-        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
-        if(typeTexture != null)typeTexture = typeTexture.trim();
+        if(!extractDataxandy(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        yTexture = selectedMap.getWidth() -1 - yTexture;
+        String x = CommonController.dataExtractor(data, "((?<!\\S)-d\\s+(?<wantedPart>[n,e,w,s,r])(?<!\\s))");
+        if(x.length() == 0) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        typeTexture = x.trim();
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.FAILED.getContent();
 
@@ -447,23 +448,16 @@ public class MapMenuController {
             if(random == 3)
                 typeTexture = "s";
         }
-        if(typeTexture.equals("n") || typeTexture.equals("e") || typeTexture.equals("w") || typeTexture.equals("s")) {
-            selectedMap.getTile(yTexture,xTexture).setRockDirection(typeTexture);
-            selectedMap.getTile(yTexture,xTexture).setTexture(TileTexture.ROCK);
-        }
-        else
-            return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        selectedMap.getTile(yTexture,xTexture).setRockDirection(typeTexture);
+        selectedMap.getTile(yTexture,xTexture).setTexture(TileTexture.ROCK);
         return "Rock added successfully!";
     }
 
 
-    public String showDetail(String data) {
+    public String showDetail(String data) throws IOException {
         String ans = new String();
-        try {
-            extractDataxandy(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        if(!extractDataxandy(data) || !validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         ans += "The texture is: " + selectedMap.getTile(yTexture,xTexture)+"\n";
         //ans += selectedMap.getTile(yTexture,xShowingMap).countTroops()+"\n";
         //todo: خیلی مهم: نمایش نوع منابع و تعداد آن ها باید اضافه شود.
