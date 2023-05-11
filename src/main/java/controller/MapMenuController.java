@@ -270,10 +270,13 @@ public class MapMenuController {
         if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         yTexture = map.getWidth() - 1 - yTexture;
         y2Texture= map.getWidth() - 1 - y2Texture;
+        boolean doWeHaveX2 = x2Texture != -1;
+        if(doWeHaveX2) {x2Texture = 0; y2Texture = 0;}
         if(!validateTextureCoordinates(map.getLength(), map.getWidth())) return "Mission failed: invalid coordinates!";
-        if(x2Texture != 0) {
-            if(map.getTile(yTexture,xTexture).getBuildings().size() != 0) return "Mission failed: You can't change the" +
-                                                                         "texture while there is a building on it!";
+        if(doWeHaveX2) {
+            if(map.getTile(yTexture,xTexture).getBuildings().size() != 0)
+                return "Mission failed: You can't change the" +
+                        "texture while there is a building on it!";
             map.getTile(yTexture,xTexture).setTexture(convertStringTextureToEnum(typeTexture));
         }
         else {
@@ -330,24 +333,28 @@ public class MapMenuController {
 
     public boolean extractDataForTexture(String data) throws IOException {
         //todo: handle errors. everytime we use that there should be a type somewhere...
-        if(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+)(?<!\\s))").length() == 0)
+        if(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
             return false;
-        xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
-        yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
-        typeTexture = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+)(?<!\\s))").trim();
-        String x2T = CommonController.dataExtractor(data, "((?<!\\S)-x2\\s+(?<wantedPart>(\\d+)(?<!\\s))");
+        xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        typeTexture = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
+        String x2T = CommonController.dataExtractor(data, "((?<!\\S)-x2\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        String y2T = CommonController.dataExtractor(data, "((?<!\\S)-y2\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        if((x2T.length() == 0 && y2T.length() != 0) || (y2T.length() == 0 && x2T.length() != 0))
+            return false;
         if(x2T.length() != 0) x2Texture = Integer.parseInt(x2T.trim());
-        String y2T = CommonController.dataExtractor(data, "((?<!\\S)-y2\\s+(?<wantedPart>(\\d+)(?<!\\s))");
+        else x2Texture = -1;
         if(y2T.length() != 0) y2Texture = Integer.parseInt(y2T.trim());
+        else y2Texture = -1;
         return true;
     }
 
     public void extractDataxandy(String data) throws IOException {
         //todo: handle errors
-        xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
-        yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
+        xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
     }
 
     public String showMap(String data) {
@@ -365,10 +372,10 @@ public class MapMenuController {
     }
 
     public String moveMap(String data) {
-        String upStr    = CommonController.dataExtractor(data, "((?<!\\S)up\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
-        String leftStr  = CommonController.dataExtractor(data, "((?<!\\S)left\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
-        String downStr  = CommonController.dataExtractor(data, "((?<!\\S)down\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
-        String rightStr = CommonController.dataExtractor(data, "((?<!\\S)right\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
+        String upStr    = CommonController.dataExtractor(data, "((?<!\\S)up\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim();
+        String leftStr  = CommonController.dataExtractor(data, "((?<!\\S)left\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim();
+        String downStr  = CommonController.dataExtractor(data, "((?<!\\S)down\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim();
+        String rightStr = CommonController.dataExtractor(data, "((?<!\\S)right\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim();
         boolean doWeHaveRight = rightStr.length() > 0;
         boolean doWeHaveUp    = upStr.length() > 0;
         int up    = upStr.length() > 0 ? Integer.parseInt(upStr) : 1;
