@@ -35,18 +35,6 @@ public class RegisterMenuController {
         return password;
     }
 
-    public void createFileWhenNecessary(String address) {
-        File myFile = new File(address);
-        if (!myFile.exists()) {
-            try {
-                myFile.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-
     public void setUpUserInfo() throws IOException {
 
         //file should not be overwritten if it's not empty. first, we check if it exists:
@@ -182,7 +170,7 @@ public class RegisterMenuController {
         //handling random slogan:
         if (slogan.equals("random")) {
             int pickSlogan = (int) (numberOfSlogans * Math.random());
-            slogan = Files.readAllLines(Paths.get("/DataBase/slogans.txt")).get(pickSlogan);
+            slogan = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "/DataBase/slogans.txt")).get(pickSlogan);
             randomSlogan = true;
         }
 
