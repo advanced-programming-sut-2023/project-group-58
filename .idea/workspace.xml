@@ -21,11 +21,16 @@
       <change afterPath="$PROJECT_DIR$/lib/opentest4j-1.2.0-sources.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/MapMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MapMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/MapTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/MapTests.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" afterDir="false" />
+>>>>>>> 0b2af8a26b5d3e117aa9b36588a709fd06410931
       <change beforePath="$PROJECT_DIR$/src/test/java/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/MapMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/MapMenuController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/TestClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/TestClass.class" afterDir="false" />
@@ -34,6 +39,9 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageOptionsProvider">
+    <option name="myAddOrReplace" value="1" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -130,8 +138,8 @@
         <item itemvalue="JUnit.MapTests.changeTexture" />
         <item itemvalue="JUnit.MapTests.mapSetUp" />
         <item itemvalue="JUnit.TestClass" />
-        <item itemvalue="JUnit.TestClass.loginUserExist" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.TestClass.loginUserExist" />
       </list>
     </recent_temporary>
   </component>
@@ -164,7 +172,7 @@
       <workItem from="1683558771417" duration="306000" />
       <workItem from="1683569834676" duration="1567000" />
       <workItem from="1683656203849" duration="110000" />
-      <workItem from="1683808584838" duration="4130000" />
+      <workItem from="1683808584838" duration="8152000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
@@ -211,6 +219,8 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/project$TestClass.ic" NAME="TestClass Coverage Results" MODIFIED="1683816622801" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APP3$TestClass_correctingDoubleQuotes.ic" NAME="TestClass.correctingDoubleQuotes Coverage Results" MODIFIED="1682103566855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project$Main.ic" NAME="Main Coverage Results" MODIFIED="1683815289446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
