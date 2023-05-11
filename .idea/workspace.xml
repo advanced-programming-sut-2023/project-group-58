@@ -22,12 +22,16 @@
       <change afterPath="$PROJECT_DIR$/src/test/java/MapTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/MapMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MapMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/TestClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/TestClass.class" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/test/java/TestClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestClass.java" afterDir="false" />
+>>>>>>> 70c5b20d34c6fb20ba34f4a3dd544a9da5248024
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +77,7 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
@@ -87,12 +92,28 @@
     "project.structure.side.proportion": "0.0"
   }
 }]]></component>
+=======
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+>>>>>>> 70c5b20d34c6fb20ba34f4a3dd544a9da5248024
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="view" />
     </key>
   </component>
+<<<<<<< HEAD
   <component name="RunManager" selected="JUnit.MapTests.mapSetUp">
+=======
+  <component name="RunManager" selected="JUnit.TestClass">
+>>>>>>> 70c5b20d34c6fb20ba34f4a3dd544a9da5248024
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="project" />
@@ -100,6 +121,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
     <configuration name="MapTests.mapSetUp" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="APPOnMave" />
       <option name="PACKAGE_NAME" value="" />
@@ -115,6 +137,22 @@
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="TestClass" />
       <option name="METHOD_NAME" value="checkRandomPassword" />
+=======
+    <configuration name="TestClass" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="project" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestClass" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestClass.loginUserExist" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="project" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestClass" />
+      <option name="METHOD_NAME" value="loginUserExist" />
+>>>>>>> 70c5b20d34c6fb20ba34f4a3dd544a9da5248024
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -122,8 +160,13 @@
     </configuration>
     <recent_temporary>
       <list>
+<<<<<<< HEAD
         <item itemvalue="JUnit.MapTests.mapSetUp" />
         <item itemvalue="JUnit.TestClass.checkRandomPassword" />
+=======
+        <item itemvalue="JUnit.TestClass" />
+        <item itemvalue="JUnit.TestClass.loginUserExist" />
+>>>>>>> 70c5b20d34c6fb20ba34f4a3dd544a9da5248024
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -151,8 +194,16 @@
       <workItem from="1682837638996" duration="1082000" />
       <workItem from="1683484705978" duration="17000" />
       <workItem from="1683486392576" duration="4112000" />
+<<<<<<< HEAD
       <workItem from="1683542773824" duration="2271000" />
       <workItem from="1683805931016" duration="2770000" />
+=======
+      <workItem from="1683542773824" duration="2703000" />
+      <workItem from="1683558771417" duration="306000" />
+      <workItem from="1683569834676" duration="1567000" />
+      <workItem from="1683656203849" duration="110000" />
+      <workItem from="1683808584838" duration="4130000" />
+>>>>>>> 70c5b20d34c6fb20ba34f4a3dd544a9da5248024
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
