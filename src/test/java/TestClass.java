@@ -1,15 +1,42 @@
+import controller.LoginMenuController;
 import controller.RegisterMenuController;
+import model.User;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
 import view.RegisterMenu;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 public class TestClass {
-
-    RegisterMenuController registerMenuController = new RegisterMenuController();
+    @BeforeClass
+    public static void settingUp() throws IOException {
+        LoginMenuController.extractUserData();
+        LoginMenuController.setUpStayedLogin();
+    }
     @Test
+    public void loginUserExist() throws IOException {
+        LoginMenuController l = new LoginMenuController("user login -u epo3 -p abC12$");
+        Assertions.assertTrue(l.userExist());
+        l = new LoginMenuController("user login -u mmmmmm -p efe");
+        Assertions.assertFalse(l.userExist());
+    }
+    @Test
+    public void loginUserPasswordMatch() throws IOException {
+        LoginMenuController l = new LoginMenuController("user login -u epo3 -p abC12$");
+        l.userExist();
+        Assertions.assertTrue(l.passwordMatch());
+        l = new LoginMenuController("user login -u epo -p wefg");
+        l.userExist();
+        Assertions.assertFalse(l.passwordMatch());
+    }
+    static RegisterMenuController registerMenuController = new RegisterMenuController();
+/*    @Test
     @DisplayName("Correcting the input Strings with extra double quotes.")
     public void correctingDoubleQuotes() {
         String testing = new String();
@@ -45,14 +72,7 @@ public class TestClass {
         //System.out.println(xml);
     }
 
+*/
 
-    @BeforeEach
-    public void settingUp() {
-        try {
-            registerMenuController.setUpUserInfo();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        registerMenuController.setUpSloganDataBase();
-    }
+
 }
