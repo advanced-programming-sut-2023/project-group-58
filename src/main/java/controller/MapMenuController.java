@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.util.EnumSet;
 
 public class MapMenuController {
-    private final Map map1 = new Map(100,100);
-    private final Map map2 = new Map(200,200);
-    private final Map map3 = new Map(300,300);
+    private final Map map1 = new Map(200,200);
 
     public Map selectedMap;
     int xTexture  = 0;
@@ -472,6 +470,7 @@ public class MapMenuController {
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.INVALID_INPUT_FORMAT;
         BuildingEnum type = buildingTypeSpecifier(typeTexture);
+        if(type == null) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
         if(!checkLocation(selectedMap,yTexture,xTexture,type)) return ProfisterControllerOut.NOT_A_VALID_PLACE;
         if(!checkFinance(currentPlayer,type)) return ProfisterControllerOut.NOT_ENOUGH_RESOURCES;
         Building addingBuilding = null;
@@ -504,7 +503,7 @@ public class MapMenuController {
         return ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING;
     }
 
-    private boolean checkLocation(Map selectedMap, int yTexture, int xTexture, BuildingEnum type) {
+    public boolean checkLocation(Map selectedMap, int yTexture, int xTexture, BuildingEnum type) {
         boolean[] isException = new boolean[3];
         if((isException[0] = type.equals(BuildingEnum.IRON_MINE)) && !selectedMap.getTile(yTexture,xTexture).getTexture().equals(TileTexture.IRON))
             return false;
@@ -516,6 +515,9 @@ public class MapMenuController {
     }
 
     private boolean checkFinance(User currentPlayer, BuildingEnum buildingType) {
+        if(buildingType == null || buildingType.getResource() == null ||
+           buildingType.getResource().getType() == null || buildingType.getResource().getType().equals(ResourceEnum.NULL))
+            return true;
         if(currentPlayer.getGovernance().getResourceAmount((buildingType.getResource().getType())) < buildingType.getResource().getAmount())
             return false;
         if(currentPlayer.getGovernance().getGold() < buildingType.getGoldCost())
@@ -543,7 +545,15 @@ public class MapMenuController {
         return null;
     }
 
-//    public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
+    public int getxTexture() {
+        return xTexture;
+    }
+
+    public int getyTexture() {
+        return yTexture;
+    }
+
+    //    public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
 //        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
 //        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-c\\s+(?<wantedPart>(\\d+)(?<!\\s))");
 //        if(countStr.length() == 0) return ProfisterControllerOut.INVALID_INPUT_FORMAT;

@@ -30,6 +30,7 @@ public class User {
         securityQuestion = SecurityQuestion;
         securityAnswer = SecurityAnswer;
         highScore = HighScore;
+        governance = new Governance();
     }
 
     public Governance getGovernance() {

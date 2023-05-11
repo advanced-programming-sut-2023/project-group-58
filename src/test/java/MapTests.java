@@ -1,8 +1,9 @@
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import controller.MapMenuController;
-import model.Map;
-import model.TileTexture;
-import model.Tree;
+import model.*;
+import model.buildings.BuildingEnum;
+import model.buildings.BuildingEnumType;
+import model.units.UnitEnum;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -66,6 +67,7 @@ public class MapTests {
         mapMenuController.setUpACustom(200);
         Assertions.assertNotEquals(mapMenuController.showDetail(" -x 25 -y 25"),ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent());
         Assertions.assertEquals(mapMenuController.showDetail(" -x 25 -y 23535"),ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent());
+        Assertions.assertTrue((mapMenuController.setUpATemplate().startsWith( "I give you a 200*200 map.")));
         Assertions.assertNotNull(mapMenuController.showMap("   -x 56    -y 78"));
         Assertions.assertNotNull(mapMenuController.moveMap("   up left down "));
         Assertions.assertNotNull(mapMenuController.moveMap("  right 5 up  0 left "));
@@ -111,5 +113,47 @@ public class MapTests {
                 ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent());
         Assertions.assertEquals(mapMenuController.dropRock(" -y 22 -x 554542 -d n  s "),
                 ProfisterControllerOut.FAILED.getContent());
+    }
+
+    @Test
+    public void buildingDrop() throws IOException {
+        mapMenuController.setUpACustom(200);
+        User tester = new User("nick","tiered","nick","n@j.l","nik was here",2,"ilani",0);
+        Assertions.assertEquals(mapMenuController.dropBuilding(" -y 32  -x 52 -t randomStuff  ", tester),
+                ProfisterControllerOut.INVALID_INPUT_FORMAT);
+        Assertions.assertEquals(mapMenuController.dropBuilding(" -y 23232  -x 52 -t hovel  ", tester),
+                ProfisterControllerOut.INVALID_INPUT_FORMAT);
+        Assertions.assertEquals(mapMenuController.dropBuilding(" -y 0  -x 0 -t hovel  ", tester),
+                ProfisterControllerOut.NOT_A_VALID_PLACE);
+        tester.getGovernance().changeGold(1000000000);
+        tester.getGovernance().changeResourceAmount(ResourceEnum.WOOD,500000000);
+        tester.getGovernance().changeResourceAmount(ResourceEnum.STONE,500000000);
+        tester.getGovernance().changeResourceAmount(ResourceEnum.IRON,500000000);
+        EnumSet<BuildingEnum> buildingTypes = EnumSet.allOf(BuildingEnum.class);
+        for (BuildingEnum type : buildingTypes) {
+            mapMenuController.extractDataForTexture(" -y 22  -x 52 -t " + type.getName());
+            if(!mapMenuController.checkLocation(mapMenuController.selectedMap,mapMenuController.getyTexture(),
+                mapMenuController.getxTexture(),type))
+                Assertions.assertEquals(mapMenuController.dropBuilding(" -y 22  -x 52 -t " + type.getName(), tester),
+                        ProfisterControllerOut.NOT_A_VALID_PLACE);
+            else
+            {
+                Assertions.assertEquals(mapMenuController.dropBuilding(" -y 22  -x 52 -t " + type.getName(), tester),
+                        ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING);
+            }
+        }
+    }
+
+    @Test
+    public void unitStringConvertor() {
+        EnumSet<UnitEnum> unitEnums = EnumSet.allOf(UnitEnum.class);
+        for (UnitEnum unit : unitEnums) {
+            Assertions.assertEquals(mapMenuController.unitTypeSpecifier(unit.getName()),unit);
+        }
+    }
+
+    @Test
+    public void templateMaps() {
+
     }
 }

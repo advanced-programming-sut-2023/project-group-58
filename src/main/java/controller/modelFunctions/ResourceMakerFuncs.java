@@ -81,6 +81,7 @@ public class ResourceMakerFuncs {
     }
 
     public static boolean changeOrAddResource(ArrayList<Resource> resources, ResourceEnum type, int amount) {
+        if(type == null || type.equals(ResourceEnum.NULL)) return true;
         for (Resource resource : resources) {
             if(resource.getType().equals(type)) {
                 resource.changeAsset(amount);
