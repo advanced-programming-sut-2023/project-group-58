@@ -36,7 +36,7 @@ public class LoginMenuController {
         extractData();
     }
 
-    private void extractData() throws IOException {
+    private void extractData() {
         inputUsername = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
         inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
         if ((Pattern.compile("--stay-logged-in").matcher(data).find())){

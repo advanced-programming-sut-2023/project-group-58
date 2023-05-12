@@ -2,13 +2,13 @@ package model;
 
 public enum TileTexture {
 
-    SMALL_POND(false, false, true),
+    SMALL_POND(false, false, false),
     SEA(false, false, false),
-    FORD(false, false, false),
-    IRON(true, false, false),
+    FORD(false, false, true),
+    IRON(true, false, true),
     EARTH(true, true, true),
     SCRUB(true, false, true),
-    THICK_SCRUB(true, false, false),
+    THICK_SCRUB(true, false, true),
     OIL(false, false, true),
 
     BIG_POND(false,false,false),

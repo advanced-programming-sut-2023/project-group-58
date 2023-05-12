@@ -1,12 +1,18 @@
 package controller.gameMenuControllers;
 
-import model.Resource;
+import controller.CommonController;
+import model.Map;
 import model.ResourceEnum;
 import model.User;
+import model.buildings.Building;
 import view.enums.GameControllerOut;
 
 public class GameController {
     private User CurrentUser;
+    private int xCoor;
+    private int yCoor;
+    private Map selectedMap;
+    private Building selectedBuilding;
 
     public User getCurrentUser() {
         return CurrentUser;
@@ -111,5 +117,55 @@ public class GameController {
     }
     public String showTaxRate() {
         return "This is tax rate: " + this.CurrentUser.getGovernance().getTaxRate();
+    }
+
+    public boolean extractDataxandy(String data) {
+        String x = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        String y = CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        if(x.length() == 0 || y.length() == 0) return false;
+        if(x.trim().length() == 0 || y.trim().length() == 0) return false;
+        xCoor = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        yCoor = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        yCoor = selectedMap.getWidth() - 1 - yCoor;
+        return true;
+    }
+    public boolean validateCoordinates(int mapLength, int mapWidth) {
+        return xCoor >= 0 && xCoor <= mapWidth - 1 && yCoor >= 0 && yCoor <= mapLength - 1;
+    }
+    public GameControllerOut selectBuilding(String data) {
+        extractDataxandy(data);
+        if(!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
+            return GameControllerOut.INVALID_COORDINATES;
+        if(selectedMap.getTile(yCoor,xCoor).getBuildings().size() == 0)
+            return GameControllerOut.NO_BUILDING;
+        boolean exist = false;
+        for (Building building : selectedMap.getTile(yCoor, xCoor).getBuildings()) {
+            if(building.getOwner().getUsername().equals(this.CurrentUser.getUsername())) {
+                exist = true;
+                this.selectedBuilding = building;
+                break;
+            }
+        }
+        if(!exist)
+            return GameControllerOut.NO_BUILDING;
+        else
+            return GameControllerOut.SUCCESSFULLY_SELECTED_BUILDING.manipulateSelectBuilding(selectedBuilding.getType());
+    }
+
+    public GameController(User currentUser, Map selectedMap) {
+        CurrentUser = currentUser;
+        this.selectedMap = selectedMap;
+    }
+
+    public void setSelectedMap(Map selectedMap) {
+        this.selectedMap = selectedMap;
+    }
+
+    public GameControllerOut createUnit(String data) {
+        String type = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(.+))(?<!\\s))");
+        String countstr = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        if()
+        int count;
+        return null;
     }
 }

@@ -35,6 +35,8 @@ public enum Commands {
     DROP_BUILDING("^dropbuilding\\s+(?<data>(-)?\\d)$"),
     DROP_UNIT("^dropunit\\s+(?<data>(-)?\\d)$"),
     USER_LOGIN_STAYED("\\s*user\\s+login\\s+-u\\s+\"?(?<username>\\S+)\"?"),
+    SELECT_BUILDING("^select\\s+building\\s+(?<data>.+)$"),
+    CREATE_UNIT("^createunit\\s+(?<data>.+)$"),
     ;public final String regex;
 
     Commands(String regex) {

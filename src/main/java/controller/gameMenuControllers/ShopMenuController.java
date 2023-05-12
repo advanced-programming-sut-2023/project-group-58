@@ -58,6 +58,9 @@ public class ShopMenuController {
         if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0 ||
            CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0)
             return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
+        if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim().length() == 0)
+            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
         String item   = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
         int amount    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         ResourceEnum resourceItem = CommonController.resourceFinder(item);

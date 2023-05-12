@@ -1,17 +1,13 @@
 package view;
 
 import java.io.IOException;
+
 import controller.gameMenuControllers.GameController;
 import model.Map;
 import model.User;
 import model.buildings.Building;
 import view.enums.Commands;
 import view.enums.GameControllerOut;
-import java.io.IOException;
-import java.util.ArrayList;
-import model.Map;
-import model.User;
-import view.enums.ProfisterControllerOut;
 
 import java.util.regex.Matcher;
 
@@ -19,7 +15,7 @@ public class GameMenu {
 
     Map map;
     private User currentUser;
-    private GameController gameController = new GameController();
+    private GameController gameController;
     private Building selectedBuilding;
 
     public GameMenu(User host) {
@@ -28,11 +24,15 @@ public class GameMenu {
     //todo: reset every governance in the end.
     public void run() throws IOException {
         map = (new MapMenu(null,this.currentUser)).setUpMap();
+        gameController = new GameController(this.currentUser,this.map);
         while (true){
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
-            if(command.matches("map menu"))
-                new MapMenu(this.map,this.currentUser).run();
+            if(command.matches("map menu")) {
+                MapMenu mapMenu = new MapMenu(this.map,this.currentUser);
+                this.map = mapMenu.map;
+                gameController.setSelectedMap(this.map);
+            }
             else if(command.matches("shop menu")){
                 if(selectedBuilding.getType().getName().equals("market"))
                     new ShopMenu(currentUser).run();
@@ -56,6 +56,16 @@ public class GameMenu {
             else if ((matcher = Commands.getMatcher(command, Commands.SHOW_TAX_RATE)) != null) {
                 System.out.println(gameController.showTaxRate());
             }
+            else if ((matcher = Commands.getMatcher(command, Commands.SELECT_BUILDING)) != null) {
+                System.out.println(gameController.selectBuilding(matcher.group("data")).getContent());
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.DROP_BUILDING)) != null) {
+                System.out.println(GameControllerOut.DROP);
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.CREATE_UNIT)) != null) {
+                System.out.println(gameController.createUnit(matcher.group("data")).getContent());
+            }
+
             else if (command.matches("trade menu")){
                 TradeMenu tradeMenu = new TradeMenu(currentUser);
                 tradeMenu.run();

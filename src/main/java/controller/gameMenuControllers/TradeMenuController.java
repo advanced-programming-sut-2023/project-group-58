@@ -22,7 +22,12 @@ public class TradeMenuController {
            CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
            CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
            CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
-        return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
+            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
+        if(CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim().length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim().length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0)
+            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
 
         String item     = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
         int amount      = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
@@ -80,7 +85,10 @@ public class TradeMenuController {
     public ShopAndTradeControllerOut doTheTrade(String data) {
         if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0 ||
                 CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
-        return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
+            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
+        if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0 ||
+                CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0)
+            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
 
         String id     = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
         String message  = CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
