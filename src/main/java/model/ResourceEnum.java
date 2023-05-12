@@ -3,7 +3,7 @@ package model;
 public enum ResourceEnum {
     NULL("",0,0),
     WHEAT("wheat", 0, 0),
-    MEAT("meat", 0, 0),
+    MEAT("meat", 10, 5),
     APPLE("apple", 0, 0),
     CHEESE("cheese", 0, 0),
     WOOD("wood", 0, 0),

@@ -24,7 +24,7 @@ public class ShopMenuController {
         String ans = new String();
         for (ResourceEnum value : ResourceEnum.values()) {
             if(!value.getName().equals(""))
-                ans += value.getName() + ":\n       doThePurchase cost -> " + value.getBuyCost() + "\n        sell cost -> " +
+                ans += value.getName() + ":\n        buy cost -> " + value.getBuyCost() + "\n        sell cost -> " +
                        value.getSellCost() + "\n        storage amount -> " + currentUser.getGovernance().getResourceAmount(value) + "\n";
         }
         return ans;
@@ -55,11 +55,11 @@ public class ShopMenuController {
     }
 
     public ShopAndTradeControllerOut extractItemAndAmount(String data) {
-        if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+)(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0)
+        if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0)
             return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
-        String item   = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+)(?<!\\s))").trim();
-        int amount    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
+        String item   = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
+        int amount    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         ResourceEnum resourceItem = CommonController.resourceFinder(item);
         this.merchandise = new Resource(resourceItem,amount);
         return ShopAndTradeControllerOut.SUCCESS_FOR_SHOP;
