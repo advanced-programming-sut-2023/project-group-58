@@ -228,7 +228,7 @@ public class RegisterMenuController {
 
 
     //Warning: can cause infinite loop:
-    private String findSomethingSimilar(String username) {
+    public String findSomethingSimilar(String username) {
         String randomStringWeAddEachTime;
         while (true) {
             randomStringWeAddEachTime = username + createRandomString();
@@ -264,24 +264,24 @@ public class RegisterMenuController {
     }
 
 
-    private String randomPasswordGenerator() {
+    public String randomPasswordGenerator() {
         String lowerCases = "abcdefghijklmnopqrstuvwxyz";
         String upperCases = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String symbols = "\\*\\.\\!\\@\\$\\%\\^\\&\\(\\)\\{\\}\\[\\]\\:\\;\\<\\>\\,\\?\\/\\~\\_\\+\\-\\=\\|";
         StringBuilder randomPassword = new StringBuilder();
         int randomLength = (int) (6 * Math.random()) + 2;
-
+        int randomMathNumber = (int) (10 * Math.random());
         //first, we need to make sure password we make is valid:
         randomPassword.append(lowerCases.charAt((int) (lowerCases.length() * Math.random())));
         randomPassword.append(upperCases.charAt((int) (upperCases.length() * Math.random())));
         randomPassword.append(symbols.charAt((int) (symbols.length() * Math.random())));
-        randomPassword.append(10 * Math.random());
-
+        randomPassword.append(randomMathNumber);
         for (int i = 0; i < randomLength; i++) {
             int rand = (int) (4 * Math.random());
             switch (rand) {
                 case 0:
-                    randomPassword.append(10 * Math.random());
+                    rand = (int) (10 * Math.random());
+                    randomPassword.append(rand);
                     break;
                 case 1:
                     rand = (int) (lowerCases.length() * Math.random());
@@ -345,5 +345,9 @@ public class RegisterMenuController {
         if(input.charAt(0) == '"' && input.charAt(input.length()-1) == '"' && input.contains(" "))
             return input.substring(1,input.length()-1);
         return input;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

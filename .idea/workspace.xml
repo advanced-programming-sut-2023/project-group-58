@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a13b8cb4-6cdf-4bad-ae21-20a406439a39" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/RegisterTests.java" afterDir="false" />
+    <list default="true" id="a13b8cb4-6cdf-4bad-ae21-20a406439a39" name="Changes" comment="map started, with a colourful terminal!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataBase/stayed.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/stayed.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/RegisterTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/RegisterTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,52 +55,45 @@
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;settings.editor.selected.configurable&quot;: &quot;coverage&quot;
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "coverage"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="view" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.RegisterTests.setUp">
-    <configuration name="MapTests.buildingDrop" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.RegisterTests.randomGeneration">
+    <configuration name="MapTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="APPOnMave" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MapTests" />
-      <option name="METHOD_NAME" value="buildingDrop" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MapTests.outputCheckers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RegisterTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="APPOnMave" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MapTests" />
-      <option name="METHOD_NAME" value="outputCheckers" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="RegisterTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MapTests.rockDrop" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RegisterTests.randomGeneration" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="APPOnMave" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MapTests" />
-      <option name="METHOD_NAME" value="rockDrop" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MapTests.unitStringConvertor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="APPOnMave" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MapTests" />
-      <option name="METHOD_NAME" value="unitStringConvertor" />
+      <option name="MAIN_CLASS_NAME" value="RegisterTests" />
+      <option name="METHOD_NAME" value="randomGeneration" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -116,13 +109,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TestClass" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="APPOnMave" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestClass" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RegisterTests.randomGeneration" />
+        <item itemvalue="JUnit.MapTests" />
+        <item itemvalue="JUnit.RegisterTests" />
+        <item itemvalue="JUnit.TestClass" />
         <item itemvalue="JUnit.RegisterTests.setUp" />
-        <item itemvalue="JUnit.MapTests.outputCheckers" />
-        <item itemvalue="JUnit.MapTests.unitStringConvertor" />
-        <item itemvalue="JUnit.MapTests.buildingDrop" />
-        <item itemvalue="JUnit.MapTests.rockDrop" />
       </list>
     </recent_temporary>
   </component>
@@ -156,6 +158,7 @@
       <workItem from="1683569834676" duration="1567000" />
       <workItem from="1683656203849" duration="110000" />
       <workItem from="1683808584838" duration="8738000" />
+      <workItem from="1683889055012" duration="2269000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
@@ -202,15 +205,19 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/APPOnMave$MapTests_outputCheckers.ic" NAME="MapTests.outputCheckers Coverage Results" MODIFIED="1683835139384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$TestClass__1_.ic" NAME="TestClass (1) Coverage Results" MODIFIED="1683817193447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/APPOnMave$RegisterTests_setUp.ic" NAME="RegisterTests.setUp Coverage Results" MODIFIED="1683841185377" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/APPOnMave$RegisterTests_setUp.ic" NAME="RegisterTests.setUp Coverage Results" MODIFIED="1683889479997" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$MapTests_buildingDrop.ic" NAME="MapTests.buildingDrop Coverage Results" MODIFIED="1683834063546" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/project$Main.ic" NAME="Main Coverage Results" MODIFIED="1683815289446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/APPOnMave$RegisterTests_randomGeneration.ic" NAME="RegisterTests.randomGeneration Coverage Results" MODIFIED="1683891300721" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$MapTests_treeDrop.ic" NAME="MapTests.treeDrop Coverage Results" MODIFIED="1683825010236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/APPOnMave$MapTests_rockDrop.ic" NAME="MapTests.rockDrop Coverage Results" MODIFIED="1683829038088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$MapTests_unitStringConvertor.ic" NAME="MapTests.unitStringConvertor Coverage Results" MODIFIED="1683834275883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$MapTests_changeTexture.ic" NAME="MapTests.changeTexture Coverage Results" MODIFIED="1683819422120" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/APPOnMave$RegisterTests.ic" NAME="RegisterTests Coverage Results" MODIFIED="1683889547679" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/APPOnMave$MapTests_outputCheckers.ic" NAME="MapTests.outputCheckers Coverage Results" MODIFIED="1683835139384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/project$Main.ic" NAME="Main Coverage Results" MODIFIED="1683815289446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/APPOnMave$MapTests_rockDrop.ic" NAME="MapTests.rockDrop Coverage Results" MODIFIED="1683829038088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/APPOnMave$TestClass.ic" NAME="TestClass Coverage Results" MODIFIED="1683889526667" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/APPOnMave$MapTests.ic" NAME="MapTests Coverage Results" MODIFIED="1683889562086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APP3$TestClass_correctingDoubleQuotes.ic" NAME="TestClass.correctingDoubleQuotes Coverage Results" MODIFIED="1682103566855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/project$TestClass.ic" NAME="TestClass Coverage Results" MODIFIED="1683816622801" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>

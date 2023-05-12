@@ -71,5 +71,24 @@ public class RegisterTests {
         registerMenuController.setUpUserInfo();
         registerMenuController.setUpSloganDataBase();
     }
+
+    @Test
+    public void randomGeneration() throws IOException {
+        //random username:
+        Assertions.assertNotEquals(registerMenuController.validateBeforeCreation(" -u testing -p" +
+                " \"Vox machina3#\" \"Vox machina3#\" --email klk.s@kj -n nick" +
+                " -s testing"), ProfisterControllerOut.VALID);
+        Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED);
+        Assertions.assertEquals(registerMenuController.usernameExist(),ProfisterControllerOut.VALID);
+        registerMenuController.setEmail("kmk.s@kj");
+        Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED);
+
+        //random password length:
+        for(int i = 0; i < 5; i++)
+        {
+            System.out.println(registerMenuController.randomPasswordGenerator().length());
+            Assertions.assertTrue(registerMenuController.randomPasswordGenerator().length() < 13);
+        }
+    }
 }
 
