@@ -141,9 +141,10 @@ public class RegisterMenuController {
     public ProfisterControllerOut usernameExist() {
         if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", username, "username")) {
             username = findSomethingSimilar(username);
-            return ProfisterControllerOut.VALID;
+            return ProfisterControllerOut.SUGGESTING_USERNAME.manipulateSuggestedUsername(username);
+
         }
-        return ProfisterControllerOut.SUGGESTING_USERNAME.manipulateSuggestedUsername(username);
+        return ProfisterControllerOut.VALID;
     }
 
     public ProfisterControllerOut handleRandomPassword() {

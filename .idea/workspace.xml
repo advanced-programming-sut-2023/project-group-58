@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a13b8cb4-6cdf-4bad-ae21-20a406439a39" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/test/java/TradeTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/TradeMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/TradeMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/enums/ShopAndTradeControllerOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/enums/ShopAndTradeControllerOut.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ShopTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ShopTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/ShopTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ShopTests.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,13 +70,10 @@
       <recent name="view" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TradeTests.acceptAndNotify">
-    <configuration name="ShopTests.sell" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="APPOnMave" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ShopTests" />
-      <option name="METHOD_NAME" value="sell" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -125,11 +120,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.TradeTests.acceptAndNotify" />
         <item itemvalue="JUnit.TradeTests.acceptTrade" />
         <item itemvalue="JUnit.TradeTests.newTrade" />
         <item itemvalue="JUnit.TradeTests.showList" />
-        <item itemvalue="JUnit.ShopTests.sell" />
       </list>
     </recent_temporary>
   </component>
@@ -163,7 +158,7 @@
       <workItem from="1683569834676" duration="1567000" />
       <workItem from="1683656203849" duration="110000" />
       <workItem from="1683808584838" duration="8738000" />
-      <workItem from="1683889055012" duration="13297000" />
+      <workItem from="1683889055012" duration="14687000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
@@ -221,7 +216,7 @@
     <SUITE FILE_PATH="coverage/APPOnMave$ShopTests.ic" NAME="ShopTests Coverage Results" MODIFIED="1683892101216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$RegisterTests_randomGeneration.ic" NAME="RegisterTests.randomGeneration Coverage Results" MODIFIED="1683891514820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$MapTests_treeDrop.ic" NAME="MapTests.treeDrop Coverage Results" MODIFIED="1683825010236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/APPOnMave$TradeTests_acceptAndNotify.ic" NAME="TradeTests.acceptAndNotify Coverage Results" MODIFIED="1683906215106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/APPOnMave$TradeTests_acceptAndNotify.ic" NAME="TradeTests.acceptAndNotify Coverage Results" MODIFIED="1683906356034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$MapTests_unitStringConvertor.ic" NAME="MapTests.unitStringConvertor Coverage Results" MODIFIED="1683834275883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$MapTests_changeTexture.ic" NAME="MapTests.changeTexture Coverage Results" MODIFIED="1683819422120" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$RegisterTests.ic" NAME="RegisterTests Coverage Results" MODIFIED="1683889547679" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
