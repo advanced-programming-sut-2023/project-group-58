@@ -118,7 +118,7 @@ public class MapTests {
     @Test
     public void buildingDrop() throws IOException {
         mapMenuController.setUpACustom(200);
-        User tester = new User("nick","tiered","nick","n@j.l","nik was here",2,"ilani",0);
+        User tester = new User("nick", "tiered", "nick", "n@j.l", "nik was here", 2, "ilani", 0);
         Assertions.assertEquals(mapMenuController.dropBuilding(" -y 32  -x 52 -t randomStuff  ", tester),
                 ProfisterControllerOut.INVALID_INPUT_FORMAT);
         Assertions.assertEquals(mapMenuController.dropBuilding(" -y 23232  -x 52 -t hovel  ", tester),
@@ -126,34 +126,20 @@ public class MapTests {
         Assertions.assertEquals(mapMenuController.dropBuilding(" -y 0  -x 0 -t hovel  ", tester),
                 ProfisterControllerOut.NOT_A_VALID_PLACE);
         tester.getGovernance().changeGold(1000000000);
-        tester.getGovernance().changeResourceAmount(ResourceEnum.WOOD,500000000);
-        tester.getGovernance().changeResourceAmount(ResourceEnum.STONE,500000000);
-        tester.getGovernance().changeResourceAmount(ResourceEnum.IRON,500000000);
+        tester.getGovernance().changeResourceAmount(ResourceEnum.WOOD, 500000000);
+        tester.getGovernance().changeResourceAmount(ResourceEnum.STONE, 500000000);
+        tester.getGovernance().changeResourceAmount(ResourceEnum.IRON, 500000000);
         EnumSet<BuildingEnum> buildingTypes = EnumSet.allOf(BuildingEnum.class);
         for (BuildingEnum type : buildingTypes) {
             mapMenuController.extractDataForTexture(" -y 22  -x 52 -t " + type.getName());
-            if(!mapMenuController.checkLocation(mapMenuController.selectedMap,mapMenuController.getyTexture(),
-                mapMenuController.getxTexture(),type))
+            if (!mapMenuController.checkLocation(mapMenuController.selectedMap, mapMenuController.getyTexture(),
+                    mapMenuController.getxTexture(), type))
                 Assertions.assertEquals(mapMenuController.dropBuilding(" -y 22  -x 52 -t " + type.getName(), tester),
                         ProfisterControllerOut.NOT_A_VALID_PLACE);
-            else
-            {
+            else {
                 Assertions.assertEquals(mapMenuController.dropBuilding(" -y 22  -x 52 -t " + type.getName(), tester),
                         ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING);
             }
         }
-    }
-
-    @Test
-    public void unitStringConvertor() {
-        EnumSet<UnitEnum> unitEnums = EnumSet.allOf(UnitEnum.class);
-        for (UnitEnum unit : unitEnums) {
-            Assertions.assertEquals(mapMenuController.unitTypeSpecifier(unit.getName()),unit);
-        }
-    }
-
-    @Test
-    public void templateMaps() {
-
     }
 }

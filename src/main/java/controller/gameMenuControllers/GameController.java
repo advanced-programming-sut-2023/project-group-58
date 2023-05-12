@@ -2,9 +2,13 @@ package controller.gameMenuControllers;
 
 import controller.CommonController;
 import model.Map;
+import model.Resource;
 import model.ResourceEnum;
 import model.User;
 import model.buildings.Building;
+import model.buildings.BuildingEnum;
+import model.units.Unit;
+import model.units.UnitEnum;
 import view.enums.GameControllerOut;
 
 public class GameController {
@@ -13,6 +17,9 @@ public class GameController {
     private int yCoor;
     private Map selectedMap;
     private Building selectedBuilding;
+    private int xOFselectedBuilding;
+    private int yOFselectedBuilding;
+    private int indexOFselectedBuilding;
 
     public User getCurrentUser() {
         return CurrentUser;
@@ -139,10 +146,14 @@ public class GameController {
         if(selectedMap.getTile(yCoor,xCoor).getBuildings().size() == 0)
             return GameControllerOut.NO_BUILDING;
         boolean exist = false;
-        for (Building building : selectedMap.getTile(yCoor, xCoor).getBuildings()) {
-            if(building.getOwner().getUsername().equals(this.CurrentUser.getUsername())) {
+        for(int i =0; i < selectedMap.getTile(yCoor, xCoor).getBuildings().size(); i++) {
+            if(selectedMap.getTile(yCoor, xCoor).getBuildings().get(i)
+                    .getOwner().getUsername().equals(this.CurrentUser.getUsername())) {
                 exist = true;
-                this.selectedBuilding = building;
+                this.selectedBuilding = selectedMap.getTile(yCoor, xCoor).getBuildings().get(i);
+                this.xOFselectedBuilding = xCoor;
+                this.yOFselectedBuilding = yCoor;
+                this.indexOFselectedBuilding = i;
                 break;
             }
         }
@@ -163,9 +174,57 @@ public class GameController {
 
     public GameControllerOut createUnit(String data) {
         String type = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(.+))(?<!\\s))");
-        String countstr = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
-        if()
-        int count;
-        return null;
+        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        if(type.length() == 0 || countStr.length() == 0)
+            return GameControllerOut.INVALID_INPUT_FORMAT;
+        if(type.trim().length() == 0 || countStr.trim().length() == 0)
+            return GameControllerOut.INVALID_INPUT_FORMAT;
+        int count = Integer.parseInt(countStr.trim());
+        type = type.trim();
+        UnitEnum unitType = CommonController.unitTypeSpecifier(type);
+        if(unitType == null)
+            return GameControllerOut.INVALID_INPUT_FORMAT;
+        if(count == 0)
+            return GameControllerOut.ZERO;
+        if(getCurrentUser().getGovernance().getGold() < unitType.getCost() * count)
+            return GameControllerOut.NOT_ENOUGH_GOLD;
+        if(!unitType.getWeaponType().equals(ResourceEnum.NULL))
+            if(getCurrentUser().getGovernance().getResourceAmount(unitType.getWeaponType()) < count)
+                return GameControllerOut.NOT_ENOUGH_WEAPON;
+        if(getCurrentUser().getGovernance().getUnemployedPopulation() < count)
+            return GameControllerOut.NOT_ENOUGH_PEOPLE;
+        if(!checkPlace(unitType))
+            return GameControllerOut.WRONG_LOCATION;
+        getCurrentUser().getGovernance().changeGold(-1 * unitType.getCost() * count);
+        if(!unitType.getWeaponType().equals(ResourceEnum.NULL))
+            getCurrentUser().getGovernance().changeResourceAmount(unitType.getWeaponType(),-1 * count);
+        Unit addingUnit = new Unit(getCurrentUser(),unitType,count,yOFselectedBuilding,xOFselectedBuilding);
+        selectedMap.getTile(yOFselectedBuilding,xOFselectedBuilding).addUnitToTile(addingUnit);
+        return GameControllerOut.SUCCESSFULLY_CREATED_UNIT;
+    }
+
+    private boolean checkPlace(UnitEnum unitType) {
+        if(unitType.getName().equals("engineer"))
+            return selectedBuilding.getType().equals(BuildingEnum.ENGINEERS_GUILD);
+        else if(unitType.isArab() && selectedBuilding.getType().equals(BuildingEnum.MERCENARY_POST))
+            return true;
+        else return !unitType.isArab() && selectedBuilding.getType().equals(BuildingEnum.BARRACKS);
+    }
+
+    public GameControllerOut repair() {
+        for(int i = -1; i < 2; i++)
+            for(int j = -1; j < 2; j++)
+                if(selectedMap.getTile(yOFselectedBuilding + i, xOFselectedBuilding + j)
+                        .areEnemiesHere(getCurrentUser()))
+                    return GameControllerOut.ENEMIES_NEAR;
+        Resource neededResource = selectedBuilding.getType().getResource();
+        if(getCurrentUser().getGovernance().getResourceAmount(neededResource.getType()) <
+        neededResource.getAmount())
+            return GameControllerOut.NOT_ENOUGH_RESOURCES;
+        if(selectedBuilding.getHp() == selectedBuilding.getType().getOriginalHp())
+            return GameControllerOut.FULL_HP;
+        getCurrentUser().getGovernance().changeResourceAmount(neededResource.getType(), -1 * neededResource.getAmount());
+        selectedMap.getTile(yOFselectedBuilding,xOFselectedBuilding).getBuildings().get(indexOFselectedBuilding).resetHp();
+        return GameControllerOut.SUCCESSFULLY_REPAIRED;
     }
 }

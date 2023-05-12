@@ -541,14 +541,6 @@ public class MapMenuController {
         }
         return null;
     }
-    public UnitEnum unitTypeSpecifier(String type) {
-        EnumSet<UnitEnum> unitEnums = EnumSet.allOf(UnitEnum.class);
-        for (UnitEnum unitEnum : unitEnums){
-            if(unitEnum.getName().equals(type))
-                return unitEnum;
-        }
-        return null;
-    }
 
     public int getxTexture() {
         return xTexture;
@@ -558,7 +550,7 @@ public class MapMenuController {
         return yTexture;
     }
 
-    //    public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
+//        public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
 //        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
 //        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-c\\s+(?<wantedPart>(\\d+)(?<!\\s))");
 //        if(countStr.length() == 0) return ProfisterControllerOut.INVALID_INPUT_FORMAT;

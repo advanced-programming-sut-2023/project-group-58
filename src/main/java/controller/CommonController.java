@@ -1,6 +1,7 @@
 package controller;
 
 import model.ResourceEnum;
+import model.units.UnitEnum;
 import view.enums.ProfisterControllerOut;
 
 import java.util.EnumSet;
@@ -34,5 +35,13 @@ public class CommonController {
                 return resourceEnum;
         }
         return ResourceEnum.NULL;
+    }
+    public static UnitEnum unitTypeSpecifier(String type) {
+        EnumSet<UnitEnum> unitEnums = EnumSet.allOf(UnitEnum.class);
+        for (UnitEnum unitEnum : unitEnums){
+            if(unitEnum.getName().equals(type))
+                return unitEnum;
+        }
+        return null;
     }
 }

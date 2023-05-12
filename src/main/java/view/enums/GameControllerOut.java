@@ -11,12 +11,20 @@ public enum GameControllerOut {
     CANNOT_ADD_UNIT_FROM_HERE("You cannot doThePurchase/train this type of troop in this building"),
     NOT_ENOUGH_GOLD("I'm afraid you cannot afford the cost. Get some gold!"),
     SUCCESSFULLY_CREATED_UNIT("Unit created successfully"),
-    NOT_ENOUGH_WEAPON("There is not enough weapon in the storage to add that unit"),
+    NOT_ENOUGH_WEAPON("There is not enough weapons in the storage to add that unit\nwE dOn'T hAve ThE neCCessAry AmOunT oF wEapONs"),
     INVALID_COORDINATES("The coordinates you entered are invalid"),
     NO_BUILDING("There are no buildings in this location"),
     NOT_YOURS("Buildings on this spot aren't yours, I'm afraid"),
     SUCCESSFULLY_SELECTED_BUILDING("Building selected with type: "),
     DROP("You should enter map meu to \"drop\" buildings and units"),
+    INVALID_INPUT_FORMAT("Invalid input format"),
+    ZERO("What do you want mate? An army of ghosts? Try again with more people!"),
+    NOT_ENOUGH_PEOPLE("Not enough people to recruit"),
+    WRONG_LOCATION("You are in the wrong location. Go to the relevant building"),
+    ENEMIES_NEAR("We're under attack! Cannot repair the building now!"),
+    NOT_ENOUGH_RESOURCES("You don't have enough resources"),
+    FULL_HP("There is nothing to repair!"),
+    SUCCESSFULLY_REPAIRED("Successfully repaired"),
     ;
     private String content;
 

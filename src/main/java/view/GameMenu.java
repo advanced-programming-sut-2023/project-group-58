@@ -65,6 +65,9 @@ public class GameMenu {
             else if ((matcher = Commands.getMatcher(command, Commands.CREATE_UNIT)) != null) {
                 System.out.println(gameController.createUnit(matcher.group("data")).getContent());
             }
+            else if ((matcher = Commands.getMatcher(command, Commands.REPAIR)) != null) {
+                System.out.println(gameController.repair().getContent());
+            }
 
             else if (command.matches("trade menu")){
                 TradeMenu tradeMenu = new TradeMenu(currentUser);
