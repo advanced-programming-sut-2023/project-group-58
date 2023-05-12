@@ -98,10 +98,12 @@ public class Governance {
         return ResourceMakerFuncs.changeOrAddResource(this.resources, type, amount);
     }
     public int getResourceAmount(ResourceEnum type) {
-        for (Resource r : this.resources) {
-            if(r.getType().equals(type))
-                return r.getAmount();
-        }
+        if(type == null) return 0;
+        if(this.resources != null)
+            for (Resource r : this.resources) {
+                if(r.getType().equals(type))
+                    return r.getAmount();
+            }
         return 0;
     }
 

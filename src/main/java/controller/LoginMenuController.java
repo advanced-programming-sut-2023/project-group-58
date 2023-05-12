@@ -114,6 +114,7 @@ public class LoginMenuController {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        if(jsonArray != null)
         for (int i = 0; i < jsonArray.size(); i++) {
             if (i>0) {
                 JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();

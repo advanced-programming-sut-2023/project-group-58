@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.util.EnumSet;
 
 public class MapMenuController {
-    private final Map map1 = new Map(100,100);
-    private final Map map2 = new Map(200,200);
-    private final Map map3 = new Map(300,300);
+    private final Map map1 = new Map(200,200);
 
     public Map selectedMap;
     int xTexture  = 0;
@@ -99,7 +97,7 @@ public class MapMenuController {
         for(int i = 0; i < width; i++)
             for(int j = 0; j < 35; j++)
                 makingOne.getTile(i,j).setTexture(TileTexture.SEA);
-        for(int i = 0; i < width; i++)
+        for(int i = 0; i < width-40; i++)
         {
             makingOne.getTile(i,i+35).setTexture(TileTexture.FORD);
             makingOne.getTile(i,i+36).setTexture(TileTexture.SMALL_POND);
@@ -232,13 +230,13 @@ public class MapMenuController {
                         ans += "\033[38;5;249;48;5;21m" + tileOccupation;
                         break;
                     case SAND:
-                        ans += "\033[38;5;249;48;5;230mSAND" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;230m" + tileOccupation;
                         break;
                     case LAWN:
-                        ans += "\033[38;5;249;48;5;34mLAWN" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;34m" + tileOccupation;
                         break;
                     case ROCK:
-                        ans += "\033[38;5;249;48;5;8mROCK" + tileOccupation;
+                        ans += "\033[38;5;249;48;5;8m" + tileOccupation;
                         break;
                 }
                 if (j == ranges[3])
@@ -267,13 +265,19 @@ public class MapMenuController {
     }
 
     public String setTextureForTheWholeMap(Map map, String data) throws IOException {
-        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        if(!extractDataForTexture(data))
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         yTexture = map.getWidth() - 1 - yTexture;
         y2Texture= map.getWidth() - 1 - y2Texture;
-        if(!validateTextureCoordinates(map.getLength(), map.getWidth())) return "Mission failed: invalid coordinates!";
-        if(x2Texture != 0) {
-            if(map.getTile(yTexture,xTexture).getBuildings().size() != 0) return "Mission failed: You can't change the" +
-                                                                         "texture while there is a building on it!";
+        boolean doWeHaveX2 = x2Texture == -1;
+        if(doWeHaveX2) {x2Texture = 0; y2Texture = 0;}
+        if(!validateTextureCoordinates(map.getLength(), map.getWidth())){
+            return "Mission failed: invalid coordinates!";
+        }
+        if(doWeHaveX2) {
+            if(map.getTile(yTexture,xTexture).getBuildings().size() != 0)
+                return "Mission failed: You can't change the" +
+                        "texture while there is a building on it!";
             map.getTile(yTexture,xTexture).setTexture(convertStringTextureToEnum(typeTexture));
         }
         else {
@@ -292,11 +296,13 @@ public class MapMenuController {
     }
 
     public boolean validateTextureCoordinates(int mapLength, int mapWidth) {
+        x2Texture = x2Texture == -1? 0 : x2Texture;
+        y2Texture = y2Texture == -1? 0 : y2Texture;
         return xTexture >= 0 && xTexture <= mapWidth - 1 && yTexture >= 0 && yTexture <= mapLength - 1 &&
                 x2Texture >= 0 && x2Texture <= mapWidth - 1 && y2Texture >= 0 && y2Texture <= mapLength - 1;
     }
 
-    private TileTexture convertStringTextureToEnum(String typeTexture) {
+    public TileTexture convertStringTextureToEnum(String typeTexture) {
         switch (typeTexture) {
             case "oil" :
                 return TileTexture.OIL;
@@ -330,33 +336,36 @@ public class MapMenuController {
 
     public boolean extractDataForTexture(String data) throws IOException {
         //todo: handle errors. everytime we use that there should be a type somewhere...
-        if(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+)(?<!\\s))").length() == 0)
+        if(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
             return false;
-        xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
-        yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
-        typeTexture = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+)(?<!\\s))").trim();
-        String x2T = CommonController.dataExtractor(data, "((?<!\\S)-x2\\s+(?<wantedPart>(\\d+)(?<!\\s))");
+        xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        typeTexture = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
+        String x2T = CommonController.dataExtractor(data, "((?<!\\S)-x2\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        String y2T = CommonController.dataExtractor(data, "((?<!\\S)-y2\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        if((x2T.length() == 0 && y2T.length() != 0) || (y2T.length() == 0 && x2T.length() != 0))
+            return false;
         if(x2T.length() != 0) x2Texture = Integer.parseInt(x2T.trim());
-        String y2T = CommonController.dataExtractor(data, "((?<!\\S)-y2\\s+(?<wantedPart>(\\d+)(?<!\\s))");
+        else x2Texture = -1;
         if(y2T.length() != 0) y2Texture = Integer.parseInt(y2T.trim());
+        else y2Texture = -1;
         return true;
     }
 
-    public void extractDataxandy(String data) throws IOException {
-        //todo: handle errors
-        xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
-        yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
+    public boolean extractDataxandy(String data) throws IOException {
+        String x = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        String y = CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        if(x.length() == 0 || y.length() == 0) return false;
+        xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        return true;
     }
 
-    public String showMap(String data) {
+    public String showMap(String data) throws IOException {
         String ans = new String();
-        try {
-            extractDataxandy(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        if(!extractDataxandy(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         yTexture = selectedMap.getWidth() - 1 - yTexture;
         int[] range = setRange(xTexture,yTexture,selectedMap.getLength(), selectedMap.getWidth());
         xShowingMap = xTexture;
@@ -365,10 +374,10 @@ public class MapMenuController {
     }
 
     public String moveMap(String data) {
-        String upStr    = CommonController.dataExtractor(data, "((?<!\\S)up\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
-        String leftStr  = CommonController.dataExtractor(data, "((?<!\\S)left\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
-        String downStr  = CommonController.dataExtractor(data, "((?<!\\S)down\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
-        String rightStr = CommonController.dataExtractor(data, "((?<!\\S)right\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim();
+        String upStr    = CommonController.dataExtractor(data, "((?<!\\S)up\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim();
+        String leftStr  = CommonController.dataExtractor(data, "((?<!\\S)left\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim();
+        String downStr  = CommonController.dataExtractor(data, "((?<!\\S)down\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim();
+        String rightStr = CommonController.dataExtractor(data, "((?<!\\S)right\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim();
         boolean doWeHaveRight = rightStr.length() > 0;
         boolean doWeHaveUp    = upStr.length() > 0;
         int up    = upStr.length() > 0 ? Integer.parseInt(upStr) : 1;
@@ -385,12 +394,8 @@ public class MapMenuController {
         return printMap(this.selectedMap,ranges);
     }
 
-    public String clearTile(String data) {
-        try {
-            extractDataxandy(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public String clearTile(String data) throws IOException {
+        if(!extractDataxandy(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         if(!validateTextureCoordinates(this.selectedMap.getLength(),this.selectedMap.getWidth())) return "failed: invalid coordinates";
         this.selectedMap.getTile(yTexture,xTexture).clear();
         return "Tile cleared successfully!";
@@ -398,6 +403,7 @@ public class MapMenuController {
 
     public String dropTree(String data) throws IOException {
         if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        yTexture = selectedMap.getWidth() -1 - yTexture;
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.FAILED.getContent();
         switch (typeTexture.trim()) {
@@ -405,24 +411,27 @@ public class MapMenuController {
                 selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.DESERT_SHRUB));
                 break;
             case "cherry palm":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.CHERRY));
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.CHERRY_PALM));
                 break;
             case "olive tree":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.OLIVE));
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.OLIVE_TREE));
                 break;
             case "coconut palm":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.COCONUT));
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.COCONUT_PALM));
                 break;
             case "date palm":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.DATE));
+                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.DATE_PALM));
                 break;
         }
         return "Tree added successfully!";
     }
 
     public String dropRock(String data) throws IOException {
-        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
-        if(typeTexture != null)typeTexture = typeTexture.trim();
+        if(!extractDataxandy(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        yTexture = selectedMap.getWidth() -1 - yTexture;
+        String x = CommonController.dataExtractor(data, "((?<!\\S)-d\\s+(?<wantedPart>[n,e,w,s,r])(?<!\\s))");
+        if(x.length() == 0) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        typeTexture = x.trim();
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.FAILED.getContent();
 
@@ -437,23 +446,16 @@ public class MapMenuController {
             if(random == 3)
                 typeTexture = "s";
         }
-        if(typeTexture.equals("n") || typeTexture.equals("e") || typeTexture.equals("w") || typeTexture.equals("s")) {
-            selectedMap.getTile(yTexture,xTexture).setRockDirection(typeTexture);
-            selectedMap.getTile(yTexture,xTexture).setTexture(TileTexture.ROCK);
-        }
-        else
-            return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        selectedMap.getTile(yTexture,xTexture).setRockDirection(typeTexture);
+        selectedMap.getTile(yTexture,xTexture).setTexture(TileTexture.ROCK);
         return "Rock added successfully!";
     }
 
 
-    public String showDetail(String data) {
+    public String showDetail(String data) throws IOException {
         String ans = new String();
-        try {
-            extractDataxandy(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        if(!extractDataxandy(data) || !validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         ans += "The texture is: " + selectedMap.getTile(yTexture,xTexture)+"\n";
         //ans += selectedMap.getTile(yTexture,xShowingMap).countTroops()+"\n";
         //todo: خیلی مهم: نمایش نوع منابع و تعداد آن ها باید اضافه شود.
@@ -468,6 +470,7 @@ public class MapMenuController {
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.INVALID_INPUT_FORMAT;
         BuildingEnum type = buildingTypeSpecifier(typeTexture);
+        if(type == null) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
         if(!checkLocation(selectedMap,yTexture,xTexture,type)) return ProfisterControllerOut.NOT_A_VALID_PLACE;
         if(!checkFinance(currentPlayer,type)) return ProfisterControllerOut.NOT_ENOUGH_RESOURCES;
         Building addingBuilding = null;
@@ -500,7 +503,7 @@ public class MapMenuController {
         return ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING;
     }
 
-    private boolean checkLocation(Map selectedMap, int yTexture, int xTexture, BuildingEnum type) {
+    public boolean checkLocation(Map selectedMap, int yTexture, int xTexture, BuildingEnum type) {
         boolean[] isException = new boolean[3];
         if((isException[0] = type.equals(BuildingEnum.IRON_MINE)) && !selectedMap.getTile(yTexture,xTexture).getTexture().equals(TileTexture.IRON))
             return false;
@@ -512,6 +515,9 @@ public class MapMenuController {
     }
 
     private boolean checkFinance(User currentPlayer, BuildingEnum buildingType) {
+        if(buildingType == null || buildingType.getResource() == null ||
+           buildingType.getResource().getType() == null || buildingType.getResource().getType().equals(ResourceEnum.NULL))
+            return true;
         if(currentPlayer.getGovernance().getResourceAmount((buildingType.getResource().getType())) < buildingType.getResource().getAmount())
             return false;
         if(currentPlayer.getGovernance().getGold() < buildingType.getGoldCost())
@@ -539,7 +545,15 @@ public class MapMenuController {
         return null;
     }
 
-//    public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
+    public int getxTexture() {
+        return xTexture;
+    }
+
+    public int getyTexture() {
+        return yTexture;
+    }
+
+    //    public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
 //        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
 //        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-c\\s+(?<wantedPart>(\\d+)(?<!\\s))");
 //        if(countStr.length() == 0) return ProfisterControllerOut.INVALID_INPUT_FORMAT;

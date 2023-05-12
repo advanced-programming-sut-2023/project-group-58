@@ -42,14 +42,14 @@ public class ShowProfileController {
     public String showDisplay() {
         String ans = "";
         ans += "username : " + user.getUsername()+"\n";
-        ans += "nickname :" +user.getNickname()+"\n";
+        ans += "nickname : " +user.getNickname()+"\n";
         ans += "email : " + user.getEmail()+"\n";
         ans += "highest score : "+ user.getHighScore()+"\n";
         if (user.getSlogan() != null && user.getSlogan().length() != 0) ans += "slogan : "+ user.getSlogan()+"\n";
         ans += "your rank : "+ getRank()+"\n";
         return ans;
     }
-    private int getRank(){
+    public int getRank(){
         ArrayList<User> users = User.getUsers();
         for (int i =0 ; i<users.size();i++){
             if (users.get(i).getHighScore()==-1) {
