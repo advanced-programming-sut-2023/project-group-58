@@ -71,7 +71,7 @@ public class PasswordReset {
         return null;
     }
     //todo: تابع پایین را در کنترلر common گذاشتم. مستقیما از آن استفاده کنید.
-    private ProfisterControllerOut checkPasswordFormat(String password){
+    public ProfisterControllerOut checkPasswordFormat(String password){
         if (password.length() < 6)
             return ProfisterControllerOut.SHORT_PASSWORD;
         if (!password.matches(".*[A-Z].*"))
