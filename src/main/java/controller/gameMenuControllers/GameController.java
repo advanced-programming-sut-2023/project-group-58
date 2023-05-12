@@ -11,15 +11,20 @@ import model.units.Unit;
 import model.units.UnitEnum;
 import view.enums.GameControllerOut;
 
+import java.util.ArrayList;
+
 public class GameController {
     private User CurrentUser;
     private int xCoor;
     private int yCoor;
     private Map selectedMap;
     private Building selectedBuilding;
-    private int xOFselectedBuilding;
-    private int yOFselectedBuilding;
-    private int indexOFselectedBuilding;
+    private int xOFSelectedBuilding;
+    private int yOFSelectedBuilding;
+    private int indexOFSelectedBuilding;
+    private Unit selectedUnit;
+    private int xOFSelectedUnit;
+    private int yOFSelectedUnit;
 
     public User getCurrentUser() {
         return CurrentUser;
@@ -151,9 +156,9 @@ public class GameController {
                     .getOwner().getUsername().equals(this.CurrentUser.getUsername())) {
                 exist = true;
                 this.selectedBuilding = selectedMap.getTile(yCoor, xCoor).getBuildings().get(i);
-                this.xOFselectedBuilding = xCoor;
-                this.yOFselectedBuilding = yCoor;
-                this.indexOFselectedBuilding = i;
+                this.xOFSelectedBuilding = xCoor;
+                this.yOFSelectedBuilding = yCoor;
+                this.indexOFSelectedBuilding = i;
                 break;
             }
         }
@@ -198,8 +203,8 @@ public class GameController {
         getCurrentUser().getGovernance().changeGold(-1 * unitType.getCost() * count);
         if(!unitType.getWeaponType().equals(ResourceEnum.NULL))
             getCurrentUser().getGovernance().changeResourceAmount(unitType.getWeaponType(),-1 * count);
-        Unit addingUnit = new Unit(getCurrentUser(),unitType,count,yOFselectedBuilding,xOFselectedBuilding);
-        selectedMap.getTile(yOFselectedBuilding,xOFselectedBuilding).addUnitToTile(addingUnit);
+        Unit addingUnit = new Unit(getCurrentUser(),unitType,count, yOFSelectedBuilding, xOFSelectedBuilding);
+        selectedMap.getTile(yOFSelectedBuilding, xOFSelectedBuilding).addUnitToTile(addingUnit);
         return GameControllerOut.SUCCESSFULLY_CREATED_UNIT;
     }
 
@@ -214,7 +219,7 @@ public class GameController {
     public GameControllerOut repair() {
         for(int i = -1; i < 2; i++)
             for(int j = -1; j < 2; j++)
-                if(selectedMap.getTile(yOFselectedBuilding + i, xOFselectedBuilding + j)
+                if(selectedMap.getTile(yOFSelectedBuilding + i, xOFSelectedBuilding + j)
                         .areEnemiesHere(getCurrentUser()))
                     return GameControllerOut.ENEMIES_NEAR;
         Resource neededResource = selectedBuilding.getType().getResource();
@@ -224,7 +229,20 @@ public class GameController {
         if(selectedBuilding.getHp() == selectedBuilding.getType().getOriginalHp())
             return GameControllerOut.FULL_HP;
         getCurrentUser().getGovernance().changeResourceAmount(neededResource.getType(), -1 * neededResource.getAmount());
-        selectedMap.getTile(yOFselectedBuilding,xOFselectedBuilding).getBuildings().get(indexOFselectedBuilding).resetHp();
+        selectedMap.getTile(yOFSelectedBuilding, xOFSelectedBuilding).getBuildings().get(indexOFSelectedBuilding).resetHp();
         return GameControllerOut.SUCCESSFULLY_REPAIRED;
+    }
+
+    public GameControllerOut selectUnit(String data) {
+        extractDataxandy(data);
+        ArrayList<Unit> separate = selectedMap.getTile(yCoor,xCoor).findYourUnits(getCurrentUser());
+        if(separate == null)
+            return GameControllerOut.NO_UNIT;
+        Unit combined = separate.get(0);
+        for(int i = 1; i < separate.size(); i++)
+            combined.addByUnit(separate.get(i));
+        //todo: enhance and simplify addbyunit
+        selectedMap.getTile(yCoor,xCoor).unifyYourUnits(combined);
+        return GameControllerOut.SUCCESSFULLY_SELECTED_UNIT;
     }
 }

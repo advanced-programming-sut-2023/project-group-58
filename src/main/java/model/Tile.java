@@ -98,6 +98,15 @@ public class Tile {
         return null;
     }
 
+    public void unifyYourUnits(Unit unit) {
+        ArrayList<Unit> replacement = new ArrayList<>();
+        replacement.add(unit);
+        for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
+            if(arrayListEntry.getKey().equals(unit.getMaster().getUsername()))
+                arrayListEntry.setValue(replacement);
+        }
+    }
+
     public void addUnitToTile(Unit unit) {
         this.playersUnits.get(unit.getMaster().getUsername()).add(unit);
     }

@@ -37,6 +37,7 @@ public enum Commands {
     USER_LOGIN_STAYED("^\\s*user\\s+login\\s+-u\\s+\"?(?<username>\\S+)\"?"),
     SELECT_BUILDING("^\\s*select\\s+building\\s+(?<data>.+)$"),
     CREATE_UNIT("^\\s*createunit\\s+(?<data>.+)$"),
+    MOVE_UNIT("^\\s*move\\s+unit\\s+to\\s+(?<data>.+)$"),
     REPAIR("^\\s*repair\\s*"),
     ;public final String regex;
 
