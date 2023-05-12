@@ -42,7 +42,7 @@ public class ShopTests {
     }
 
     @Test
-    public void sell() throws IOException {
+    public void sell() {
         User user = shopMenuController.getCurrentUser();
         user.getGovernance().changeResourceAmount(ResourceEnum.MEAT, 22);
         Matcher matcher = Commands.getMatcher(" sell -a 54  -i watermelon   ",Commands.SELL_SHOP);

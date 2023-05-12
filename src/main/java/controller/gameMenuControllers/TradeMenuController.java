@@ -18,16 +18,16 @@ public class TradeMenuController {
         this.currentUser = currentUser;
     }
     public ShopAndTradeControllerOut newTradeRequest(String data) {
-        if(CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+)(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\\d+)(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+)(?<!\\s))").length() == 0)
-            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
+        if(CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
+        return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
 
-        String item     = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+)(?<!\\s))").trim();
-        int amount      = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
-        int price       = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\\d+)(?<!\\s))").trim());
-        String message  = CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+)(?<!\\s))").trim();
+        String item     = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
+        int amount      = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-a\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        int price       = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        String message  = CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
         ResourceEnum type = CommonController.resourceFinder(item);
         if(currentUser.getGovernance().getGold() < price)
             return ShopAndTradeControllerOut.CANNOT_AFFORD_TRADE;
@@ -43,8 +43,8 @@ public class TradeMenuController {
         int counter = 1;
         for (TradeItem trade : Governance.getAllTrades()) {
             if(!trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername()) && trade.getActive())
-                ans += counter++ + ")\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
-                       "\n     Price : " + trade.getPrice() + "\n     Message: " + trade.getMessage() + "\n";
+                ans += counter++ + ")\n     Id: " + trade.getId() + "\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
+                       "\n     Price : " + trade.getPrice() + "\n     Message: " + trade.getMessage() + "\n" + "     Who's asking? " + trade.getOneWhoRequests().getUsername();
         }
         return ans;
     }
@@ -56,13 +56,13 @@ public class TradeMenuController {
         for (TradeItem trade : currentUser.getGovernance().getUserTrades()) {
             if(trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername())) {
                 if(counterReq == 1) ansRequested += "Requested items:\n";
-                ansRequested += counterReq++ + ")\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
+                ansRequested += counterReq++ + ")\n     Id: " + trade.getId() + "\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
                         "\n     Price : " + trade.getPrice() + "\n     Message: " + trade.getMessage() + "\n" +
                         "     Is it still active? " + trade.getActive() + "\n";
             }
             else {
                 if(counterAns == 1) ansAnswered += "Traded items:\n";
-                ansAnswered += counterAns++ + ")\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
+                ansAnswered += counterAns++ + ")\n     Id: " + trade.getId() + "\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
                         "\n     Price : " + trade.getPrice() + "\n     Message: " + trade.getMessage() + "\n";
             }
         }
@@ -77,21 +77,20 @@ public class TradeMenuController {
         this.currentUser = currentUser;
     }
 
-    public static ArrayList<TradeItem> getTrades() {
-        return trades;
-    }
-
     public ShopAndTradeControllerOut doTheTrade(String data) {
-        if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+)(?<!\\s))").length() == 0 ||
-                CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+)(?<!\\s))").length() == 0)
-            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
+        if(CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0 ||
+                CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
+        return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
 
-        String id     = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+)(?<!\\s))").trim();
-        String message  = CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+)(?<!\\s))").trim();
-
+        String id     = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
+        String message  = CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
         TradeItem trade = findTradeById(id);
         if(trade == null)
             return ShopAndTradeControllerOut.TRADE_NOT_FOUND;
+        if(currentUser.getUsername().equals(trade.getOneWhoRequests().getUsername()))
+            return ShopAndTradeControllerOut.SELF_TRADE;
+        if(currentUser.getGovernance().getResourceAmount(trade.getType()) < trade.getAmount())
+            return ShopAndTradeControllerOut.NOT_ENOUGH_COMMODITY;
         currentUser.getGovernance().changeGold(trade.getPrice());
         trade.getOneWhoRequests().getGovernance().changeGold(-1 * trade.getPrice());
         currentUser.getGovernance().changeResourceAmount(trade.getType(), -1 * trade.getAmount());
@@ -148,8 +147,7 @@ public class TradeMenuController {
                     ans += trade.getOneWhoAnswersTheCall().getNickname() + " ( " + trade.getOneWhoAnswersTheCall().getUsername()
                             + " ) has donated " + trade.getAmount() + " unit(s) of " + trade.getTypeName() + " to your empire, and left you this message: "
                             + trade.getMessage() + "\n";
-            trade.setNotified(true);
-            }
+            trade.setNotified(true);}
         }
         return ans;
     }
