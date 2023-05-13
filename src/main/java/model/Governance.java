@@ -2,8 +2,12 @@ package model;
 
 import controller.modelFunctions.ResourceMakerFuncs;
 import model.buildings.Building;
+import model.buildings.Storage;
+import model.units.ResourceType;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
 
 public class Governance {
     //todo: everytime a food type is manipulated, popularity should change if updateFoodDiversity changes.
@@ -16,11 +20,12 @@ public class Governance {
     private int taxRate     = 0;
     private int fearRate    = 0;
     private int gold = 0;
-    private Building granary;
-    private Building stockpile;
-    private Building armoury;
+    private Storage granary;
+    private Storage stockpile;
+    private Storage armoury;
     private ArrayList<Building> buildings = new ArrayList<>();
     private ArrayList<Resource> resources = new ArrayList<>();
+    private HashMap<ResourceEnum, Integer> resourceCount = new HashMap<>();
     private ArrayList<TradeItem> userTrades = new ArrayList<>();
     private static ArrayList<TradeItem> allTrades = new ArrayList<>();
 
@@ -78,15 +83,15 @@ public class Governance {
     }
 
     public void setGranary(Building granary) {
-        this.granary = granary;
+        this.granary = (Storage) granary;
     }
 
     public void setStockpile(Building stockpile) {
-        this.stockpile = stockpile;
+        this.stockpile = (Storage) stockpile;
     }
 
     public void setArmoury(Building armoury) {
-        this.armoury = armoury;
+        this.armoury = (Storage) armoury;
     }
     public ArrayList<TradeItem> getUserTrades() {return userTrades;}
     public void addToUserTrades(TradeItem tradeItem) {this.userTrades.add(tradeItem);}
@@ -113,5 +118,31 @@ public class Governance {
 
     public static void setAllTrades(ArrayList<TradeItem> allTrades) {
         Governance.allTrades = allTrades;
+    }
+
+    public boolean isStockpileFull(){
+        if (stockpile.getStored()>=stockpile.getCapacity()) return true;
+        return false;
+    }
+    public boolean isGranaryFull(){
+        if (granary.getStored()>=granary.getCapacity()) return true;
+        return false;
+    }
+    public boolean isArmouryFull(){
+        if (armoury.getStored()>=armoury.getCapacity()) return true;
+        return false;
+    }
+
+    public void newStockpileResource(){
+        HashMap<ResourceEnum, Integer> count = new HashMap<>();
+        EnumSet<ResourceEnum> resourceEnums = EnumSet.allOf(ResourceEnum.class);
+        ArrayList<Resource> list = new ArrayList<>(resourceEnums.size());
+        for (ResourceEnum s : resourceEnums){
+            Resource r = new Resource(s, 0);
+            list.add(r);
+            count.put(s, 0);
+        }
+        resources = list;
+        resourceCount = count;
     }
 }

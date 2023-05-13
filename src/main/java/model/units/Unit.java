@@ -1,12 +1,8 @@
 package model.units;
 
-import model.Asset;
-import model.Food;
-import model.FoodEnum;
 import model.User;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
