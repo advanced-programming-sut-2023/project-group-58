@@ -6,24 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="map started, with a colourful terminal!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Captcha.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Captcha.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/units/NotTroop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/units/NotTroop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/CaptchaMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/CaptchaMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/MapMenuController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/MapMenuController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/MapMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/MapMenuController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Tile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/buildings/Building.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/buildings/Building.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/buildings/Gate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/buildings/Gate.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/buildings/Storage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/buildings/Storage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/buildings/Trap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/buildings/Trap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/units/NotTroop.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/units/NotTroop.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/units/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/enums/GameControllerOut.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/enums/GameControllerOut.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/enums/ProfisterControllerOut.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/enums/ProfisterControllerOut.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/MapTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/MapTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +161,7 @@
       <workItem from="1683808584838" duration="8738000" />
       <workItem from="1683889055012" duration="14687000" />
       <workItem from="1683984396204" duration="1381000" />
-      <workItem from="1683997683924" duration="7374000" />
+      <workItem from="1683997683924" duration="8134000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

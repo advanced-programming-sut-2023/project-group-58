@@ -23,10 +23,15 @@ public class CaptchaMenu {
                 }
                 System.out.println(sb);
             };
+            String[] number = captcha.getNumber().split(" ");
+            String finalNum = "";
+            for (String s : number){
+                finalNum+=s;
+            }
             System.out.println("please enter the number :");
             String command = ScanMatch.getScanner().nextLine();
             if (command.matches("back")) return false;
-            if (command.matches(captcha.getNumber())) {
+            if (command.matches(finalNum)) {
                 System.out.println("correct");
                 return true;
             }
