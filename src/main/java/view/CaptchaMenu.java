@@ -4,6 +4,7 @@ import model.Captcha;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class CaptchaMenu {
     public boolean run(){
@@ -14,7 +15,7 @@ public class CaptchaMenu {
                 StringBuilder sb = new StringBuilder();
                 for (int x = 0; x < captcha.getWidth(); x++) {
 
-                    sb.append(image.getRGB(x, y) == -16777216 ? "." : "*");
+                    sb.append(image.getRGB(x, y) == -16777216 ? "." : getRandomSymbol());
 
                 }
                 if (sb.toString().trim().isEmpty()) {
@@ -31,5 +32,13 @@ public class CaptchaMenu {
             }
             else System.out.println("input number is invalid!");
         }
+    }
+    private String getRandomSymbol(){
+        String symbols = "$*#+@";
+        Random random = new Random();
+        int low = 0;
+        int high = 5;
+        int size = random.nextInt(high-low)+low;
+        return symbols.charAt(size)+"";
     }
 }
