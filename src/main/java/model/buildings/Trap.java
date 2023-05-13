@@ -6,8 +6,8 @@ import model.User;
 public class Trap extends Building{
     private int damage;
     private boolean isVisible;
-    public Trap(BuildingEnum type, User owner, int direction) {
-        super(type, owner, direction);
+    public Trap(BuildingEnum type, User owner, int direction,boolean active) {
+        super(type, owner, direction,active);
         switch (type) {
             case KILLING_PIT:
                 damage = 0;

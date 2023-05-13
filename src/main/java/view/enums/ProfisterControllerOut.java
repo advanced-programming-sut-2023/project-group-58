@@ -35,6 +35,7 @@ public enum ProfisterControllerOut {
     SUCCESSFULLY_ADDED_BUILDING("Building added successfully!"),
     UCCESSFULLY_ADDED_UNIT("Unit added successfully!"),
     REGISTER_CAPTCHA_WRONG("register was unsuccessful"),
+    CREATED_EMPTY_BUILDING("Building successfully create, but since you don't have enough workers, it is abandoned for now."),
     ;
     private String content;
 

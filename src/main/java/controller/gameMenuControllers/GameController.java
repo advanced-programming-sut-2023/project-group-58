@@ -236,6 +236,8 @@ public class GameController {
         ArrayList<Integer> xOrigins = new ArrayList<>();
         ArrayList<Integer> yOrigins = new ArrayList<>();
         extractDataxandy(data);
+        if(!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
+            return GameControllerOut.INVALID_COORDINATES;
         ArrayList<Unit> separate = selectedMap.getTile(yCoor,xCoor).findYourUnits(getCurrentUser());
         if(separate == null)
             return GameControllerOut.NO_UNIT;

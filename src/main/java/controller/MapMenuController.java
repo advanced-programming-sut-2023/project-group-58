@@ -479,32 +479,35 @@ public class MapMenuController {
         if(!checkLocation(selectedMap,yTexture,xTexture,type)) return ProfisterControllerOut.NOT_A_VALID_PLACE;
         if(!checkFinance(currentPlayer,type)) return ProfisterControllerOut.NOT_ENOUGH_RESOURCES;
         Building addingBuilding = null;
+        boolean enoughPlayers = currentPlayer.getGovernance().getUnemployedPopulation() >= type.getWorker();
+        if(enoughPlayers) currentPlayer.getGovernance().changeUnemployedPopulation(-1 * type.getWorker());
         switch (type.getType()) {
             case GATE:
-                addingBuilding = new Gate(type,currentPlayer,0);
+                addingBuilding = new Gate(type,currentPlayer,0,enoughPlayers);
                 break;
             case TRAP:
-                addingBuilding = new Trap(type,currentPlayer,0);
+                addingBuilding = new Trap(type,currentPlayer,0,enoughPlayers);
                 this.selectedMap.getTile(yTexture,xTexture).setHasTrap(true);
                 break;
             case TOWER:
-                addingBuilding = new Tower(type,currentPlayer,0);
+                addingBuilding = new Tower(type,currentPlayer,0,enoughPlayers);
                 break;
             case ForceRecruitment:
                 addingBuilding = new ForceRecruitment(type,currentPlayer,0,yTexture,xTexture);
                 break;
             case STORAGE:
-                addingBuilding = new Storage(type,currentPlayer,0);
+                addingBuilding = new Storage(type,currentPlayer,0,enoughPlayers);
                 break;
             case BUILDING:
-                addingBuilding = new Building(type,currentPlayer,0);
+                addingBuilding = new Building(type,currentPlayer,0,enoughPlayers);
                 break;
             case RESOURCE_MAKER:
-                addingBuilding = new ResourceMaker(type,currentPlayer,0);
+                addingBuilding = new ResourceMaker(type,currentPlayer,0,enoughPlayers);
                 break;
         }
         this.selectedMap.getTile(yTexture,xTexture).getBuildings().add(addingBuilding);
         currentPlayer.getGovernance().getBuildings().add(addingBuilding);
+        if(!enoughPlayers) return ProfisterControllerOut.CREATED_EMPTY_BUILDING;
         return ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING;
     }
 

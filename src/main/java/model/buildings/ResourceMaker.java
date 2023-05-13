@@ -8,8 +8,8 @@ public class ResourceMaker extends Building{
     private final ResourceEnum usedResources;
     private final ResourceEnum producedResource;
     private final ResourceEnum secondProducedOne;
-    public ResourceMaker(BuildingEnum type, User owner, int direction) {
-        super(type, owner, direction);
+    public ResourceMaker(BuildingEnum type, User owner, int direction,boolean active) {
+        super(type, owner, direction,active);
         ResourceEnum[] initializing = new ResourceEnum[3];
         initializing = ResourceMakerFuncs.setInputAndOutput(type);
         this.usedResources = initializing[0];
