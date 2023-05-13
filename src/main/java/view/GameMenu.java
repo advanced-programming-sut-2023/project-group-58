@@ -71,9 +71,9 @@ public class GameMenu {
             else if ((matcher = Commands.getMatcher(command, Commands.SELECT_BUILDING)) != null) {
                 System.out.println(gameController.selectUnit(matcher.group("data")).getContent());
             }
-//            else if ((matcher = Commands.getMatcher(command, Commands.MOVE_UNIT)) != null) {
-//                System.out.println(gameController.moveUnit(matcher.group("data")).getContent());
-//            }
+            else if ((matcher = Commands.getMatcher(command, Commands.MOVE_UNIT)) != null) {
+             //   System.out.println(gameController.moveUnit(matcher.group("data")).getContent());
+            }
             else if (command.matches("trade menu")){
                 TradeMenu tradeMenu = new TradeMenu(currentUser);
                 tradeMenu.run();

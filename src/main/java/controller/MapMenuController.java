@@ -86,7 +86,7 @@ public class MapMenuController {
         setUpDefaultMaps();
         this.selectedMap = map1;
         String ans = "I give you a 200*200 map. You can change the map texture any time with this command:\n" +
-                     "settexture -x [x] -y [y] -t [type])\n";
+                "settexture -x [x] -y [y] -t [type])\n";
         int[] range = setRange(99,99,200,200);
         ans += printMap(map1, range) + "\n";
         return ans;
@@ -123,54 +123,54 @@ public class MapMenuController {
     //(0,0) is top left.
     private void setUpDefaultMaps() {
         //Designing map template number 1:
-       boolean[][] mark1 = new boolean[100][100];
-       int pickLand;
-       for(int i = 0; i < 15; i++) {
-           for (int j = 0; j < 15; j++)
-           {
-               map1.getTile(i, j).setTexture(TileTexture.SEA);
-               mark1[i][j] = true;
-           }
-           for(int j = 85; j < 100; j++)
-           {
-               map1.getTile(i, j).setTexture(TileTexture.SEA);
-               mark1[i][j] = true;
-           }
-       }
-       for(int i = 85; i < 100; i++) {
-           for (int j = 0; j < 15; j++)
-           {
-               map1.getTile(i, j).setTexture(TileTexture.SMALL_POND);
-               mark1[i][j] = true;
-           }
-           for(int j = 85; j < 100; j++)
-           {
-               map1.getTile(i, j).setTexture(TileTexture.FORD);
-               mark1[i][j] = true;
-           }
-       }
-       for(int i = 15; i < 35; i++) {
-           for(int j = 20; j < 24; j++)
-           {
-               map1.getTile(i , j).setTexture(TileTexture.IRON);
-               mark1[i][j] = true;
-           }
-           if(i > 31)
-               for(int j = 24; j < 30; j++)
-               {
-                   map1.getTile(i , j).setTexture(TileTexture.OIL);
-                   mark1[i][j] = true;
-               }
-       }
-       for(int i = 0; i < 100; i++)
-           for(int j = 0; j < 100; j++)
+        boolean[][] mark1 = new boolean[100][100];
+        int pickLand;
+        for(int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++)
+            {
+                map1.getTile(i, j).setTexture(TileTexture.SEA);
+                mark1[i][j] = true;
+            }
+            for(int j = 85; j < 100; j++)
+            {
+                map1.getTile(i, j).setTexture(TileTexture.SEA);
+                mark1[i][j] = true;
+            }
+        }
+        for(int i = 85; i < 100; i++) {
+            for (int j = 0; j < 15; j++)
+            {
+                map1.getTile(i, j).setTexture(TileTexture.SMALL_POND);
+                mark1[i][j] = true;
+            }
+            for(int j = 85; j < 100; j++)
+            {
+                map1.getTile(i, j).setTexture(TileTexture.FORD);
+                mark1[i][j] = true;
+            }
+        }
+        for(int i = 15; i < 35; i++) {
+            for(int j = 20; j < 24; j++)
+            {
+                map1.getTile(i , j).setTexture(TileTexture.IRON);
+                mark1[i][j] = true;
+            }
+            if(i > 31)
+                for(int j = 24; j < 30; j++)
+                {
+                    map1.getTile(i , j).setTexture(TileTexture.OIL);
+                    mark1[i][j] = true;
+                }
+        }
+        for(int i = 0; i < 100; i++)
+            for(int j = 0; j < 100; j++)
                 if(!mark1[i][j])
-                   {
-                       pickLand = (int) (3 * Math.random());
-                       if(pickLand == 2) map1.getTile(i,j).setTexture(TileTexture.SCRUB);
-                       if(pickLand == 1) map1.getTile(i,j).setTexture(TileTexture.THICK_SCRUB);
-                       if(pickLand == 0) map1.getTile(i,j).setTexture(TileTexture.EARTH);
-                   }
+                {
+                    pickLand = (int) (3 * Math.random());
+                    if(pickLand == 2) map1.getTile(i,j).setTexture(TileTexture.SCRUB);
+                    if(pickLand == 1) map1.getTile(i,j).setTexture(TileTexture.THICK_SCRUB);
+                    if(pickLand == 0) map1.getTile(i,j).setTexture(TileTexture.EARTH);
+                }
     }
 
     public int[] setRange(int x, int y, int length, int width) {
@@ -284,7 +284,7 @@ public class MapMenuController {
             for(int i = yTexture; i <= y2Texture; i++)
                 for(int j = xTexture; j <= x2Texture; j++) {
                     if(map.getTile(i,j).getBuildings().size() != 0) return "Mission failed: You can't change a tile's" +
-                                                                           "texture while there is a building on it!";
+                            "texture while there is a building on it!";
                     map.getTile(i,j).setTexture(convertStringTextureToEnum(typeTexture));
                 }
         }
@@ -337,12 +337,12 @@ public class MapMenuController {
     public boolean extractDataForTexture(String data) throws IOException {
         //todo: handle errors. everytime we use that there should be a type somewhere...
         if(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
+                CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
+                CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
             return false;
         if(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim().length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim().length() == 0 ||
-           CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0)
+                CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim().length() == 0 ||
+                CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0)
             return false;
         xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
@@ -524,7 +524,7 @@ public class MapMenuController {
 
     private boolean checkFinance(User currentPlayer, BuildingEnum buildingType) {
         if(buildingType == null || buildingType.getResource() == null ||
-           buildingType.getResource().getType() == null || buildingType.getResource().getType().equals(ResourceEnum.NULL))
+                buildingType.getResource().getType() == null || buildingType.getResource().getType().equals(ResourceEnum.NULL))
             return true;
         if(currentPlayer.getGovernance().getResourceAmount((buildingType.getResource().getType())) < buildingType.getResource().getAmount())
             return false;
