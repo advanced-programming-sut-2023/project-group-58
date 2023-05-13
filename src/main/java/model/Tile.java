@@ -14,7 +14,7 @@ public class Tile {
     private String rockDirection = "#";
     private TileTexture texture = TileTexture.EARTH;
     private ArrayList<Tree> trees = new ArrayList<>();
-    private HashMap<User , ArrayList<Unit>> playersUnits = new HashMap<>();
+    private HashMap<String , ArrayList<Unit>> playersUnits = new HashMap<>();
     //assuming a tile can have more than one tree. (since it can have multiple units)
     private ArrayList<Building> buildings = new ArrayList<>();
 
@@ -89,11 +89,34 @@ public class Tile {
         return ans;
     }
     public ArrayList<Unit> findYourUnits(User master) {
-        for (Map.Entry<User, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
-            if(arrayListEntry.getKey().getUsername().equals(master.getUsername()))
-                return this.playersUnits.get(master);
+        for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
+            if(arrayListEntry.getKey().equals(master.getUsername()))
+                return arrayListEntry.getValue();
         }
+        //why didn't i use this?
+        // return this.playersUnits.get(master.getUsername());
         return null;
+    }
+
+    public void unifyYourUnits(Unit unit) {
+        ArrayList<Unit> replacement = new ArrayList<>();
+        replacement.add(unit);
+        for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
+            if(arrayListEntry.getKey().equals(unit.getMaster().getUsername()))
+                arrayListEntry.setValue(replacement);
+        }
+    }
+
+    public void addUnitToTile(Unit unit) {
+        this.playersUnits.get(unit.getMaster().getUsername()).add(unit);
+    }
+
+    public boolean areEnemiesHere(User current) {
+        for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
+            if(!arrayListEntry.getKey().equals(current.getUsername()))
+                return true;
+        }
+        return false;
     }
 
     public void workingTrap() {

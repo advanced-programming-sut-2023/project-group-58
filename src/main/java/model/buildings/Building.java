@@ -1,7 +1,5 @@
 package model.buildings;
 
-import model.Governance;
-import model.ResourceEnum;
 import model.User;
 
 public class Building {
@@ -14,7 +12,7 @@ public class Building {
         this.type = type;
         this.owner = owner;
         this.direction = direction;
-        this.hp = type.getHp();
+        this.hp = type.getOriginalHp();
     }
 
     public BuildingEnum getType() {
@@ -32,4 +30,7 @@ public class Building {
     public int getDirection() {
         return direction;
     }
+
+    public void changeHp(int amount) {this.hp += amount;}
+    public void resetHp() {this.hp = type.getOriginalHp();}
 }

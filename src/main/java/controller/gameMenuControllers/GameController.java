@@ -1,12 +1,30 @@
 package controller.gameMenuControllers;
 
+import controller.CommonController;
+import model.Map;
 import model.Resource;
 import model.ResourceEnum;
 import model.User;
+import model.buildings.Building;
+import model.buildings.BuildingEnum;
+import model.units.Unit;
+import model.units.UnitEnum;
 import view.enums.GameControllerOut;
+
+import java.util.ArrayList;
 
 public class GameController {
     private User CurrentUser;
+    private int xCoor;
+    private int yCoor;
+    private Map selectedMap;
+    private Building selectedBuilding;
+    private int xOFSelectedBuilding;
+    private int yOFSelectedBuilding;
+    private int indexOFSelectedBuilding;
+    private Unit selectedUnit;
+    private int xOFSelectedUnit;
+    private int yOFSelectedUnit;
 
     public User getCurrentUser() {
         return CurrentUser;
@@ -111,5 +129,120 @@ public class GameController {
     }
     public String showTaxRate() {
         return "This is tax rate: " + this.CurrentUser.getGovernance().getTaxRate();
+    }
+
+    public boolean extractDataxandy(String data) {
+        String x = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        String y = CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        if(x.length() == 0 || y.length() == 0) return false;
+        if(x.trim().length() == 0 || y.trim().length() == 0) return false;
+        xCoor = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        yCoor = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        yCoor = selectedMap.getWidth() - 1 - yCoor;
+        return true;
+    }
+    public boolean validateCoordinates(int mapLength, int mapWidth) {
+        return xCoor >= 0 && xCoor <= mapWidth - 1 && yCoor >= 0 && yCoor <= mapLength - 1;
+    }
+    public GameControllerOut selectBuilding(String data) {
+        extractDataxandy(data);
+        if(!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
+            return GameControllerOut.INVALID_COORDINATES;
+        if(selectedMap.getTile(yCoor,xCoor).getBuildings().size() == 0)
+            return GameControllerOut.NO_BUILDING;
+        boolean exist = false;
+        for(int i =0; i < selectedMap.getTile(yCoor, xCoor).getBuildings().size(); i++) {
+            if(selectedMap.getTile(yCoor, xCoor).getBuildings().get(i)
+                    .getOwner().getUsername().equals(this.CurrentUser.getUsername())) {
+                exist = true;
+                this.selectedBuilding = selectedMap.getTile(yCoor, xCoor).getBuildings().get(i);
+                this.xOFSelectedBuilding = xCoor;
+                this.yOFSelectedBuilding = yCoor;
+                this.indexOFSelectedBuilding = i;
+                break;
+            }
+        }
+        if(!exist)
+            return GameControllerOut.NO_BUILDING;
+        else
+            return GameControllerOut.SUCCESSFULLY_SELECTED_BUILDING.manipulateSelectBuilding(selectedBuilding.getType());
+    }
+
+    public GameController(User currentUser, Map selectedMap) {
+        CurrentUser = currentUser;
+        this.selectedMap = selectedMap;
+    }
+
+    public void setSelectedMap(Map selectedMap) {
+        this.selectedMap = selectedMap;
+    }
+
+    public GameControllerOut createUnit(String data) {
+        String type = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(.+))(?<!\\s))");
+        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+        if(type.length() == 0 || countStr.length() == 0)
+            return GameControllerOut.INVALID_INPUT_FORMAT;
+        if(type.trim().length() == 0 || countStr.trim().length() == 0)
+            return GameControllerOut.INVALID_INPUT_FORMAT;
+        int count = Integer.parseInt(countStr.trim());
+        type = type.trim();
+        UnitEnum unitType = CommonController.unitTypeSpecifier(type);
+        if(unitType == null)
+            return GameControllerOut.INVALID_INPUT_FORMAT;
+        if(count == 0)
+            return GameControllerOut.ZERO;
+        if(getCurrentUser().getGovernance().getGold() < unitType.getCost() * count)
+            return GameControllerOut.NOT_ENOUGH_GOLD;
+        if(!unitType.getWeaponType().equals(ResourceEnum.NULL))
+            if(getCurrentUser().getGovernance().getResourceAmount(unitType.getWeaponType()) < count)
+                return GameControllerOut.NOT_ENOUGH_WEAPON;
+        if(getCurrentUser().getGovernance().getUnemployedPopulation() < count)
+            return GameControllerOut.NOT_ENOUGH_PEOPLE;
+        if(!checkPlace(unitType))
+            return GameControllerOut.WRONG_LOCATION;
+        getCurrentUser().getGovernance().changeGold(-1 * unitType.getCost() * count);
+        if(!unitType.getWeaponType().equals(ResourceEnum.NULL))
+            getCurrentUser().getGovernance().changeResourceAmount(unitType.getWeaponType(),-1 * count);
+        Unit addingUnit = new Unit(getCurrentUser(),unitType,count, yOFSelectedBuilding, xOFSelectedBuilding);
+        selectedMap.getTile(yOFSelectedBuilding, xOFSelectedBuilding).addUnitToTile(addingUnit);
+        return GameControllerOut.SUCCESSFULLY_CREATED_UNIT;
+    }
+
+    private boolean checkPlace(UnitEnum unitType) {
+        if(unitType.getName().equals("engineer"))
+            return selectedBuilding.getType().equals(BuildingEnum.ENGINEERS_GUILD);
+        else if(unitType.isArab() && selectedBuilding.getType().equals(BuildingEnum.MERCENARY_POST))
+            return true;
+        else return !unitType.isArab() && selectedBuilding.getType().equals(BuildingEnum.BARRACKS);
+    }
+
+    public GameControllerOut repair() {
+        for(int i = -1; i < 2; i++)
+            for(int j = -1; j < 2; j++)
+                if(selectedMap.getTile(yOFSelectedBuilding + i, xOFSelectedBuilding + j)
+                        .areEnemiesHere(getCurrentUser()))
+                    return GameControllerOut.ENEMIES_NEAR;
+        Resource neededResource = selectedBuilding.getType().getResource();
+        if(getCurrentUser().getGovernance().getResourceAmount(neededResource.getType()) <
+        neededResource.getAmount())
+            return GameControllerOut.NOT_ENOUGH_RESOURCES;
+        if(selectedBuilding.getHp() == selectedBuilding.getType().getOriginalHp())
+            return GameControllerOut.FULL_HP;
+        getCurrentUser().getGovernance().changeResourceAmount(neededResource.getType(), -1 * neededResource.getAmount());
+        selectedMap.getTile(yOFSelectedBuilding, xOFSelectedBuilding).getBuildings().get(indexOFSelectedBuilding).resetHp();
+        return GameControllerOut.SUCCESSFULLY_REPAIRED;
+    }
+
+    public GameControllerOut selectUnit(String data) {
+        extractDataxandy(data);
+        ArrayList<Unit> separate = selectedMap.getTile(yCoor,xCoor).findYourUnits(getCurrentUser());
+        if(separate == null)
+            return GameControllerOut.NO_UNIT;
+        Unit combined = separate.get(0);
+        for(int i = 1; i < separate.size(); i++)
+            combined.addByUnit(separate.get(i));
+        //todo: enhance and simplify addbyunit
+        selectedMap.getTile(yCoor,xCoor).unifyYourUnits(combined);
+        return GameControllerOut.SUCCESSFULLY_SELECTED_UNIT;
     }
 }

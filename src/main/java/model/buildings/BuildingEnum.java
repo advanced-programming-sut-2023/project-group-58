@@ -52,7 +52,7 @@ public enum BuildingEnum {
     ;
     private BuildingEnumType type;
     private String name;
-    private int hp;
+    private int originalHp;
     private int rate;
     private int goldCost;
     private int worker;
@@ -61,7 +61,7 @@ public enum BuildingEnum {
     BuildingEnum(BuildingEnumType type, String name, int hp, int rate, int goldCost, Resource resource, int worker) {
         this.type = type;
         this.name = name;
-        this.hp = hp;
+        this.originalHp = hp;
         this.goldCost = goldCost;
         this.resource = resource;
         this.worker = worker;
@@ -72,8 +72,8 @@ public enum BuildingEnum {
         return name;
     }
 
-    public int getHp() {
-        return hp;
+    public int getOriginalHp() {
+        return originalHp;
     }
 
     public int getGoldCost() {

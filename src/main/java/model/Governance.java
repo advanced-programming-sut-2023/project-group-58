@@ -12,7 +12,6 @@ import java.util.HashMap;
 public class Governance {
     //todo: everytime a food type is manipulated, popularity should change if updateFoodDiversity changes.
     private static ArrayList<User> empires = new ArrayList<>();
-    private User master;
     private int unemployedPopulation;
     private int maximumPopulation = 0;
     private int popularity  = 0;

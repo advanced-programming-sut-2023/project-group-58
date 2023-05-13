@@ -56,8 +56,4 @@ public enum ProfisterControllerOut {
         return this;
     }
 
-    public ProfisterControllerOut manipulateFinalCreationMessage(String slogan) {
-        this.content += "\nBy the way, your \"random\" slogan is: " + slogan;
-        return this;
-    }
 }

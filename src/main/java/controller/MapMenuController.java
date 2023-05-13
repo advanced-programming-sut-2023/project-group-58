@@ -340,6 +340,10 @@ public class MapMenuController {
            CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").length() == 0 ||
            CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
             return false;
+        if(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim().length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim().length() == 0 ||
+           CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0)
+            return false;
         xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         typeTexture = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
@@ -358,6 +362,7 @@ public class MapMenuController {
         String x = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
         String y = CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))");
         if(x.length() == 0 || y.length() == 0) return false;
+        if(x.trim().length() == 0 || y.trim().length() == 0) return false;
         xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         return true;
@@ -536,14 +541,6 @@ public class MapMenuController {
         }
         return null;
     }
-    public UnitEnum unitTypeSpecifier(String type) {
-        EnumSet<UnitEnum> unitEnums = EnumSet.allOf(UnitEnum.class);
-        for (UnitEnum unitEnum : unitEnums){
-            if(unitEnum.getName().equals(type))
-                return unitEnum;
-        }
-        return null;
-    }
 
     public int getxTexture() {
         return xTexture;
@@ -553,7 +550,7 @@ public class MapMenuController {
         return yTexture;
     }
 
-    //    public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
+//        public ProfisterControllerOut dropUnit(String data, User currentPlayer) throws IOException {
 //        if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
 //        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-c\\s+(?<wantedPart>(\\d+)(?<!\\s))");
 //        if(countStr.length() == 0) return ProfisterControllerOut.INVALID_INPUT_FORMAT;

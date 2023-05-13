@@ -32,9 +32,13 @@ public enum Commands {
     SET_FOOD_RATE("^\\s*food\\s+rate\\s+-r\\s+(?<data>(-)?\\d)$"),
     SET_TAX_RATE("^\\s*tax\\s+rate\\s+-r\\s+(?<data>(-)?\\d)$"),
     SHOW_TAX_RATE("^\\s*tax\\s+rate\\s+show\\s*$"),
-    DROP_BUILDING("^dropbuilding\\s+(?<data>(-)?\\d)$"),
-    DROP_UNIT("^dropunit\\s+(?<data>(-)?\\d)$"),
-    USER_LOGIN_STAYED("\\s*user\\s+login\\s+-u\\s+\"?(?<username>\\S+)\"?"),
+    DROP_BUILDING("^\\s*dropbuilding\\s+(?<data>(-)?\\d)$"),
+    DROP_UNIT("^\\s*dropunit\\s+(?<data>(-)?\\d)$"),
+    USER_LOGIN_STAYED("^\\s*user\\s+login\\s+-u\\s+\"?(?<username>\\S+)\"?"),
+    SELECT_BUILDING("^\\s*select\\s+building\\s+(?<data>.+)$"),
+    CREATE_UNIT("^\\s*createunit\\s+(?<data>.+)$"),
+    MOVE_UNIT("^\\s*move\\s+unit\\s+to\\s+(?<data>.+)$"),
+    REPAIR("^\\s*repair\\s*"),
     ;public final String regex;
 
     Commands(String regex) {
