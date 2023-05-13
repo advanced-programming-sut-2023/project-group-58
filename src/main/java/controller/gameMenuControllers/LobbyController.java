@@ -53,18 +53,18 @@ public class LobbyController {
         }
         return false;
     }
-    public LobbyControllerOut removeUser(String user){
+    public String removeUser(String user){
         username = user;
         for (int i=0; i<players.size(); i++){
             if (players.get(i).getUsername().equals(username)){
                 if (i==0) {
-                    return LobbyControllerOut.REMOVING_YOURSELF;
+                    return LobbyControllerOut.REMOVING_YOURSELF.getContent();
                 }
                 players.remove(i);
                 return LobbyControllerOut.SUCCESSFULLY_REMOVED_USER.manipulateRemovingFormat(username);
             }
         }
-        return LobbyControllerOut.NO_SUCH_USER_IN_LOBBY;
+        return LobbyControllerOut.NO_SUCH_USER_IN_LOBBY.getContent();
     }
     public String showUsers(){
         StringBuilder ans = new StringBuilder(new String());

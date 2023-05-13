@@ -28,11 +28,11 @@ public class ProfileMenu {
             else if (command.matches("show current menu")) System.out.println("profile menu");
             else if ((matcher = Commands.getMatcher(command, Commands.CHANGE_USERNAME))!=null) {
                 changer = new ChangeProfileController(user, matcher.group("username"));
-                System.out.println(changer.changeUserName().getContent());
+                System.out.println(changer.changeUserName());
             }
             else if ((matcher = Commands.getMatcher(command, Commands.CHANGE_NICKNAME))!=null ){
                 changer = new ChangeProfileController(user, matcher.group("nickname"));
-                System.out.println(changer.changeNickname().getContent());
+                System.out.println(changer.changeNickname());
             }
             else if ((matcher = Commands.getMatcher(command, Commands.CHANGE_PASSWORD))!= null){
                 changer = new ChangeProfileController(user, matcher.group("data"));
@@ -56,7 +56,7 @@ public class ProfileMenu {
 
             else if ((matcher = Commands.getMatcher(command, Commands.EMAIL_CHANGE))!=null) {
                 changer = new ChangeProfileController(user, matcher.group("email"));
-                System.out.println(changer.changeEmail().getContent());
+                System.out.println(changer.changeEmail());
             }
             else if ((matcher = Commands.getMatcher(command, Commands.CHANGE_SLOGAN))!=null){
                 changer = new ChangeProfileController(user, matcher.group("slogan"));

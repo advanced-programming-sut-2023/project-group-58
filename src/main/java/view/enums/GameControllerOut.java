@@ -39,8 +39,7 @@ public enum GameControllerOut {
         return content;
     }
 
-    public GameControllerOut manipulateSelectBuilding(BuildingEnum name) {
-        this.content += name;
-        return this;
+    public String manipulateSelectBuilding(BuildingEnum name) {
+        return this.content + name;
     }
 }

@@ -22,9 +22,8 @@ public class GameController {
     private int xOFSelectedBuilding;
     private int yOFSelectedBuilding;
     private int indexOFSelectedBuilding;
-    private Unit selectedUnit;
-    private int xOFSelectedUnit;
-    private int yOFSelectedUnit;
+    private int xOriginOFSelectedUnit;
+    private int yOriginOFSelectedUnit;
 
     public User getCurrentUser() {
         return CurrentUser;
@@ -144,12 +143,12 @@ public class GameController {
     public boolean validateCoordinates(int mapLength, int mapWidth) {
         return xCoor >= 0 && xCoor <= mapWidth - 1 && yCoor >= 0 && yCoor <= mapLength - 1;
     }
-    public GameControllerOut selectBuilding(String data) {
+    public String selectBuilding(String data) {
         extractDataxandy(data);
         if(!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
-            return GameControllerOut.INVALID_COORDINATES;
+            return GameControllerOut.INVALID_COORDINATES.getContent();
         if(selectedMap.getTile(yCoor,xCoor).getBuildings().size() == 0)
-            return GameControllerOut.NO_BUILDING;
+            return GameControllerOut.NO_BUILDING.getContent();
         boolean exist = false;
         for(int i =0; i < selectedMap.getTile(yCoor, xCoor).getBuildings().size(); i++) {
             if(selectedMap.getTile(yCoor, xCoor).getBuildings().get(i)
@@ -163,7 +162,7 @@ public class GameController {
             }
         }
         if(!exist)
-            return GameControllerOut.NO_BUILDING;
+            return GameControllerOut.NO_BUILDING.getContent();
         else
             return GameControllerOut.SUCCESSFULLY_SELECTED_BUILDING.manipulateSelectBuilding(selectedBuilding.getType());
     }
@@ -234,15 +233,46 @@ public class GameController {
     }
 
     public GameControllerOut selectUnit(String data) {
+        ArrayList<Integer> xOrigins = new ArrayList<>();
+        ArrayList<Integer> yOrigins = new ArrayList<>();
         extractDataxandy(data);
+        if(!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
+            return GameControllerOut.INVALID_COORDINATES;
         ArrayList<Unit> separate = selectedMap.getTile(yCoor,xCoor).findYourUnits(getCurrentUser());
         if(separate == null)
             return GameControllerOut.NO_UNIT;
         Unit combined = separate.get(0);
-        for(int i = 1; i < separate.size(); i++)
+        xOrigins.add(combined.getxOrigin());
+        yOrigins.add(combined.getyOrigin());
+        for(int i = 1; i < separate.size(); i++) {
             combined.addByUnit(separate.get(i));
+            xOrigins.add(combined.getxOrigin());
+            yOrigins.add(combined.getyOrigin());
+        }
         //todo: enhance and simplify addbyunit
+        //adding troops which are in a different tile, but are part of the unit:
+        for(int i = 0; i < selectedMap.getWidth(); i++)
+            for(int j = 0; j < selectedMap.getLength(); j++) {
+                ArrayList<Unit> seperatedUnits = selectedMap.getTile(i,j).findYourUnits(getCurrentUser());
+                for (Unit unit : seperatedUnits) {
+                    if(matchPrimaryCoordinate(xOrigins,yOrigins,unit)) {
+                        unit.setxOrigin(xCoor);
+                        unit.setyOrigin(yCoor);
+                    }
+                }
+            }
+        combined.setxOrigin(xCoor);
+        combined.setyOrigin(yCoor);
+        xOriginOFSelectedUnit = xCoor;
+        yOriginOFSelectedUnit = yCoor;
         selectedMap.getTile(yCoor,xCoor).unifyYourUnits(combined);
         return GameControllerOut.SUCCESSFULLY_SELECTED_UNIT;
+    }
+
+    public boolean matchPrimaryCoordinate(ArrayList<Integer> x, ArrayList<Integer> y, Unit unit) {
+        for(int i = 0; i < x.size(); i++)
+            if(unit.getxOrigin() == x.get(i) && unit.getyOrigin() == y.get(i))
+                return true;
+        return false;
     }
 }

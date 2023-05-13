@@ -79,7 +79,7 @@ public class RegisterTests {
                 " \"Vox machina3#\" \"Vox machina3#\" --email klk.s@kj -n nick" +
                 " -s testing"), ProfisterControllerOut.VALID);
         Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED);
-        Assertions.assertEquals(registerMenuController.usernameExist(),ProfisterControllerOut.VALID);
+        Assertions.assertEquals(registerMenuController.usernameExist(),ProfisterControllerOut.VALID.getContent());
         registerMenuController.setEmail("kmk.s@kj");
         Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED);
 

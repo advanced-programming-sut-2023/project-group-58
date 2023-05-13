@@ -57,7 +57,7 @@ public class GameMenu {
                 System.out.println(gameController.showTaxRate());
             }
             else if ((matcher = Commands.getMatcher(command, Commands.SELECT_BUILDING)) != null) {
-                System.out.println(gameController.selectBuilding(matcher.group("data")).getContent());
+                System.out.println(gameController.selectBuilding(matcher.group("data")));
             }
             else if ((matcher = Commands.getMatcher(command, Commands.DROP_BUILDING)) != null) {
                 System.out.println(GameControllerOut.DROP);

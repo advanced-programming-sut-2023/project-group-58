@@ -69,4 +69,12 @@ public class Unit {
     public void takeDamage(int damage) {
         //todo
     }
+
+    public void setxOrigin(int xOrigin) {
+        this.xOrigin = xOrigin;
+    }
+
+    public void setyOrigin(int yOrigin) {
+        this.yOrigin = yOrigin;
+    }
 }

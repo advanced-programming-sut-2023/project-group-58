@@ -1,3 +1,5 @@
+import model.User;
+import view.MapMenu;
 import view.RegisterMenu;
 
 import java.io.IOException;
