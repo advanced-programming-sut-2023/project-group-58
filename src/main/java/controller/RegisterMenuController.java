@@ -100,11 +100,12 @@ public class RegisterMenuController {
         //careful: getting double hyphens for email regex.
         //todo: Assuming THERE IS NO DOUBLE QUOTES BETWEEN TWO DOUBLE QUOTES
         //todo: cannot handle: -s "   -u moon " (spaces before -u between "")
-        username = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        password = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        email    = CommonController.dataExtractor(data, "((?<!\\S)--email\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        nickname = CommonController.dataExtractor(data, "((?<!\\S)-n\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        slogan   = CommonController.dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
+        //assuming comments cant have dash
+        username = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|[^\\s\\-]*)(?<!\\s))").trim();
+        password = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|[^\\s\\-]*)(?<!\\s))").trim();
+        email    = CommonController.dataExtractor(data, "((?<!\\S)--email\\s+(?<wantedPart>(\"[^\"]*\")|[^\\s\\-]*)(?<!\\s))").trim();
+        nickname = CommonController.dataExtractor(data, "((?<!\\S)-n\\s+(?<wantedPart>(\"[^\"]*\")|[^\\s\\-]*)(?<!\\s))").trim();
+        slogan   = CommonController.dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>(\"[^\"]*\")|[^\\s\\-]*)(?<!\\s))").trim();
     }
 
     public ProfisterControllerOut validateBeforeCreation(String data) {
@@ -113,14 +114,14 @@ public class RegisterMenuController {
         if (username.length() == 0 || password.length() == 0 || email.length() == 0 ||
                 nickname.length() == 0)
             return ProfisterControllerOut.EMPTY_FIELDS;
-        String regex = "(?<!\")\\s+-s\\s+(?!\")";
+        String regex = "(?<!\")\\s+-s(\\s+|$)(?!\")";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(data);
         if (matcher.find() && (slogan == null || slogan.length() == 0 || slogan.trim().length() == 0)) return ProfisterControllerOut.SLOGAN_AND_NO_SLOGAN;
         if (username.matches(".*[\\W+].*")) return ProfisterControllerOut.USERNAME_INVALID_FORMAT;
 
         ProfisterControllerOut result = CommonController.checkPasswordFormat(password);
-        if (!result.equals(ProfisterControllerOut.VALID)) return result;
+        if (!password.trim().equals("random") && !result.equals(ProfisterControllerOut.VALID)) return result;
 
         if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", email, "email"))
             return ProfisterControllerOut.EMAIL_TAKEN;
@@ -157,9 +158,15 @@ public class RegisterMenuController {
             questionNumber = Integer.parseInt(matcher.group("number").trim());
         else
             return ProfisterControllerOut.INVALID_INPUT_FORMAT;
-        if(matcher.group("answerConfirm") == null || matcher.group("answerConfirm").trim().length() == 0)
+        if(questionNumber < 1 || questionNumber > 3)
+            return ProfisterControllerOut.INVALID_NUMBER;
+        if(matcher.group("answerConfirm") == null || matcher.group("answerConfirm").length() == 0 || matcher.group("answerConfirm").trim().length() == 0)
             return ProfisterControllerOut.INVALID_INPUT_FORMAT;
         answer = matcher.group("answerConfirm").trim();
+        if(matcher.group("answer") == null || matcher.group("answer").length() == 0 || matcher.group("answer").trim().length() == 0)
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+        if(!matcher.group("answer").trim().equals(answer))
+            return ProfisterControllerOut.SECOND_CHANCE_WAISTED;
         return ProfisterControllerOut.VALID;
     }
 
@@ -215,7 +222,7 @@ public class RegisterMenuController {
         }
         file.close();
 
-        if(randomSlogan) return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.manipulateTheEnd(slogan);
+        if(randomSlogan) return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.manipulateRandomSlogan(slogan);
         else return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.getContent();
     }
 

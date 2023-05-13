@@ -34,7 +34,14 @@ public class ChangeProfileController {
         this.user = user;
     }
 
+    public boolean nullCheck(String str) {
+        return str != null && str.length() != 0 && str.trim().length() != 0;
+    }
+
     public String changeUserName() {
+        if(!nullCheck(dataToChange))
+            return ProfisterControllerOut.EMPTY_INPUT.getContent();
+
         for (int i = 0; i < User.getUsers().size(); i++) {
             if (User.getUsers().get(i).getUsername().equals(dataToChange)) {
                 return ProfisterControllerOut.USERNAME_TAKEN.getContent();
@@ -49,6 +56,9 @@ public class ChangeProfileController {
     }
 
     public String changeNickname() {
+        if(!nullCheck(dataToChange))
+            return ProfisterControllerOut.EMPTY_INPUT.getContent();
+
         user.setNickname(dataToChange);
         changeDetail(user.getUsername(), "nickname", dataToChange);
         return ProfisterControllerOut.SUCCESSFULLY_CHANGED_NICKNAME.manipulateTheEnd("\"" + dataToChange + "\"");
@@ -108,6 +118,9 @@ public class ChangeProfileController {
     }
 
     public String changeEmail() {
+        if(!nullCheck(dataToChange))
+            return ProfisterControllerOut.EMPTY_INPUT.getContent();
+
         for (int i = 0; i < User.getUsers().size(); i++) {
             if (User.getUsers().get(i).getEmail().equalsIgnoreCase(dataToChange))
                 return ProfisterControllerOut.EMAIL_TAKEN.getContent();
