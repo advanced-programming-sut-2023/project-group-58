@@ -18,9 +18,8 @@ public enum LobbyControllerOut {
         return content;
     }
 
-    public LobbyControllerOut manipulateRemovingFormat(String firstHalf) {
+    public String manipulateRemovingFormat(String firstHalf) {
         String secondHalf = this.content;
-        this.content = firstHalf + secondHalf;
-        return this;
+        return firstHalf + secondHalf;
     }
 }

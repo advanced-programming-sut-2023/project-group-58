@@ -34,21 +34,21 @@ public class ChangeProfileController {
         this.user = user;
     }
 
-    public ProfisterControllerOut changeUserName() {
+    public String changeUserName() {
         for (int i = 0; i < User.getUsers().size(); i++) {
             if (User.getUsers().get(i).getUsername().equals(dataToChange)) {
-                return ProfisterControllerOut.USERNAME_TAKEN;
+                return ProfisterControllerOut.USERNAME_TAKEN.getContent();
             }
         }
         if (dataToChange.matches(".*[\\W+].*")) {
-            return ProfisterControllerOut.USERNAME_INVALID_FORMAT;
+            return ProfisterControllerOut.USERNAME_INVALID_FORMAT.getContent();
         }
         changeDetail(user.getUsername(), "username", dataToChange);
         user.setUsername(dataToChange);
         return ProfisterControllerOut.SUCCESSFULLY_CHANGED_USERNAME.manipulateTheEnd(dataToChange);
     }
 
-    public ProfisterControllerOut changeNickname() {
+    public String changeNickname() {
         user.setNickname(dataToChange);
         changeDetail(user.getUsername(), "nickname", dataToChange);
         return ProfisterControllerOut.SUCCESSFULLY_CHANGED_NICKNAME.manipulateTheEnd("\"" + dataToChange + "\"");
@@ -107,14 +107,14 @@ public class ChangeProfileController {
         return ProfisterControllerOut.VALID;
     }
 
-    public ProfisterControllerOut changeEmail() {
+    public String changeEmail() {
         for (int i = 0; i < User.getUsers().size(); i++) {
             if (User.getUsers().get(i).getEmail().equalsIgnoreCase(dataToChange))
-                return ProfisterControllerOut.EMAIL_TAKEN;
+                return ProfisterControllerOut.EMAIL_TAKEN.getContent();
         }
         String regex = "^[\\w|.]+@[\\w|.]+\\.[\\w|.]+$";
         if (!Pattern.compile(regex).matcher(dataToChange).find())
-            return ProfisterControllerOut.EMAIL_INVALID_FORMAT;
+            return ProfisterControllerOut.EMAIL_INVALID_FORMAT.getContent();
         user.setEmail(dataToChange);
         changeDetail(user.getUsername(), "email", dataToChange);
         return ProfisterControllerOut.SUCCESSFULLY_CHANGED_EMAIL.manipulateTheEnd(dataToChange);

@@ -6,15 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="a13b8cb4-6cdf-4bad-ae21-20a406439a39" name="Changes" comment="..">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataBase/ScatteredNotsOnTheMatterOFJson" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/ScatteredNotsOnTheMatterOFJson" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataBase/stayed.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/stayed.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/ChangeProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/ChangeProfileController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Building.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Gate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Gate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/ResourceMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/ResourceMaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Storage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Tower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Tower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Trap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Trap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/LobbyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/LobbyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/ForceRecruitment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/ForceRecruitment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/ProfileMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/RegisterMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/enums/GameControllerOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/enums/GameControllerOut.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/enums/LobbyControllerOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/enums/LobbyControllerOut.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/enums/ProfisterControllerOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/enums/ProfisterControllerOut.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/RegisterTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/RegisterTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +175,7 @@
       <workItem from="1683808584838" duration="10034000" />
       <workItem from="1683808584838" duration="8738000" />
       <workItem from="1683889055012" duration="14687000" />
-      <workItem from="1683988786377" duration="5671000" />
+      <workItem from="1683988786377" duration="8777000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

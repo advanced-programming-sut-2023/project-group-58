@@ -48,7 +48,7 @@ public class MainMenu {
                         }
                     }
                     else if ((matcher = Commands.getMatcher(command, Commands.REMOVE_USER))!=null){
-                        System.out.println(lobbyController.removeUser(matcher.group("username")).getContent());
+                        System.out.println(lobbyController.removeUser(matcher.group("username")));
                     }
                     else if (command.matches("show players")){
                         System.out.println(lobbyController.showUsers());

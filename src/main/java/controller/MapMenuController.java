@@ -493,7 +493,7 @@ public class MapMenuController {
                 addingBuilding = new Tower(type,currentPlayer,0,enoughPlayers);
                 break;
             case ForceRecruitment:
-                addingBuilding = new ForceRecruitment(type,currentPlayer,0,yTexture,xTexture);
+                addingBuilding = new ForceRecruitment(type,currentPlayer,0,yTexture,xTexture,enoughPlayers);
                 break;
             case STORAGE:
                 addingBuilding = new Storage(type,currentPlayer,0,enoughPlayers);

@@ -32,7 +32,7 @@ public class RegisterMenu {
             Matcher matcher;
             if (command.equals("exit")) break;
             else if ((matcher = Commands.getMatcher(command, Commands.CREATE_USER)) != null) {
-                System.out.println(createUser(matcher.group("data")).getContent());
+                System.out.println(createUser(matcher.group("data")));
             } else if (command.matches("show current menu")) System.out.println("login menu");
 
             else if ((matcher = Commands.getMatcher(command, Commands.USER_LOGIN)) != null) {
@@ -72,16 +72,16 @@ public class RegisterMenu {
         }
     }
 
-    public ProfisterControllerOut createUser(String data) throws IOException {
+    public String createUser(String data) throws IOException {
         Matcher temp;
         ProfisterControllerOut result = registerMenuController.validateBeforeCreation(data);
-        if (!result.equals(ProfisterControllerOut.VALID)) return result;
-        result = registerMenuController.usernameExist();
-        if (!result.equals(ProfisterControllerOut.VALID)) {
-            System.out.println(result.getContent());
+        if (!result.equals(ProfisterControllerOut.VALID)) return result.getContent();
+        String tempResult = registerMenuController.usernameExist();
+        if (!tempResult.equals(ProfisterControllerOut.VALID.getContent())) {
+            System.out.println(tempResult);
             String respondToChangeUsername = ScanMatch.getScanner().nextLine().trim();
             if (!respondToChangeUsername.equals("y"))
-                return ProfisterControllerOut.FAILED;
+                return ProfisterControllerOut.FAILED.getContent();
         }
         result = registerMenuController.handleRandomPassword();
         if (!result.equals(ProfisterControllerOut.VALID)) {
@@ -92,7 +92,7 @@ public class RegisterMenu {
                     System.out.println("Wrong. Tries left: " + counter + "\nPlease enter your password: " + registerMenuController.getPassword());
                 else break;
                 counter--;
-                if (counter == 0) return ProfisterControllerOut.FAILED;
+                if (counter == 0) return ProfisterControllerOut.FAILED.getContent();
             }
         }
         System.out.println("Pick your security question: 1. What is my father’s name? 2. What" +
@@ -100,12 +100,12 @@ public class RegisterMenu {
                 "Your response should in form:\n" +
                 "question pick -q <question-number> -a <answer> -c <answerconfirm>");
         if ((temp = Commands.getMatcher(ScanMatch.getScanner().nextLine(), Commands.SECURITY_QUESTION_PICK)) == null)
-            return ProfisterControllerOut.FAILED;
+            return ProfisterControllerOut.FAILED.getContent();
         if (!registerMenuController.getSecurityQuestion(temp).equals(ProfisterControllerOut.VALID))
-            return ProfisterControllerOut.FAILED;
+            return ProfisterControllerOut.FAILED.getContent();
         CaptchaMenu captchaMenu = new CaptchaMenu();
         if (!captchaMenu.run()){
-            return ProfisterControllerOut.REGISTER_CAPTCHA_WRONG;
+            return ProfisterControllerOut.REGISTER_CAPTCHA_WRONG.getContent();
         }
         return registerMenuController.createUser();
     }

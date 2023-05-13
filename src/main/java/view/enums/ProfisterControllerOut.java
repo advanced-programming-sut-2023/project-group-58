@@ -47,14 +47,12 @@ public enum ProfisterControllerOut {
         return content;
     }
 
-    public ProfisterControllerOut manipulateTheEnd(String secondHalf) {
-        this.content += secondHalf + " successfully";
-        return this;
+    public String manipulateTheEnd(String secondHalf) {
+        return this.content + secondHalf + " successfully";
     }
 
-    public ProfisterControllerOut manipulateSuggestedUsername(String username) {
-        this.content += username + " instead?\nType y for yes and n for no";
-        return this;
+    public String manipulateSuggestedUsername(String username) {
+         return this.content + username + " instead?\nType y for yes and n for no";
     }
 
 }

@@ -138,13 +138,13 @@ public class RegisterMenuController {
         return ProfisterControllerOut.VALID;
     }
 
-    public ProfisterControllerOut usernameExist() {
+    public String usernameExist() {
         if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", username, "username")) {
             username = findSomethingSimilar(username);
             return ProfisterControllerOut.SUGGESTING_USERNAME.manipulateSuggestedUsername(username);
 
         }
-        return ProfisterControllerOut.VALID;
+        return ProfisterControllerOut.VALID.getContent();
     }
 
     public ProfisterControllerOut handleRandomPassword() {
@@ -164,7 +164,7 @@ public class RegisterMenuController {
         return ProfisterControllerOut.VALID;
     }
 
-    public ProfisterControllerOut createUser() throws IOException {
+    public String createUser() throws IOException {
         //todo: update users at the beginning of the programme.
 
         boolean randomSlogan = false;
@@ -217,7 +217,7 @@ public class RegisterMenuController {
         file.close();
 
         if(randomSlogan) return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.manipulateTheEnd(slogan);
-        else return ProfisterControllerOut.SUCCESSFULLY_REGISTERED;
+        else return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.getContent();
     }
 
     public String encryptPassword(String password) throws NoSuchAlgorithmException {

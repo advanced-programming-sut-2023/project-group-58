@@ -143,12 +143,12 @@ public class GameController {
     public boolean validateCoordinates(int mapLength, int mapWidth) {
         return xCoor >= 0 && xCoor <= mapWidth - 1 && yCoor >= 0 && yCoor <= mapLength - 1;
     }
-    public GameControllerOut selectBuilding(String data) {
+    public String selectBuilding(String data) {
         extractDataxandy(data);
         if(!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
-            return GameControllerOut.INVALID_COORDINATES;
+            return GameControllerOut.INVALID_COORDINATES.getContent();
         if(selectedMap.getTile(yCoor,xCoor).getBuildings().size() == 0)
-            return GameControllerOut.NO_BUILDING;
+            return GameControllerOut.NO_BUILDING.getContent();
         boolean exist = false;
         for(int i =0; i < selectedMap.getTile(yCoor, xCoor).getBuildings().size(); i++) {
             if(selectedMap.getTile(yCoor, xCoor).getBuildings().get(i)
@@ -162,7 +162,7 @@ public class GameController {
             }
         }
         if(!exist)
-            return GameControllerOut.NO_BUILDING;
+            return GameControllerOut.NO_BUILDING.getContent();
         else
             return GameControllerOut.SUCCESSFULLY_SELECTED_BUILDING.manipulateSelectBuilding(selectedBuilding.getType());
     }

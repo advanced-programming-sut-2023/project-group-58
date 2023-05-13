@@ -15,8 +15,8 @@ public class ForceRecruitment extends Building{
     //  troopTypes[2] = european
     //  troopTypes[3] = arab
 
-    public ForceRecruitment(BuildingEnum type, User owner, int direction, int yCoordinate, int xCoordinate){
-        super(type, owner, direction);
+    public ForceRecruitment(BuildingEnum type, User owner, int direction, int yCoordinate, int xCoordinate, boolean active){
+        super(type, owner, direction, active);
         troopTypes = ForceRecruitmentFuncs.setRecruitmentTypes(type);
         this.x = x;
         this.y = y;
