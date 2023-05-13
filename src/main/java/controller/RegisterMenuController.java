@@ -116,8 +116,7 @@ public class RegisterMenuController {
         String regex = "(?<!\")\\s+-s\\s+(?!\")";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(data);
-
-        if (matcher.find() && slogan.length() == 0) return ProfisterControllerOut.SLOGAN_AND_NO_SLOGAN;
+        if (matcher.find() && (slogan == null || slogan.length() == 0 || slogan.trim().length() == 0)) return ProfisterControllerOut.SLOGAN_AND_NO_SLOGAN;
         if (username.matches(".*[\\W+].*")) return ProfisterControllerOut.USERNAME_INVALID_FORMAT;
 
         ProfisterControllerOut result = CommonController.checkPasswordFormat(password);
