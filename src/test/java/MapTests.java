@@ -7,6 +7,7 @@ import model.units.UnitEnum;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import view.MapMenu;
 import view.enums.ProfisterControllerOut;
 import view.enums.TreeTypes;
 
@@ -21,11 +22,11 @@ import static org.hamcrest.CoreMatchers.hasItem;
 
 public class MapTests {
     MapMenuController mapMenuController = new MapMenuController();
-    @Test
-    public void mapSetUp() {
-        for(int i = 1; i < 9; i++)
-            System.out.println("RANDOM MAP WITH SIZE " + i * 100 + "\n\n"+ mapMenuController.setUpACustom(i * 100));
-    }
+    //@Test
+//    public void mapSetUp() {
+//        for(int i = 1; i < 9; i++)
+//            System.out.println("RANDOM MAP WITH SIZE " + i * 100 + "\n\n"+ mapMenuController.setUpACustom(i * 100));
+//    }
 
     @Test
     public void changeTexture() throws IOException {

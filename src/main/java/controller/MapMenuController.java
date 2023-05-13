@@ -86,7 +86,7 @@ public class MapMenuController {
         setUpDefaultMaps();
         this.selectedMap = map1;
         String ans = "I give you a 200*200 map. You can change the map texture any time with this command:\n" +
-                     "settexture -x [x] -y [y] -t [type])";
+                     "settexture -x [x] -y [y] -t [type])\n";
         int[] range = setRange(99,99,200,200);
         ans += printMap(map1, range) + "\n";
         return ans;
