@@ -4,7 +4,6 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/src/main/java/controller/PatchFinding.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/model/Point.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -38,6 +37,11 @@
       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/enums/ProfisterControllerOut.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/enums/ProfisterControllerOut.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/MapTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/MapTests.class" afterDir="false" />
+=======
+    <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="map started, with a colourful terminal!">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/CaptchaMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/CaptchaMenu.java" afterDir="false" />
+>>>>>>> 37d48d91841702f1cc710739c4a3cd2dbb083fe5
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +200,7 @@
       <workItem from="1683889055012" duration="14687000" />
       <workItem from="1683988786377" duration="9929000" />
       <workItem from="1683984396204" duration="1381000" />
-      <workItem from="1683997683924" duration="4903000" />
+      <workItem from="1683997683924" duration="8134000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

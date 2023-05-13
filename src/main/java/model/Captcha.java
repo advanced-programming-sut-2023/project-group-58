@@ -10,7 +10,7 @@ public class Captcha {
     public BufferedImage getCaptcha(){
         String number = randomNumber();
         this.number = number;
-        int width = number.length()*30;
+        int width = number.length()*10;
         int height = 15;
         this.width = width;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -29,10 +29,11 @@ public class Captcha {
         int size = random.nextInt(high-low)+low;
         String number= "";
         for (int i=0; i<size; i++){
-            number+= random.nextInt(10);
+            number+= random.nextInt(10)+" ";
         }
         return number;
     }
+
 
     public int getWidth() {
         return width;
