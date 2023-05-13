@@ -72,7 +72,7 @@ public class GameMenu {
                 System.out.println(gameController.selectUnit(matcher.group("data")).getContent());
             }
             else if ((matcher = Commands.getMatcher(command, Commands.MOVE_UNIT)) != null) {
-                System.out.println(gameController.moveUnit(matcher.group("data")).getContent());
+             //   System.out.println(gameController.moveUnit(matcher.group("data")).getContent());
             }
             else if (command.matches("trade menu")){
                 TradeMenu tradeMenu = new TradeMenu(currentUser);

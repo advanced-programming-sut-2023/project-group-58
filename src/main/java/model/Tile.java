@@ -1,6 +1,7 @@
 package model;
 
 import model.buildings.Building;
+import model.buildings.Gate;
 import model.buildings.Trap;
 import model.units.Unit;
 import model.units.UnitEnum;
@@ -10,7 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Tile {
+    private int x;
+    private int y;
+    private Tile parent;
     private boolean hasTrap;
+    private int gCost;
+    private int hCost;
     private String rockDirection = "#";
     private TileTexture texture = TileTexture.EARTH;
     private ArrayList<Tree> trees = new ArrayList<>();
@@ -121,5 +127,74 @@ public class Tile {
 
     public void workingTrap() {
         //todo
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Tile getParent() {
+        return parent;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setParent(Tile parent) {
+        this.parent = parent;
+    }
+
+    public Tile(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public int getFCost() {
+        return gCost + hCost;
+    }
+
+    public int getgCost() {
+        return gCost;
+    }
+
+    public int gethCost() {
+        return hCost;
+    }
+
+    public void setgCost(int gCost) {
+        this.gCost = gCost;
+    }
+
+    public void sethCost(int hCost) {
+        this.hCost = hCost;
+    }
+    public float getPrice(){
+        if (!texture.isWalkability() || existTree()) return 0.0f;
+        if (!checkPossibleBuilding()) return 0.0f;
+        return 1.0f;
+    }
+    public boolean existTree(){
+        if (trees!=null) return false;
+        return true;
+    }
+    public boolean checkPossibleBuilding(){
+        for (Building building : buildings){
+            if (building instanceof Gate){
+                if (!((Gate) building).isOpen()) return false;
+            }
+            else if (building instanceof Trap){
+                if (((Trap) building).isVisible()) return false;
+            }
+            else return false;
+        }
+        return true;
     }
 }

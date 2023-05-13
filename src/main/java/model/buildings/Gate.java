@@ -11,4 +11,8 @@ public class Gate extends Building{
     public void changeGateStatus(boolean state){
         isOpen = state;
     }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
 }
