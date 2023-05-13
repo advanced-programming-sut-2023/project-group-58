@@ -22,9 +22,8 @@ public class GameController {
     private int xOFSelectedBuilding;
     private int yOFSelectedBuilding;
     private int indexOFSelectedBuilding;
-    private Unit selectedUnit;
-    private int xOFSelectedUnit;
-    private int yOFSelectedUnit;
+    private int xOriginOFSelectedUnit;
+    private int yOriginOFSelectedUnit;
 
     public User getCurrentUser() {
         return CurrentUser;
@@ -262,6 +261,8 @@ public class GameController {
             }
         combined.setxOrigin(xCoor);
         combined.setyOrigin(yCoor);
+        xOriginOFSelectedUnit = xCoor;
+        yOriginOFSelectedUnit = yCoor;
         selectedMap.getTile(yCoor,xCoor).unifyYourUnits(combined);
         return GameControllerOut.SUCCESSFULLY_SELECTED_UNIT;
     }
