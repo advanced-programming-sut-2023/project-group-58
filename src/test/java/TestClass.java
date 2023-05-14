@@ -99,7 +99,7 @@ public class TestClass {
         ans += "email : epo3@gmail.com\n";
         ans += "highest score : "+ user.getHighScore()+"\n";
         if (user.getSlogan() != null && user.getSlogan().length() != 0) ans += "slogan : "+ user.getSlogan()+"\n";
-        ans += "your rank : "+ s.getRank()+"\n";
+        ans += "your rank : "+ s.getRank();
         Assertions.assertEquals(ans, s.showDisplay());
     }
 
