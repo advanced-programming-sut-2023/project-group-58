@@ -13,7 +13,7 @@ public class Governance {
     private static ArrayList<User> empires = new ArrayList<>();
     private int unemployedPopulation;
     private int maximumPopulation = 0;
-    private int popularity  = 0;
+    private int popularity  = 100;
     private int foodRate    = -2;
     private int taxRate     = 0;
     private int fearRate    = 0;

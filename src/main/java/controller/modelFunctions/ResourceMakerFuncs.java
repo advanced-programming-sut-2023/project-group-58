@@ -18,7 +18,7 @@ public class ResourceMakerFuncs {
                 ans = new ResourceEnum[]{ResourceEnum.FLOUR, ResourceEnum.BREAD, ResourceEnum.NULL};
                 break;
             case BREWER:
-                ans = new ResourceEnum[]{ResourceEnum.WHEAT, ResourceEnum.BEER, ResourceEnum.NULL};
+                ans = new ResourceEnum[]{ResourceEnum.WHEAT, ResourceEnum.ALE, ResourceEnum.NULL};
                 break;
                 //todo:this below adds differently
             case STABLE:
@@ -36,7 +36,7 @@ public class ResourceMakerFuncs {
             case BLACKSMITH:
                 ans = new ResourceEnum[]{ResourceEnum.IRON, ResourceEnum.SWORD, ResourceEnum.MACE};
                 break;
-            case DIARY_FARM:
+            case DAIRY_FARM:
                 ans = new ResourceEnum[]{ResourceEnum.NULL, ResourceEnum.CHEESE, ResourceEnum.LEATHER_ARMOR};
                 break;
             case WHEAT_FARM:
