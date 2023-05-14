@@ -357,4 +357,12 @@ public class RegisterMenuController {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setQuestionNumber(int questionNumber) {
+        this.questionNumber = questionNumber;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 }

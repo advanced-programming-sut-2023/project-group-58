@@ -12,7 +12,7 @@ public enum TileTexture {
     OIL("oil",false, false, true),
     BIG_POND("big_pond",false,false,false),
     RIVER("river",false,false,false),
-    SAND("SAND",false,false,true),
+    SAND("sand",false,false,true),
     LAWN("lawn",true, true, true),
     ROCK("rock",false,false ,false ),
     //todo use the last 5 in the map

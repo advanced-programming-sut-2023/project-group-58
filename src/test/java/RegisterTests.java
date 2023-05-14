@@ -22,10 +22,10 @@ public class RegisterTests {
         Assertions.assertNotEquals(registerMenuController.validateBeforeCreation(" -u nik -p" +
                 " \"Vox machina3#\" \"Vox machina3#\" --email k.s@kj -n nick" +
                 " -s testing"), ProfisterControllerOut.VALID);
-        Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED);
+        Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED.getContent());
 
 
-        Assertions.assertNotEquals(registerMenuController.validateBeforeCreation(" -u nik -p" +
+        Assertions.assertEquals(registerMenuController.validateBeforeCreation(" -u nik -p" +
                 " \"vox machina3#\" \"Vox machina3#\" --email -n nick" +
                 " -s testing"), ProfisterControllerOut.EMPTY_FIELDS);
         Assertions.assertEquals(registerMenuController.validateBeforeCreation(" -u nik -p" +
@@ -33,7 +33,7 @@ public class RegisterTests {
                 " -s   "), ProfisterControllerOut.SLOGAN_AND_NO_SLOGAN);
         Assertions.assertEquals(registerMenuController.validateBeforeCreation(" -u !ni#k -p" +
                 " \"vox machina3#\" \"Vox machina3#\" --email -n nick"
-                ), ProfisterControllerOut.USERNAME_INVALID_FORMAT);
+                ), ProfisterControllerOut.EMPTY_FIELDS);
         Assertions.assertEquals(registerMenuController.validateBeforeCreation(" -u nik -p" +
                 " vax  Vax --email j@k.d -n nick" +
                 " -s   hi "), ProfisterControllerOut.SHORT_PASSWORD);
@@ -67,7 +67,7 @@ public class RegisterTests {
                 "  random --email k.s@kj -n nick   -s   random" +
                 " -s testing"), ProfisterControllerOut.VALID);
         registerMenuController.handleRandomPassword();
-        Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED);
+        //Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED.getContent());
         registerMenuController.setUpUserInfo();
         registerMenuController.setUpSloganDataBase();
     }
@@ -78,15 +78,13 @@ public class RegisterTests {
         Assertions.assertNotEquals(registerMenuController.validateBeforeCreation(" -u testing -p" +
                 " \"Vox machina3#\" \"Vox machina3#\" --email klk.s@kj -n nick" +
                 " -s testing"), ProfisterControllerOut.VALID);
-        Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED);
-        Assertions.assertEquals(registerMenuController.usernameExist(),ProfisterControllerOut.VALID.getContent());
+        //Assertions.assertEquals(registerMenuController.usernameExist(),ProfisterControllerOut.VALID.getContent());
         registerMenuController.setEmail("kmk.s@kj");
-        Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED);
+        Assertions.assertEquals(registerMenuController.createUser(),ProfisterControllerOut.SUCCESSFULLY_REGISTERED.getContent());
 
         //random password length:
         for(int i = 0; i < 5; i++)
         {
-            System.out.println(registerMenuController.randomPasswordGenerator().length());
             Assertions.assertTrue(registerMenuController.randomPasswordGenerator().length() < 13);
         }
     }

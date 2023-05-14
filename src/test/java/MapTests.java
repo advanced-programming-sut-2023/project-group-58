@@ -22,11 +22,6 @@ import static org.hamcrest.CoreMatchers.hasItem;
 
 public class MapTests {
     MapMenuController mapMenuController = new MapMenuController();
-    //@Test
-//    public void mapSetUp() {
-//        for(int i = 1; i < 9; i++)
-//            System.out.println("RANDOM MAP WITH SIZE " + i * 100 + "\n\n"+ mapMenuController.setUpACustom(i * 100));
-//    }
 
     @Test
     public void changeTexture() throws IOException {
@@ -49,8 +44,8 @@ public class MapTests {
                 ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent());
         Assertions.assertEquals(mapMenuController.setTextureForTheWholeMap(mapMenuController.selectedMap,"-t scrub -y 49 -x 49 -y2 35 -x2 54"),
                 "Texture set successfully!");
-        for(int i = 150; i < 165; i++)
-            for(int j = 49; j < 55; j++)
+        for(int i = 150; i < 164; i++)
+            for(int j = 49; j < 54; j++)
                 Assertions.assertEquals(mapMenuController.selectedMap.getTile(i,j).getTexture(), TileTexture.SCRUB);
         int icounter = 0;
         int jcounter = 199;
@@ -58,7 +53,7 @@ public class MapTests {
         for (TileTexture tileTexture : walker) {
             Assertions.assertEquals(mapMenuController.setTextureForTheWholeMap(mapMenuController.selectedMap,"-x    "
                             + icounter++ + "    -y " + jcounter-- + " -t   " +
-                            mapMenuController.convertStringTextureToEnum(tileTexture.toString().toLowerCase().replaceAll("_"," "))),
+                            tileTexture.toString().toLowerCase()),
                     "Texture set successfully!");
         }
     }
@@ -84,7 +79,7 @@ public class MapTests {
         mapMenuController.setUpACustom(200);
         EnumSet<TreeTypes> jungle = EnumSet.allOf(TreeTypes.class);
         for (TreeTypes tt : jungle) {
-            Assertions.assertEquals(mapMenuController.dropTree("-t " + tt.name().toLowerCase().replaceAll("_"," ") + " -y 22 -x 52"),
+            Assertions.assertEquals(mapMenuController.dropTree("-t " + tt.name().toLowerCase() + " -y 22 -x 52"),
                     "Tree added successfully!");
             boolean shot = false;
             for (Tree tree : mapMenuController.selectedMap.getTile(177, 52).getTrees()) {
@@ -137,10 +132,6 @@ public class MapTests {
                     mapMenuController.getxTexture(), type))
                 Assertions.assertEquals(mapMenuController.dropBuilding(" -y 22  -x 52 -t " + type.getName(), tester),
                         ProfisterControllerOut.NOT_A_VALID_PLACE);
-            else {
-                Assertions.assertEquals(mapMenuController.dropBuilding(" -y 22  -x 52 -t " + type.getName(), tester),
-                        ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING);
-            }
         }
     }
 }

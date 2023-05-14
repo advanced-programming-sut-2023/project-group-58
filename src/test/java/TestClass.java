@@ -91,7 +91,7 @@ public class TestClass {
             Assertions.assertEquals("Your slogan is : "+user.getSlogan(), s.showSlogan());
     }
     @Test
-    public void showDisplay(){
+    public void showDisplay() throws IOException {
         ShowProfileController s = new ShowProfileController(user);
         String ans = "";
         ans += "username : epo3\n";
