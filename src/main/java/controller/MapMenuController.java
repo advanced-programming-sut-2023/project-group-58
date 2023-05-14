@@ -1,5 +1,6 @@
 package controller;
 
+import controller.gameMenuControllers.GameController;
 import model.*;
 import model.buildings.*;
 import model.units.Troop;
@@ -541,6 +542,10 @@ public class MapMenuController {
             case TRAP:
                 addingBuilding = new Trap(type,currentPlayer,0,enoughPlayers);
                 this.selectedMap.getTile(yTexture,xTexture).setHasTrap(true);
+                if(type.equals(BuildingEnum.KILLING_PIT)) {
+                    currentPlayer.getGovernance().changeFearRate(1);
+                    currentPlayer.getGovernance().changePopularity(-2);
+                }
                 break;
             case TOWER:
                 addingBuilding = new Tower(type,currentPlayer,0,enoughPlayers);
@@ -558,10 +563,33 @@ public class MapMenuController {
                 addingBuilding = new ResourceMaker(type,currentPlayer,0,enoughPlayers);
                 break;
         }
+        if(isItNearGateHouse()) {
+            currentPlayer.getGovernance().changeFearRate(-1);
+            currentPlayer.getGovernance().changePopularity(1);
+        }
         this.selectedMap.getTile(yTexture,xTexture).getBuildings().add(addingBuilding);
         currentPlayer.getGovernance().getBuildings().add(addingBuilding);
         if(!enoughPlayers) return ProfisterControllerOut.CREATED_EMPTY_BUILDING;
         return ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING;
+    }
+
+    private boolean isItNearGateHouse() {
+        for(int i = -1; i < 2; i++)
+            for(int j = -1; j < 2; j++) {
+                if(yTexture + i >= 0 && yTexture + i < selectedMap.getWidth() && xTexture + j >= 0 && xTexture + j < selectedMap.getLength())
+                    if(doWeHaveGateInThisTile(selectedMap.getTile(yTexture + i, xTexture + j).getBuildings()))
+                        return true;
+            }
+        return false;
+    }
+
+    public boolean doWeHaveGateInThisTile(ArrayList<Building> buildings) {
+        for (Building building : buildings) {
+            if(building.getType().equals(BuildingEnum.BIG_STONE_GATEHOUSE) ||
+                    building.getType().equals(BuildingEnum.SMALL_STONE_GATEHOUSE))
+                return true;
+        }
+        return false;
     }
 
     public boolean checkLocation(Map selectedMap, int yTexture, int xTexture, BuildingEnum type) {

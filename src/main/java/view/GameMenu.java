@@ -55,6 +55,15 @@ public class GameMenu {
             else if ((matcher = Commands.getMatcher(command, Commands.SET_FOOD_RATE)) != null) {
                 System.out.println(gameController.setFoodRate(matcher.group("data")).getContent());
             }
+            else if ((matcher = Commands.getMatcher(command, Commands.SET_FEAR_RATE)) != null) {
+                System.out.println(gameController.setFearRate(matcher.group("data")).getContent());
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.SHOW_FOOD_LIST)) != null) {
+                System.out.print(gameController.showFoodList());
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.SET_TAX_RATE)) != null) {
+                System.out.println(gameController.setTaxRate(matcher.group("data")).getContent());
+            }
             else if ((matcher = Commands.getMatcher(command, Commands.SHOW_FOOD_RATE)) != null) {
                 System.out.println(gameController.showFoodRate());
             }
@@ -85,6 +94,7 @@ public class GameMenu {
             }
             else if ((matcher = Commands.getMatcher(command, Commands.NEXT_TURN)) != null){
                 //set target, fight , move , update resources , govern functions lie here
+                //soldier's damage should be set according to the fear rate at each turn
                 this.currentUser = Governance.getNextPlayer(this.currentUser);
                 gameController.setCurrentUser(this.currentUser);
                 System.out.println(GameControllerOut.NEXT_TURN.getContent() + this.currentUser.getUsername());

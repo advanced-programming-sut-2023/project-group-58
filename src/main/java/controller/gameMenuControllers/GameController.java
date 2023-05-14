@@ -12,6 +12,7 @@ import model.units.UnitEnum;
 import view.enums.GameControllerOut;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameController {
     private User CurrentUser;
@@ -51,6 +52,8 @@ public class GameController {
                 this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.CHEESE) == 0 &&
                 this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.MEAT) == 0)
             return GameControllerOut.NO_FOOD_NO_RATE_CHANGE;
+        if(rateNumber == null || rateNumber.length() == 0 || rateNumber.trim().length() == 0)
+            return GameControllerOut.INVALID_INPUT_FORMAT;
         int rate = Integer.parseInt(rateNumber.trim());
         switch (rate) {
             case -2:
@@ -83,7 +86,6 @@ public class GameController {
             return GameControllerOut.NO_GOLD_NO_RATE_CHANGE;
         int rate = Integer.parseInt(rateNumber.trim());
         switch (rate) {
-            //todo: assigning them one by one is stupid. use math. for god's sake.
             case -3:
                 this.CurrentUser.getGovernance().changePopularity(7);
                 break;
@@ -280,5 +282,35 @@ public class GameController {
 
     public Building getSelectedBuilding() {
         return selectedBuilding;
+    }
+
+    public GameControllerOut setFearRate(String rateNumber) {
+        if(rateNumber == null || rateNumber.length() == 0 || rateNumber.trim().length() == 0)
+            return GameControllerOut.INVALID_INPUT_FORMAT;
+        int rate = Integer.parseInt(rateNumber.trim());
+        if(rate < -5 || rate > 5)
+            return GameControllerOut.INVALID_FEAR_INPUT;
+        getCurrentUser().getGovernance().changeFearRate(rate);
+        //more fear, less popularity:
+        getCurrentUser().getGovernance().changePopularity(rate * -2);
+        return GameControllerOut.SUCCESSFULLY_CHANGED_FEAR_RATE;
+    }
+
+
+    public String showFoodList() {
+        String ans = "";
+        int count = getCurrentUser().getGovernance().getResourceAmount(ResourceEnum.MEAT);
+        if(count > 0)
+            ans += "Meat   -> " + count + "\n";
+        count = getCurrentUser().getGovernance().getResourceAmount(ResourceEnum.BREAD);
+        if(count > 0)
+            ans += "Bread  -> " + count + "\n";
+        count = getCurrentUser().getGovernance().getResourceAmount(ResourceEnum.CHEESE);
+        if(count > 0)
+            ans += "Cheese -> " + count + "\n";
+        count = getCurrentUser().getGovernance().getResourceAmount(ResourceEnum.APPLE);
+        if(count > 0)
+            ans += "Apple  -> " + count + "\n";
+        return ans;
     }
 }

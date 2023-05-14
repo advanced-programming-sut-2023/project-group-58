@@ -40,6 +40,8 @@ public enum Commands {
     MOVE_UNIT("^\\s*move\\s+unit\\s+to\\s+(?<data>.+)$"),
     REPAIR("^\\s*repair\\s*"),
     NEXT_TURN("^\\s*next\\s+turn\\s*$"),
+    SET_FEAR_RATE("^\\s*fear\\s+rate\\s+-r\\s*(?<data>(-)?\\d)$"),
+    SHOW_FOOD_LIST("^\\s*show\\s+food\\s+list\\s*$"),
     ;public final String regex;
 
     Commands(String regex) {

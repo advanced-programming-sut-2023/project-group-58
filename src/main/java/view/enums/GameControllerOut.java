@@ -4,6 +4,8 @@ import model.buildings.BuildingEnum;
 
 public enum GameControllerOut {
     INVALID_NUMBER_INPUT("Number should be from -2 to 2!"),
+    INVALID_FEAR_INPUT("Number should be from -5 to 5!"),
+
     NO_FOOD_NO_RATE_CHANGE("You cannot change food rate; not until you provide some food first"),
     SUCCESSFULLY_CHANGED_FOODRATE("Food rate changed successfully"),
     SUCCESSFULLY_CHANGED_TAXRATE("Tax rate changed successfully"),
@@ -28,6 +30,7 @@ public enum GameControllerOut {
     FULL_HP("There is nothing to repair!"),
     SUCCESSFULLY_REPAIRED("Successfully repaired"),
     NEXT_TURN("|| nExT tuRN ||\npLayEr::"),
+    SUCCESSFULLY_CHANGED_FEAR_RATE("Fear rate changed successfully"),
     ;
     private String content;
 
