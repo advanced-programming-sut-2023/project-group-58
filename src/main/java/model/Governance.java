@@ -18,7 +18,7 @@ public class Governance {
     private int foodRate    = -2;
     private int taxRate     = 0;
     private int fearRate    = 0;
-    private int gold = 0;
+    private int gold = 500;
     private Storage granary;
     private Storage stockpile;
     private Storage armoury;
@@ -27,7 +27,10 @@ public class Governance {
     private HashMap<ResourceEnum, Integer> resourceCount = new HashMap<>();
     private ArrayList<TradeItem> userTrades = new ArrayList<>();
     private static ArrayList<TradeItem> allTrades = new ArrayList<>();
-
+    public Governance() {
+        resources.add(new Resource(ResourceEnum.WOOD, 50));
+        resources.add(new Resource(ResourceEnum.STONE, 50));
+    }
     public void changeUnemployedPopulation(int unemployedPopulation) {this.unemployedPopulation += unemployedPopulation;}
 
     public int getUnemployedPopulation() {return unemployedPopulation;}

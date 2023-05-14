@@ -101,11 +101,11 @@ public class RegisterMenuController {
         //todo: Assuming THERE IS NO DOUBLE QUOTES BETWEEN TWO DOUBLE QUOTES
         //todo: cannot handle: -s "   -u moon " (spaces before -u between "")
         //assuming comments cant have dash
-        username = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|[^\\s\\-]*)(?<!\\s))").trim();
-        password = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|[^\\s\\-]*)(?<!\\s))").trim();
-        email    = CommonController.dataExtractor(data, "((?<!\\S)--email\\s+(?<wantedPart>(\"[^\"]*\")|[^\\s\\-]*)(?<!\\s))").trim();
-        nickname = CommonController.dataExtractor(data, "((?<!\\S)-n\\s+(?<wantedPart>(\"[^\"]*\")|[^\\s\\-]*)(?<!\\s))").trim();
-        slogan   = CommonController.dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>(\"[^\"]*\")|[^\\s\\-]*)(?<!\\s))").trim();
+        username = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        password = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        email    = CommonController.dataExtractor(data, "((?<!\\S)--email\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        nickname = CommonController.dataExtractor(data, "((?<!\\S)-n\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        slogan   = CommonController.dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
     }
 
     public ProfisterControllerOut validateBeforeCreation(String data) {

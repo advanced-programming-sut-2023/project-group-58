@@ -2,12 +2,16 @@ package controller;
 
 import model.*;
 import model.buildings.*;
+import model.units.Troop;
+import model.units.Unit;
 import model.units.UnitEnum;
 import view.enums.ProfisterControllerOut;
 import view.enums.TreeTypes;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 
 public class MapMenuController {
     private final Map map1 = new Map(200,200);
@@ -267,7 +271,6 @@ public class MapMenuController {
     public String setTextureForTheWholeMap(Map map, String data) throws IOException {
         if(!extractDataForTexture(data))
             return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
-        yTexture = map.getWidth() - 1 - yTexture;
         y2Texture= map.getWidth() - 1 - y2Texture;
         boolean doWeHaveX2 = x2Texture == -1;
         if(doWeHaveX2) {x2Texture = 0; y2Texture = 0;}
@@ -346,6 +349,7 @@ public class MapMenuController {
             return false;
         xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        yTexture = selectedMap.getWidth() - 1 - yTexture;
         typeTexture = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
         String x2T = CommonController.dataExtractor(data, "((?<!\\S)-x2\\s+(?<wantedPart>(\\d+))(?<!\\s))");
         String y2T = CommonController.dataExtractor(data, "((?<!\\S)-y2\\s+(?<wantedPart>(\\d+))(?<!\\s))");
@@ -365,13 +369,13 @@ public class MapMenuController {
         if(x.trim().length() == 0 || y.trim().length() == 0) return false;
         xTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         yTexture    = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-y\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
+        yTexture = selectedMap.getWidth() - 1 - yTexture;
         return true;
     }
 
     public String showMap(String data) throws IOException {
         String ans = new String();
         if(!extractDataxandy(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
-        yTexture = selectedMap.getWidth() - 1 - yTexture;
         int[] range = setRange(xTexture,yTexture,selectedMap.getLength(), selectedMap.getWidth());
         xShowingMap = xTexture;
         yShowingMap = yTexture;
@@ -391,8 +395,8 @@ public class MapMenuController {
         int right = rightStr.length() > 0 ? Integer.parseInt(rightStr) : 1;
         if(doWeHaveRight) xTexture = xShowingMap + right;
         else xTexture = xShowingMap - left;
-        if(doWeHaveUp) yTexture = yShowingMap + up;
-        else yTexture = yShowingMap - down;
+        if(doWeHaveUp) yTexture = yShowingMap - up;
+        else yTexture = yShowingMap + down;
         if(!validateTextureCoordinates(this.selectedMap.getLength(),this.getSelectedMap().getWidth()))
             return ProfisterControllerOut.INVALID_NEW_COORDINATES.getContent();
         int[] ranges = setRange(xTexture,yTexture,this.selectedMap.getLength(), this.selectedMap.getWidth());
@@ -408,7 +412,6 @@ public class MapMenuController {
 
     public String dropTree(String data) throws IOException {
         if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
-        yTexture = selectedMap.getWidth() -1 - yTexture;
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.FAILED.getContent();
         switch (typeTexture.trim()) {
@@ -458,15 +461,65 @@ public class MapMenuController {
 
 
     public String showDetail(String data) throws IOException {
-        String ans = new String();
+        String ans = "| mAp dEtailS  |\n";
         if(!extractDataxandy(data) || !validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
-        ans += "The texture is: " + selectedMap.getTile(yTexture,xTexture)+"\n";
-        //ans += selectedMap.getTile(yTexture,xShowingMap).countTroops()+"\n";
-        //todo: خیلی مهم: نمایش نوع منابع و تعداد آن ها باید اضافه شود.
-        ans += selectedMap.getTile(yTexture,xShowingMap).showBuildings();
+        ans += "The texture is: " + selectedMap.getTile(yTexture,xTexture).getTexture().toString();
+        //getting trees:
+        if(selectedMap.getTile(yTexture,xShowingMap).existTree())
+            ans += extractTrees(selectedMap.getTile(yTexture,xShowingMap).getTrees());
+        //getting buildings:
+        if(selectedMap.getTile(yTexture,xShowingMap).getBuildings().size() != 0)
+            ans += selectedMap.getTile(yTexture,xShowingMap).showBuildings();
+        //getting troops:
+        if(selectedMap.getTile(yTexture,xShowingMap).getPlayersUnits().size() != 0)
+            ans += extractUnits(selectedMap.getTile(yTexture,xShowingMap).getPlayersUnits());
         xTexture = 0;
         yTexture = 0;
+        return ans;
+    }
+
+    private String extractUnits(HashMap<String, ArrayList<Unit>> playersUnits) {
+        String ans = "";
+        for (java.util.Map.Entry<String, ArrayList<Unit>> entry : playersUnits.entrySet()) {
+            ans += "|__Owner: " + entry.getKey() + " troops:\n" + troopCount(entry.getValue());
+        }
+        return ans;
+    }
+
+    private String troopCount(ArrayList<Unit> units) {
+        String ans  = "";
+        HashMap<String, Integer> troopTypes = new HashMap<>();
+        EnumSet<UnitEnum> unitEnums = EnumSet.allOf(UnitEnum.class);
+        for (UnitEnum unitEnum : unitEnums) {
+            troopTypes.put(unitEnum.getName(),0);
+        }
+        for (Unit unit : units) {
+            for (java.util.Map.Entry<UnitEnum, ArrayList<Troop>> enumArrayListEntry : unit.getTroops().entrySet()) {
+                int temp = troopTypes.get(enumArrayListEntry.getKey().getName());
+                troopTypes.put(enumArrayListEntry.getKey().getName(), enumArrayListEntry.getValue().size() + temp);
+            }
+        }
+        for (java.util.Map.Entry<String, Integer> stringIntegerEntry : troopTypes.entrySet()) {
+            ans += "\nType: " + stringIntegerEntry.getKey() + " Count: " + stringIntegerEntry.getValue();
+        }
+        return ans;
+    }
+
+    private String extractTrees(ArrayList<Tree> trees) {
+        String ans = "These are the trees and their number:\n";
+        HashMap<String, Integer> treeTypes = new HashMap<>();
+        for (Tree tree : trees) {
+            if(treeTypes.get(tree.getType().getName()) == null)
+                treeTypes.put(tree.getType().getName(), 0);
+            else {
+                int temp = treeTypes.get(tree.getType().getName()) + 1;
+                treeTypes.put(tree.getType().getName(), temp);
+            }
+        }
+        for (java.util.Map.Entry<String, Integer> entry : treeTypes.entrySet()) {
+            ans += "\n" + entry.getKey() + " -> " + entry.getValue();
+        }
         return ans;
     }
 

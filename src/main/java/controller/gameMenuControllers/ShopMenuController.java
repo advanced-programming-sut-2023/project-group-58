@@ -68,13 +68,15 @@ public class ShopMenuController {
         return ShopAndTradeControllerOut.SUCCESS_FOR_SHOP;
     }
 
-    public void purchase() {
+    public ShopAndTradeControllerOut purchase() {
         currentUser.getGovernance().changeGold(-1 * merchandise.getType().getBuyCost() * merchandise.getAmount());
         currentUser.getGovernance().changeResourceAmount(merchandise.getType(), merchandise.getAmount());
+        return ShopAndTradeControllerOut.SUCCESSFULL_BUY;
     }
 
-    public void retail() {
+    public ShopAndTradeControllerOut retail() {
         currentUser.getGovernance().changeGold(merchandise.getType().getSellCost() * merchandise.getAmount());
         currentUser.getGovernance().changeResourceAmount(merchandise.getType(),-1 * merchandise.getAmount());
+        return ShopAndTradeControllerOut.SUCCESSFULLY_SELL;
     }
 }

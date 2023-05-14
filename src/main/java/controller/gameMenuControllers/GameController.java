@@ -161,6 +161,8 @@ public class GameController {
                 break;
             }
         }
+        xCoor = -1;
+        yCoor = -1;
         if(!exist)
             return GameControllerOut.NO_BUILDING.getContent();
         else
@@ -274,5 +276,9 @@ public class GameController {
             if(unit.getxOrigin() == x.get(i) && unit.getyOrigin() == y.get(i))
                 return true;
         return false;
+    }
+
+    public Building getSelectedBuilding() {
+        return selectedBuilding;
     }
 }

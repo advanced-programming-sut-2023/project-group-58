@@ -18,7 +18,7 @@ public enum GameControllerOut {
     NOT_YOURS("Buildings on this spot aren't yours, I'm afraid"),
     SUCCESSFULLY_SELECTED_BUILDING("Building selected with type: "),
     SUCCESSFULLY_SELECTED_UNIT("Unit selected successfully"),
-    DROP("You should enter map meu to \"drop\" buildings and units"),
+    DROP("You should enter map menu to \"drop\" buildings and units"),
     INVALID_INPUT_FORMAT("Invalid input format"),
     ZERO("What do you want mate? An army of ghosts? Try again with more people!"),
     NOT_ENOUGH_PEOPLE("Not enough people to recruit"),

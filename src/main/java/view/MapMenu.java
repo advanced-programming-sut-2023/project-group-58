@@ -25,7 +25,7 @@ public class MapMenu {
         while (true){
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
-            if (command.equals("exit")){
+            if (command.equals("back")){
                 System.out.println("Your are in the game menu");
                 return;
             }
@@ -57,6 +57,7 @@ public class MapMenu {
             else if ((matcher = Commands.getMatcher(command, Commands.DROP_UNIT)) != null) {
             //    System.out.println(mapMenuController.dropUnit(matcher.group("data"),currentPlayer).getContent());
             }
+            else if (command.matches("show current menu")) System.out.println("map menu");
             else
                 System.out.println("invalid command");
         }
@@ -66,7 +67,7 @@ public class MapMenu {
         System.out.println("Would you like to choose a template map from archive?\nType y for yes or n for no");
         String answer = ScanMatch.getScanner().nextLine().trim();
         if (answer.equals("y"))
-            System.out.println(mapMenuController.setUpATemplate());
+            System.out.print(mapMenuController.setUpATemplate());
         else if (answer.equals("n")) {
             System.out.println("Then custom map shall it be!\nChoose the map scale:");
             for (int i = 1; i < 9; i++)

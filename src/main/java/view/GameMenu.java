@@ -16,8 +16,6 @@ public class GameMenu {
     Map map;
     private User currentUser;
     private GameController gameController;
-    private Building selectedBuilding;
-
     public GameMenu(User host) {
         this.currentUser = host;
     }
@@ -29,16 +27,21 @@ public class GameMenu {
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
             if(command.matches("map menu")) {
+                System.out.println("You are in the map menu");
                 MapMenu mapMenu = new MapMenu(this.map,this.currentUser);
+                mapMenu.run();
                 this.map = mapMenu.map;
                 gameController.setSelectedMap(this.map);
             }
             else if(command.matches("shop menu")){
-                if(selectedBuilding.getType().getName().equals("market"))
+                if(gameController.getSelectedBuilding() != null && gameController.getSelectedBuilding().getType().getName().equals("market")) {
+                    System.out.println("You are in the shop menu");
                     new ShopMenu(currentUser).run();
+                }
                 else System.out.println("You should go to the market first!");
             }
             else if (command.matches("trade menu")){
+                System.out.println("You are in the trade menu");
                 new TradeMenu(currentUser).run();
             }
             else if ((matcher = Commands.getMatcher(command, Commands.SHOW_POP_FACTORS)) != null) {
@@ -60,7 +63,7 @@ public class GameMenu {
                 System.out.println(gameController.selectBuilding(matcher.group("data")));
             }
             else if ((matcher = Commands.getMatcher(command, Commands.DROP_BUILDING)) != null) {
-                System.out.println(GameControllerOut.DROP);
+                System.out.println(GameControllerOut.DROP.getContent());
             }
             else if ((matcher = Commands.getMatcher(command, Commands.CREATE_UNIT)) != null) {
                 System.out.println(gameController.createUnit(matcher.group("data")).getContent());
