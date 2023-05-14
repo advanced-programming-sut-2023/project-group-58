@@ -272,6 +272,9 @@ public class MapMenuController {
     public String setTextureForTheWholeMap(Map map, String data) throws IOException {
         if(!extractDataForTexture(data))
             return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        TileTexture tileType = convertStringTextureToEnum(typeTexture);
+        if(tileType == null)
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         y2Texture= map.getWidth() - 1 - y2Texture;
         boolean doWeHaveX2 = x2Texture == -1;
         if(doWeHaveX2) {x2Texture = 0; y2Texture = 0;}
@@ -282,14 +285,28 @@ public class MapMenuController {
             if(map.getTile(yTexture,xTexture).getBuildings().size() != 0)
                 return "Mission failed: You can't change the" +
                         "texture while there is a building on it!";
-            map.getTile(yTexture,xTexture).setTexture(convertStringTextureToEnum(typeTexture));
+            map.getTile(yTexture,xTexture).setTexture(tileType);
+            if(tileType.equals(TileTexture.SMALL_POND))
+                for(int i = -1; i < 2 ; i++)
+                    for(int j = -1 ; j < 2; j++)
+                        if(yTexture + i > -1 && yTexture +i < selectedMap.getWidth() && xTexture + j > -1 && xTexture +j < selectedMap.getLength())
+                            map.getTile(yTexture + i ,xTexture + j).setTexture(tileType);
+            if(tileType.equals(TileTexture.BIG_POND))
+                for(int i = -2; i < 3 ; i++)
+                    for(int j = -2 ; j < 3; j++)
+                        if(yTexture + i > -1 && yTexture +i < selectedMap.getWidth() && xTexture + j > -1 && xTexture +j < selectedMap.getLength())
+                            map.getTile(yTexture + i ,xTexture + j).setTexture(tileType);
         }
         else {
-            for(int i = yTexture; i <= y2Texture; i++)
-                for(int j = xTexture; j <= x2Texture; j++) {
+            if(tileType.equals(TileTexture.SMALL_POND) || tileType.equals(TileTexture.BIG_POND))
+                return "Ponds hava a fixed size. You can't use a custom size";
+            for(int i = yTexture; i < y2Texture; i++)
+                for(int j = xTexture; j < x2Texture; j++) {
                     if(map.getTile(i,j).getBuildings().size() != 0) return "Mission failed: You can't change a tile's" +
-                            "texture while there is a building on it!";
-                    map.getTile(i,j).setTexture(convertStringTextureToEnum(typeTexture));
+                            "texture while there is a building on it!";}
+            for(int i = yTexture; i < y2Texture; i++)
+                for(int j = xTexture; j < x2Texture; j++) {
+                    map.getTile(i,j).setTexture(tileType);
                 }
         }
         xTexture  = 0;
@@ -307,33 +324,12 @@ public class MapMenuController {
     }
 
     public TileTexture convertStringTextureToEnum(String typeTexture) {
-        switch (typeTexture) {
-            case "oil" :
-                return TileTexture.OIL;
-            case "small pond" :
-                return TileTexture.SMALL_POND;
-            case "earth" :
-                return TileTexture.EARTH;
-            case "iron" :
-                return TileTexture.IRON;
-            case "sea" :
-                return TileTexture.SEA;
-            case "ford" :
-                return TileTexture.FORD;
-            case "thick scrub" :
-                return TileTexture.THICK_SCRUB;
-            case "scrub" :
-                return TileTexture.SCRUB;
-            case "big pond":
-                return TileTexture.BIG_POND;
-            case "river":
-                return TileTexture.RIVER;
-            case "sand":
-                return TileTexture.SAND;
-            case "rock":
-                return TileTexture.ROCK;
-            case "lawn":
-                return TileTexture.LAWN;
+        if(typeTexture == null || typeTexture.length() == 0 || typeTexture.trim().length() == 0)
+            return null;
+        EnumSet<TileTexture> tileTextures = EnumSet.allOf(TileTexture.class);
+        for (TileTexture tileTexture : tileTextures) {
+            if(tileTexture.getName().equals(typeTexture.trim()))
+                return tileTexture;
         }
         return null;
     }
@@ -415,29 +411,28 @@ public class MapMenuController {
         if(!extractDataForTexture(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         if(!validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.FAILED.getContent();
-        switch (typeTexture.trim()) {
-            case "desert shrub":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.DESERT_SHRUB));
-                break;
-            case "cherry palm":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.CHERRY_PALM));
-                break;
-            case "olive tree":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.OLIVE_TREE));
-                break;
-            case "coconut palm":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.COCONUT_PALM));
-                break;
-            case "date palm":
-                selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(TreeTypes.DATE_PALM));
-                break;
-        }
+        TreeTypes type = specifyTreeType(typeTexture);
+        if(type == null)
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
+        if(!selectedMap.getTile(yTexture,xTexture).getTexture().isWalkability())
+            return ProfisterControllerOut.NOT_A_VALID_PLACE_FOR_TREES.getContent();
+        selectedMap.getTile(yTexture,xTexture).getTrees().add(new Tree(type));
         return "Tree added successfully!";
+    }
+
+    private TreeTypes specifyTreeType(String typeTexture) {
+        if(typeTexture == null || typeTexture.length() == 0 || typeTexture.trim().length() == 0)
+            return null;
+        EnumSet<TreeTypes> treeTypes = EnumSet.allOf(TreeTypes.class);
+        for (TreeTypes treeType : treeTypes) {
+            if(treeType.getName().equals(typeTexture))
+                return treeType;
+        }
+        return null;
     }
 
     public String dropRock(String data) throws IOException {
         if(!extractDataxandy(data)) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
-        yTexture = selectedMap.getWidth() -1 - yTexture;
         String x = CommonController.dataExtractor(data, "((?<!\\S)-d\\s+(?<wantedPart>[n,e,w,s,r])(?<!\\s))");
         if(x.length() == 0) return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         typeTexture = x.trim();
@@ -462,7 +457,7 @@ public class MapMenuController {
 
 
     public String showDetail(String data) throws IOException {
-        String ans = "| mAp dEtailS  |\n";
+        String ans = "|  mAp dEtailS  |\n";
         if(!extractDataxandy(data) || !validateTextureCoordinates(selectedMap.getLength(),selectedMap.getWidth()))
             return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         ans += "The texture is: " + selectedMap.getTile(yTexture,xTexture).getTexture().toString();

@@ -3,11 +3,11 @@ package view.enums;
 import model.Tree;
 
 public enum TreeTypes {
-    DESERT_SHRUB("desert shrub"),
-    CHERRY_PALM("cherry palm"),
-    OLIVE_TREE("olive tree"),
-    COCONUT_PALM("coconut palm"),
-    DATE_PALM("date palm");
+    DESERT_SHRUB("desert_shrub"),
+    CHERRY_PALM("cherry_palm"),
+    OLIVE_TREE("olive_tree"),
+    COCONUT_PALM("coconut_palm"),
+    DATE_PALM("date_palm");
     private final String name;
 
     TreeTypes(String name) {
