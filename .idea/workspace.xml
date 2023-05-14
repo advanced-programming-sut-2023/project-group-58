@@ -6,17 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Governance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Governance.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/enums/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/enums/Commands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/enums/GameControllerOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/enums/GameControllerOut.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/enums/ProfisterControllerOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/enums/ProfisterControllerOut.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/MapMenuController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/MapMenuController$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/MapMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/MapMenuController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Governance.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Governance.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Tile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/units/Unit.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/enums/Commands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/enums/Commands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/enums/GameControllerOut.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/enums/GameControllerOut.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/enums/ProfisterControllerOut.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/enums/ProfisterControllerOut.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -3,6 +3,7 @@ package view.enums;
 import model.buildings.BuildingEnum;
 
 public enum GameControllerOut {
+    SUCCESSFULLY_ADDED_GATEHOUSE("Gatehouse added successfully"),
     INVALID_NUMBER_INPUT("Number should be from -2 to 2!"),
     INVALID_FEAR_INPUT("Number should be from -5 to 5!"),
 
@@ -29,10 +30,11 @@ public enum GameControllerOut {
     NOT_ENOUGH_RESOURCES("You don't have enough resources"),
     FULL_HP("There is nothing to repair!"),
     SUCCESSFULLY_REPAIRED("Successfully repaired"),
-    NEXT_TURN("|| nExT tuRN ||\npLayEr::"),
+    NEXT_TURN("|| nExT tuRN ||\n  pLayEr::"),
     SUCCESSFULLY_CHANGED_FEAR_RATE("Fear rate changed successfully"),
     NO_UNITS("You don't have any units in that place"),
     SUCCESSFULLY_CHANGRD_UNIT_STATE("Unit state set successfully"),
+    NOT_A_SPOT("Unfortunately, this land isn't suitable for construction. choose another coordinates"),
     ;
     private String content;
 

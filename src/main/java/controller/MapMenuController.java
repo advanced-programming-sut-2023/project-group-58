@@ -527,6 +527,8 @@ public class MapMenuController {
         if(type == null) return ProfisterControllerOut.INVALID_INPUT_FORMAT;
         if(!checkLocation(selectedMap,yTexture,xTexture,type)) return ProfisterControllerOut.NOT_A_VALID_PLACE;
         if(!checkFinance(currentPlayer,type)) return ProfisterControllerOut.NOT_ENOUGH_RESOURCES;
+        if(type.equals(BuildingEnum.SMALL_STONE_GATEHOUSE) || type.equals(BuildingEnum.BIG_STONE_GATEHOUSE))
+            return ProfisterControllerOut.ONLY_ONE_GATEHOUSE;
         Building addingBuilding = null;
         boolean enoughPlayers = currentPlayer.getGovernance().getUnemployedPopulation() >= type.getWorker();
         if(enoughPlayers) currentPlayer.getGovernance().changeUnemployedPopulation(-1 * type.getWorker());

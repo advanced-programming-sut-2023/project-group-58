@@ -3,7 +3,6 @@ package model;
 import controller.modelFunctions.ResourceMakerFuncs;
 import model.buildings.Building;
 import model.buildings.Storage;
-import model.units.ResourceType;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -22,6 +21,7 @@ public class Governance {
     private Storage granary;
     private Storage stockpile;
     private Storage armoury;
+    private boolean haveGateHouse = false;
     private ArrayList<Building> buildings = new ArrayList<>();
     private ArrayList<Resource> resources = new ArrayList<>();
     private HashMap<ResourceEnum, Integer> resourceCount = new HashMap<>();
@@ -153,4 +153,8 @@ public class Governance {
         resources = list;
         resourceCount = count;
     }
+
+    public boolean haveGateHouse() {return haveGateHouse;}
+
+    public void setHaveGateHouse(boolean haveGateHouse) {this.haveGateHouse = haveGateHouse;}
 }

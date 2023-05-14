@@ -38,6 +38,7 @@ public enum ProfisterControllerOut {
     REGISTER_CAPTCHA_WRONG("register was unsuccessful"),
     EMPTY_INPUT("Inout cannot be null, or just spaces"),
     CREATED_EMPTY_BUILDING("Building successfully created, but since you don't have enough workers, it is abandoned for now."),
+    ONLY_ONE_GATEHOUSE("You can only have one gatehouse during the game. So take care of it!"),
     ;
     private String content;
 

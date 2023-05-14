@@ -7,13 +7,12 @@ import model.ResourceEnum;
 import model.User;
 import model.buildings.Building;
 import model.buildings.BuildingEnum;
+import model.buildings.Gate;
 import model.units.Unit;
 import model.units.UnitEnum;
 import view.enums.GameControllerOut;
-import view.enums.ProfisterControllerOut;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameController {
     private User CurrentUser;
@@ -328,5 +327,26 @@ public class GameController {
         if(!this.selectedMap.getTile(yCoor,xCoor).changeState(state,getCurrentUser()))
             return GameControllerOut.NO_UNIT;
         return GameControllerOut.SUCCESSFULLY_CHANGRD_UNIT_STATE;
+    }
+
+    public Map getSelectedMap() {return selectedMap;}
+    public GameControllerOut buildGateHouse(int ans, int direction, String coordinateInput) {
+        if(!extractDataxandy(coordinateInput))
+            return GameControllerOut.INVALID_INPUT_FORMAT;
+        if(!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
+            return GameControllerOut.INVALID_COORDINATES;
+        if(ans == 2 && getCurrentUser().getGovernance().getGold() < 20)
+            return GameControllerOut.NOT_ENOUGH_GOLD;
+        if(!selectedMap.getTile(yCoor,xCoor).getTexture().isConstructiblity())
+            return GameControllerOut.NOT_A_SPOT;
+        //assuming more than one building can be in a single spot.
+        Gate addingGate = ans == 1? new Gate(BuildingEnum.SMALL_STONE_GATEHOUSE,getCurrentUser(),direction,true) :
+                          new Gate(BuildingEnum.BIG_STONE_GATEHOUSE,getCurrentUser(),direction,true);
+        selectedMap.getTile(yCoor,xCoor).getBuildings().add(addingGate);
+        getCurrentUser().getGovernance().changeMaximumPopulation(8);
+        getCurrentUser().getGovernance().setHaveGateHouse(true);
+        if(ans == 2)
+            getCurrentUser().getGovernance().changeGold(-20);
+        return GameControllerOut.SUCCESSFULLY_ADDED_GATEHOUSE;
     }
 }
