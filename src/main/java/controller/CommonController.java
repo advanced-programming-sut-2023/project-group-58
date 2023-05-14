@@ -15,7 +15,8 @@ public class CommonController {
         if (!matcher.find()) return "";
         return matcher.group("wantedPart");
     }
-    public static ProfisterControllerOut checkPasswordFormat(String password){
+
+    public static ProfisterControllerOut checkPasswordFormat(String password) {
         if (password.length() < 6)
             return ProfisterControllerOut.SHORT_PASSWORD;
         if (!password.matches(".*[A-Z].*"))
@@ -28,18 +29,20 @@ public class CommonController {
             return ProfisterControllerOut.NOT_SYMBOLS_PASSWORD;
         return ProfisterControllerOut.VALID;
     }
+
     public static ResourceEnum resourceFinder(String resource) {
         EnumSet<ResourceEnum> resourceEnums = EnumSet.allOf(ResourceEnum.class);
         for (ResourceEnum resourceEnum : resourceEnums) {
-            if(resourceEnum.getName().equals(resource))
+            if (resourceEnum.getName().equals(resource))
                 return resourceEnum;
         }
         return ResourceEnum.NULL;
     }
+
     public static UnitEnum unitTypeSpecifier(String type) {
         EnumSet<UnitEnum> unitEnums = EnumSet.allOf(UnitEnum.class);
-        for (UnitEnum unitEnum : unitEnums){
-            if(unitEnum.getName().equals(type))
+        for (UnitEnum unitEnum : unitEnums) {
+            if (unitEnum.getName().equals(type))
                 return unitEnum;
         }
         return null;

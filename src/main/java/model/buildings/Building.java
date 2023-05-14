@@ -33,10 +33,19 @@ public class Building {
         return direction;
     }
 
-    public void changeHp(int amount) {this.hp += amount;}
-    public void resetHp() {this.hp = type.getOriginalHp();}
+    public void changeHp(int amount) {
+        this.hp += amount;
+    }
 
-    public boolean isActive() {return active;}
+    public void resetHp() {
+        this.hp = type.getOriginalHp();
+    }
 
-    public void setActive(boolean active) {this.active = active;}
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

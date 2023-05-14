@@ -1,8 +1,9 @@
 package model;
 
-public class Resource{
+public class Resource {
     private ResourceEnum type;
     private int amount;
+
     public Resource(ResourceEnum type, int amount) {
         this.amount = amount;
         this.type = type;
@@ -17,6 +18,6 @@ public class Resource{
     }
 
     public void changeAsset(int amount) {
-        this.amount+=amount;
+        this.amount += amount;
     }
 }

@@ -33,6 +33,7 @@ public enum ProfisterControllerOut {
     NOT_ENOUGH_RESOURCES("I'm afraid you don't have the resources necessary for this building"),
     NOT_A_VALID_PLACE("This is not the spot to put the building. Consider changing the location"),
     NOT_A_VALID_PLACE_FOR_TREES("This is not the spot to add trees. Consider changing the location"),
+    NOT_A_VALID_PLACE_FOR_TROOP("This is not the spot to add a unit. Consider changing the location"),
     SUCCESSFULLY_ADDED_BUILDING("Building added successfully!"),
     UCCESSFULLY_ADDED_UNIT("Unit added successfully!"),
     REGISTER_CAPTCHA_WRONG("register was unsuccessful"),
@@ -60,7 +61,7 @@ public enum ProfisterControllerOut {
 
 
     public String manipulateSuggestedUsername(String username) {
-         return this.content + username + " instead?\nType y for yes and n for no";
+        return this.content + username + " instead?\nType y for yes and n for no";
     }
 
 }

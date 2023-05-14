@@ -90,7 +90,7 @@ public class PatchFinding {
         int distanceY = Math.abs(tileA.getY() - tileB.getY());
 
         if (distanceX > distanceY)
-            return  5* distanceY + 10 * (distanceX - distanceY);
+            return 5 * distanceY + 10 * (distanceX - distanceY);
         return 5 * distanceX + 10 * (distanceY - distanceX);
     }
 }

@@ -1,9 +1,11 @@
 package view;
 
 import controller.MapMenuController;
+import controller.gameMenuControllers.GameController;
 import model.Map;
 import model.User;
 import view.enums.Commands;
+import view.enums.GameControllerOut;
 import view.enums.ProfisterControllerOut;
 
 import java.io.IOException;
@@ -13,51 +15,43 @@ public class MapMenu {
     Map map;
     User currentPlayer;
     MapMenuController mapMenuController;
+    GameController gameController;
 
-    public MapMenu(Map map, User currentPlayer) {
+    public MapMenu(Map map, User currentPlayer, GameController gameController) {
         this.map = map;
         mapMenuController = new MapMenuController();
         mapMenuController.selectedMap = map;
         this.currentPlayer = currentPlayer;
+        this.gameController = gameController;
     }
 
     public void run() throws IOException {
-        while (true){
+        while (true) {
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
-            if (command.equals("back")){
+            if (command.equals("back")) {
                 System.out.println("Your are in the game menu");
                 return;
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.SET_TEXTURE))!=null){
-                System.out.println(mapMenuController.setTextureForTheWholeMap(map,matcher.group("data")));
+            } else if ((matcher = Commands.getMatcher(command, Commands.SET_TEXTURE)) != null) {
+                System.out.println(mapMenuController.setTextureForTheWholeMap(map, matcher.group("data")));
                 this.map = mapMenuController.getSelectedMap();
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.SHOW_MAP))!=null){
+            } else if ((matcher = Commands.getMatcher(command, Commands.SHOW_MAP)) != null) {
                 System.out.println(mapMenuController.showMap(matcher.group("data")));
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.MOVE_MAP))!=null){
+            } else if ((matcher = Commands.getMatcher(command, Commands.MOVE_MAP)) != null) {
                 System.out.println(mapMenuController.moveMap(matcher.group("data")));
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.CLEAR))!=null){
+            } else if ((matcher = Commands.getMatcher(command, Commands.CLEAR)) != null) {
                 System.out.println(mapMenuController.clearTile(matcher.group("data")));
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.DROP_TREE))!=null){
+            } else if ((matcher = Commands.getMatcher(command, Commands.DROP_TREE)) != null) {
                 System.out.println(mapMenuController.dropTree(matcher.group("data")));
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.DROP_ROCK))!=null){
+            } else if ((matcher = Commands.getMatcher(command, Commands.DROP_ROCK)) != null) {
                 System.out.println(mapMenuController.dropRock(matcher.group("data")));
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.SHOW_DETAIL))!=null){
+            } else if ((matcher = Commands.getMatcher(command, Commands.SHOW_DETAIL)) != null) {
                 System.out.println(mapMenuController.showDetail(matcher.group("data")));
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.DROP_BUILDING)) != null) {
-                System.out.println(mapMenuController.dropBuilding(matcher.group("data"),currentPlayer).getContent());
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.DROP_UNIT)) != null) {
-            //    System.out.println(mapMenuController.dropUnit(matcher.group("data"),currentPlayer).getContent());
-            }
-            else if (command.matches("show current menu")) System.out.println("map menu");
+            } else if ((matcher = Commands.getMatcher(command, Commands.DROP_BUILDING)) != null) {
+                System.out.println(mapMenuController.dropBuilding(matcher.group("data"), currentPlayer).getContent());
+            } else if ((matcher = Commands.getMatcher(command, Commands.DROP_UNIT)) != null) {
+                System.out.println(this.gameController.dropUnit(matcher.group("data")).getContent());
+            } else if (command.matches("show current menu")) System.out.println("map menu");
             else
                 System.out.println("invalid command");
         }
@@ -73,7 +67,7 @@ public class MapMenu {
             for (int i = 1; i < 9; i++)
                 System.out.println(i + ". " + i * 100 + " * " + i * 100);
             int givenRange = ScanMatch.getScanner().nextInt();
-            if(givenRange <= 0 || givenRange >= 9) {
+            if (givenRange <= 0 || givenRange >= 9) {
                 System.out.println(ProfisterControllerOut.INVALID_INPUT_FORMAT);
                 return null;
             }

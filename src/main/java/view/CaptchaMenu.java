@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class CaptchaMenu {
-    public boolean run(){
-        while (true){
+    public boolean run() {
+        while (true) {
             Captcha captcha = new Captcha();
             BufferedImage image = captcha.getCaptcha();
             for (int y = 0; y < 15; y++) {
@@ -22,11 +22,12 @@ public class CaptchaMenu {
                     continue;
                 }
                 System.out.println(sb);
-            };
+            }
+            ;
             String[] number = captcha.getNumber().split(" ");
             String finalNum = "";
-            for (String s : number){
-                finalNum+=s;
+            for (String s : number) {
+                finalNum += s;
             }
             System.out.println("please enter the number :");
             String command = ScanMatch.getScanner().nextLine();
@@ -34,16 +35,16 @@ public class CaptchaMenu {
             if (command.matches(finalNum)) {
                 System.out.println("correct");
                 return true;
-            }
-            else System.out.println("input number is invalid!");
+            } else System.out.println("input number is invalid!");
         }
     }
-    private String getRandomSymbol(){
+
+    private String getRandomSymbol() {
         String symbols = "$*#+@";
         Random random = new Random();
         int low = 0;
         int high = 5;
-        int size = random.nextInt(high-low)+low;
-        return symbols.charAt(size)+"";
+        int size = random.nextInt(high - low) + low;
+        return symbols.charAt(size) + "";
     }
 }

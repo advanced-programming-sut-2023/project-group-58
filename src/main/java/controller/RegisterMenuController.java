@@ -103,9 +103,9 @@ public class RegisterMenuController {
         //assuming comments cant have dash
         username = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
         password = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
-        email    = CommonController.dataExtractor(data, "((?<!\\S)--email\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        email = CommonController.dataExtractor(data, "((?<!\\S)--email\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
         nickname = CommonController.dataExtractor(data, "((?<!\\S)-n\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
-        slogan   = CommonController.dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        slogan = CommonController.dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
     }
 
     public ProfisterControllerOut validateBeforeCreation(String data) {
@@ -117,7 +117,8 @@ public class RegisterMenuController {
         String regex = "(?<!\")\\s+-s(\\s+|$)(?!\")";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(data);
-        if (matcher.find() && (slogan == null || slogan.length() == 0 || slogan.trim().length() == 0)) return ProfisterControllerOut.SLOGAN_AND_NO_SLOGAN;
+        if (matcher.find() && (slogan == null || slogan.length() == 0 || slogan.trim().length() == 0))
+            return ProfisterControllerOut.SLOGAN_AND_NO_SLOGAN;
         if (username.matches(".*[\\W+].*")) return ProfisterControllerOut.USERNAME_INVALID_FORMAT;
 
         ProfisterControllerOut result = CommonController.checkPasswordFormat(password);
@@ -154,24 +155,23 @@ public class RegisterMenuController {
     }
 
     public ProfisterControllerOut getSecurityQuestion(Matcher matcher) {
-        if(matcher.group("number") != null && matcher.group("number").trim().length() > 0)
+        if (matcher.group("number") != null && matcher.group("number").trim().length() > 0)
             questionNumber = Integer.parseInt(matcher.group("number").trim());
         else
             return ProfisterControllerOut.INVALID_INPUT_FORMAT;
-        if(questionNumber < 1 || questionNumber > 3)
+        if (questionNumber < 1 || questionNumber > 3)
             return ProfisterControllerOut.INVALID_NUMBER;
-        if(matcher.group("answerConfirm") == null || matcher.group("answerConfirm").length() == 0 || matcher.group("answerConfirm").trim().length() == 0)
+        if (matcher.group("answerConfirm") == null || matcher.group("answerConfirm").length() == 0 || matcher.group("answerConfirm").trim().length() == 0)
             return ProfisterControllerOut.INVALID_INPUT_FORMAT;
         answer = matcher.group("answerConfirm").trim();
-        if(matcher.group("answer") == null || matcher.group("answer").length() == 0 || matcher.group("answer").trim().length() == 0)
+        if (matcher.group("answer") == null || matcher.group("answer").length() == 0 || matcher.group("answer").trim().length() == 0)
             return ProfisterControllerOut.INVALID_INPUT_FORMAT;
-        if(!matcher.group("answer").trim().equals(answer))
+        if (!matcher.group("answer").trim().equals(answer))
             return ProfisterControllerOut.SECOND_CHANCE_WAISTED;
         return ProfisterControllerOut.VALID;
     }
 
     public String createUser() throws IOException {
-        //todo: update users at the beginning of the programme.
 
         boolean randomSlogan = false;
         //handling random slogan:
@@ -222,7 +222,7 @@ public class RegisterMenuController {
         }
         file.close();
 
-        if(randomSlogan) return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.manipulateRandomSlogan(slogan);
+        if (randomSlogan) return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.manipulateRandomSlogan(slogan);
         else return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.getContent();
     }
 
@@ -244,7 +244,6 @@ public class RegisterMenuController {
         }
     }
 
-    //todo: save the address somewhere.
     public static String createRandomString() {
         Random rand = new Random();
         int numberOfCharacterWeAdd = rand.nextInt(5) + 1;
@@ -347,10 +346,11 @@ public class RegisterMenuController {
         }
         return false;
     }
+
     public String correctDoubleQuotation(String input) {
-        if(input.length() == 0 || input.equals("\"\"")) return input;
-        if(input.charAt(0) == '"' && input.charAt(input.length()-1) == '"' && input.contains(" "))
-            return input.substring(1,input.length()-1);
+        if (input.length() == 0 || input.equals("\"\"")) return input;
+        if (input.charAt(0) == '"' && input.charAt(input.length() - 1) == '"' && input.contains(" "))
+            return input.substring(1, input.length() - 1);
         return input;
     }
 

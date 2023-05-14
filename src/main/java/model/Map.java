@@ -7,15 +7,17 @@ public class Map {
     Tile[][] selectedMap;
     private int width;
     private int length;
+
     public Map(int width, int length) {
         this.length = length;
-        this.width  = width;
+        this.width = width;
         selectedMap = new Tile[width][length];
-        for(int i = 0; i < width; i++)
-            for(int j = 0; j < length; j++) {
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < length; j++) {
                 selectedMap[i][j] = new Tile(j, i);
             }
     }
+
     public Tile getTile(int y, int x) {
         return this.selectedMap[y][x];
     }
@@ -27,6 +29,7 @@ public class Map {
     public int getLength() {
         return length;
     }
+
     public List<Tile> get8Neighbours(Tile tile) {
         List<Tile> neighbours = new ArrayList<Tile>();
 
@@ -43,13 +46,15 @@ public class Map {
 
         return neighbours;
     }
+
     public List<Tile> get4Neighbours(Tile tile) {
         List<Tile> neighbours = new ArrayList<Tile>();
 
-        if (tile.getY() + 1 >= 0 && tile.getY()  < length) neighbours.add(selectedMap[tile.getX()][tile.getY()]); // N
-        if (tile.getY() - 1 >= 0 && tile.getY() - 1  < length) neighbours.add(selectedMap[tile.getX()][tile.getY()]); // S
-        if (tile.getX() + 1 >= 0 && tile.getX() + 1  < width) neighbours.add(selectedMap[tile.getX()][tile.getY()]); // E
-        if (tile.getX() - 1 >= 0 && tile.getX() - 1  < width) neighbours.add(selectedMap[tile.getX()][tile.getY()]); // W
+        if (tile.getY() + 1 >= 0 && tile.getY() < length) neighbours.add(selectedMap[tile.getX()][tile.getY()]); // N
+        if (tile.getY() - 1 >= 0 && tile.getY() - 1 < length)
+            neighbours.add(selectedMap[tile.getX()][tile.getY()]); // S
+        if (tile.getX() + 1 >= 0 && tile.getX() + 1 < width) neighbours.add(selectedMap[tile.getX()][tile.getY()]); // E
+        if (tile.getX() - 1 >= 0 && tile.getX() - 1 < width) neighbours.add(selectedMap[tile.getX()][tile.getY()]); // W
 
         return neighbours;
     }

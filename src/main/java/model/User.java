@@ -49,7 +49,8 @@ public class User {
     public String getUsername() {
         return username;
     }
-    public boolean passwordMatch(String password){
+
+    public boolean passwordMatch(String password) {
         if (this.password.equals(password)) return true;
         return false;
     }

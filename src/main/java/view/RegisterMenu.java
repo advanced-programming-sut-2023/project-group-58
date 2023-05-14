@@ -22,11 +22,11 @@ public class RegisterMenu {
         registerMenuController.setUpUserInfo();
         LoginMenuController.setUpStayedLogin();
         LoginMenuController.extractUserData();
-        if(stayLogin()){
+        if (stayLogin()) {
             MainMenu mainMenu = new MainMenu(LoginMenuController.checkStayedLogin());
             mainMenu.run();
         }
-      //  checkForStayed();
+        //  checkForStayed();
         while (true) {
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
@@ -47,7 +47,7 @@ public class RegisterMenu {
                     int timeOut = 5;
                     while (timeOut <= 320) {
                         System.out.println("You can try again in " + timeOut + " seconds");
-                        loginMenuController.giveAnotherShot(timeOut,ScanMatch.getScanner());
+                        loginMenuController.giveAnotherShot(timeOut, ScanMatch.getScanner());
                         if (loginMenuController.passwordMatch()) {
                             loginMenuController.mainMenuRun();
                             break;
@@ -59,14 +59,12 @@ public class RegisterMenu {
                 } else System.out.println("Login failed");
             } else if ((matcher = Commands.getMatcher(command, Commands.PASSWORD_FORGOT)) != null) {
                 reset(matcher);
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.USER_LOGIN_STAYED))!=null){
-                if (LoginMenuController.getUserStayLogin().getUsername().equals(matcher.group("username"))){
+            } else if ((matcher = Commands.getMatcher(command, Commands.USER_LOGIN_STAYED)) != null) {
+                if (LoginMenuController.getUserStayLogin().getUsername().equals(matcher.group("username"))) {
                     LoginMenuController loginMenuController = new LoginMenuController(null);
                     loginMenuController.mainMenuRunStayed(LoginMenuController.getUserStayLogin());
                 }
-            }
-            else {
+            } else {
                 System.out.println("invalid command");
             }
         }
@@ -106,56 +104,57 @@ public class RegisterMenu {
         if (!result.equals(ProfisterControllerOut.VALID))
             return result.getContent();
         CaptchaMenu captchaMenu = new CaptchaMenu();
-        if (!captchaMenu.run()){
+        if (!captchaMenu.run()) {
             return ProfisterControllerOut.REGISTER_CAPTCHA_WRONG.getContent();
         }
         return registerMenuController.createUser();
     }
+
     public void reset(Matcher matcher) throws NoSuchAlgorithmException {
         String out;
         PasswordReset passwordReset = new PasswordReset(matcher.group("username").trim());
-        if ((out = passwordReset.userExist())!=null) {
+        if ((out = passwordReset.userExist()) != null) {
             System.out.println(out);
             return;
         }
         String question = passwordReset.findQuestion();
         System.out.println(question);
-        while (true){
+        while (true) {
             String command = ScanMatch.getScanner().nextLine();
             if (passwordReset.answerCheck(command)) break;
-            else  System.out.println("Your answer is wrong. Please enter another answer.");
+            else System.out.println("Your answer is wrong. Please enter another answer.");
         }
         System.out.println("Please enter new password");
         ProfisterControllerOut out1;
-        while (true){
+        while (true) {
             String command = ScanMatch.getScanner().nextLine();
             out1 = passwordReset.checkNewPassword(true, command);
-            if (out1!=null){
+            if (out1 != null) {
                 System.out.println(out1.getContent());
-            }
-            else break;
+            } else break;
         }
         System.out.println("Please re-enter new password");
-        while (true){
+        while (true) {
             String command = ScanMatch.getScanner().nextLine();
             out1 = passwordReset.checkNewPassword(false, command);
-            if (out1!=null){
+            if (out1 != null) {
                 System.out.println(out1.getContent());
-            }
-            else break;
+            } else break;
         }
         CaptchaMenu captchaMenu = new CaptchaMenu();
-        if (!captchaMenu.run()){
+        if (!captchaMenu.run()) {
             System.out.println("password reset was unsuccessful");
             return;
         }
         System.out.println(passwordReset.resetPassword());
     }
+
     public static boolean stayLogin() throws IOException, NoSuchAlgorithmException {
         User temp;
-        if((temp =LoginMenuController.checkStayedLogin())!=null){
+        if ((temp = LoginMenuController.checkStayedLogin()) != null) {
             return true;
-        };
+        }
+        ;
         return false;
     }
     //public void checkForStayed()

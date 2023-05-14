@@ -36,7 +36,7 @@ public class ChangeProfileController {
 
 
     public String changeUserName() {
-        if(!CommonController.nullCheck(dataToChange))
+        if (!CommonController.nullCheck(dataToChange))
             return ProfisterControllerOut.EMPTY_INPUT.getContent();
 
         for (int i = 0; i < User.getUsers().size(); i++) {
@@ -53,7 +53,7 @@ public class ChangeProfileController {
     }
 
     public String changeNickname() {
-        if(!CommonController.nullCheck(dataToChange))
+        if (!CommonController.nullCheck(dataToChange))
             return ProfisterControllerOut.EMPTY_INPUT.getContent();
 
         user.setNickname(dataToChange);
@@ -115,7 +115,7 @@ public class ChangeProfileController {
     }
 
     public String changeEmail() {
-        if(!CommonController.nullCheck(dataToChange))
+        if (!CommonController.nullCheck(dataToChange))
             return ProfisterControllerOut.EMPTY_INPUT.getContent();
 
         for (int i = 0; i < User.getUsers().size(); i++) {

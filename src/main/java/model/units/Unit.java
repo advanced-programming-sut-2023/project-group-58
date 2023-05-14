@@ -19,7 +19,7 @@ public class Unit {
     public Unit(User master, UnitEnum type, int count, int yOrigin, int xOrigin) {
         this.master = master;
         ArrayList<Troop> sameKind = new ArrayList<>();
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
             sameKind.add(new Troop(type));
         this.troops.put(type, sameKind);
         this.xOrigin = xOrigin;
@@ -28,7 +28,7 @@ public class Unit {
 
     public void addByTypeAndCount(UnitEnum type, int count) {
         ArrayList<Troop> sameKind = this.troops.get(type);
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
             sameKind.add(new Troop(type));
         this.troops.put(type, sameKind);
     }
@@ -42,7 +42,7 @@ public class Unit {
 
     public void addByUnit(Unit unit) {
         for (Map.Entry<UnitEnum, ArrayList<Troop>> integerEntry : unit.troops.entrySet()) {
-            addByTypeAndArrayList(integerEntry.getKey(),integerEntry.getValue());
+            addByTypeAndArrayList(integerEntry.getKey(), integerEntry.getValue());
         }
     }
 
@@ -78,5 +78,7 @@ public class Unit {
         this.yOrigin = yOrigin;
     }
 
-    public void setState(String state) {this.state = state;}
+    public void setState(String state) {
+        this.state = state;
+    }
 }

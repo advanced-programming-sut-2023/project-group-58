@@ -20,7 +20,7 @@ public class ResourceMakerFuncs {
             case BREWER:
                 ans = new ResourceEnum[]{ResourceEnum.WHEAT, ResourceEnum.ALE, ResourceEnum.NULL};
                 break;
-                //todo:this below adds differently
+            //todo:this below adds differently
             case STABLE:
                 ans = new ResourceEnum[]{ResourceEnum.NULL, ResourceEnum.HORSE, ResourceEnum.NULL};
                 break;
@@ -65,14 +65,14 @@ public class ResourceMakerFuncs {
     }
 
     public static void produceWithResources(Governance owner, int rate, ResourceEnum usedResources, ResourceEnum producedResource, ResourceEnum secondProducedOne) {
-        if(!checkTheStorage(usedResources,rate,owner)) return;
-        produceAndPayThePrice(owner,usedResources,producedResource,rate);
-        if(!checkTheStorage(usedResources,rate,owner)) return;
-        produceAndPayThePrice(owner,usedResources,secondProducedOne,rate);
+        if (!checkTheStorage(usedResources, rate, owner)) return;
+        produceAndPayThePrice(owner, usedResources, producedResource, rate);
+        if (!checkTheStorage(usedResources, rate, owner)) return;
+        produceAndPayThePrice(owner, usedResources, secondProducedOne, rate);
     }
 
-    private static void produceAndPayThePrice(Governance owner, ResourceEnum usedResources, ResourceEnum producedResource,int rate) {
-        owner.changeResourceAmount(usedResources,-1 * rate);
+    private static void produceAndPayThePrice(Governance owner, ResourceEnum usedResources, ResourceEnum producedResource, int rate) {
+        owner.changeResourceAmount(usedResources, -1 * rate);
         owner.changeResourceAmount(producedResource, rate);
     }
 
@@ -81,15 +81,15 @@ public class ResourceMakerFuncs {
     }
 
     public static boolean changeOrAddResource(ArrayList<Resource> resources, ResourceEnum type, int amount) {
-        if(type == null || type.equals(ResourceEnum.NULL)) return true;
+        if (type == null || type.equals(ResourceEnum.NULL)) return true;
         for (Resource resource : resources) {
-            if(resource.getType().equals(type)) {
+            if (resource.getType().equals(type)) {
                 resource.changeAsset(amount);
                 return true;
             }
         }
-        if(amount >= 0) {
-            resources.add(new Resource(type,amount));
+        if (amount >= 0) {
+            resources.add(new Resource(type, amount));
             return true;
         }
         return false;

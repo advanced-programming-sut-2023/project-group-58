@@ -43,7 +43,8 @@ public enum Commands {
     NEXT_TURN("^\\s*next\\s+turn\\s*$"),
     SET_FEAR_RATE("^\\s*fear\\s+rate\\s+-r\\s*(?<data>(-)?\\d)$"),
     SHOW_FOOD_LIST("^\\s*show\\s+food\\s+list\\s*$"),
-    ;public final String regex;
+    ;
+    public final String regex;
 
     Commands(String regex) {
         this.regex = regex;

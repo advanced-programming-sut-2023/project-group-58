@@ -23,7 +23,7 @@ public class GameMenu {
 
     //todo: reset every governance in the end.
     public void run() throws IOException {
-        map = (new MapMenu(null, this.currentUser)).setUpMap();
+        map = (new MapMenu(null, this.currentUser, this.gameController)).setUpMap();
         gameController = new GameController(this.currentUser, this.map);
         if (!createGateHouse(gameController)) return;
         while (true) {
@@ -31,7 +31,7 @@ public class GameMenu {
             Matcher matcher;
             if (command.matches("map menu")) {
                 System.out.println("You are in the map menu");
-                MapMenu mapMenu = new MapMenu(this.map, this.currentUser);
+                MapMenu mapMenu = new MapMenu(this.map, this.currentUser, this.gameController);
                 mapMenu.run();
                 this.map = mapMenu.map;
                 gameController.setSelectedMap(this.map);
@@ -102,7 +102,7 @@ public class GameMenu {
         boolean failed = false;
         if (typeStr != null && typeStr.trim().equals("s"))
             type = 1;
-        else if(typeStr != null && typeStr.trim().equals("b"))
+        else if (typeStr != null && typeStr.trim().equals("b"))
             type = 2;
         else {
             System.out.println("The game shall end here and now duo to gatehouse settlement issues. You will return to the main menu");
@@ -132,7 +132,7 @@ public class GameMenu {
             out = gameController.buildGateHouse(type, direction, coordinateInput);
             this.map = gameController.getSelectedMap();
             System.out.println(out.getContent());
-            if(out.equals(GameControllerOut.SUCCESSFULLY_ADDED_GATEHOUSE))
+            if (out.equals(GameControllerOut.SUCCESSFULLY_ADDED_GATEHOUSE))
                 return true;
         } else
             System.out.println("The game shall end here and now duo to gatehouse settlement issues. You will return to the main menu");

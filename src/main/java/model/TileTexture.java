@@ -2,19 +2,19 @@ package model;
 
 public enum TileTexture {
 
-    SMALL_POND("small_pond",false, false, false),
-    SEA("sea",false, false, false),
-    FORD("ford",false, false, true),
-    IRON("iron",true, false, true),
-    EARTH("earth",true, true, true),
-    SCRUB("scrub",true, false, true),
-    THICK_SCRUB("thick_scrub",true, false, true),
-    OIL("oil",false, false, true),
-    BIG_POND("big_pond",false,false,false),
-    RIVER("river",false,false,false),
-    SAND("sand",false,false,true),
-    LAWN("lawn",true, true, true),
-    ROCK("rock",false,false ,false ),
+    SMALL_POND("small_pond", false, false, false),
+    SEA("sea", false, false, false),
+    FORD("ford", false, false, true),
+    IRON("iron", true, false, true),
+    EARTH("earth", true, true, true),
+    SCRUB("scrub", true, false, true),
+    THICK_SCRUB("thick_scrub", true, false, true),
+    OIL("oil", false, false, true),
+    BIG_POND("big_pond", false, false, false),
+    RIVER("river", false, false, false),
+    SAND("sand", false, false, true),
+    LAWN("lawn", true, true, true),
+    ROCK("rock", false, false, false),
     //todo use the last 5 in the map
     ;
     final boolean fertility;
@@ -27,6 +27,7 @@ public enum TileTexture {
         this.constructiblity = constructiblity;
         this.walkability = walkability;
     }
+
     String name;
 
     public boolean isFertility() {
@@ -41,5 +42,7 @@ public enum TileTexture {
         return walkability;
     }
 
-    public String getName() {return name;}
+    public String getName() {
+        return name;
+    }
 }

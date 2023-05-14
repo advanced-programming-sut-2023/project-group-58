@@ -20,13 +20,17 @@ public class Tile {
     private String rockDirection = "#";
     private TileTexture texture = TileTexture.EARTH;
     private ArrayList<Tree> trees = new ArrayList<>();
-    private HashMap<String , ArrayList<Unit>> playersUnits = new HashMap<>();
+    private HashMap<String, ArrayList<Unit>> playersUnits = new HashMap<>();
     //assuming a tile can have more than one tree. (since it can have multiple units)
     private ArrayList<Building> buildings = new ArrayList<>();
 
-    public boolean isHasTrap() {return hasTrap;}
+    public boolean isHasTrap() {
+        return hasTrap;
+    }
 
-    public void setHasTrap(boolean hasTrap) {this.hasTrap = hasTrap;}
+    public void setHasTrap(boolean hasTrap) {
+        this.hasTrap = hasTrap;
+    }
 
     public ArrayList<Tree> getTrees() {
         return trees;
@@ -49,21 +53,26 @@ public class Tile {
         this.buildings = buildings;
     }
 
-    public String getRockDirection() {return rockDirection;}
+    public String getRockDirection() {
+        return rockDirection;
+    }
 
-    public void setRockDirection(String rockDirection) {this.rockDirection = rockDirection;}
+    public void setRockDirection(String rockDirection) {
+        this.rockDirection = rockDirection;
+    }
 
     public char getTileOccupation() {
-        if(!this.playersUnits.isEmpty())
+        if (!this.playersUnits.isEmpty())
             return 'S';
-        else if(this.buildings.size() > 0)
+        else if (this.buildings.size() > 0)
             return 'B';
-        //todo: after adding towers and walls, return W
-        else if(trees.size() > 0)
+            //todo: after adding towers and walls, return W
+        else if (trees.size() > 0)
             return 'T';
         else
             return '#';
     }
+
     public void clear() {
         this.buildings.clear();
         this.trees.clear();
@@ -94,13 +103,12 @@ public class Tile {
         }
         return ans;
     }
+
     public ArrayList<Unit> findYourUnits(User master) {
         for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
-            if(arrayListEntry.getKey().equals(master.getUsername()))
+            if (arrayListEntry.getKey().equals(master.getUsername()))
                 return arrayListEntry.getValue();
         }
-        //why didn't i use this?
-        // return this.playersUnits.get(master.getUsername());
         return null;
     }
 
@@ -120,7 +128,7 @@ public class Tile {
         ArrayList<Unit> replacement = new ArrayList<>();
         replacement.add(unit);
         for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
-            if(arrayListEntry.getKey().equals(unit.getMaster().getUsername()))
+            if (arrayListEntry.getKey().equals(unit.getMaster().getUsername()))
                 arrayListEntry.setValue(replacement);
         }
     }
@@ -131,7 +139,7 @@ public class Tile {
 
     public boolean areEnemiesHere(User current) {
         for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
-            if(!arrayListEntry.getKey().equals(current.getUsername()))
+            if (!arrayListEntry.getKey().equals(current.getUsername()))
                 return true;
         }
         return false;
@@ -169,6 +177,7 @@ public class Tile {
         this.x = x;
         this.y = y;
     }
+
     public int getFCost() {
         return gCost + hCost;
     }
@@ -188,24 +197,25 @@ public class Tile {
     public void sethCost(int hCost) {
         this.hCost = hCost;
     }
-    public float getPrice(){
+
+    public float getPrice() {
         if (!texture.isWalkability() || existTree()) return 0.0f;
         if (!checkPossibleBuilding()) return 0.0f;
         return 1.0f;
     }
-    public boolean existTree(){
-        if (trees!=null) return false;
+
+    public boolean existTree() {
+        if (trees != null) return false;
         return true;
     }
-    public boolean checkPossibleBuilding(){
-        for (Building building : buildings){
-            if (building instanceof Gate){
+
+    public boolean checkPossibleBuilding() {
+        for (Building building : buildings) {
+            if (building instanceof Gate) {
                 if (!((Gate) building).isOpen()) return false;
-            }
-            else if (building instanceof Trap){
+            } else if (building instanceof Trap) {
                 if (((Trap) building).isVisible()) return false;
-            }
-            else return false;
+            } else return false;
         }
         return true;
     }
