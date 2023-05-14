@@ -2,8 +2,8 @@ package model.units;
 
 import model.User;
 
-public class NotTroop extends Unit{
-    public NotTroop(User master, UnitEnum type, int count, String primaryLocation) {
-        super(master, type, count, primaryLocation);
+class NotTroop extends Unit {
+    public NotTroop(User master, UnitEnum type, int count, int primaryY, int primaryX) {
+        super(master, type, count, primaryY, primaryX);
     }
 }

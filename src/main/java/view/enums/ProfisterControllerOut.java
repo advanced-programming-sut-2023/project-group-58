@@ -2,7 +2,6 @@ package view.enums;
 
 public enum ProfisterControllerOut {
     //profister = profile + register
-//ولید جاهای مختلفی استفاده شده. ولی استرینگش لزوما بهش ربطی نداره. فقط یه جا از استرینگش استفاده شده.
     VALID("Your password successfully changed"),
     USERNAME_TAKEN("This username is already taken"),
     USERNAME_INVALID_FORMAT("Username's format is invalid!"),
@@ -27,14 +26,20 @@ public enum ProfisterControllerOut {
     SUGGESTING_PASSWORD("Your random password is: "),
     FAILED("Mission failed."),
     INVALID_INPUT_FORMAT("Failed: invalid input format"),
+    INVALID_NUMBER("Failed: Question number should be from 1 to 3"),
     SUCCESSFULLY_REGISTERED("Registration successful.\nWelcome to the club, mate!"),
     INVALID_NEW_COORDINATES("Mission failed: invalid coordinates after moving"),
     RE_ENTER_PASSWORD("Please re-enter password correctly"),
     NOT_ENOUGH_RESOURCES("I'm afraid you don't have the resources necessary for this building"),
     NOT_A_VALID_PLACE("This is not the spot to put the building. Consider changing the location"),
+    NOT_A_VALID_PLACE_FOR_TREES("This is not the spot to add trees. Consider changing the location"),
+    NOT_A_VALID_PLACE_FOR_TROOP("This is not the spot to add a unit. Consider changing the location"),
     SUCCESSFULLY_ADDED_BUILDING("Building added successfully!"),
     UCCESSFULLY_ADDED_UNIT("Unit added successfully!"),
     REGISTER_CAPTCHA_WRONG("register was unsuccessful"),
+    EMPTY_INPUT("Inout cannot be null, or just spaces"),
+    CREATED_EMPTY_BUILDING("Building successfully created, but since you don't have enough workers, it is abandoned for now."),
+    ONLY_ONE_GATEHOUSE("You can only have one gatehouse during the game. So take care of it!"),
     ;
     private String content;
 
@@ -46,18 +51,17 @@ public enum ProfisterControllerOut {
         return content;
     }
 
-    public ProfisterControllerOut manipulateTheEnd(String secondHalf) {
-        this.content += secondHalf + " successfully";
-        return this;
+    public String manipulateRandomSlogan(String secondHalf) {
+        return this.content + "\nBy the way, this is your random slogan:\n" + secondHalf;
     }
 
-    public ProfisterControllerOut manipulateSuggestedUsername(String username) {
-        this.content += username + " instead?\nType y for yes and n for no";
-        return this;
+    public String manipulateTheEnd(String secondHalf) {
+        return this.content + secondHalf + " successfully";
     }
 
-    public ProfisterControllerOut manipulateFinalCreationMessage(String slogan) {
-        this.content += "\nBy the way, your \"random\" slogan is: " + slogan;
-        return this;
+
+    public String manipulateSuggestedUsername(String username) {
+        return this.content + username + " instead?\nType y for yes and n for no";
     }
+
 }

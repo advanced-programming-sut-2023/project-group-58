@@ -16,23 +16,22 @@ public class TradeMenu {
     public void run() {
         TradeMenuController tradeMenuController = new TradeMenuController(currentUser);
         System.out.print(tradeMenuController.popup());
-        while (true){
+        while (true) {
             String command = ScanMatch.getScanner().nextLine();
             Matcher matcher;
-            if (command.matches("back")) return;
-            else if ((matcher = Commands.getMatcher(command, Commands.TRADE))!=null){
-                System.out.println(tradeMenuController.newTradeRequest(matcher.group("data")).getContent());
-            }
-            else if (command.matches("\\s*trade\\s+list\\s*")){
-                System.out.println(tradeMenuController.showTradeList());
-            }
-            else if ((matcher = Commands.getMatcher(command, Commands.ACCEPT_TRADE))!=null){
+            if (command.matches("back")) {
+                System.out.println("Your are in the game menu");
+                return;
+            } else if (command.matches("\\s*trade\\s+list\\s*")) {
+                System.out.print(tradeMenuController.showTradeList());
+            } else if ((matcher = Commands.getMatcher(command, Commands.ACCEPT_TRADE)) != null) {
                 System.out.println(tradeMenuController.doTheTrade(matcher.group("data")).getContent());
-            }
-            else if (command.matches("\\s*trade\\s+history\\s*")){
+            } else if (command.matches("\\s*trade\\s+history\\s*")) {
                 System.out.print(tradeMenuController.showTradeHistory());
-            }
-            else
+            } else if (command.matches("show current menu")) System.out.println("trade menu");
+            else if ((matcher = Commands.getMatcher(command, Commands.TRADE)) != null) {
+                System.out.println(tradeMenuController.newTradeRequest(matcher.group("data")).getContent());
+            } else
                 System.out.println("invalid command");
         }
     }

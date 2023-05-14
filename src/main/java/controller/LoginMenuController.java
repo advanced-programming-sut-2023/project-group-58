@@ -31,19 +31,15 @@ public class LoginMenuController {
     private static User userStayLogin;
     private CaptchaMenu captchaMenu = new CaptchaMenu();
 
-    public void setInputPassword(String inputPassword) {
-        this.inputPassword = inputPassword;
-    }
-
     public LoginMenuController(String data) throws IOException {
         this.data = data;
         extractData();
     }
 
-    private void extractData() throws IOException {
-        inputUsername = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        if ((Pattern.compile("--stay-logged-in").matcher(data).find())){
+    private void extractData() {
+        inputUsername = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        if ((Pattern.compile("--stay-logged-in").matcher(data).find())) {
             stayLogin = true;
         }
     }
@@ -66,26 +62,26 @@ public class LoginMenuController {
         MainMenu mainMenu = new MainMenu(user);
         mainMenu.run();
     }
+
     public void mainMenuRunStayed(User user) throws NoSuchAlgorithmException, IOException {
         MainMenu mainMenu = new MainMenu(user);
         mainMenu.run();
     }
 
     public void giveAnotherShot(int timeOut, Scanner scanner) {
-        long startTime = System.currentTimeMillis()/1000;
-        while(true) {
-            long timeNow = System.currentTimeMillis()/1000;
+        long startTime = System.currentTimeMillis() / 1000;
+        while (true) {
+            long timeNow = System.currentTimeMillis() / 1000;
             inputPassword = scanner.nextLine();
-            if ((timeNow - startTime) > timeOut)
-            {
+            if ((timeNow - startTime) > timeOut) {
                 return;
-            }
-            else {
+            } else {
                 System.out.println("You have to wait");
             }
 
         }
     }
+
     public boolean userExist() {
 
         for (int i = 0; i < User.getUsers().size(); i++) {
@@ -110,7 +106,7 @@ public class LoginMenuController {
     public static void extractUserData() throws FileNotFoundException {
         //address here is: System.getProperty("user.dir") + "/DataBase/userInfo.json"
         String address = System.getProperty("user.dir") + "/DataBase/userInfo.json";
-        if (new FileReader(address)==null) return;
+        if (new FileReader(address) == null) return;
         Gson gson = new Gson();
         JsonArray jsonArray = null;
         try {
@@ -118,21 +114,22 @@ public class LoginMenuController {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        for (int i = 0; i < jsonArray.size(); i++) {
-            if (i>0) {
-                JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-                String password = jsonObject.get("user").getAsJsonObject().get("password").toString().replaceAll("\"", "");
-                int securityQuestion = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("securityQuestion").toString().replaceAll("\"", ""));
-                String securityAnswer = jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString().replaceAll("\"", "");
-                String nickname = jsonObject.get("user").getAsJsonObject().get("nickname").toString().replaceAll("\"", "");
-                String slogan = jsonObject.get("user").getAsJsonObject().get("slogan").toString().replaceAll("\"", "");
-                String email = jsonObject.get("user").getAsJsonObject().get("email").toString().replaceAll("\"", "");
-                String username = jsonObject.get("user").getAsJsonObject().get("username").toString().replaceAll("\"", "");
-                int highScore = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("highScore").toString().replaceAll("\"", ""));
-                User addingUser = new User(username, password, nickname, email, slogan, securityQuestion, securityAnswer, highScore);
-                addingUser.addUserToArrayList();
+        if (jsonArray != null)
+            for (int i = 0; i < jsonArray.size(); i++) {
+                if (i > 0) {
+                    JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                    String password = jsonObject.get("user").getAsJsonObject().get("password").toString().replaceAll("\"", "");
+                    int securityQuestion = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("securityQuestion").toString().replaceAll("\"", ""));
+                    String securityAnswer = jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString().replaceAll("\"", "");
+                    String nickname = jsonObject.get("user").getAsJsonObject().get("nickname").toString().replaceAll("\"", "");
+                    String slogan = jsonObject.get("user").getAsJsonObject().get("slogan").toString().replaceAll("\"", "");
+                    String email = jsonObject.get("user").getAsJsonObject().get("email").toString().replaceAll("\"", "");
+                    String username = jsonObject.get("user").getAsJsonObject().get("username").toString().replaceAll("\"", "");
+                    int highScore = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("highScore").toString().replaceAll("\"", ""));
+                    User addingUser = new User(username, password, nickname, email, slogan, securityQuestion, securityAnswer, highScore);
+                    addingUser.addUserToArrayList();
+                }
             }
-        }
     }
 
     private String encryptPassword(String password) throws NoSuchAlgorithmException {
@@ -146,8 +143,6 @@ public class LoginMenuController {
         return userStayLogin;
     }
 
-    public LoginMenuController() {
-    }
     public static void setUpStayedLogin() throws IOException {
         File userInfo = new File(System.getProperty("user.dir") + "/DataBase/stayed.json");
         if (!userInfo.exists()) {
@@ -179,11 +174,12 @@ public class LoginMenuController {
             throw new RuntimeException(e);
         }
     }
+
     public void saveUserStayed(User user) throws IOException {
         JSONArray usersList = readFromAJson(System.getProperty("user.dir") + "/DataBase/stayed.json");
         JSONObject userDetails = new JSONObject();
         userDetails.put("username", user.getUsername());
-       // System.out.printf(userStayLogin.getUsername());
+        // System.out.printf(userStayLogin.getUsername());
         JSONObject eachUserAsObject = new JSONObject();
         eachUserAsObject.put("user", userDetails);
         //Add the new onw to the list
@@ -203,6 +199,7 @@ public class LoginMenuController {
         }
         file.close();
     }
+
     public static JSONArray readFromAJson(String address) {
         JSONArray userList = new JSONArray();
         JSONParser parser = new JSONParser();
@@ -221,9 +218,10 @@ public class LoginMenuController {
         }
         return userList;
     }
+
     public static User checkStayedLogin() throws FileNotFoundException {
         String address = System.getProperty("user.dir") + "/DataBase/stayed.json";
-        if (new FileReader(address)==null) return null;
+        if (new FileReader(address) == null) return null;
         Gson gson = new Gson();
         JsonArray jsonArray = null;
         try {
@@ -233,21 +231,22 @@ public class LoginMenuController {
         }
         String username = null;
         for (int i = 0; i < jsonArray.size(); i++) {
-            if (i>0) {
+            if (i > 0) {
                 JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
                 username = jsonObject.get("user").getAsJsonObject().get("username").toString().replaceAll("\"", "");
             }
         }
         User user = null;
-        for (int k=0; k<User.getUsers().size(); k++){
-            if (User.getUsers().get(k).getUsername().equals(username)){
+        for (int k = 0; k < User.getUsers().size(); k++) {
+            if (User.getUsers().get(k).getUsername().equals(username)) {
                 user = User.getUsers().get(k);
                 break;
             }
         }
         return user;
     }
-    public static  void clearStayed() throws IOException {
+
+    public static void clearStayed() throws IOException {
         JSONArray usersList = readFromAJson(System.getProperty("user.dir") + "/DataBase/stayed.json");
         JSONObject userDetails = new JSONObject();
         userDetails.put("username", "");
@@ -270,5 +269,9 @@ public class LoginMenuController {
             throw new RuntimeException(e);
         }
         file.close();
+    }
+
+    public User getUser() {
+        return user;
     }
 }

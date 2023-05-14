@@ -35,18 +35,6 @@ public class RegisterMenuController {
         return password;
     }
 
-    public void createFileWhenNecessary(String address) {
-        File myFile = new File(address);
-        if (!myFile.exists()) {
-            try {
-                myFile.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-
     public void setUpUserInfo() throws IOException {
 
         //file should not be overwritten if it's not empty. first, we check if it exists:
@@ -112,11 +100,12 @@ public class RegisterMenuController {
         //careful: getting double hyphens for email regex.
         //todo: Assuming THERE IS NO DOUBLE QUOTES BETWEEN TWO DOUBLE QUOTES
         //todo: cannot handle: -s "   -u moon " (spaces before -u between "")
-        username = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        password = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        email    = CommonController.dataExtractor(data, "((?<!\\S)--email\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        nickname = CommonController.dataExtractor(data, "((?<!\\S)-n\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        slogan   = CommonController.dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
+        //assuming comments cant have dash
+        username = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        password = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        email = CommonController.dataExtractor(data, "((?<!\\S)--email\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        nickname = CommonController.dataExtractor(data, "((?<!\\S)-n\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        slogan = CommonController.dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
     }
 
     public ProfisterControllerOut validateBeforeCreation(String data) {
@@ -125,15 +114,15 @@ public class RegisterMenuController {
         if (username.length() == 0 || password.length() == 0 || email.length() == 0 ||
                 nickname.length() == 0)
             return ProfisterControllerOut.EMPTY_FIELDS;
-        String regex = "(?<!\")\\s+-s\\s+(?!\")";
+        String regex = "(?<!\")\\s+-s(\\s+|$)(?!\")";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(data);
-
-        if (matcher.find() && slogan.length() == 0) return ProfisterControllerOut.SLOGAN_AND_NO_SLOGAN;
+        if (matcher.find() && (slogan == null || slogan.length() == 0 || slogan.trim().length() == 0))
+            return ProfisterControllerOut.SLOGAN_AND_NO_SLOGAN;
         if (username.matches(".*[\\W+].*")) return ProfisterControllerOut.USERNAME_INVALID_FORMAT;
 
         ProfisterControllerOut result = CommonController.checkPasswordFormat(password);
-        if (!result.equals(ProfisterControllerOut.VALID)) return result;
+        if (!password.trim().equals("random") && !result.equals(ProfisterControllerOut.VALID)) return result;
 
         if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", email, "email"))
             return ProfisterControllerOut.EMAIL_TAKEN;
@@ -150,12 +139,13 @@ public class RegisterMenuController {
         return ProfisterControllerOut.VALID;
     }
 
-    public ProfisterControllerOut usernameExist() {
+    public String usernameExist() {
         if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", username, "username")) {
             username = findSomethingSimilar(username);
-            return ProfisterControllerOut.VALID;
+            return ProfisterControllerOut.SUGGESTING_USERNAME.manipulateSuggestedUsername(username);
+
         }
-        return ProfisterControllerOut.SUGGESTING_USERNAME.manipulateSuggestedUsername(username);
+        return ProfisterControllerOut.VALID.getContent();
     }
 
     public ProfisterControllerOut handleRandomPassword() {
@@ -165,24 +155,29 @@ public class RegisterMenuController {
     }
 
     public ProfisterControllerOut getSecurityQuestion(Matcher matcher) {
-        if(matcher.group("number") != null && matcher.group("number").trim().length() > 0)
+        if (matcher.group("number") != null && matcher.group("number").trim().length() > 0)
             questionNumber = Integer.parseInt(matcher.group("number").trim());
         else
             return ProfisterControllerOut.INVALID_INPUT_FORMAT;
-        if(matcher.group("answerConfirm") == null || matcher.group("answerConfirm").trim().length() == 0)
+        if (questionNumber < 1 || questionNumber > 3)
+            return ProfisterControllerOut.INVALID_NUMBER;
+        if (matcher.group("answerConfirm") == null || matcher.group("answerConfirm").length() == 0 || matcher.group("answerConfirm").trim().length() == 0)
             return ProfisterControllerOut.INVALID_INPUT_FORMAT;
         answer = matcher.group("answerConfirm").trim();
+        if (matcher.group("answer") == null || matcher.group("answer").length() == 0 || matcher.group("answer").trim().length() == 0)
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+        if (!matcher.group("answer").trim().equals(answer))
+            return ProfisterControllerOut.SECOND_CHANCE_WAISTED;
         return ProfisterControllerOut.VALID;
     }
 
-    public ProfisterControllerOut createUser() throws IOException {
-        //todo: update users at the beginning of the programme.
+    public String createUser() throws IOException {
 
         boolean randomSlogan = false;
         //handling random slogan:
         if (slogan.equals("random")) {
             int pickSlogan = (int) (numberOfSlogans * Math.random());
-            slogan = Files.readAllLines(Paths.get("/DataBase/slogans.txt")).get(pickSlogan);
+            slogan = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "/DataBase/slogans.txt")).get(pickSlogan);
             randomSlogan = true;
         }
 
@@ -227,11 +222,11 @@ public class RegisterMenuController {
         }
         file.close();
 
-        if(randomSlogan) return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.manipulateTheEnd(slogan);
-        else return ProfisterControllerOut.SUCCESSFULLY_REGISTERED;
+        if (randomSlogan) return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.manipulateRandomSlogan(slogan);
+        else return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.getContent();
     }
 
-    private String encryptPassword(String password) throws NoSuchAlgorithmException {
+    public String encryptPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
         String encoded = Base64.getEncoder().encodeToString(hash);
@@ -240,7 +235,7 @@ public class RegisterMenuController {
 
 
     //Warning: can cause infinite loop:
-    private String findSomethingSimilar(String username) {
+    public String findSomethingSimilar(String username) {
         String randomStringWeAddEachTime;
         while (true) {
             randomStringWeAddEachTime = username + createRandomString();
@@ -249,7 +244,6 @@ public class RegisterMenuController {
         }
     }
 
-    //todo: save the address somewhere.
     public static String createRandomString() {
         Random rand = new Random();
         int numberOfCharacterWeAdd = rand.nextInt(5) + 1;
@@ -276,24 +270,24 @@ public class RegisterMenuController {
     }
 
 
-    private String randomPasswordGenerator() {
+    public String randomPasswordGenerator() {
         String lowerCases = "abcdefghijklmnopqrstuvwxyz";
         String upperCases = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String symbols = "\\*\\.\\!\\@\\$\\%\\^\\&\\(\\)\\{\\}\\[\\]\\:\\;\\<\\>\\,\\?\\/\\~\\_\\+\\-\\=\\|";
         StringBuilder randomPassword = new StringBuilder();
         int randomLength = (int) (6 * Math.random()) + 2;
-
+        int randomMathNumber = (int) (10 * Math.random());
         //first, we need to make sure password we make is valid:
         randomPassword.append(lowerCases.charAt((int) (lowerCases.length() * Math.random())));
         randomPassword.append(upperCases.charAt((int) (upperCases.length() * Math.random())));
         randomPassword.append(symbols.charAt((int) (symbols.length() * Math.random())));
-        randomPassword.append(10 * Math.random());
-
+        randomPassword.append(randomMathNumber);
         for (int i = 0; i < randomLength; i++) {
             int rand = (int) (4 * Math.random());
             switch (rand) {
                 case 0:
-                    randomPassword.append(10 * Math.random());
+                    rand = (int) (10 * Math.random());
+                    randomPassword.append(rand);
                     break;
                 case 1:
                     rand = (int) (lowerCases.length() * Math.random());
@@ -352,10 +346,23 @@ public class RegisterMenuController {
         }
         return false;
     }
+
     public String correctDoubleQuotation(String input) {
-        if(input.length() == 0 || input.equals("\"\"")) return input;
-        if(input.charAt(0) == '"' && input.charAt(input.length()-1) == '"' && input.contains(" "))
-            return input.substring(1,input.length()-1);
+        if (input.length() == 0 || input.equals("\"\"")) return input;
+        if (input.charAt(0) == '"' && input.charAt(input.length() - 1) == '"' && input.contains(" "))
+            return input.substring(1, input.length() - 1);
         return input;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setQuestionNumber(int questionNumber) {
+        this.questionNumber = questionNumber;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }

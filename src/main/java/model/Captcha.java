@@ -7,10 +7,11 @@ import java.util.Random;
 public class Captcha {
     private int width;
     private String number;
-    public BufferedImage getCaptcha(){
+
+    public BufferedImage getCaptcha() {
         String number = randomNumber();
         this.number = number;
-        int width = number.length()*30;
+        int width = number.length() * 10;
         int height = 15;
         this.width = width;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -22,17 +23,19 @@ public class Captcha {
         graphics.drawString(number, 0, 15);
         return image;
     }
-    private String randomNumber(){
+
+    private String randomNumber() {
         Random random = new Random();
         int low = 4;
         int high = 9;
-        int size = random.nextInt(high-low)+low;
-        String number= "";
-        for (int i=0; i<size; i++){
-            number+= random.nextInt(10);
+        int size = random.nextInt(high - low) + low;
+        String number = "";
+        for (int i = 0; i < size; i++) {
+            number += random.nextInt(10) + " ";
         }
         return number;
     }
+
 
     public int getWidth() {
         return width;

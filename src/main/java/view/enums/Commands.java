@@ -20,22 +20,31 @@ public enum Commands {
     SHOW_DETAIL("^\\s*show\\s+details\\s+(?<data>.+)$"),
     MOVE_MAP("^\\s*map\\s+(?<data>.+)$"),
     CLEAR("^\\s*clear\\s+(?<data>.+)$"),
-    BUY_SHOP("^\\s*doThePurchase\\s+(?<data>.+)$"),
+    BUY_SHOP("^\\s*buy\\s+(?<data>.+)$"),
     SELL_SHOP("^\\s*sell\\s+(?<data>.+)$"),
     TRADE("^\\s*trade\\s+(?<data>.+)$"),
     ACCEPT_TRADE("^\\s*trade\\s+accept\\s+(?<data>.+)$"),
-    DROP_TREE("^\\s*droptree^\\s+(?<data>.+)$"),
-    DROP_ROCK("^\\s*droptree^\\s+(?<data>.+)$"),
+    DROP_TREE("^\\s*droptree\\s+(?<data>.+)$"),
+    DROP_ROCK("^\\s*droprock\\s+(?<data>.+)$"),
     SHOW_POP_FACTORS("^\\s*show\\s+popularity\\s+factors\\s*$"),
     SHOW_POPULARITY("^\\s*show\\s+popularity\\s*$"),
     SHOW_FOOD_RATE("^\\s*food\\s+rate\\s+show\\s*$"),
     SET_FOOD_RATE("^\\s*food\\s+rate\\s+-r\\s+(?<data>(-)?\\d)$"),
     SET_TAX_RATE("^\\s*tax\\s+rate\\s+-r\\s+(?<data>(-)?\\d)$"),
     SHOW_TAX_RATE("^\\s*tax\\s+rate\\s+show\\s*$"),
-    DROP_BUILDING("^dropbuilding\\s+(?<data>(-)?\\d)$"),
-    DROP_UNIT("^dropunit\\s+(?<data>(-)?\\d)$"),
-    USER_LOGIN_STAYED("\\s*user\\s+login\\s+-u\\s+\"?(?<username>\\S+)\"?"),
-    ;public final String regex;
+    DROP_BUILDING("^\\s*dropbuilding\\s+(?<data>.+)$"),
+    DROP_UNIT("^\\s*dropunit\\s+(?<data>.+)$"),
+    USER_LOGIN_STAYED("^\\s*user\\s+login\\s+-u\\s+\"?(?<username>\\S+)\"?"),
+    SELECT_BUILDING("^\\s*select\\s+building\\s+(?<data>.+)$"),
+    SET_STATE("^\\s*set\\s+(?<data>.+)$"),
+    CREATE_UNIT("^\\s*createunit\\s+(?<data>.+)$"),
+    MOVE_UNIT("^\\s*move\\s+unit\\s+to\\s+(?<data>.+)$"),
+    REPAIR("^\\s*repair\\s*"),
+    NEXT_TURN("^\\s*next\\s+turn\\s*$"),
+    SET_FEAR_RATE("^\\s*fear\\s+rate\\s+-r\\s*(?<data>(-)?\\d)$"),
+    SHOW_FOOD_LIST("^\\s*show\\s+food\\s+list\\s*$"),
+    ;
+    public final String regex;
 
     Commands(String regex) {
         this.regex = regex;

@@ -30,6 +30,7 @@ public class User {
         securityQuestion = SecurityQuestion;
         securityAnswer = SecurityAnswer;
         highScore = HighScore;
+        governance = new Governance();
     }
 
     public Governance getGovernance() {
@@ -48,7 +49,8 @@ public class User {
     public String getUsername() {
         return username;
     }
-    public boolean passwordMatch(String password){
+
+    public boolean passwordMatch(String password) {
         if (this.password.equals(password)) return true;
         return false;
     }
