@@ -104,6 +104,18 @@ public class Tile {
         return null;
     }
 
+    public boolean changeState(String state, User master) {
+        boolean exist = false;
+        for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet())
+            if (arrayListEntry.getKey().equals(master.getUsername())) {
+                exist = true;
+                for (Unit unit : arrayListEntry.getValue()) {
+                    unit.setState(state);
+                }
+            }
+        return exist;
+    }
+
     public void unifyYourUnits(Unit unit) {
         ArrayList<Unit> replacement = new ArrayList<>();
         replacement.add(unit);

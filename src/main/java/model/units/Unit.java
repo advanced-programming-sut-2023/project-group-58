@@ -77,4 +77,6 @@ public class Unit {
     public void setyOrigin(int yOrigin) {
         this.yOrigin = yOrigin;
     }
+
+    public void setState(String state) {this.state = state;}
 }

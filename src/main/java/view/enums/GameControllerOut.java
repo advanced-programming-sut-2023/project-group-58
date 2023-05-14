@@ -31,6 +31,8 @@ public enum GameControllerOut {
     SUCCESSFULLY_REPAIRED("Successfully repaired"),
     NEXT_TURN("|| nExT tuRN ||\npLayEr::"),
     SUCCESSFULLY_CHANGED_FEAR_RATE("Fear rate changed successfully"),
+    NO_UNITS("You don't have any units in that place"),
+    SUCCESSFULLY_CHANGRD_UNIT_STATE("Unit state set successfully"),
     ;
     private String content;
 

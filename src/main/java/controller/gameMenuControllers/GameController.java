@@ -10,6 +10,7 @@ import model.buildings.BuildingEnum;
 import model.units.Unit;
 import model.units.UnitEnum;
 import view.enums.GameControllerOut;
+import view.enums.ProfisterControllerOut;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -146,7 +147,8 @@ public class GameController {
         return xCoor >= 0 && xCoor <= mapWidth - 1 && yCoor >= 0 && yCoor <= mapLength - 1;
     }
     public String selectBuilding(String data) {
-        extractDataxandy(data);
+        if(!extractDataxandy(data))
+            return GameControllerOut.INVALID_INPUT_FORMAT.getContent();
         if(!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
             return GameControllerOut.INVALID_COORDINATES.getContent();
         if(selectedMap.getTile(yCoor,xCoor).getBuildings().size() == 0)
@@ -239,7 +241,8 @@ public class GameController {
     public GameControllerOut selectUnit(String data) {
         ArrayList<Integer> xOrigins = new ArrayList<>();
         ArrayList<Integer> yOrigins = new ArrayList<>();
-        extractDataxandy(data);
+        if(!extractDataxandy(data))
+            return GameControllerOut.INVALID_INPUT_FORMAT;
         if(!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
             return GameControllerOut.INVALID_COORDINATES;
         ArrayList<Unit> separate = selectedMap.getTile(yCoor,xCoor).findYourUnits(getCurrentUser());
@@ -312,5 +315,18 @@ public class GameController {
         if(count > 0)
             ans += "Apple  -> " + count + "\n";
         return ans;
+    }
+
+    public GameControllerOut setState(String data) {
+        if(!extractDataxandy(data))
+            return GameControllerOut.INVALID_INPUT_FORMAT;
+        String state = CommonController.dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>\\S+)(?<!\\s))");
+        if(state == null || state.length() == 0 || state.trim().length() == 0)
+            return GameControllerOut.INVALID_INPUT_FORMAT;
+        state = state.trim();
+        if(!state.equals("standing") && !state.equals("defensive") && !state.equals("offensive]"));
+        if(!this.selectedMap.getTile(yCoor,xCoor).changeState(state,getCurrentUser()))
+            return GameControllerOut.NO_UNIT;
+        return GameControllerOut.SUCCESSFULLY_CHANGRD_UNIT_STATE;
     }
 }
