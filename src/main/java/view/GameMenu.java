@@ -3,6 +3,7 @@ package view;
 import java.io.IOException;
 
 import controller.gameMenuControllers.GameController;
+import model.Governance;
 import model.Map;
 import model.User;
 import model.buildings.Building;
@@ -33,6 +34,7 @@ public class GameMenu {
                 this.map = mapMenu.map;
                 gameController.setSelectedMap(this.map);
             }
+            else if (command.matches("show current menu")) System.out.println("game menu");
             else if(command.matches("shop menu")){
                 if(gameController.getSelectedBuilding() != null && gameController.getSelectedBuilding().getType().getName().equals("market")) {
                     System.out.println("You are in the shop menu");
@@ -80,6 +82,12 @@ public class GameMenu {
             else if (command.matches("trade menu")){
                 TradeMenu tradeMenu = new TradeMenu(currentUser);
                 tradeMenu.run();
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.NEXT_TURN)) != null){
+                //set target, fight , move , update resources , govern functions lie here
+                this.currentUser = Governance.getNextPlayer(this.currentUser);
+                gameController.setCurrentUser(this.currentUser);
+                System.out.println(GameControllerOut.NEXT_TURN.getContent() + this.currentUser.getUsername());
             }
             else
                 System.out.println("invalid command");

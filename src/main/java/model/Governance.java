@@ -44,6 +44,12 @@ public class Governance {
     public static ArrayList<User> getEmpires() {
         return empires;
     }
+    public static User getNextPlayer(User currentUser) {
+        for(int i = 0; i < empires.size() - 1; i++)
+            if(empires.get(i).getUsername().equals(currentUser.getUsername()))
+                return empires.get(i+1);
+        return empires.get(0);
+    }
     public static void setEmpires(ArrayList<User> empires) {Governance.empires = empires;}
 
     public int getGold() {return gold;}

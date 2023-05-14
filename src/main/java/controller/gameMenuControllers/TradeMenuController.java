@@ -34,6 +34,8 @@ public class TradeMenuController {
         int price       = Integer.parseInt(CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\\d+))(?<!\\s))").trim());
         String message  = CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
         ResourceEnum type = CommonController.resourceFinder(item);
+        if(type.equals(ResourceEnum.NULL))
+            return ShopAndTradeControllerOut.INVALID_RESOURCE_NAME;
         if(currentUser.getGovernance().getGold() < price)
             return ShopAndTradeControllerOut.CANNOT_AFFORD_TRADE;
         String idMaker = currentUser.getUsername() + currentUser.getGovernance().getUserTrades().size();
@@ -46,11 +48,15 @@ public class TradeMenuController {
     public String showTradeList() {
         String ans = new String();
         int counter = 1;
-        for (TradeItem trade : Governance.getAllTrades()) {
-            if(!trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername()) && trade.getActive())
-                ans += counter++ + ")\n     Id: " + trade.getId() + "\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
-                       "\n     Price : " + trade.getPrice() + "\n     Message: " + trade.getMessage() + "\n" + "     Who's asking? " + trade.getOneWhoRequests().getUsername();
-        }
+        if(Governance.getAllTrades().size() != 0)
+            for (TradeItem trade : Governance.getAllTrades()) {
+                if(!trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername()) && trade.getActive())
+                    ans += counter++ + ")\n     Id: " + trade.getId() + "\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
+                           "\n     Price : " + trade.getPrice() + "\n     Message: " + trade.getMessage() + "\n" + "     Who's asking? " + trade.getOneWhoRequests().getUsername() + "\n";
+            }
+        else ans += "No trade requests here yet!\n";
+        if(ans.trim().length() == 0)
+            ans = "All the trades have been requested by you. Wait and see if anyone answers your call\n";
         return ans;
     }
     public String showTradeHistory() {
@@ -58,19 +64,22 @@ public class TradeMenuController {
         String ansAnswered = new String();
         int counterReq = 1;
         int counterAns = 1;
-        for (TradeItem trade : currentUser.getGovernance().getUserTrades()) {
-            if(trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername())) {
-                if(counterReq == 1) ansRequested += "Requested items:\n";
-                ansRequested += counterReq++ + ")\n     Id: " + trade.getId() + "\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
-                        "\n     Price : " + trade.getPrice() + "\n     Message: " + trade.getMessage() + "\n" +
-                        "     Is it still active? " + trade.getActive() + "\n";
+        if(currentUser.getGovernance().getUserTrades().size() != 0)
+            for (TradeItem trade : currentUser.getGovernance().getUserTrades()) {
+                if(trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername())) {
+                    if(counterReq == 1) ansRequested += "Requested items:\n";
+                    ansRequested += counterReq++ + ")\n     Id: " + trade.getId() + "\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
+                            "\n     Price : " + trade.getPrice() + "\n     Message: " + trade.getMessage() + "\n" +
+                            "     Is it still active? " + trade.getActive() + "\n";
+                }
+                else {
+                    if(counterAns == 1) ansAnswered += "Traded items:\n";
+                    ansAnswered += counterAns++ + ")\n     Id: " + trade.getId() + "\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
+                            "\n     Price : " + trade.getPrice() + "\n     Message: " + trade.getMessage() + "\n";
+                }
             }
-            else {
-                if(counterAns == 1) ansAnswered += "Traded items:\n";
-                ansAnswered += counterAns++ + ")\n     Id: " + trade.getId() + "\n     Type: " + trade.getTypeName() + "\n     Amount: " + trade.getAmount() +
-                        "\n     Price : " + trade.getPrice() + "\n     Message: " + trade.getMessage() + "\n";
-            }
-        }
+        else
+            ansRequested = "You haven't traded with anyone yet!\n";
         return ansRequested + ansAnswered;
     }
 
@@ -143,13 +152,14 @@ public class TradeMenuController {
     }
 
     public String popup() {
-        String ans = "Welcome! here's a brief report of the trade market while you were gone:\n";
+        String result = new String();
+        String ans = new String();
         for (TradeItem trade : currentUser.getGovernance().getUserTrades()) {
             if(!trade.getNotified() && !trade.getActive() && trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername())) {
                 if(trade.getPrice() != 0)
-                    ans += trade.getOneWhoAnswersTheCall().getNickname() + " ( " + trade.getOneWhoAnswersTheCall().getUsername()
-                            + " ) has accepted your request " + " ( " + trade.getTypeName() + " for " + trade.getPrice() +
-                            " golds, id = " + trade.getId() + " ), and left you this message: " +
+                    ans += trade.getOneWhoAnswersTheCall().getNickname() + " (" + trade.getOneWhoAnswersTheCall().getUsername()
+                            + ") has accepted your request " + " (" + trade.getTypeName() + " for " + trade.getPrice() +
+                            " golds, id = " + trade.getId() + "), and left you this message: " +
                             trade.getMessage() + "\n";
                 else
                     ans += trade.getOneWhoAnswersTheCall().getNickname() + " ( " + trade.getOneWhoAnswersTheCall().getUsername()
@@ -157,6 +167,10 @@ public class TradeMenuController {
                             + trade.getMessage() + "\n";
             trade.setNotified(true);}
         }
-        return ans;
+        if(ans.length() == 0 || ans.trim().length() == 0)
+            result = "Welcome! Not much has happened since your last visit\n";
+        else
+            result = "Welcome! here's a brief report of the trade market while you were gone:\n" + ans;
+        return result;
     }
 }

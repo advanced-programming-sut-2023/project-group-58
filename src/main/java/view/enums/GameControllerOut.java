@@ -27,6 +27,7 @@ public enum GameControllerOut {
     NOT_ENOUGH_RESOURCES("You don't have enough resources"),
     FULL_HP("There is nothing to repair!"),
     SUCCESSFULLY_REPAIRED("Successfully repaired"),
+    NEXT_TURN("|| nExT tuRN ||\npLayEr::"),
     ;
     private String content;
 

@@ -39,6 +39,7 @@ public enum Commands {
     CREATE_UNIT("^\\s*createunit\\s+(?<data>.+)$"),
     MOVE_UNIT("^\\s*move\\s+unit\\s+to\\s+(?<data>.+)$"),
     REPAIR("^\\s*repair\\s*"),
+    NEXT_TURN("^\\s*next\\s+turn\\s*$"),
     ;public final String regex;
 
     Commands(String regex) {
