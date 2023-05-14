@@ -36,7 +36,7 @@ public class ShowProfileController {
         return "Your highest score is "+ user.getHighScore();
     }
     public String showSlogan(){
-        if (user.getSlogan()==null) return "Your slogan is empty";
+        if (user.getSlogan()==null || user.getSlogan().length() == 0) return "Your slogan is empty";
         else return "Your slogan is : "+ user.getSlogan();
     }
     public String showDisplay() {
@@ -46,7 +46,7 @@ public class ShowProfileController {
         ans += "email : " + user.getEmail()+"\n";
         ans += "highest score : "+ user.getHighScore()+"\n";
         if (user.getSlogan() != null && user.getSlogan().length() != 0) ans += "slogan : "+ user.getSlogan()+"\n";
-        ans += "your rank : "+ getRank()+"\n";
+        ans += "your rank : "+ getRank();
         return ans;
     }
     public int getRank(){

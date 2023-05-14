@@ -1,8 +1,11 @@
 package controller.gameMenuControllers;
 
+import controller.CommonController;
 import model.Governance;
 import model.User;
+import view.enums.GameControllerOut;
 import view.enums.LobbyControllerOut;
+import view.enums.ProfisterControllerOut;
 
 import java.util.ArrayList;
 
@@ -26,6 +29,11 @@ public class LobbyController {
     }
 
     private LobbyControllerOut addUser(){
+
+        if(!CommonController.nullCheck(username))
+            return LobbyControllerOut.EMPTY_INPUT;
+
+        username = username.trim();
         if (!existUser()){
             return LobbyControllerOut.USERNAME_NOT_FOUND;
         }
@@ -54,6 +62,10 @@ public class LobbyController {
         return false;
     }
     public String removeUser(String user){
+        if(!CommonController.nullCheck(user))
+            return LobbyControllerOut.EMPTY_INPUT.getContent();
+
+        user = user.trim();
         username = user;
         for (int i=0; i<players.size(); i++){
             if (players.get(i).getUsername().equals(username)){

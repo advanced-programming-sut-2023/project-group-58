@@ -37,8 +37,8 @@ public class LoginMenuController {
     }
 
     private void extractData() {
-        inputUsername = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
+        inputUsername = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
         if ((Pattern.compile("--stay-logged-in").matcher(data).find())){
             stayLogin = true;
         }

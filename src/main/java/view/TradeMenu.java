@@ -23,7 +23,7 @@ public class TradeMenu {
             else if ((matcher = Commands.getMatcher(command, Commands.TRADE))!=null){
                 System.out.println(tradeMenuController.newTradeRequest(matcher.group("data")).getContent());
             }
-            else if (command.matches("\\s*trade\\s+list\\s*")){
+            else if (command.matches("trade list")){
                 System.out.println(tradeMenuController.showTradeList());
             }
             else if ((matcher = Commands.getMatcher(command, Commands.ACCEPT_TRADE))!=null){
@@ -32,6 +32,7 @@ public class TradeMenu {
             else if (command.matches("\\s*trade\\s+history\\s*")){
                 System.out.print(tradeMenuController.showTradeHistory());
             }
+            else if (command.matches("show current menu")) System.out.println("trade menu");
             else
                 System.out.println("invalid command");
         }

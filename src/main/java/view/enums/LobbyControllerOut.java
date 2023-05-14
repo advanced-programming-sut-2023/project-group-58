@@ -7,6 +7,7 @@ public enum LobbyControllerOut {
     REMOVING_YOURSELF("You cannot remove yourself, because your are owner of lobby"),
     SUCCESSFULLY_REMOVED_USER(" removed successfully"),
     NO_SUCH_USER_IN_LOBBY("There isn't any user with entered username in the lobby"),
+    EMPTY_INPUT("Inout cannot be null, or just spaces"),
     ;
     private String content;
 

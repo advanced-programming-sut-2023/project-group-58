@@ -88,9 +88,9 @@ public class Tile {
 //    }
 
     public String showBuildings() {
-        String ans = new String();
+        String ans = "\nBuilding(s) here:";
         for (Building building : this.buildings) {
-            ans += building.getType();
+            ans += "\n" + building.getType().getName();
         }
         return ans;
     }
@@ -196,5 +196,9 @@ public class Tile {
             else return false;
         }
         return true;
+    }
+
+    public HashMap<String, ArrayList<Unit>> getPlayersUnits() {
+        return playersUnits;
     }
 }

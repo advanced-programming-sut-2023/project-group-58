@@ -85,7 +85,8 @@ public class RegisterMenu {
         }
         result = registerMenuController.handleRandomPassword();
         if (!result.equals(ProfisterControllerOut.VALID)) {
-            System.out.println(result.getContent());
+            System.out.println(result.getContent() + "\n" + registerMenuController.getPassword());
+            System.out.println("Please write it here:");
             int counter = 9;
             while (true) {
                 if (!ScanMatch.getScanner().nextLine().trim().equals(registerMenuController.getPassword()))
@@ -101,8 +102,9 @@ public class RegisterMenu {
                 "question pick -q <question-number> -a <answer> -c <answerconfirm>");
         if ((temp = Commands.getMatcher(ScanMatch.getScanner().nextLine(), Commands.SECURITY_QUESTION_PICK)) == null)
             return ProfisterControllerOut.FAILED.getContent();
-        if (!registerMenuController.getSecurityQuestion(temp).equals(ProfisterControllerOut.VALID))
-            return ProfisterControllerOut.FAILED.getContent();
+        result = registerMenuController.getSecurityQuestion(temp);
+        if (!result.equals(ProfisterControllerOut.VALID))
+            return result.getContent();
         CaptchaMenu captchaMenu = new CaptchaMenu();
         if (!captchaMenu.run()){
             return ProfisterControllerOut.REGISTER_CAPTCHA_WRONG.getContent();

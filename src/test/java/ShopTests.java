@@ -27,9 +27,9 @@ public class ShopTests {
     public void buyAndShow() {
         User user = shopMenuController.getCurrentUser();
         Assertions.assertNotNull(shopMenuController.showPriceList(user));
-        Matcher matcher = Commands.getMatcher(" doThePurchase -a 54  -i watermelon   ",Commands.BUY_SHOP);
+        Matcher matcher = Commands.getMatcher(" buy -a 54  -i watermelon   ",Commands.BUY_SHOP);
         Assertions.assertEquals(shopMenuController.buy(matcher.group("data"), user),ShopAndTradeControllerOut.INVALID_ITEM);
-        matcher = Commands.getMatcher(" doThePurchase  -a 22 -i  meat ",Commands.BUY_SHOP);
+        matcher = Commands.getMatcher(" buy  -a 22 -i  meat ",Commands.BUY_SHOP);
         Assertions.assertEquals(shopMenuController.buy(matcher.group("data"), user),ShopAndTradeControllerOut.NOT_ENOUGH_GOLD);
         user.getGovernance().changeGold(2000);
         Assertions.assertEquals(shopMenuController.buy(matcher.group("data"), user),ShopAndTradeControllerOut.PROMPT_CONFIRMATION_FOR_PURCHASE);
