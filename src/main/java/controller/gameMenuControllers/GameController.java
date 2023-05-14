@@ -226,7 +226,7 @@ public class GameController {
         if (!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
             return GameControllerOut.INVALID_COORDINATES;
         GameControllerOut result = createUnit(data);
-        yOFSelectedBuilding = xtemp;
+        xOFSelectedBuilding = xtemp;
         yOFSelectedBuilding = ytemp;
         xCoor = xcoortemp;
         yCoor = ycoortemp;

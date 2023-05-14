@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="" />
+    <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -208,7 +210,7 @@
     <SUITE FILE_PATH="coverage/APPOnMave$MapTests_outputCheckers.ic" NAME="MapTests.outputCheckers Coverage Results" MODIFIED="1683835139384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$TestClass_checkStayedLogin.ic" NAME="TestClass.checkStayedLogin Coverage Results" MODIFIED="1683911275723" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$TestClass_resetUserExist.ic" NAME="TestClass.resetUserExist Coverage Results" MODIFIED="1683911250121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/APPOnMave$MapTests.ic" NAME="MapTests Coverage Results" MODIFIED="1684089888551" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/APPOnMave$MapTests.ic" NAME="MapTests Coverage Results" MODIFIED="1684092751657" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/project$TestClass.ic" NAME="TestClass Coverage Results" MODIFIED="1683816622801" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$TestClass_showSlogan.ic" NAME="TestClass.showSlogan Coverage Results" MODIFIED="1683911261448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$RegisterTests_setUp.ic" NAME="RegisterTests.setUp Coverage Results" MODIFIED="1684088971655" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
@@ -226,7 +228,7 @@
     <SUITE FILE_PATH="coverage/project$Main.ic" NAME="Main Coverage Results" MODIFIED="1683815289446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$TestClass_showScore.ic" NAME="TestClass.showScore Coverage Results" MODIFIED="1683911267608" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APPOnMave$MapTests_rockDrop.ic" NAME="MapTests.rockDrop Coverage Results" MODIFIED="1683829038088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/APPOnMave$TestClass.ic" NAME="TestClass Coverage Results" MODIFIED="1684090475261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/APPOnMave$TestClass.ic" NAME="TestClass Coverage Results" MODIFIED="1684092877069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/APP3$TestClass_correctingDoubleQuotes.ic" NAME="TestClass.correctingDoubleQuotes Coverage Results" MODIFIED="1682103566855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
