@@ -6,7 +6,7 @@ public enum GameControllerOut {
     SUCCESSFULLY_ADDED_GATEHOUSE("Gatehouse added successfully"),
     INVALID_NUMBER_INPUT("Number should be from -2 to 2!"),
     INVALID_FEAR_INPUT("Number should be from -5 to 5!"),
-
+    DONT_HAVE_THE_BUILDING("You don't have the buildings necessary to add this unit"),
     NO_FOOD_NO_RATE_CHANGE("You cannot change food rate; not until you provide some food first"),
     SUCCESSFULLY_CHANGED_FOODRATE("Food rate changed successfully"),
     SUCCESSFULLY_CHANGED_TAXRATE("Tax rate changed successfully"),

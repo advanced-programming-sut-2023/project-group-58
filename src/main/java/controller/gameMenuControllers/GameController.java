@@ -185,9 +185,9 @@ public class GameController {
         this.selectedMap = selectedMap;
     }
 
-    public GameControllerOut createUnit(String data) {
-        String type = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(.+))(?<!\\s))");
-        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
+    public GameControllerOut createUnit(String data, boolean isDrop) {
+        String type = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>([^-]+))(?<!\\s))");
+        String countStr = CommonController.dataExtractor(data, "((?<!\\S)-c\\s+(?<wantedPart>(\\d+))(?<!\\s))");
         if (type.length() == 0 || countStr.length() == 0)
             return GameControllerOut.INVALID_INPUT_FORMAT;
         if (type.trim().length() == 0 || countStr.trim().length() == 0)
@@ -206,8 +206,12 @@ public class GameController {
                 return GameControllerOut.NOT_ENOUGH_WEAPON;
         if (getCurrentUser().getGovernance().getUnemployedPopulation() < count)
             return GameControllerOut.NOT_ENOUGH_PEOPLE;
-        if (!checkPlace(unitType))
-            return GameControllerOut.WRONG_LOCATION;
+        if (!checkPlace(unitType, isDrop)) {
+            if(!isDrop)
+                return GameControllerOut.WRONG_LOCATION;
+            else
+                return GameControllerOut.DONT_HAVE_THE_BUILDING;
+        }
         getCurrentUser().getGovernance().changeGold(-1 * unitType.getCost() * count);
         if (!unitType.getWeaponType().equals(ResourceEnum.NULL))
             getCurrentUser().getGovernance().changeResourceAmount(unitType.getWeaponType(), -1 * count);
@@ -222,11 +226,23 @@ public class GameController {
         int ytemp = yOFSelectedBuilding;
         int xcoortemp = xCoor;
         int ycoortemp = yCoor;
-        if(!extractDataxandy(data))
+        if(!extractDataxandy(data)) {
+            xOFSelectedBuilding = xtemp;
+            yOFSelectedBuilding = ytemp;
+            xCoor = xcoortemp;
+            yCoor = ycoortemp;
             return GameControllerOut.INVALID_INPUT_FORMAT;
-        if (!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
+        }
+        xOFSelectedBuilding = xCoor;
+        yOFSelectedBuilding = yCoor;
+        if (!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth())) {
+            xOFSelectedBuilding = xtemp;
+            yOFSelectedBuilding = ytemp;
+            xCoor = xcoortemp;
+            yCoor = ycoortemp;
             return GameControllerOut.INVALID_COORDINATES;
-        GameControllerOut result = createUnit(data);
+        }
+        GameControllerOut result = createUnit(data, true);
         xOFSelectedBuilding = xtemp;
         yOFSelectedBuilding = ytemp;
         xCoor = xcoortemp;
@@ -234,12 +250,34 @@ public class GameController {
         return result;
     }
 
-    private boolean checkPlace(UnitEnum unitType) {
-        if (unitType.getName().equals("engineer"))
-            return selectedBuilding.getType().equals(BuildingEnum.ENGINEERS_GUILD);
-        else if (unitType.isArab() && selectedBuilding.getType().equals(BuildingEnum.MERCENARY_POST))
-            return true;
-        else return !unitType.isArab() && selectedBuilding.getType().equals(BuildingEnum.BARRACKS);
+    private boolean checkPlace(UnitEnum unitType, boolean isDrop) {
+        if(!isDrop) {
+            if(selectedBuilding == null)
+                return false;
+            if (unitType.getName().equals("engineer"))
+                return selectedBuilding.getType().equals(BuildingEnum.ENGINEERS_GUILD);
+            else if (unitType.isArab() && selectedBuilding.getType().equals(BuildingEnum.MERCENARY_POST))
+                return true;
+            else if (!unitType.isArab() && selectedBuilding.getType().equals(BuildingEnum.BARRACKS))
+                return true;
+        }
+        else {
+            if (unitType.getName().equals("engineer"))
+                return doesBuildingTypeExists(getCurrentUser().getGovernance().getBuildings(), BuildingEnum.ENGINEERS_GUILD);
+            else if(unitType.isArab() && doesBuildingTypeExists(getCurrentUser().getGovernance().getBuildings(), BuildingEnum.MERCENARY_POST))
+                return true;
+            else if(!unitType.isArab() && doesBuildingTypeExists(getCurrentUser().getGovernance().getBuildings(), BuildingEnum.BARRACKS))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean doesBuildingTypeExists(ArrayList<Building> buildings, BuildingEnum type) {
+        for (Building building : buildings) {
+            if(building.getType().equals(type))
+                return true;
+        }
+        return false;
     }
 
     public GameControllerOut repair() {
@@ -344,7 +382,7 @@ public class GameController {
         if (state == null || state.length() == 0 || state.trim().length() == 0)
             return GameControllerOut.INVALID_INPUT_FORMAT;
         state = state.trim();
-        if (!state.equals("standing") && !state.equals("defensive") && !state.equals("offensive]")) ;
+        if (!state.equals("standing") && !state.equals("defensive") && !state.equals("offensive")) ;
         if (!this.selectedMap.getTile(yCoor, xCoor).changeState(state, getCurrentUser()))
             return GameControllerOut.NO_UNIT;
         return GameControllerOut.SUCCESSFULLY_CHANGRD_UNIT_STATE;

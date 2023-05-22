@@ -25,8 +25,8 @@ public class MapMenuController {
     int y2Texture = 0;
     String typeTexture;
 
-    int xShowingMap = 0;
-    int yShowingMap = 0;
+    int xShowingMap = -1;
+    int yShowingMap = -1;
 
     public Map getSelectedMap() {
         return selectedMap;
@@ -411,22 +411,24 @@ public class MapMenuController {
         if (!extractDataxandy(data) || !validateTextureCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
             return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         ans += "The texture is: " + selectedMap.getTile(yTexture, xTexture).getTexture().toString();
+        if (xShowingMap == -1) xShowingMap = xTexture;
+        if (yShowingMap == -1) yShowingMap = yTexture;
         //getting trees:
-        if (selectedMap.getTile(yTexture, xShowingMap).existTree())
-            ans += extractTrees(selectedMap.getTile(yTexture, xShowingMap).getTrees());
+        if (selectedMap.getTile(yShowingMap, xShowingMap).existTree())
+            ans += extractTrees(selectedMap.getTile(yShowingMap, xShowingMap).getTrees());
         //getting buildings:
-        if (selectedMap.getTile(yTexture, xShowingMap).getBuildings().size() != 0)
-            ans += selectedMap.getTile(yTexture, xShowingMap).showBuildings();
+        if (selectedMap.getTile(yShowingMap, xShowingMap).getBuildings().size() != 0)
+            ans += selectedMap.getTile(yShowingMap, xShowingMap).showBuildings();
         //getting troops:
         if (selectedMap.getTile(yTexture, xShowingMap).getPlayersUnits().size() != 0)
-            ans += extractUnits(selectedMap.getTile(yTexture, xShowingMap).getPlayersUnits());
+            ans += extractUnits(selectedMap.getTile(yShowingMap, xShowingMap).getPlayersUnits());
         xTexture = 0;
         yTexture = 0;
         return ans;
     }
 
     private String extractUnits(HashMap<String, ArrayList<Unit>> playersUnits) {
-        String ans = "";
+        String ans = "\n";
         for (java.util.Map.Entry<String, ArrayList<Unit>> entry : playersUnits.entrySet()) {
             ans += "|__Owner: " + entry.getKey() + " troops:\n" + troopCount(entry.getValue());
         }
@@ -447,7 +449,10 @@ public class MapMenuController {
             }
         }
         for (java.util.Map.Entry<String, Integer> stringIntegerEntry : troopTypes.entrySet()) {
-            ans += "\nType: " + stringIntegerEntry.getKey() + " Count: " + stringIntegerEntry.getValue();
+            if (stringIntegerEntry.getValue() != 0) {
+                if(!ans.equals("")) ans = "\n";
+                ans += "Type: " + stringIntegerEntry.getKey() + " Count: " + stringIntegerEntry.getValue();
+            }
         }
         return ans;
     }

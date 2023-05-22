@@ -11,13 +11,13 @@ import java.util.HashMap;
 public class Governance {
     //todo: everytime a food type is manipulated, popularity should change if updateFoodDiversity changes.
     private static ArrayList<User> empires = new ArrayList<>();
-    private int unemployedPopulation;
-    private int maximumPopulation = 0;
-    private int popularity = 100;
+    private int unemployedPopulation = 25;
+    private int maximumPopulation = 100;
+    private int popularity = 75;
     private int foodRate = -2;
     private int taxRate = 0;
     private int fearRate = 0;
-    private int gold = 500;
+    private int gold = 5000;
     private Storage granary;
     private Storage stockpile;
     private Storage armoury;
@@ -109,6 +109,8 @@ public class Governance {
 
     public void changePopularity(int number) {
         this.popularity += number;
+        if(this.popularity > 100)
+            this.popularity = 100;
     }
 
     public void changeFoodRate(int number) {

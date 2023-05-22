@@ -134,7 +134,14 @@ public class Tile {
     }
 
     public void addUnitToTile(Unit unit) {
-        this.playersUnits.get(unit.getMaster().getUsername()).add(unit);
+        if(this.playersUnits.get(unit.getMaster().getUsername()) == null) {
+            ArrayList<Unit> addingUnit = new ArrayList<>();
+            addingUnit.add(unit);
+            this.playersUnits.put(unit.getMaster().getUsername(), addingUnit);
+        }
+        else {
+            this.playersUnits.get(unit.getMaster().getUsername()).add(unit);
+        }
     }
 
     public boolean areEnemiesHere(User current) {
