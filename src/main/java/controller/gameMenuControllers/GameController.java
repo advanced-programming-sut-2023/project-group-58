@@ -216,7 +216,7 @@ public class GameController {
         return GameControllerOut.SUCCESSFULLY_CREATED_UNIT;
     }
 
-    
+
     public GameControllerOut dropUnit(String data) {
         int xtemp = xOFSelectedBuilding;
         int ytemp = yOFSelectedBuilding;
