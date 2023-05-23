@@ -738,6 +738,16 @@ public class GameController {
         int rate = CurrentUser.getGovernance().getFearRate();
         getCurrentUser().getGovernance().changePopularity(rate * -2);
     }
+    public void churchEffect(){
+        int count=0;
+        ArrayList<Building> buildings = CurrentUser.getGovernance().getBuildings();
+        for (Building building : buildings){
+            if (building.getType().getName().equals("cathedral") || building.getType().getName().equals("church")){
+                count++;
+            }
+        }
+        CurrentUser.getGovernance().changePopularity(count*2);
+    }
     public void produce() {
         for (User empire : Governance.getEmpires()) {
             //first wave:
