@@ -89,7 +89,8 @@ public class GameMenu {
                 gameController.produce();
                 gameController.setTargets();
                 gameController.mapMotion();
-                gameController.updateRates();
+                gameController.foodRateEffect();
+                gameController.taxRateEffect();
                 //set target, fight , move , update resources , govern functions lie here
                 //soldier's damage should be set according to the fear rate at each turn
                 this.currentUser = Governance.getNextPlayer(this.currentUser);

@@ -10,6 +10,7 @@ import model.units.UnitEnum;
 import view.enums.GameControllerOut;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.regex.Matcher;
@@ -52,83 +53,6 @@ public class GameController {
         int fearRate = ruler.getGovernance().getFearRate();
         return fearRate * 5 + 100;
     }
-
-    public void updateRates() {
-        int foodRate = getCurrentUser().getGovernance().getFoodRate();
-        switch (foodRate) {
-            case -2:
-                this.CurrentUser.getGovernance().changePopularity(-8);
-                break;
-            case -1:
-                this.CurrentUser.getGovernance().changePopularity(-4);
-                break;
-            case 0:
-                break;
-            case 1:
-                this.CurrentUser.getGovernance().changePopularity(4);
-                break;
-            case 2:
-                this.CurrentUser.getGovernance().changePopularity(8);
-                break;
-        }
-        int diversity = getCurrentUser().getGovernance().getFoodDiversity();
-        switch (diversity) {
-            case 1:
-                this.CurrentUser.getGovernance().changePopularity(0);
-                break;
-            case 2:
-                this.CurrentUser.getGovernance().changePopularity(1);
-                break;
-            case 3:
-                this.CurrentUser.getGovernance().changePopularity(2);
-                break;
-            case 4:
-                this.CurrentUser.getGovernance().changePopularity(3);
-                break;
-        }
-        int taxRate = getCurrentUser().getGovernance().getTaxRate();
-        switch (taxRate) {
-            case -3:
-                this.CurrentUser.getGovernance().changePopularity(7);
-                break;
-            case -2:
-                this.CurrentUser.getGovernance().changePopularity(5);
-                break;
-            case -1:
-                this.CurrentUser.getGovernance().changePopularity(3);
-                break;
-            case 0:
-                this.CurrentUser.getGovernance().changePopularity(1);
-                break;
-            case 1:
-                this.CurrentUser.getGovernance().changePopularity(-2);
-                break;
-            case 2:
-                this.CurrentUser.getGovernance().changePopularity(-4);
-                break;
-            case 3:
-                this.CurrentUser.getGovernance().changePopularity(-6);
-                break;
-            case 4:
-                this.CurrentUser.getGovernance().changePopularity(-8);
-                break;
-            case 5:
-                this.CurrentUser.getGovernance().changePopularity(-12);
-                break;
-            case 6:
-                this.CurrentUser.getGovernance().changePopularity(-16);
-                break;
-            case 7:
-                this.CurrentUser.getGovernance().changePopularity(-20);
-                break;
-            case 8:
-                this.CurrentUser.getGovernance().changePopularity(-24);
-                break;
-        }
-        int fearRate = getCurrentUser().getGovernance().getFearRate();
-        getCurrentUser().getGovernance().changePopularity(fearRate * -2);
-    }
-
     public GameControllerOut setFoodRate(String rateNumber) {
         if (this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.APPLE) == 0 &&
                 this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.BREAD) == 0 &&
@@ -138,24 +62,7 @@ public class GameController {
         if (rateNumber == null || rateNumber.length() == 0 || rateNumber.trim().length() == 0)
             return GameControllerOut.INVALID_INPUT_FORMAT;
         int rate = Integer.parseInt(rateNumber.trim());
-        switch (rate) {
-            case -2:
-                this.CurrentUser.getGovernance().changePopularity(-8);
-                break;
-            case -1:
-                this.CurrentUser.getGovernance().changePopularity(-4);
-                break;
-            case 0:
-                break;
-            case 1:
-                this.CurrentUser.getGovernance().changePopularity(4);
-                break;
-            case 2:
-                this.CurrentUser.getGovernance().changePopularity(8);
-                break;
-            default:
-                return GameControllerOut.INVALID_NUMBER_INPUT;
-        }
+        if (rate>2 || rate<-2) return GameControllerOut.INVALID_NUMBER_INPUT;
         this.CurrentUser.getGovernance().changeFoodRate(rate);
         return GameControllerOut.SUCCESSFULLY_CHANGED_FOODRATE;
     }
@@ -168,46 +75,7 @@ public class GameController {
         if (this.CurrentUser.getGovernance().getGold() <= 0)
             return GameControllerOut.NO_GOLD_NO_RATE_CHANGE;
         int rate = Integer.parseInt(rateNumber.trim());
-        switch (rate) {
-            case -3:
-                this.CurrentUser.getGovernance().changePopularity(7);
-                break;
-            case -2:
-                this.CurrentUser.getGovernance().changePopularity(5);
-                break;
-            case -1:
-                this.CurrentUser.getGovernance().changePopularity(3);
-                break;
-            case 0:
-                this.CurrentUser.getGovernance().changePopularity(1);
-                break;
-            case 1:
-                this.CurrentUser.getGovernance().changePopularity(-2);
-                break;
-            case 2:
-                this.CurrentUser.getGovernance().changePopularity(-4);
-                break;
-            case 3:
-                this.CurrentUser.getGovernance().changePopularity(-6);
-                break;
-            case 4:
-                this.CurrentUser.getGovernance().changePopularity(-8);
-                break;
-            case 5:
-                this.CurrentUser.getGovernance().changePopularity(-12);
-                break;
-            case 6:
-                this.CurrentUser.getGovernance().changePopularity(-16);
-                break;
-            case 7:
-                this.CurrentUser.getGovernance().changePopularity(-20);
-                break;
-            case 8:
-                this.CurrentUser.getGovernance().changePopularity(-24);
-                break;
-            default:
-                return GameControllerOut.INVALID_NUMBER_INPUT;
-        }
+        if (rate<-3 || rate>8) return GameControllerOut.INVALID_NUMBER_INPUT;
         this.CurrentUser.getGovernance().changeTaxRate(rate);
         return GameControllerOut.SUCCESSFULLY_CHANGED_TAXRATE;
     }
@@ -438,7 +306,6 @@ public class GameController {
             return GameControllerOut.INVALID_FEAR_INPUT;
         getCurrentUser().getGovernance().changeFearRate(rate);
         //more fear, less popularity:
-        getCurrentUser().getGovernance().changePopularity(rate * -2);
         return GameControllerOut.SUCCESSFULLY_CHANGED_FEAR_RATE;
     }
 
@@ -790,7 +657,77 @@ public class GameController {
             }
         }
     }
-
+    public void foodRateEffect(){
+        int rate = CurrentUser.getGovernance().getFoodRate();
+        switch (rate) {
+            case -2:
+                this.CurrentUser.getGovernance().changePopularity(-8);
+                break;
+            case -1:
+                this.CurrentUser.getGovernance().changePopularity(-4);
+                break;
+            case 0:
+                break;
+            case 1:
+                this.CurrentUser.getGovernance().changePopularity(4);
+                break;
+            case 2:
+                this.CurrentUser.getGovernance().changePopularity(8);
+                break;
+        }
+        ArrayList<Resource> resources = CurrentUser.getGovernance().getResources();
+        int countOfFood = 0;
+        for (Resource resource : resources){
+            String name = resource.getType().getName();
+            if (name.equals("apple")||name.equals("meat")||name.equals("bread")||name.equals("cheese")) countOfFood++;
+        }
+        CurrentUser.getGovernance().changePopularity(countOfFood-1);
+    }
+    public void taxRateEffect(){
+        int rate = CurrentUser.getGovernance().getTaxRate();
+        switch (rate) {
+            case -3:
+                this.CurrentUser.getGovernance().changePopularity(7);
+                break;
+            case -2:
+                this.CurrentUser.getGovernance().changePopularity(5);
+                break;
+            case -1:
+                this.CurrentUser.getGovernance().changePopularity(3);
+                break;
+            case 0:
+                this.CurrentUser.getGovernance().changePopularity(1);
+                break;
+            case 1:
+                this.CurrentUser.getGovernance().changePopularity(-2);
+                break;
+            case 2:
+                this.CurrentUser.getGovernance().changePopularity(-4);
+                break;
+            case 3:
+                this.CurrentUser.getGovernance().changePopularity(-6);
+                break;
+            case 4:
+                this.CurrentUser.getGovernance().changePopularity(-8);
+                break;
+            case 5:
+                this.CurrentUser.getGovernance().changePopularity(-12);
+                break;
+            case 6:
+                this.CurrentUser.getGovernance().changePopularity(-16);
+                break;
+            case 7:
+                this.CurrentUser.getGovernance().changePopularity(-20);
+                break;
+            case 8:
+                this.CurrentUser.getGovernance().changePopularity(-24);
+                break;
+        }
+    }
+    public void fearRateEffect(){
+        int rate = CurrentUser.getGovernance().getFearRate();
+        getCurrentUser().getGovernance().changePopularity(rate * -2);
+    }
     public void produce() {
         for (User empire : Governance.getEmpires()) {
             //first wave:
