@@ -3,10 +3,7 @@ package controller.gameMenuControllers;
 import controller.CommonController;
 import controller.PatchFinding;
 import model.*;
-import model.buildings.Building;
-import model.buildings.BuildingEnum;
-import model.buildings.Gate;
-import model.buildings.Trap;
+import model.buildings.*;
 import model.units.Troop;
 import model.units.Unit;
 import model.units.UnitEnum;
@@ -52,11 +49,10 @@ public class GameController {
         return "This is your popularity: " + this.CurrentUser.getGovernance().getPopularity();
     }
 
-    public int getPerfomance(User ruler) {
+    public int getPerformance(User ruler) {
         int fearRate = ruler.getGovernance().getFearRate();
         return fearRate * 5 + 100;
     }
-
     public GameControllerOut setFoodRate(String rateNumber) {
         if (this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.APPLE) == 0 &&
                 this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.BREAD) == 0 &&
@@ -83,6 +79,7 @@ public class GameController {
         this.CurrentUser.getGovernance().changeTaxRate(rate);
         return GameControllerOut.SUCCESSFULLY_CHANGED_TAXRATE;
     }
+
 
     public String showTaxRate() {
         return "This is tax rate: " + this.CurrentUser.getGovernance().getTaxRate();
@@ -461,7 +458,7 @@ public class GameController {
 
     private void damageBuildings(Tile tile, Unit unit) {
         int totalDamage = 0;
-        int performance =getPerfomance(getCurrentUser());
+        int performance = getPerformance(getCurrentUser());
         for (Troop troop : unit.getTroops()) {
             if (!troop.isDead())
                 totalDamage += troop.getType().getDamage() * performance;
@@ -496,7 +493,7 @@ public class GameController {
 
     private void shootNeighbors(Tile tile, Unit unit) {
         if (unit.getTroops().size() == 0) return;
-        int performance = getPerfomance(unit.getMaster());
+        int performance = getPerformance(unit.getMaster());
         for (Troop troop : unit.getTroops()) {
             int range = troop.getType().getRange();
             for (int i = -1 * range; i < range; i++)
@@ -524,9 +521,9 @@ public class GameController {
         for (Troop troop : unit.getTroops()) {
             for (Troop unit1Troop : unit1.getTroops()) {
                 if (!unit1Troop.isDead())
-                    troop.takeDamage(unit1Troop.getType().getDamage() *  getPerfomance(unit1.getMaster()) / 100);
+                    troop.takeDamage(unit1Troop.getType().getDamage() *  getPerformance(unit1.getMaster()) / 100);
                 if (!troop.isDead())
-                    unit1Troop.takeDamage(troop.getType().getDamage() * getPerfomance(unit.getMaster()) / 100);
+                    unit1Troop.takeDamage(troop.getType().getDamage() * getPerformance(unit.getMaster()) / 100);
             }
         }
     }
@@ -723,5 +720,24 @@ public class GameController {
     public void fearRateEffect(){
         int rate = CurrentUser.getGovernance().getFearRate();
         getCurrentUser().getGovernance().changePopularity(rate * -2);
+    }
+    public void produce() {
+        for (User empire : Governance.getEmpires()) {
+            //first wave:
+            for (Building building : empire.getGovernance().getBuildings()) {
+                if(building.getType().getWave() == 1)
+                    ((ResourceMaker)building).produceAfterEachTurn();
+            }
+            //second wave:
+            for (Building building : empire.getGovernance().getBuildings()) {
+                if(building.getType().getWave() == 2)
+                    ((ResourceMaker)building).produceAfterEachTurn();
+            }
+            //third wave:
+            for (Building building : empire.getGovernance().getBuildings()) {
+                if(building.getType().getWave() == 3)
+                    ((ResourceMaker)building).produceAfterEachTurn();
+            }
+        }
     }
 }

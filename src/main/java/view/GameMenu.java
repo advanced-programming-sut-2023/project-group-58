@@ -86,6 +86,7 @@ public class GameMenu {
                 TradeMenu tradeMenu = new TradeMenu(currentUser);
                 tradeMenu.run();
             } else if ((matcher = Commands.getMatcher(command, Commands.NEXT_TURN)) != null) {
+                gameController.produce();
                 gameController.setTargets();
                 gameController.mapMotion();
                 gameController.foodRateEffect();
