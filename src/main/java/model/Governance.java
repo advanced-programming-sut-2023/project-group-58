@@ -32,6 +32,8 @@ public class Governance {
 
     public Governance() {
         resources.add(new Resource(ResourceEnum.WOOD, 50));
+        resources.add(new Resource(ResourceEnum.APPLE, 50));
+        resources.add(new Resource(ResourceEnum.BREAD, 50));
         resources.add(new Resource(ResourceEnum.STONE, 50));
     }
 
@@ -113,18 +115,20 @@ public class Governance {
         this.popularity += number;
         if (this.popularity > 100)
             this.popularity = 100;
+        if (popularity<0)
+            popularity = 0;
     }
 
     public void changeFoodRate(int number) {
-        this.foodRate += number;
+        this.foodRate = number;
     }
 
     public void changeFearRate(int number) {
-        this.fearRate += number;
+        this.fearRate = number;
     }
 
     public void changeTaxRate(int number) {
-        this.taxRate += number;
+        this.taxRate = number;
     }
 
     public Building getGranary() {
@@ -237,4 +241,17 @@ public class Governance {
         if (unit != null || unit.getTroops().size() != 0)
             this.units.add(unit);
     }
+
+    public void setFoodRate(int foodRate) {
+        this.foodRate = foodRate;
+    }
+
+    public void setTaxRate(int taxRate) {
+        this.taxRate = taxRate;
+    }
+
+    public void setFearRate(int fearRate) {
+        this.fearRate = fearRate;
+    }
+
 }

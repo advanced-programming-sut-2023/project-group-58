@@ -88,6 +88,8 @@ public class GameMenu {
             } else if ((matcher = Commands.getMatcher(command, Commands.NEXT_TURN)) != null) {
                 gameController.setTargets();
                 gameController.mapMotion();
+                gameController.foodRateEffect();
+                gameController.taxRateEffect();
                 //set target, fight , move , update resources , govern functions lie here
                 //soldier's damage should be set according to the fear rate at each turn
                 this.currentUser = Governance.getNextPlayer(this.currentUser);
