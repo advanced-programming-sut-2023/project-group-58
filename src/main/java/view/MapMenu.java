@@ -66,7 +66,9 @@ public class MapMenu {
             System.out.println("Then custom map shall it be!\nChoose the map scale:");
             for (int i = 1; i < 9; i++)
                 System.out.println(i + ". " + i * 100 + " * " + i * 100);
-            int givenRange = ScanMatch.getScanner().nextInt();
+            answer = ScanMatch.getScanner().nextLine().trim();
+            //todo: error handling
+            int givenRange = Integer.parseInt(answer);
             if (givenRange <= 0 || givenRange >= 9) {
                 System.out.println(ProfisterControllerOut.INVALID_INPUT_FORMAT);
                 return null;
