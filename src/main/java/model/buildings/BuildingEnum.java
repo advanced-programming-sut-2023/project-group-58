@@ -97,3 +97,4 @@ public enum BuildingEnum {
         return rate;
     }
 }
+

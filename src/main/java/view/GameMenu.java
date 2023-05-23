@@ -62,7 +62,11 @@ public class GameMenu {
                 } else System.out.println("You should go to the gatehouse first!");
             } else if ((matcher = Commands.getMatcher(command, Commands.SHOW_FOOD_RATE)) != null) {
                 System.out.println(gameController.showFoodRate());
-            } else if ((matcher = Commands.getMatcher(command, Commands.SHOW_TAX_RATE)) != null) {
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.DROP_UNIT)) != null) {
+                System.out.println(gameController.dropUnit(matcher.group("data")));
+            }
+            else if ((matcher = Commands.getMatcher(command, Commands.SHOW_TAX_RATE)) != null) {
                 System.out.println(gameController.showTaxRate());
             } else if ((matcher = Commands.getMatcher(command, Commands.SELECT_BUILDING)) != null) {
                 System.out.println(gameController.selectBuilding(matcher.group("data")));

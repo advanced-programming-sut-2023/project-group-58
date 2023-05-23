@@ -186,17 +186,22 @@ public class GameController {
     }
 
     public GameControllerOut createUnit(String data) {
-        String type = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(.+))(?<!\\s))");
+        String type = CommonController.dataExtractor(data, "((?<!\\S)-t\\s+(?<wantedPart>(.+))(?<!\\s))");
         String countStr = CommonController.dataExtractor(data, "((?<!\\S)-x\\s+(?<wantedPart>(\\d+))(?<!\\s))");
-        if (type.length() == 0 || countStr.length() == 0)
+        if (type.length() == 0 || countStr.length() == 0) {
+
             return GameControllerOut.INVALID_INPUT_FORMAT;
-        if (type.trim().length() == 0 || countStr.trim().length() == 0)
+        }
+        if (type.trim().length() == 0 || countStr.trim().length() == 0) {
+
             return GameControllerOut.INVALID_INPUT_FORMAT;
+        }
         int count = Integer.parseInt(countStr.trim());
         type = type.trim();
         UnitEnum unitType = CommonController.unitTypeSpecifier(type);
-        if (unitType == null)
+        if (unitType == null) {
             return GameControllerOut.INVALID_INPUT_FORMAT;
+        }
         if (count == 0)
             return GameControllerOut.ZERO;
         if (getCurrentUser().getGovernance().getGold() < unitType.getCost() * count)
