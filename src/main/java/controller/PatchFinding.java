@@ -3,6 +3,9 @@ package controller;
 import model.Map;
 import model.Point;
 import model.Tile;
+import model.User;
+import model.buildings.Building;
+import model.buildings.BuildingEnum;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +13,11 @@ import java.util.HashSet;
 import java.util.List;
 
 public class PatchFinding {
+    private static User currentForce;
+
+    public static void setCurrentForce(User currentForce) {
+        PatchFinding.currentForce = currentForce;
+    }
 
     public static List<Point> findPath(Map map, Point startPos, Point targetPos, boolean allowDiagonals) {
         // Find path
@@ -57,9 +65,9 @@ public class PatchFinding {
 
             for (Tile neighbour : neighbours) {
                 if (!neighbour.getTexture().isWalkability() || closedSet.contains(neighbour)) continue;
-                if (neighbour.existTree() || !neighbour.checkPossibleBuilding()) continue;
+                if (neighbour.existTree() || !neighbour.checkPossibleBuilding(currentForce)) continue;
 
-                int newMovementCostToNeighbour = currentTile.getgCost() + getDistance(currentTile, neighbour) * (int) (10.0f * neighbour.getPrice());
+                int newMovementCostToNeighbour = currentTile.getgCost() + getDistance(currentTile, neighbour) * (int) (10.0f * neighbour.getPrice(currentForce));
                 if (newMovementCostToNeighbour < neighbour.getgCost() || !openSet.contains(neighbour)) {
                     neighbour.setgCost(newMovementCostToNeighbour);
                     neighbour.sethCost(getDistance(neighbour, targetTile));

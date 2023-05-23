@@ -3,8 +3,8 @@ package model;
 import model.buildings.Building;
 import model.buildings.Gate;
 import model.buildings.Trap;
+import model.units.Troop;
 import model.units.Unit;
-import model.units.UnitEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +17,7 @@ public class Tile {
     private boolean hasTrap;
     private int gCost;
     private int hCost;
+    private int distance;
     private String rockDirection = "#";
     private TileTexture texture = TileTexture.EARTH;
     private ArrayList<Tree> trees = new ArrayList<>();
@@ -24,7 +25,7 @@ public class Tile {
     //assuming a tile can have more than one tree. (since it can have multiple units)
     private ArrayList<Building> buildings = new ArrayList<>();
 
-    public boolean isHasTrap() {
+    public boolean isTrap() {
         return hasTrap;
     }
 
@@ -62,7 +63,7 @@ public class Tile {
     }
 
     public char getTileOccupation() {
-        if (!this.playersUnits.isEmpty())
+        if (this.playersUnits.size() != 0)
             return 'S';
         else if (this.buildings.size() > 0)
             return 'B';
@@ -80,22 +81,6 @@ public class Tile {
         this.texture = TileTexture.EARTH;
     }
 
-//    public String countTroops() {
-//            String ans = new String();
-//            troopCount = new HashMap<>();
-//            for (Troop troop : this.troops) {
-//                int addingNumber = troopCount.get(troop.getTypeName());
-//                troopCount.put(troop.getTypeName(),addingNumber+1);
-//            }
-//            Iterator<java.util.Map.Entry<UnitEnum, Integer>> it = troopCount.entrySet().iterator();
-//            // iterating every set of entry in the HashMap.
-//            while (it.hasNext()) {
-//                Map.Entry<UnitEnum , Integer> saving = it.next();
-//                ans += "Type " + saving.getKey() + " -> " + saving.getValue() + "\n";
-//            }
-//            return ans;
-//    }
-
     public String showBuildings() {
         String ans = "\nBuilding(s) here:";
         for (Building building : this.buildings) {
@@ -112,6 +97,40 @@ public class Tile {
         return null;
     }
 
+    public void setPetrolStatus(User master, int xorigin, int yorigin, Point[] des) {
+        for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
+            if (arrayListEntry.getKey().equals(master.getUsername())) {
+                for (Unit unit : arrayListEntry.getValue())
+                    if (unit.getxOrigin() == xorigin && unit.getyOrigin() == yorigin) {
+                        unit.setPatrolDestinations(des);
+                        unit.setOnPatrol(true);
+                        //you might want to break here
+                    }
+            }
+        }
+    }
+
+    public Unit findUnitByOrigin(User master, int xorigin, int yorigin) {
+        for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
+            if (arrayListEntry.getKey().equals(master.getUsername())) {
+                for (Unit unit : arrayListEntry.getValue())
+                    if (unit.getxOrigin() == xorigin && unit.getyOrigin() == yorigin)
+                        return unit;
+            }
+        }
+        return null;
+    }
+
+    public int getLongRangeDamage(User master, int xorigin, int yorigin, int distance) {
+        Unit selected = findUnitByOrigin(master,xorigin,yorigin);
+        int totalDamage = 0;
+        for (Troop troop : selected.getTroops()) {
+            if(troop.getType().getRange() >= distance)
+                totalDamage += troop.getType().getDamage() * (master.getGovernance().getFearRate() * 5 + 100);
+        }
+        return totalDamage / 100;
+    }
+
     public boolean changeState(String state, User master) {
         boolean exist = false;
         for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet())
@@ -124,17 +143,24 @@ public class Tile {
         return exist;
     }
 
-    public void unifyYourUnits(Unit unit) {
-        ArrayList<Unit> replacement = new ArrayList<>();
-        replacement.add(unit);
+    public void unifyYourUnits(ArrayList<Unit> replacement, User master) {
+        if(replacement == null || replacement.size() == 0)
+            this.playersUnits.remove(master.getUsername());
         for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
-            if (arrayListEntry.getKey().equals(unit.getMaster().getUsername()))
+            if (arrayListEntry.getKey().equals(master.getUsername()))
                 arrayListEntry.setValue(replacement);
         }
     }
 
     public void addUnitToTile(Unit unit) {
-        this.playersUnits.get(unit.getMaster().getUsername()).add(unit);
+        if (this.playersUnits.get(unit.getMaster().getUsername()) == null ||
+                this.playersUnits.get(unit.getMaster().getUsername()).size() == 0) {
+            ArrayList<Unit> addingUnit = new ArrayList<>();
+            addingUnit.add(unit);
+            this.playersUnits.put(unit.getMaster().getUsername(), addingUnit);
+        } else {
+            this.playersUnits.get(unit.getMaster().getUsername()).add(unit);
+        }
     }
 
     public boolean areEnemiesHere(User current) {
@@ -145,9 +171,6 @@ public class Tile {
         return false;
     }
 
-    public void workingTrap() {
-        //todo
-    }
 
     public int getX() {
         return x;
@@ -198,9 +221,9 @@ public class Tile {
         this.hCost = hCost;
     }
 
-    public float getPrice() {
+    public float getPrice(User currentForce) {
         if (!texture.isWalkability() || existTree()) return 0.0f;
-        if (!checkPossibleBuilding()) return 0.0f;
+        if (!checkPossibleBuilding(currentForce)) return 0.0f;
         return 1.0f;
     }
 
@@ -209,11 +232,12 @@ public class Tile {
         return true;
     }
 
-    public boolean checkPossibleBuilding() {
+    public boolean checkPossibleBuilding(User currentForce) {
         for (Building building : buildings) {
             if (building instanceof Gate) {
                 if (!((Gate) building).isOpen()) return false;
             } else if (building instanceof Trap) {
+                if (building.getOwner().getUsername().equals(currentForce.getUsername())) return false;
                 if (((Trap) building).isVisible()) return false;
             } else return false;
         }
@@ -222,5 +246,38 @@ public class Tile {
 
     public HashMap<String, ArrayList<Unit>> getPlayersUnits() {
         return playersUnits;
+    }
+
+    public void removeAUnit(Unit unit) {
+        ArrayList<Unit> usersUnits = findYourUnits(unit.getMaster());
+        ArrayList<Unit> replacement = new ArrayList<>();
+        for (Unit usersUnit : usersUnits) {
+            if (usersUnit.getxOrigin() != unit.getxOrigin() || usersUnit.getyOrigin() != unit.getyOrigin())
+                replacement.add(usersUnit);
+        }
+        unifyYourUnits(replacement , unit.getMaster());
+    }
+
+    public void damageAllEnemies(User master, int damage) {
+        for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
+            if (!arrayListEntry.getKey().equals(master.getUsername())) {
+                for (Unit unit : arrayListEntry.getValue()) {
+                    unit.takeSteadyDamageForAll(damage);
+                    unit.clearTheDead();
+                }
+            }
+        }
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public int compareTo(Tile other) {
+        return Double.compare(distance, other.distance);
     }
 }

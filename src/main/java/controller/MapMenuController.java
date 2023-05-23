@@ -1,12 +1,11 @@
 package controller;
 
-import controller.gameMenuControllers.GameController;
+import controller.modelFunctions.BuildingFuncs;
 import model.*;
 import model.buildings.*;
 import model.units.Troop;
 import model.units.Unit;
 import model.units.UnitEnum;
-import view.enums.GameControllerOut;
 import view.enums.ProfisterControllerOut;
 import view.enums.TreeTypes;
 
@@ -25,8 +24,8 @@ public class MapMenuController {
     int y2Texture = 0;
     String typeTexture;
 
-    int xShowingMap = 0;
-    int yShowingMap = 0;
+    int xShowingMap = -1;
+    int yShowingMap = -1;
 
     public Map getSelectedMap() {
         return selectedMap;
@@ -268,8 +267,8 @@ public class MapMenuController {
     public boolean validateTextureCoordinates(int mapLength, int mapWidth) {
         x2Texture = x2Texture == -1 ? 0 : x2Texture;
         y2Texture = y2Texture == -1 ? 0 : y2Texture;
-        return xTexture >= 0 && xTexture <= mapWidth - 1 && yTexture >= 0 && yTexture <= mapLength - 1 &&
-                x2Texture >= 0 && x2Texture <= mapWidth - 1 && y2Texture >= 0 && y2Texture <= mapLength - 1;
+        return xTexture >= 0 && xTexture <= mapLength - 1 && yTexture >= 0 && yTexture <= mapWidth - 1 &&
+                x2Texture >= 0 && x2Texture <= mapLength - 1 && y2Texture >= 0 && y2Texture <= mapWidth - 1;
     }
 
     public TileTexture convertStringTextureToEnum(String typeTexture) {
@@ -411,22 +410,24 @@ public class MapMenuController {
         if (!extractDataxandy(data) || !validateTextureCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
             return ProfisterControllerOut.INVALID_INPUT_FORMAT.getContent();
         ans += "The texture is: " + selectedMap.getTile(yTexture, xTexture).getTexture().toString();
+        if (xShowingMap == -1) xShowingMap = xTexture;
+        if (yShowingMap == -1) yShowingMap = yTexture;
         //getting trees:
-        if (selectedMap.getTile(yTexture, xShowingMap).existTree())
-            ans += extractTrees(selectedMap.getTile(yTexture, xShowingMap).getTrees());
+        if (selectedMap.getTile(yShowingMap, xShowingMap).existTree())
+            ans += extractTrees(selectedMap.getTile(yShowingMap, xShowingMap).getTrees());
         //getting buildings:
-        if (selectedMap.getTile(yTexture, xShowingMap).getBuildings().size() != 0)
-            ans += selectedMap.getTile(yTexture, xShowingMap).showBuildings();
+        if (selectedMap.getTile(yShowingMap, xShowingMap).getBuildings().size() != 0)
+            ans += selectedMap.getTile(yShowingMap, xShowingMap).showBuildings();
         //getting troops:
         if (selectedMap.getTile(yTexture, xShowingMap).getPlayersUnits().size() != 0)
-            ans += extractUnits(selectedMap.getTile(yTexture, xShowingMap).getPlayersUnits());
+            ans += extractUnits(selectedMap.getTile(yShowingMap, xShowingMap).getPlayersUnits());
         xTexture = 0;
         yTexture = 0;
         return ans;
     }
 
     private String extractUnits(HashMap<String, ArrayList<Unit>> playersUnits) {
-        String ans = "";
+        String ans = "\n";
         for (java.util.Map.Entry<String, ArrayList<Unit>> entry : playersUnits.entrySet()) {
             ans += "|__Owner: " + entry.getKey() + " troops:\n" + troopCount(entry.getValue());
         }
@@ -438,16 +439,25 @@ public class MapMenuController {
         HashMap<String, Integer> troopTypes = new HashMap<>();
         EnumSet<UnitEnum> unitEnums = EnumSet.allOf(UnitEnum.class);
         for (UnitEnum unitEnum : unitEnums) {
-            troopTypes.put(unitEnum.getName(), 0);
+            troopTypes.put(unitEnum.getName(),0);
         }
         for (Unit unit : units) {
-            for (java.util.Map.Entry<UnitEnum, ArrayList<Troop>> enumArrayListEntry : unit.getTroops().entrySet()) {
-                int temp = troopTypes.get(enumArrayListEntry.getKey().getName());
-                troopTypes.put(enumArrayListEntry.getKey().getName(), enumArrayListEntry.getValue().size() + temp);
+            for (Troop troop : unit.getTroops()) {
+                String type = troop.getType().getName();
+                troopTypes.put(type,troopTypes.get(type) + 1);
             }
         }
+//        for (Unit unit : units) {
+//            for (java.util.Map.Entry<UnitEnum, ArrayList<Troop>> enumArrayListEntry : unit.getTroops().entrySet()) {
+//                int temp = troopTypes.get(enumArrayListEntry.getKey().getName());
+//                troopTypes.put(enumArrayListEntry.getKey().getName(), enumArrayListEntry.getValue().size() + temp);
+//            }
+//        }
         for (java.util.Map.Entry<String, Integer> stringIntegerEntry : troopTypes.entrySet()) {
-            ans += "\nType: " + stringIntegerEntry.getKey() + " Count: " + stringIntegerEntry.getValue();
+            if (stringIntegerEntry.getValue() != 0) {
+                if(!ans.equals("")) ans = "\n";
+                ans += "Type: " + stringIntegerEntry.getKey() + " Count: " + stringIntegerEntry.getValue();
+            }
         }
         return ans;
     }
@@ -516,8 +526,21 @@ public class MapMenuController {
         }
         this.selectedMap.getTile(yTexture, xTexture).getBuildings().add(addingBuilding);
         currentPlayer.getGovernance().getBuildings().add(addingBuilding);
+        primaryPerformance(currentPlayer,addingBuilding);
         if (!enoughPlayers) return ProfisterControllerOut.CREATED_EMPTY_BUILDING;
         return ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING;
+    }
+
+    private void primaryPerformance(User currentPlayer, Building addingBuilding) {
+        BuildingFuncs buildingFuncs = new BuildingFuncs();
+        if(addingBuilding.getType().equals(BuildingEnum.CHURCH))
+            buildingFuncs.church(currentPlayer);
+        if(addingBuilding.getType().equals(BuildingEnum.CATHEDRAL))
+            buildingFuncs.cathedral(currentPlayer);
+        if(addingBuilding.getType().equals(BuildingEnum.HOVEL))
+            buildingFuncs.hovel(currentPlayer);
+        if(addingBuilding.getType().equals(BuildingEnum.KILLING_PIT))
+            buildingFuncs.killingpit(currentPlayer);
     }
 
     private boolean isItNearGateHouse() {

@@ -8,6 +8,7 @@ public class Building {
     protected User owner;
     protected int direction;
     protected boolean active;
+    protected boolean destroyed = false;
 
     public Building(BuildingEnum type, User owner, int direction, boolean active) {
         this.type = type;
@@ -47,5 +48,16 @@ public class Building {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public void takeDamage(int damage) {
+        if(!destroyed)
+            hp -= damage;
+        if(hp <= 0) {
+            //!active && !destroyed -> with enough people, the building can function again.
+            //!active && destroyed  -> building can't function unless it is repaired first.
+            destroyed = true;
+            active = false;
+        }
     }
 }

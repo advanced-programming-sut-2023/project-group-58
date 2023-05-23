@@ -6,7 +6,7 @@ public enum GameControllerOut {
     SUCCESSFULLY_ADDED_GATEHOUSE("Gatehouse added successfully"),
     INVALID_NUMBER_INPUT("Number should be from -2 to 2!"),
     INVALID_FEAR_INPUT("Number should be from -5 to 5!"),
-
+    DONT_HAVE_THE_BUILDING("You don't have the buildings necessary to add this unit"),
     NO_FOOD_NO_RATE_CHANGE("You cannot change food rate; not until you provide some food first"),
     SUCCESSFULLY_CHANGED_FOODRATE("Food rate changed successfully"),
     SUCCESSFULLY_CHANGED_TAXRATE("Tax rate changed successfully"),
@@ -35,6 +35,11 @@ public enum GameControllerOut {
     NO_UNITS("You don't have any units in that place"),
     SUCCESSFULLY_CHANGRD_UNIT_STATE("Unit state set successfully"),
     NOT_A_SPOT("Unfortunately, this land isn't suitable for construction. choose another coordinates"),
+    CANT_MOVE("That spot seems a little... unreachable. Unit can't go to that place"),
+    SELECT_A_UNIT_FIRST("You haven't selected any units yet!"),
+    BEGIN_TO_MOVE("Unit started moving"),
+    PATROL_SET_SUCCESSFULLY("Patrol set successfully"),
+    ATTACK_STARTED("Attack started"),
     ;
     private String content;
 

@@ -3,6 +3,7 @@ package model;
 import controller.modelFunctions.ResourceMakerFuncs;
 import model.buildings.Building;
 import model.buildings.Storage;
+import model.units.Unit;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -11,13 +12,13 @@ import java.util.HashMap;
 public class Governance {
     //todo: everytime a food type is manipulated, popularity should change if updateFoodDiversity changes.
     private static ArrayList<User> empires = new ArrayList<>();
-    private int unemployedPopulation;
-    private int maximumPopulation = 0;
-    private int popularity = 100;
+    private int unemployedPopulation = 25;
+    private int maximumPopulation = 100;
+    private int popularity = 75;
     private int foodRate = -2;
     private int taxRate = 0;
     private int fearRate = 0;
-    private int gold = 500;
+    private int gold = 5000;
     private Storage granary;
     private Storage stockpile;
     private Storage armoury;
@@ -26,6 +27,7 @@ public class Governance {
     private ArrayList<Resource> resources = new ArrayList<>();
     private HashMap<ResourceEnum, Integer> resourceCount = new HashMap<>();
     private ArrayList<TradeItem> userTrades = new ArrayList<>();
+    private ArrayList<Unit> units = new ArrayList<Unit>();
     private static ArrayList<TradeItem> allTrades = new ArrayList<>();
 
     public Governance() {
@@ -109,6 +111,8 @@ public class Governance {
 
     public void changePopularity(int number) {
         this.popularity += number;
+        if (this.popularity > 100)
+            this.popularity = 100;
     }
 
     public void changeFoodRate(int number) {
@@ -223,5 +227,14 @@ public class Governance {
 
     public void setHaveGateHouse(boolean haveGateHouse) {
         this.haveGateHouse = haveGateHouse;
+    }
+
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
+    public void addUnit(Unit unit) {
+        if (unit != null || unit.getTroops().size() != 0)
+            this.units.add(unit);
     }
 }

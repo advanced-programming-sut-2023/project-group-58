@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="">
+    <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="map started, with a colourful terminal!">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/modelFunctions/BuildingFuncs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/modelFunctions/BuildingFuncs.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +38,7 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="jar://C:/Program Files/Java/jdk-11.0.8/lib/src.zip!/java.base/java/io/File.java" root0="SKIP_INSPECTION" />
     <setting file="jar://C:/Program Files/Java/jdk-11.0.8/lib/src.zip!/java.base/java/io/FileInputStream.java" root0="SKIP_INSPECTION" />
     <setting file="jar://C:/Program Files/Java/jdk-11.0.8/lib/src.zip!/java.base/java/util/ArrayList.java" root0="SKIP_INSPECTION" />
     <setting file="jar://C:/Program Files/Java/jdk-11.0.8/lib/src.zip!/java.base/java/util/HashMap.java" root0="SKIP_INSPECTION" />
@@ -59,39 +63,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="view" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TestClass">
-    <configuration name="MapTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="APPOnMave" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MapTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RegisterTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="APPOnMave" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="RegisterTests" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="ShopTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="APPOnMave" />
+      <module name="APP" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="ShopTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestClass (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="APP" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestClass" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -106,23 +108,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestClass.showDisplay" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="APPOnMave" />
+    <configuration name="TradeTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="APP" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TestClass" />
-      <option name="METHOD_NAME" value="showDisplay" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="TradeTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TestClass" />
-        <item itemvalue="JUnit.MapTests" />
-        <item itemvalue="JUnit.TestClass.showDisplay" />
-        <item itemvalue="JUnit.RegisterTests" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.TradeTests" />
         <item itemvalue="JUnit.ShopTests" />
+        <item itemvalue="JUnit.TestClass (1)" />
+        <item itemvalue="JUnit.TestClass" />
       </list>
     </recent_temporary>
   </component>
@@ -166,6 +167,11 @@
       <workItem from="1684033954716" duration="5028000" />
       <workItem from="1684056524337" duration="4601000" />
       <workItem from="1684033954716" duration="4873000" />
+      <workItem from="1684336271153" duration="6692000" />
+      <workItem from="1684403637990" duration="4205000" />
+      <workItem from="1684503483121" duration="599000" />
+      <workItem from="1684682186154" duration="21000" />
+      <workItem from="1684819222652" duration="15200000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
@@ -195,6 +201,16 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="map started, with a colourful terminal!" />
     <option name="LAST_COMMIT_MESSAGE" value="map started, with a colourful terminal!" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/APPOnMave$ShopTests_sell.ic" NAME="ShopTests.sell Coverage Results" MODIFIED="1683896796879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
