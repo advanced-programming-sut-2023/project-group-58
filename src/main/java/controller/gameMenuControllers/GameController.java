@@ -397,15 +397,22 @@ public class GameController {
         if (patchPoints.size() == 0)
             return GameControllerOut.CANT_MOVE;
         selectedMap.getTile(currentLocation[0], currentLocation[1]).findYourUnits(getCurrentUser()).get(0)
-                .setxDestination(patchPoints.get(patchPoints.size() - 1).getX());
+                .setxDestination(xCoor);
         selectedMap.getTile(currentLocation[0], currentLocation[1]).findYourUnits(getCurrentUser()).get(0)
-                .setyDestination(patchPoints.get(patchPoints.size() - 1).getY());
+                .setyDestination(yCoor);
         moveForwardThePath(selectedMap.getTile(currentLocation[0], currentLocation[1]).findYourUnits(getCurrentUser()).get(0),
                 patchPoints, currentLocation[1], currentLocation[0]);
         return GameControllerOut.BEGIN_TO_MOVE;
     }
 
     private void moveForwardThePath(Unit unit, List<Point> patchPoints, int xOrigin, int yOrigin) {
+        boolean bumer = false;
+        for (Point patchPoint : patchPoints) {
+            if(bumer)
+                System.out.println(patchPoint.getX() + " , " + patchPoint.getY());
+            else System.out.println(patchPoint.getY() + " , " + patchPoint.getX());
+            bumer = !bumer;
+        }
         boolean jumper = false;
         int xPresent;
         int yPresent;
@@ -423,8 +430,9 @@ public class GameController {
             }
             jumper = !jumper;
 
-//            System.out.println("previous: "+previousX+","+previousY);
-//            System.out.println("now: "+xPresent+","+yPresent);
+            System.out.println("previous: "+previousX+","+previousY);
+            System.out.println("now: "+xPresent+","+yPresent);
+            System.out.println("unit: "+unit.getxDestination()+","+unit.getyDestination());
 
             selectedMap.getTile(previousY, previousX).removeAUnit(unit);
             selectedMap.getTile(yPresent, xPresent).addUnitToTile(unit);
@@ -627,9 +635,11 @@ public class GameController {
 
         while (!queue.isEmpty()) {
             Tile tile = (Tile) queue.remove();
-            if (!defensive || tile.getDistance() <= unit.getSpeed()) {
+            if ((!defensive || tile.getDistance() <= unit.getSpeed()) && tile.areEnemiesHere(unit.getMaster())) {
                 unit.setxDestination(tile.getX());
                 unit.setyDestination(tile.getY());
+                System.out.println("target set for unit with x : " + unit.getxOrigin());
+                System.out.println(tile.getX() + " , " + tile.getY());
                 return;
             }
             if (tile.getDistance() > unit.getSpeed() && defensive)
