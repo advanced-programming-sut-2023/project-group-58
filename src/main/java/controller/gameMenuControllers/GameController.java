@@ -3,10 +3,7 @@ package controller.gameMenuControllers;
 import controller.CommonController;
 import controller.PatchFinding;
 import model.*;
-import model.buildings.Building;
-import model.buildings.BuildingEnum;
-import model.buildings.Gate;
-import model.buildings.Trap;
+import model.buildings.*;
 import model.units.Troop;
 import model.units.Unit;
 import model.units.UnitEnum;
@@ -783,6 +780,26 @@ public class GameController {
                             new Point(unit.getxDestination(), unit.getyDestination()), true);
                     moveForwardThePath(unit, patchPoints, currentLocation[1], currentLocation[0]);
                 }
+            }
+        }
+    }
+
+    public void produce() {
+        for (User empire : Governance.getEmpires()) {
+            //first wave:
+            for (Building building : empire.getGovernance().getBuildings()) {
+                if(building.getType().getWave() == 1)
+                    ((ResourceMaker)building).produceAfterEachTurn();
+            }
+            //second wave:
+            for (Building building : empire.getGovernance().getBuildings()) {
+                if(building.getType().getWave() == 2)
+                    ((ResourceMaker)building).produceAfterEachTurn();
+            }
+            //third wave:
+            for (Building building : empire.getGovernance().getBuildings()) {
+                if(building.getType().getWave() == 3)
+                    ((ResourceMaker)building).produceAfterEachTurn();
             }
         }
     }

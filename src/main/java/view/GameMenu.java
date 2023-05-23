@@ -86,9 +86,9 @@ public class GameMenu {
                 TradeMenu tradeMenu = new TradeMenu(currentUser);
                 tradeMenu.run();
             } else if ((matcher = Commands.getMatcher(command, Commands.NEXT_TURN)) != null) {
+                gameController.produce();
                 gameController.setTargets();
                 gameController.mapMotion();
-                //produce
                 gameController.updateRates();
                 //set target, fight , move , update resources , govern functions lie here
                 //soldier's damage should be set according to the fear rate at each turn
