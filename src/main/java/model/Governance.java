@@ -3,6 +3,7 @@ package model;
 import controller.modelFunctions.ResourceMakerFuncs;
 import model.buildings.Building;
 import model.buildings.Storage;
+import model.units.Unit;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -26,6 +27,7 @@ public class Governance {
     private ArrayList<Resource> resources = new ArrayList<>();
     private HashMap<ResourceEnum, Integer> resourceCount = new HashMap<>();
     private ArrayList<TradeItem> userTrades = new ArrayList<>();
+    private ArrayList<Unit> units = new ArrayList<Unit>();
     private static ArrayList<TradeItem> allTrades = new ArrayList<>();
 
     public Governance() {
@@ -109,7 +111,7 @@ public class Governance {
 
     public void changePopularity(int number) {
         this.popularity += number;
-        if(this.popularity > 100)
+        if (this.popularity > 100)
             this.popularity = 100;
     }
 
@@ -225,5 +227,14 @@ public class Governance {
 
     public void setHaveGateHouse(boolean haveGateHouse) {
         this.haveGateHouse = haveGateHouse;
+    }
+
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
+    public void addUnit(Unit unit) {
+        if (unit != null || unit.getTroops().size() != 0)
+            this.units.add(unit);
     }
 }

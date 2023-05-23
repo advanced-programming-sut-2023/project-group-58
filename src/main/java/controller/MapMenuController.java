@@ -268,8 +268,8 @@ public class MapMenuController {
     public boolean validateTextureCoordinates(int mapLength, int mapWidth) {
         x2Texture = x2Texture == -1 ? 0 : x2Texture;
         y2Texture = y2Texture == -1 ? 0 : y2Texture;
-        return xTexture >= 0 && xTexture <= mapWidth - 1 && yTexture >= 0 && yTexture <= mapLength - 1 &&
-                x2Texture >= 0 && x2Texture <= mapWidth - 1 && y2Texture >= 0 && y2Texture <= mapLength - 1;
+        return xTexture >= 0 && xTexture <= mapLength - 1 && yTexture >= 0 && yTexture <= mapWidth - 1 &&
+                x2Texture >= 0 && x2Texture <= mapLength - 1 && y2Texture >= 0 && y2Texture <= mapWidth - 1;
     }
 
     public TileTexture convertStringTextureToEnum(String typeTexture) {
@@ -440,14 +440,20 @@ public class MapMenuController {
         HashMap<String, Integer> troopTypes = new HashMap<>();
         EnumSet<UnitEnum> unitEnums = EnumSet.allOf(UnitEnum.class);
         for (UnitEnum unitEnum : unitEnums) {
-            troopTypes.put(unitEnum.getName(), 0);
+            troopTypes.put(unitEnum.getName(),0);
         }
         for (Unit unit : units) {
-            for (java.util.Map.Entry<UnitEnum, ArrayList<Troop>> enumArrayListEntry : unit.getTroops().entrySet()) {
-                int temp = troopTypes.get(enumArrayListEntry.getKey().getName());
-                troopTypes.put(enumArrayListEntry.getKey().getName(), enumArrayListEntry.getValue().size() + temp);
+            for (Troop troop : unit.getTroops()) {
+                String type = troop.getType().getName();
+                troopTypes.put(type,troopTypes.get(type) + 1);
             }
         }
+//        for (Unit unit : units) {
+//            for (java.util.Map.Entry<UnitEnum, ArrayList<Troop>> enumArrayListEntry : unit.getTroops().entrySet()) {
+//                int temp = troopTypes.get(enumArrayListEntry.getKey().getName());
+//                troopTypes.put(enumArrayListEntry.getKey().getName(), enumArrayListEntry.getValue().size() + temp);
+//            }
+//        }
         for (java.util.Map.Entry<String, Integer> stringIntegerEntry : troopTypes.entrySet()) {
             if (stringIntegerEntry.getValue() != 0) {
                 if(!ans.equals("")) ans = "\n";

@@ -72,21 +72,27 @@ public class GameMenu {
                 System.out.println(gameController.createUnit(matcher.group("data"), false).getContent());
             } else if ((matcher = Commands.getMatcher(command, Commands.REPAIR)) != null) {
                 System.out.println(gameController.repair().getContent());
-            } else if ((matcher = Commands.getMatcher(command, Commands.SELECT_BUILDING)) != null) {
+            } else if ((matcher = Commands.getMatcher(command, Commands.SELECT_UNIT)) != null) {
                 System.out.println(gameController.selectUnit(matcher.group("data")).getContent());
+            } else if ((matcher = Commands.getMatcher(command, Commands.PATROL_UNIT)) != null) {
+                System.out.println(gameController.patrolUnit(matcher.group("data")));
+            } else if ((matcher = Commands.getMatcher(command, Commands.ATTACK)) != null) {
+                System.out.println(gameController.attack(matcher.group("data")));
             } else if ((matcher = Commands.getMatcher(command, Commands.SET_STATE)) != null) {
                 System.out.println(gameController.setState(matcher.group("data")).getContent());
             } else if ((matcher = Commands.getMatcher(command, Commands.MOVE_UNIT)) != null) {
-                //   System.out.println(gameController.moveUnit(matcher.group("data")).getContent());
+                System.out.println(gameController.moveUnit(matcher.group("data")).getContent());
             } else if (command.matches("trade menu")) {
                 TradeMenu tradeMenu = new TradeMenu(currentUser);
                 tradeMenu.run();
             } else if ((matcher = Commands.getMatcher(command, Commands.NEXT_TURN)) != null) {
+                gameController.setTargets();
+                gameController.mapMotion();
                 //set target, fight , move , update resources , govern functions lie here
                 //soldier's damage should be set according to the fear rate at each turn
-                System.out.println(GameControllerOut.NEXT_TURN.getContent() + this.currentUser.getUsername());
                 this.currentUser = Governance.getNextPlayer(this.currentUser);
                 gameController.setCurrentUser(this.currentUser);
+                System.out.println(GameControllerOut.NEXT_TURN.getContent() + this.currentUser.getUsername());
                 if (!this.currentUser.getGovernance().haveGateHouse())
                     if (!createGateHouse(gameController)) return;
             } else

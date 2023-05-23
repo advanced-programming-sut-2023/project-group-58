@@ -35,6 +35,11 @@ public enum GameControllerOut {
     NO_UNITS("You don't have any units in that place"),
     SUCCESSFULLY_CHANGRD_UNIT_STATE("Unit state set successfully"),
     NOT_A_SPOT("Unfortunately, this land isn't suitable for construction. choose another coordinates"),
+    CANT_MOVE("That spot seems a little... unreachable. Unit can't go to that place"),
+    SELECT_A_UNIT_FIRST("You haven't selected any units yet!"),
+    BEGIN_TO_MOVE("Unit started moving"),
+    PATROL_SET_SUCCESSFULLY("Patrol set successfully"),
+    ATTACK_STARTED("Attack started"),
     ;
     private String content;
 

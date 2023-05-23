@@ -8,7 +8,6 @@ public enum Commands {
     SECURITY_QUESTION_PICK("^question pick -q (?<number>\\d) -a (?<answer>.+) -c (?<answerConfirm>.+)$"),
     USER_LOGIN("^\\s*user\\s+login\\s+(?<data>.+)$"),
     PASSWORD_FORGOT("^\\s*forgot\\s+my\\s+password\\s+-u\\s+(?<username>\\S*)$"),
-
     CHANGE_USERNAME("^\\s*profile\\s+change\\s+-u\\s+(?<username>\\S*)$"),
     CHANGE_NICKNAME("^\\s*profile\\s+change\\s+-n\\s+\"?(?<nickname>[^\"]*)\"?$"),
     CHANGE_PASSWORD("^\\s*profile\\s+change\\s+password\\s+(?<data>.+)$"),
@@ -36,6 +35,7 @@ public enum Commands {
     DROP_UNIT("^\\s*dropunit\\s+(?<data>.+)$"),
     USER_LOGIN_STAYED("^\\s*user\\s+login\\s+-u\\s+\"?(?<username>\\S+)\"?"),
     SELECT_BUILDING("^\\s*select\\s+building\\s+(?<data>.+)$"),
+    SELECT_UNIT("^\\s*select\\s+unit\\s+(?<data>.+)$"),
     SET_STATE("^\\s*set\\s+(?<data>.+)$"),
     CREATE_UNIT("^\\s*createunit\\s+(?<data>.+)$"),
     MOVE_UNIT("^\\s*move\\s+unit\\s+to\\s+(?<data>.+)$"),
@@ -43,6 +43,8 @@ public enum Commands {
     NEXT_TURN("^\\s*next\\s+turn\\s*$"),
     SET_FEAR_RATE("^\\s*fear\\s+rate\\s+-r\\s*(?<data>(-)?\\d)$"),
     SHOW_FOOD_LIST("^\\s*show\\s+food\\s+list\\s*$"),
+    PATROL_UNIT("^\\s*patrol\\s*unit\\s+(?<data>.+)$"),
+    ATTACK("^\\s*attack(?<data>.+)$"),
     ;
     public final String regex;
 

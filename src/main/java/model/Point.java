@@ -32,7 +32,7 @@ public class Point {
     }
 
     public boolean equals(Point point) {
-        if (point.equals(null)) return false;
+        if (point == null) return false;
 
         // Return true if the fields match:
         return (x == point.x) && (y == point.y);
