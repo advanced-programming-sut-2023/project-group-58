@@ -51,9 +51,85 @@ public class GameController {
         return "This is your popularity: " + this.CurrentUser.getGovernance().getPopularity();
     }
 
-    public int getPerfomance(User ruler) {
+    public int getPerformance(User ruler) {
         int fearRate = ruler.getGovernance().getFearRate();
         return fearRate * 5 + 100;
+    }
+
+    public void updateRates() {
+        int foodRate = getCurrentUser().getGovernance().getFoodRate();
+        switch (foodRate) {
+            case -2:
+                this.CurrentUser.getGovernance().changePopularity(-8);
+                break;
+            case -1:
+                this.CurrentUser.getGovernance().changePopularity(-4);
+                break;
+            case 0:
+                break;
+            case 1:
+                this.CurrentUser.getGovernance().changePopularity(4);
+                break;
+            case 2:
+                this.CurrentUser.getGovernance().changePopularity(8);
+                break;
+        }
+        int diversity = getCurrentUser().getGovernance().getFoodDiversity();
+        switch (diversity) {
+            case 1:
+                this.CurrentUser.getGovernance().changePopularity(0);
+                break;
+            case 2:
+                this.CurrentUser.getGovernance().changePopularity(1);
+                break;
+            case 3:
+                this.CurrentUser.getGovernance().changePopularity(2);
+                break;
+            case 4:
+                this.CurrentUser.getGovernance().changePopularity(3);
+                break;
+        }
+        int taxRate = getCurrentUser().getGovernance().getTaxRate();
+        switch (taxRate) {
+            case -3:
+                this.CurrentUser.getGovernance().changePopularity(7);
+                break;
+            case -2:
+                this.CurrentUser.getGovernance().changePopularity(5);
+                break;
+            case -1:
+                this.CurrentUser.getGovernance().changePopularity(3);
+                break;
+            case 0:
+                this.CurrentUser.getGovernance().changePopularity(1);
+                break;
+            case 1:
+                this.CurrentUser.getGovernance().changePopularity(-2);
+                break;
+            case 2:
+                this.CurrentUser.getGovernance().changePopularity(-4);
+                break;
+            case 3:
+                this.CurrentUser.getGovernance().changePopularity(-6);
+                break;
+            case 4:
+                this.CurrentUser.getGovernance().changePopularity(-8);
+                break;
+            case 5:
+                this.CurrentUser.getGovernance().changePopularity(-12);
+                break;
+            case 6:
+                this.CurrentUser.getGovernance().changePopularity(-16);
+                break;
+            case 7:
+                this.CurrentUser.getGovernance().changePopularity(-20);
+                break;
+            case 8:
+                this.CurrentUser.getGovernance().changePopularity(-24);
+                break;
+        }
+        int fearRate = getCurrentUser().getGovernance().getFearRate();
+        getCurrentUser().getGovernance().changePopularity(fearRate * -2);
     }
 
     public GameControllerOut setFoodRate(String rateNumber) {
@@ -138,6 +214,7 @@ public class GameController {
         this.CurrentUser.getGovernance().changeTaxRate(rate);
         return GameControllerOut.SUCCESSFULLY_CHANGED_TAXRATE;
     }
+
 
     public String showTaxRate() {
         return "This is tax rate: " + this.CurrentUser.getGovernance().getTaxRate();
@@ -517,7 +594,7 @@ public class GameController {
 
     private void damageBuildings(Tile tile, Unit unit) {
         int totalDamage = 0;
-        int performance =getPerfomance(getCurrentUser());
+        int performance = getPerformance(getCurrentUser());
         for (Troop troop : unit.getTroops()) {
             if (!troop.isDead())
                 totalDamage += troop.getType().getDamage() * performance;
@@ -552,7 +629,7 @@ public class GameController {
 
     private void shootNeighbors(Tile tile, Unit unit) {
         if (unit.getTroops().size() == 0) return;
-        int performance = getPerfomance(unit.getMaster());
+        int performance = getPerformance(unit.getMaster());
         for (Troop troop : unit.getTroops()) {
             int range = troop.getType().getRange();
             for (int i = -1 * range; i < range; i++)
@@ -580,9 +657,9 @@ public class GameController {
         for (Troop troop : unit.getTroops()) {
             for (Troop unit1Troop : unit1.getTroops()) {
                 if (!unit1Troop.isDead())
-                    troop.takeDamage(unit1Troop.getType().getDamage() *  getPerfomance(unit1.getMaster()) / 100);
+                    troop.takeDamage(unit1Troop.getType().getDamage() *  getPerformance(unit1.getMaster()) / 100);
                 if (!troop.isDead())
-                    unit1Troop.takeDamage(troop.getType().getDamage() * getPerfomance(unit.getMaster()) / 100);
+                    unit1Troop.takeDamage(troop.getType().getDamage() * getPerformance(unit.getMaster()) / 100);
             }
         }
     }
