@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Tile {
+public class Tile implements Comparable<Tile>{
     private int x;
     private int y;
     private Tile parent;
@@ -276,7 +276,7 @@ public class Tile {
     public void setDistance(int distance) {
         this.distance = distance;
     }
-
+    @Override
     public int compareTo(Tile other) {
         return Double.compare(distance, other.distance);
     }

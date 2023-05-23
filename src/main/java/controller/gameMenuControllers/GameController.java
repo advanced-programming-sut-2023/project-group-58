@@ -775,6 +775,13 @@ public class GameController {
             if (empire.getGovernance().getUnits().size() != 0) {
                 for (Unit unit : empire.getGovernance().getUnits()) {
                     PatchFinding.setCurrentForce(empire);
+                    if(unit.getxDestination() == -1 || unit.getyDestination() == -1)
+                    {
+                        int[] currentLocation = findUnit(empire, unit.getxOrigin(), unit.getyOrigin(), selectedMap);
+                        if(currentLocation[1] == 32)
+                            System.out.println(currentLocation[1] + " , " + currentLocation[0]);
+                        continue;
+                    }
                     int[] currentLocation = findUnit(empire, unit.getxOrigin(), unit.getyOrigin(), selectedMap);
                     List<Point> patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
                             new Point(unit.getxDestination(), unit.getyDestination()), true);
