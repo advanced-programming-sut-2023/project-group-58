@@ -1,12 +1,11 @@
 package controller;
 
-import controller.gameMenuControllers.GameController;
+import controller.modelFunctions.BuildingFuncs;
 import model.*;
 import model.buildings.*;
 import model.units.Troop;
 import model.units.Unit;
 import model.units.UnitEnum;
-import view.enums.GameControllerOut;
 import view.enums.ProfisterControllerOut;
 import view.enums.TreeTypes;
 
@@ -527,8 +526,21 @@ public class MapMenuController {
         }
         this.selectedMap.getTile(yTexture, xTexture).getBuildings().add(addingBuilding);
         currentPlayer.getGovernance().getBuildings().add(addingBuilding);
+        primaryPerformance(currentPlayer,addingBuilding);
         if (!enoughPlayers) return ProfisterControllerOut.CREATED_EMPTY_BUILDING;
         return ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING;
+    }
+
+    private void primaryPerformance(User currentPlayer, Building addingBuilding) {
+        BuildingFuncs buildingFuncs = new BuildingFuncs();
+        if(addingBuilding.getType().equals(BuildingEnum.CHURCH))
+            buildingFuncs.church(currentPlayer);
+        if(addingBuilding.getType().equals(BuildingEnum.CATHEDRAL))
+            buildingFuncs.cathedral(currentPlayer);
+        if(addingBuilding.getType().equals(BuildingEnum.HOVEL))
+            buildingFuncs.hovel(currentPlayer);
+        if(addingBuilding.getType().equals(BuildingEnum.KILLING_PIT))
+            buildingFuncs.killingpit(currentPlayer);
     }
 
     private boolean isItNearGateHouse() {

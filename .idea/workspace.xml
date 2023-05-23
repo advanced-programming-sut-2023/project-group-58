@@ -7,30 +7,8 @@
     <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="map started, with a colourful terminal!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/MapMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/PatchFinding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/PatchFinding.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Governance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Governance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Point.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Building.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/units/Troop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/units/Troop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GameMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/enums/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/enums/Commands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/enums/GameControllerOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/enums/GameControllerOut.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/MapMenuController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/MapMenuController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/MapMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/MapMenuController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/PatchFinding.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/PatchFinding.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Governance.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Governance.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Point.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Point.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Tile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/buildings/Building.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/buildings/Building.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/units/Troop.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/units/Troop.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/units/Unit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/GameMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/GameMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/enums/Commands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/enums/Commands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/enums/GameControllerOut.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/enums/GameControllerOut.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/modelFunctions/BuildingFuncs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/modelFunctions/BuildingFuncs.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +171,7 @@
       <workItem from="1684403637990" duration="4205000" />
       <workItem from="1684503483121" duration="599000" />
       <workItem from="1684682186154" duration="21000" />
-      <workItem from="1684819222652" duration="13786000" />
+      <workItem from="1684819222652" duration="15200000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

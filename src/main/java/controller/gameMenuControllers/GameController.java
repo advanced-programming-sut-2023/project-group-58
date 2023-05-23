@@ -416,7 +416,10 @@ public class GameController {
         Gate addingGate = ans == 1 ? new Gate(BuildingEnum.SMALL_STONE_GATEHOUSE, getCurrentUser(), direction, true) :
                 new Gate(BuildingEnum.BIG_STONE_GATEHOUSE, getCurrentUser(), direction, true);
         selectedMap.getTile(yCoor, xCoor).getBuildings().add(addingGate);
-        getCurrentUser().getGovernance().changeMaximumPopulation(8);
+        if(ans == 1)
+            getCurrentUser().getGovernance().changeMaximumPopulation(8);
+        else
+            getCurrentUser().getGovernance().changeMaximumPopulation(10);
         getCurrentUser().getGovernance().setHaveGateHouse(true);
         if (ans == 2)
             getCurrentUser().getGovernance().changeGold(-20);
