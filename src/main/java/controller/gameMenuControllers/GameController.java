@@ -29,7 +29,7 @@ public class GameController {
     private int yOriginOFSelectedUnit = -1;
 
     public void prepareForNextPlayer(User currentUser) {
-        this.xOriginOFSelectedUnit =-1;
+        this.xOriginOFSelectedUnit = -1;
         this.yOriginOFSelectedUnit = -1;
         this.selectedBuilding = null;
         this.xOFSelectedBuilding = 0;
@@ -483,7 +483,8 @@ public class GameController {
                 totalDamage += troop.getType().getDamage() * performance;
         }
         for (Building building : tile.getBuildings()) {
-            building.takeDamage(totalDamage / 100);
+            if (!building.getOwner().getUsername().equals(unit.getMaster().getUsername()))
+                building.takeDamage(totalDamage / 100);
         }
     }
 
@@ -538,19 +539,20 @@ public class GameController {
     private void fightOfTwoUnits(Unit unit, Unit unit1) {
         if (unit.getTroops().size() == 0 || unit1.getTroops().size() == 0) return;
         for (Troop troop : unit.getTroops()) {
-            for (Troop unit1Troop : unit1.getTroops()) {
-                if (!unit1Troop.isDead())
-                    troop.takeDamage(unit1Troop.getType().getDamage() * getPerformance(unit1.getMaster()) / 100);
-                if (!troop.isDead())
-                    unit1Troop.takeDamage(troop.getType().getDamage() * getPerformance(unit.getMaster()) / 100);
-            }
+            for (Troop unit1Troop : unit1.getTroops())
+                if (!unit1.getMaster().getUsername().equals(unit.getMaster().getUsername())) {
+                    if (!unit1Troop.isDead())
+                        troop.takeDamage(unit1Troop.getType().getDamage() * getPerformance(unit1.getMaster()) / 100);
+                    if (!troop.isDead())
+                        unit1Troop.takeDamage(troop.getType().getDamage() * getPerformance(unit.getMaster()) / 100);
+                }
         }
     }
 
     private void getCaughtByTraps(Tile tile, Unit unit) {
         if (tile.isTrap()) {
             for (Building building : tile.getBuildings())
-                if (building instanceof Trap) {
+                if (building instanceof Trap && !building.getOwner().getUsername().equals(unit.getMaster().getUsername())) {
                     unit.takeSteadyDamageForAll(((Trap) building).getDamage());
                     unit.clearTheDead();
                 }
@@ -593,7 +595,7 @@ public class GameController {
             return GameControllerOut.INVALID_INPUT_FORMAT;
         if (!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
             return GameControllerOut.INVALID_COORDINATES;
-        if(!selectedMap.getTile(yCoor,xCoor).areEnemiesHere(getCurrentUser()))
+        if (!selectedMap.getTile(yCoor, xCoor).areEnemiesHere(getCurrentUser()))
             return GameControllerOut.NO_ENEMIES_HERE;
         int[] currentLocation = findUnit(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit, selectedMap);
         if (shooting) {
@@ -801,9 +803,9 @@ public class GameController {
                     if (building.getOwner().getUsername().equals(getCurrentUser().getUsername()))
                         if ((selectedUnit.getTroops().get(0).getType().equals(UnitEnum.ENGINEER) && building.getType().equals(BuildingEnum.ENGINEERS_GUILD)) ||
                                 (selectedUnit.getTroops().get(0).getType().isArab() && building.getType().equals(BuildingEnum.MERCENARY_POST) &&
-                                !selectedUnit.getTroops().get(0).getType().equals(UnitEnum.ENGINEER)) ||
+                                        !selectedUnit.getTroops().get(0).getType().equals(UnitEnum.ENGINEER)) ||
                                 (!selectedUnit.getTroops().get(0).getType().isArab() && building.getType().equals(BuildingEnum.BARRACKS) &&
-                                !selectedUnit.getTroops().get(0).getType().equals(UnitEnum.ENGINEER))
+                                        !selectedUnit.getTroops().get(0).getType().equals(UnitEnum.ENGINEER))
                         ) {
                             selectedMap.getTile(currentLocation[0], currentLocation[1]).findYourUnits(getCurrentUser()).get(0)
                                     .setxDestination(j);
