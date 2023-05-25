@@ -35,6 +35,13 @@ public class Governance {
         changeResourceAmount(ResourceEnum.APPLE,75);
         changeResourceAmount(ResourceEnum.BREAD,75);
         changeResourceAmount(ResourceEnum.STONE,75);
+        changeResourceAmount(ResourceEnum.BOW,15);
+        changeResourceAmount(ResourceEnum.SPEAR,15);
+        changeResourceAmount(ResourceEnum.SWORD,15);
+        changeResourceAmount(ResourceEnum.ARMOUR,15);
+        changeResourceAmount(ResourceEnum.MACE,15);
+        changeResourceAmount(ResourceEnum.LEATHER_ARMOR,15);
+        changeResourceAmount(ResourceEnum.PIKE,15);
     }
 
     public void changeUnemployedPopulation(int unemployedPopulation) {

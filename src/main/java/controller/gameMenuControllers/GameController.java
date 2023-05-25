@@ -461,8 +461,6 @@ public class GameController {
             previousX = xPresent;
             previousY = yPresent;
         }
-        unit.setxDestination(-1);
-        unit.setyDestination(-1);
         if (unit.isOnPatrol()) {
             if (unit.getPatrolDestinations()[0].getY() == unit.getxDestination() &&
                     unit.getPatrolDestinations()[0].getX() == unit.getyDestination()) {
@@ -473,6 +471,8 @@ public class GameController {
                 unit.setyDestination(unit.getPatrolDestinations()[0].getX());
             }
         }
+        unit.setxDestination(-1);
+        unit.setyDestination(-1);
     }
 
     private void damageBuildings(Tile tile, Unit unit) {
@@ -579,10 +579,9 @@ public class GameController {
         patrol[0] = new Point(xCoor, yCoor);
         patrol[1] = new Point(x2Coor, y2Coor);
         int[] currentLocation = findUnit(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit, selectedMap);
-
         selectedMap.getTile(currentLocation[0], currentLocation[1]).setPetrolStatus(getCurrentUser(),
                 xOriginOFSelectedUnit, yOriginOFSelectedUnit, patrol);
-        return GameControllerOut.PATROL_SET_SUCCESSFULLY;
+           return GameControllerOut.PATROL_SET_SUCCESSFULLY;
     }
 
     public GameControllerOut attack(String data) {
@@ -667,15 +666,23 @@ public class GameController {
             if (empire.getGovernance().getUnits().size() != 0) {
                 for (Unit unit : empire.getGovernance().getUnits()) {
                     PatchFinding.setCurrentForce(empire);
-                    if (unit.getxDestination() == -1 || unit.getyDestination() == -1) {
+                    if (unit.getxDestination() == -1 || unit.getyDestination() == -1 || unit.isOnPatrol()) {
                         int[] currentLocation = findUnit(empire, unit.getxOrigin(), unit.getyOrigin(), selectedMap);
-                        if (currentLocation[1] == 32)
-                            System.out.println(currentLocation[1] + " , " + currentLocation[0]);
-                        continue;
                     }
                     int[] currentLocation = findUnit(empire, unit.getxOrigin(), unit.getyOrigin(), selectedMap);
-                    List<Point> patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
+                    List<Point> patchPoints = new ArrayList<>();
+                    if(!unit.isOnPatrol())
+                    patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
                             new Point(unit.getxDestination(), unit.getyDestination()), true);
+                    else {
+                        Point des = new Point();
+                        if(unit.getPatrolDestinations()[0].getX() == currentLocation[1] && unit.getPatrolDestinations()[0].getY() == currentLocation[0])
+                            des = new Point(unit.getPatrolDestinations()[1].getX(),unit.getPatrolDestinations()[1].getY());
+                        else
+                            des = new Point(unit.getPatrolDestinations()[0].getX(),unit.getPatrolDestinations()[0].getY());
+                        patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
+                                des, true);
+                    }
                     moveForwardThePath(unit, patchPoints, currentLocation[1], currentLocation[0]);
                 }
             }

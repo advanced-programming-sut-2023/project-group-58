@@ -75,7 +75,7 @@ public class GameMenu {
             } else if ((matcher = Commands.getMatcher(command, Commands.SELECT_UNIT)) != null) {
                 System.out.println(gameController.selectUnit(matcher.group("data")).getContent());
             } else if ((matcher = Commands.getMatcher(command, Commands.PATROL_UNIT)) != null) {
-                System.out.println(gameController.patrolUnit(matcher.group("data")));
+                System.out.println(gameController.patrolUnit(matcher.group("data")).getContent());
             } else if ((matcher = Commands.getMatcher(command, Commands.ATTACK)) != null) {
                 System.out.println(gameController.attack(matcher.group("data")));
             }else if ((matcher = Commands.getMatcher(command, Commands.DISBAND_UNIT)) != null) {
