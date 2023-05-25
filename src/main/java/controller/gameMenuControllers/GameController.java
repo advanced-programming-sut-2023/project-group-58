@@ -671,10 +671,10 @@ public class GameController {
                     }
                     int[] currentLocation = findUnit(empire, unit.getxOrigin(), unit.getyOrigin(), selectedMap);
                     List<Point> patchPoints = new ArrayList<>();
-                    if(!unit.isOnPatrol())
+                    if(!unit.isOnPatrol() && unit.getxDestination() != -1 && unit.getyDestination() != -1)
                     patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
                             new Point(unit.getxDestination(), unit.getyDestination()), true);
-                    else {
+                    else if(unit.isOnPatrol()) {
                         Point des = new Point();
                         if(unit.getPatrolDestinations()[0].getX() == currentLocation[1] && unit.getPatrolDestinations()[0].getY() == currentLocation[0])
                             des = new Point(unit.getPatrolDestinations()[1].getX(),unit.getPatrolDestinations()[1].getY());
