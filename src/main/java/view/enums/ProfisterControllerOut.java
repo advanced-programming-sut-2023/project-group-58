@@ -40,6 +40,7 @@ public enum ProfisterControllerOut {
     EMPTY_INPUT("Inout cannot be null, or just spaces"),
     CREATED_EMPTY_BUILDING("Building successfully created, but since you don't have enough workers, it is abandoned for now."),
     ONLY_ONE_GATEHOUSE("You can only have one gatehouse during the game. So take care of it!"),
+    INVALID_STAIR_LOCATION("You can' place stairs there. Those should be placed near walls or gatehouses"),
     ;
     private String content;
 

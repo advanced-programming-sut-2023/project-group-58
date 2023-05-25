@@ -78,6 +78,8 @@ public class GameMenu {
                 System.out.println(gameController.patrolUnit(matcher.group("data")));
             } else if ((matcher = Commands.getMatcher(command, Commands.ATTACK)) != null) {
                 System.out.println(gameController.attack(matcher.group("data")));
+            }else if ((matcher = Commands.getMatcher(command, Commands.DISBAND_UNIT)) != null) {
+                System.out.println(gameController.disbandUnit().getContent());
             } else if ((matcher = Commands.getMatcher(command, Commands.SET_STATE)) != null) {
                 System.out.println(gameController.setState(matcher.group("data")).getContent());
             } else if ((matcher = Commands.getMatcher(command, Commands.MOVE_UNIT)) != null) {
@@ -96,7 +98,7 @@ public class GameMenu {
                 //set target, fight , move , update resources , govern functions lie here
                 //soldier's damage should be set according to the fear rate at each turn
                 this.currentUser = Governance.getNextPlayer(this.currentUser);
-                gameController.setCurrentUser(this.currentUser);
+                gameController.prepareForNextPlayer(this.currentUser);
                 System.out.println(GameControllerOut.NEXT_TURN.getContent() + this.currentUser.getUsername());
                 if (!this.currentUser.getGovernance().haveGateHouse())
                     if (!createGateHouse(gameController)) return;

@@ -45,6 +45,7 @@ public enum Commands {
     SHOW_FOOD_LIST("^\\s*show\\s+food\\s+list\\s*$"),
     PATROL_UNIT("^\\s*patrol\\s*unit\\s+(?<data>.+)$"),
     ATTACK("^\\s*attack(?<data>.+)$"),
+    DISBAND_UNIT("^\\s*disband\\s*unit\\s*$"),
     ;
     public final String regex;
 

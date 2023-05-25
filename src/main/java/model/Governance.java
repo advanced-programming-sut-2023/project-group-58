@@ -31,10 +31,10 @@ public class Governance {
     private static ArrayList<TradeItem> allTrades = new ArrayList<>();
 
     public Governance() {
-        resources.add(new Resource(ResourceEnum.WOOD, 50));
-        resources.add(new Resource(ResourceEnum.APPLE, 50));
-        resources.add(new Resource(ResourceEnum.BREAD, 50));
-        resources.add(new Resource(ResourceEnum.STONE, 50));
+        changeResourceAmount(ResourceEnum.WOOD,75);
+        changeResourceAmount(ResourceEnum.APPLE,75);
+        changeResourceAmount(ResourceEnum.BREAD,75);
+        changeResourceAmount(ResourceEnum.STONE,75);
     }
 
     public void changeUnemployedPopulation(int unemployedPopulation) {
@@ -124,7 +124,7 @@ public class Governance {
     }
 
     public void changeFearRate(int number) {
-        this.fearRate = number;
+        this.fearRate += number;
     }
 
     public void changeTaxRate(int number) {

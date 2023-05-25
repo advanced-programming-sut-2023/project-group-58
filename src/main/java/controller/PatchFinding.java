@@ -4,8 +4,6 @@ import model.Map;
 import model.Point;
 import model.Tile;
 import model.User;
-import model.buildings.Building;
-import model.buildings.BuildingEnum;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +12,19 @@ import java.util.List;
 
 public class PatchFinding {
     private static User currentForce;
+    private static boolean clearance = false;
+
+    public static User getCurrentForce() {
+        return currentForce;
+    }
+
+    public static boolean isClearance() {
+        return clearance;
+    }
+
+    public static void setClearance(boolean clearance) {
+        PatchFinding.clearance = clearance;
+    }
 
     public static void setCurrentForce(User currentForce) {
         PatchFinding.currentForce = currentForce;
