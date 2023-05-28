@@ -241,8 +241,10 @@ public class Tile implements Comparable<Tile> {
                 }
             }
             if (building instanceof Gate) {
+                PatchFinding.setClearance(false);
                 if (!((Gate) building).isOpen()) return false;
             } else if (building instanceof Trap) {
+                PatchFinding.setClearance(false);
                 if (building.getOwner().getUsername().equals(currentForce.getUsername())) return false;
                 if (((Trap) building).isVisible()) return false;
             } else {

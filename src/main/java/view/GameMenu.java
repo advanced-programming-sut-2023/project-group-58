@@ -74,6 +74,8 @@ public class GameMenu {
                 System.out.println(gameController.repair().getContent());
             } else if ((matcher = Commands.getMatcher(command, Commands.SELECT_UNIT)) != null) {
                 System.out.println(gameController.selectUnit(matcher.group("data")).getContent());
+            }  else if ((matcher = Commands.getMatcher(command, Commands.STOP_PETROL)) != null) {
+                System.out.println(gameController.stopPetrol().getContent());
             } else if ((matcher = Commands.getMatcher(command, Commands.PATROL_UNIT)) != null) {
                 System.out.println(gameController.patrolUnit(matcher.group("data")).getContent());
             } else if ((matcher = Commands.getMatcher(command, Commands.ATTACK)) != null) {

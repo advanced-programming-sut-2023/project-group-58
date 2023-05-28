@@ -425,8 +425,8 @@ public class GameController {
 //            bumer = !bumer;
 //        }
         boolean jumper = false;
-        int xPresent;
-        int yPresent;
+        int xPresent = 0;
+        int yPresent = 0;
         int previousX = xOrigin;
         int previousY = yOrigin;
         int counter = 0;
@@ -461,18 +461,22 @@ public class GameController {
             previousX = xPresent;
             previousY = yPresent;
         }
+        if(xPresent != unit.getxDestination() || yPresent != unit.getyDestination())
+            return;
         if (unit.isOnPatrol()) {
-            if (unit.getPatrolDestinations()[0].getY() == unit.getxDestination() &&
-                    unit.getPatrolDestinations()[0].getX() == unit.getyDestination()) {
-                unit.setxDestination(unit.getPatrolDestinations()[1].getY());
-                unit.setyDestination(unit.getPatrolDestinations()[1].getX());
-            } else {
-                unit.setxDestination(unit.getPatrolDestinations()[0].getY());
-                unit.setyDestination(unit.getPatrolDestinations()[0].getX());
+            if (unit.getPatrolDestinations()[0].getX() == xPresent &&
+                    unit.getPatrolDestinations()[0].getY() == yPresent) {
+                unit.setxDestination(unit.getPatrolDestinations()[1].getX());
+                unit.setyDestination(unit.getPatrolDestinations()[1].getY());
+            } else{
+                unit.setxDestination(unit.getPatrolDestinations()[0].getX());
+                unit.setyDestination(unit.getPatrolDestinations()[0].getY());
             }
         }
-        unit.setxDestination(-1);
-        unit.setyDestination(-1);
+        else {
+            unit.setxDestination(-1);
+            unit.setyDestination(-1);
+        }
     }
 
     private void damageBuildings(Tile tile, Unit unit) {
@@ -822,5 +826,14 @@ public class GameController {
                         }
                 }
         return GameControllerOut.NO_PLACE_TO_GO;
+    }
+
+    public GameControllerOut stopPetrol() {
+        int[] currentLocation = findUnit(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit, selectedMap);
+        Unit selectedUnit = selectedMap.getTile(currentLocation[0], currentLocation[1]).findUnitByOrigin(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit);
+        selectedUnit.setOnPatrol(false);
+        selectedUnit.setxDestination(-1);
+        selectedUnit.setyDestination(-1);
+        return GameControllerOut.SUCCESSFULLY_STOPPED;
     }
 }

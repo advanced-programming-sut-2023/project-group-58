@@ -43,6 +43,7 @@ public enum GameControllerOut {
     RETREATING("Unit started to retreat"),
     NO_PLACE_TO_GO("No place left to go. Just gonna... stay right here"),
     NO_ENEMIES_HERE("No enemies there!"),
+    SUCCESSFULLY_STOPPED("Unit stopped patrolling"),
     ;
     private String content;
 

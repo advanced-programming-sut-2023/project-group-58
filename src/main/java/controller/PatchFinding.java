@@ -107,10 +107,8 @@ public class PatchFinding {
     private static int getDistance(Tile tileA, Tile tileB) {
         int distanceX = Math.abs(tileA.getX() - tileB.getX());
         int distanceY = Math.abs(tileA.getY() - tileB.getY());
-        return Math.max(distanceX,distanceY) * 10;
-//
-//        if (distanceX > distanceY)
-//            return 5 * distanceY + 10 * (distanceX - distanceY);
-//        return 5 * distanceX + 10 * (distanceY - distanceX);
+        if (distanceX > distanceY)
+            return 5 * distanceY + 10 * (distanceX - distanceY);
+        return 5 * distanceX + 10 * (distanceY - distanceX);
     }
 }

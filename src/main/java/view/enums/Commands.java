@@ -46,6 +46,7 @@ public enum Commands {
     PATROL_UNIT("^\\s*patrol\\s*unit\\s+(?<data>.+)$"),
     ATTACK("^\\s*attack(?<data>.+)$"),
     DISBAND_UNIT("^\\s*disband\\s*unit\\s*$"),
+    STOP_PETROL("^\\s*stop\\s+petrol"),
     ;
     public final String regex;
 
