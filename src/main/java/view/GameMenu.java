@@ -5,6 +5,7 @@ import java.io.IOException;
 import controller.gameMenuControllers.GameController;
 import model.Governance;
 import model.Map;
+import model.ResourceEnum;
 import model.User;
 import view.enums.Commands;
 import view.enums.GameControllerOut;
@@ -100,7 +101,12 @@ public class GameMenu {
                 System.out.println(GameControllerOut.NEXT_TURN.getContent() + this.currentUser.getUsername());
                 if (!this.currentUser.getGovernance().haveGateHouse())
                     if (!createGateHouse(gameController)) return;
-            } else
+            }
+            else if (command.matches("sword")){
+                System.out.println(currentUser.getGovernance().getResourceAmount(ResourceEnum.SPEAR));
+                System.out.println(currentUser.getGovernance().getResourceAmount(ResourceEnum.PIKE));
+            }
+            else
                 System.out.println("invalid command");
         }
     }
