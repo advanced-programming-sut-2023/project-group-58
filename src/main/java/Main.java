@@ -1,3 +1,5 @@
+import model.User;
+import view.MapMenu;
 import view.RegisterMenu;
 
 import java.io.IOException;
@@ -8,4 +10,5 @@ public class Main {
         RegisterMenu reg = new RegisterMenu();
         reg.run();
     }
+    //try...
 }

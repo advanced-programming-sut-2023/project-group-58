@@ -6,11 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="project" />
+        <module name="APPOnMave" />
         <module name="APP" />
+        <module name="APP3" />
+        <module name="APPBeforeGame" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="APP" target="11" />
+      <module name="pro" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

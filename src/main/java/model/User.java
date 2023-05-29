@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class User {
+    private Governance governance;
     private String username;
     private String password;
     private String nickname;
@@ -10,7 +11,7 @@ public class User {
     private String slogan;
     private int securityQuestion;
     private String securityAnswer;
-    private int highScore = 0;
+    private int highScore;
     private static ArrayList<User> users = new ArrayList<>();
 
     public User(String Username,
@@ -20,8 +21,7 @@ public class User {
                 String Slogan,
                 int SecurityQuestion,
                 String SecurityAnswer,
-                int HighScore)
-    {
+                int HighScore) {
         username = Username;
         password = Password;
         nickname = Nickname;
@@ -30,11 +30,17 @@ public class User {
         securityQuestion = SecurityQuestion;
         securityAnswer = SecurityAnswer;
         highScore = HighScore;
+        governance = new Governance();
+    }
+
+    public Governance getGovernance() {
+        return governance;
     }
 
     public void addUserToArrayList() {
         User.users.add(this);
     }
+
 
     public static ArrayList<User> getUsers() {
         return users;
@@ -43,7 +49,8 @@ public class User {
     public String getUsername() {
         return username;
     }
-    public boolean passwordMatch(String password){
+
+    public boolean passwordMatch(String password) {
         if (this.password.equals(password)) return true;
         return false;
     }
@@ -107,4 +114,5 @@ public class User {
     public void setHighScore(int highScore) {
         this.highScore = highScore;
     }
+
 }

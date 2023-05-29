@@ -6,8 +6,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import view.Commands;
 import view.ScanMatch;
+import view.enums.ProfisterControllerOut;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -21,29 +21,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterMenuController {
-
+    private String username;
+    private String password;
+    private String email;
+    private String nickname;
+    private String slogan;
+    int questionNumber;
+    String answer;
     int numberOfSlogans = 5;
     String userInfoAddress = System.getProperty("user.dir") + "/DataBase/userInfo.json";
 
-    public void createFileWhenNecessary(String address) {
-        File myFile = new File(address);
-        if (!myFile.exists()) {
-            try {
-                myFile.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+    public String getPassword() {
+        return password;
     }
-
 
     public void setUpUserInfo() throws IOException {
 
         //file should not be overwritten if it's not empty. first, we check if it exists:
         File userInfo = new File(System.getProperty("user.dir") + "/DataBase/userInfo.json");
-        if(!userInfo.exists()) {
-            userInfo.createNewFile();}
-        else {
+        if (!userInfo.exists()) {
+            userInfo.createNewFile();
+        } else {
             BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/DataBase/userInfo.json"));
             if (br.readLine() != null) {
                 return;
@@ -59,7 +57,6 @@ public class RegisterMenuController {
         userDetails.put("securityQuestion", 0);
         userDetails.put("securityAnswer", "");
         userDetails.put("highScore", -1);
-
         JSONObject userObject = new JSONObject();
         userObject.put("user", userDetails);
 
@@ -92,116 +89,96 @@ public class RegisterMenuController {
             myWriter.close();
 
         } catch (IOException e) {
-            System.out.println("An error occurred while creating slogan database.");
+            //System.out.println("An error occurred while creating slogan database.");
             e.printStackTrace();
         }
 
     }
 
-    public String createUser(String data) throws IOException {
-
+    public void extractData(String data) {
         //extracting inputs:
         //careful: getting double hyphens for email regex.
         //todo: Assuming THERE IS NO DOUBLE QUOTES BETWEEN TWO DOUBLE QUOTES
         //todo: cannot handle: -s "   -u moon " (spaces before -u between "")
-        String username = dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        String password = dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        String email = dataExtractor(data, "((?<!\\S)--email\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        String nickname = dataExtractor(data, "((?<!\\S)-n\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
-        String slogan = dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>(\"[^\"]*\")|\\S*)(?<!\\s))").trim();
+        //assuming comments cant have dash
+        username = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        password = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        email = CommonController.dataExtractor(data, "((?<!\\S)--email\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        nickname = CommonController.dataExtractor(data, "((?<!\\S)-n\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+        slogan = CommonController.dataExtractor(data, "((?<!\\S)-s\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
+    }
 
-        if (!password.trim().equals("random")) {
-            if (!getPasswordConfirmation(data)) return "The confirmation is not entered correctly";
-        } else {
-            password = randomPasswordGenerator();
-            System.out.println("Your random password is: " + password + "\nPlease re-enter your password here:");
-            int counter = 9;
-            while (true) {
-                if (!ScanMatch.getScanner().nextLine().trim().equals(password))
-                    System.out.println("Wrong. Tries left: " + counter + "\nPlease enter your password: " + password);
-                else break;
-                counter--;
-                if (counter == 0) return "Signup unsuccessful";
-            }
-        }
-
+    public ProfisterControllerOut validateBeforeCreation(String data) {
+        extractData(data);
         //checking empty fields:
         if (username.length() == 0 || password.length() == 0 || email.length() == 0 ||
                 nickname.length() == 0)
-            return "Make sure to fill all the essential fields and try again!";
-        String regex = "(?<!\")\\s+-s\\s+(?!\")";
+            return ProfisterControllerOut.EMPTY_FIELDS;
+        String regex = "(?<!\")\\s+-s(\\s+|$)(?!\")";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(data);
-        if (matcher.find() && slogan.length() == 0)
-            return "You either enter the slogan field, or you don't!";
+        if (matcher.find() && (slogan == null || slogan.length() == 0 || slogan.trim().length() == 0))
+            return ProfisterControllerOut.SLOGAN_AND_NO_SLOGAN;
+        if (username.matches(".*[\\W+].*")) return ProfisterControllerOut.USERNAME_INVALID_FORMAT;
 
-        //checking username format:
-        if (username.matches(".*[\\W+].*"))
-            return "Username's format is invalid!";
+        ProfisterControllerOut result = CommonController.checkPasswordFormat(password);
+        if (!password.trim().equals("random") && !result.equals(ProfisterControllerOut.VALID)) return result;
 
-        //checking to see if this username already exists:
-        if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", username, "username")) {
-            username = findSomethingSimilar(username);
-            System.out.println("This username is already taken. would like to use " + username + " instead?");
-            System.out.println("Type y for yes and n for no");
-            if (ScanMatch.getScanner().nextLine().equals("n")) return "Registration failed";
-        }
-
-        //checking to see if password is weak:
-        if (password.length() < 6)
-            return "Password is too short!";
-        if (!password.matches(".*[A-Z].*"))
-            return "Password does not include capital letters!";
-        if (!password.matches(".*[a-z].*"))
-            return "Password does not include small letters!";
-        if (!password.matches(".*[0-9].*"))
-            return "Password does not include numbers!";
-        if (!password.matches(".*[^a-zA-Z0-9].*"))
-            return "Password does not include symbols!";
-        //todo: a better name for symbol?
-
-
-        //check to see if this email is already taken:
         if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", email, "email"))
-            return "This email address is already used\nRegistration failed";
-        //validating email:
+            return ProfisterControllerOut.EMAIL_TAKEN;
+
         regex = "^[\\w|.]+@[\\w|.]+\\.[\\w|.]+$";
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(email);
         if (!matcher.find())
-            return "Email format is not valid!";
+            return ProfisterControllerOut.EMAIL_INVALID_FORMAT;
 
-        //getting the security guestion and answer:
-        int questionNumber;
-        String answer;
-        System.out.println("Pick your security question: 1. What is my father’s name? 2. What" +
-                "was my first pet’s name? 3. What is my mother’s last name?\n" +
-                "Your response should in form:\n" +
-                "question pick -q <question-number> -a <answer> -c <answerconfirm>");
-        int counter = 9;
-        while (true) {
-            if ((matcher = Commands.getMatcher(ScanMatch.getScanner().nextLine(), Commands.SECURITY_QUESTION_PICK)) == null)
-                System.out.println("Invalid command. You have " + counter +
-                        " chances to enter the order correctly.\n" +
-                        "Your response should in form:\n" +
-                        "question pick -q <question-number> -a <answer> -c <answerconfirm>");
-            else {
-                questionNumber = Integer.parseInt(matcher.group("number").trim());
-                answer = matcher.group("answerConfirm").trim();
-                break;
-            }
-            counter--;
-            if (counter == 0) return "Signup unsuccessful";
+        if (!password.trim().equals("random"))
+            if (!getPasswordConfirmation(data)) return ProfisterControllerOut.SECOND_CHANCE_WAISTED;
+
+        return ProfisterControllerOut.VALID;
+    }
+
+    public String usernameExist() {
+        if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", username, "username")) {
+            username = findSomethingSimilar(username);
+            return ProfisterControllerOut.SUGGESTING_USERNAME.manipulateSuggestedUsername(username);
+
         }
+        return ProfisterControllerOut.VALID.getContent();
+    }
 
-        //todo: make sure to add .trim() to all of them.
-        //todo: update users at the beginning of the programme.
+    public ProfisterControllerOut handleRandomPassword() {
+        if (!password.trim().equals("random")) return ProfisterControllerOut.VALID;
+        this.password = randomPasswordGenerator();
+        return ProfisterControllerOut.SUGGESTING_PASSWORD;
+    }
 
+    public ProfisterControllerOut getSecurityQuestion(Matcher matcher) {
+        if (matcher.group("number") != null && matcher.group("number").trim().length() > 0)
+            questionNumber = Integer.parseInt(matcher.group("number").trim());
+        else
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+        if (questionNumber < 1 || questionNumber > 3)
+            return ProfisterControllerOut.INVALID_NUMBER;
+        if (matcher.group("answerConfirm") == null || matcher.group("answerConfirm").length() == 0 || matcher.group("answerConfirm").trim().length() == 0)
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+        answer = matcher.group("answerConfirm").trim();
+        if (matcher.group("answer") == null || matcher.group("answer").length() == 0 || matcher.group("answer").trim().length() == 0)
+            return ProfisterControllerOut.INVALID_INPUT_FORMAT;
+        if (!matcher.group("answer").trim().equals(answer))
+            return ProfisterControllerOut.SECOND_CHANCE_WAISTED;
+        return ProfisterControllerOut.VALID;
+    }
+
+    public String createUser() throws IOException {
+
+        boolean randomSlogan = false;
         //handling random slogan:
         if (slogan.equals("random")) {
             int pickSlogan = (int) (numberOfSlogans * Math.random());
-            slogan = Files.readAllLines(Paths.get("/DataBase/slogans.txt")).get(pickSlogan);
-            System.out.println("Your slogan is " + slogan);
+            slogan = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "/DataBase/slogans.txt")).get(pickSlogan);
+            randomSlogan = true;
         }
 
         try {
@@ -218,9 +195,9 @@ public class RegisterMenuController {
         JSONObject userDetails = new JSONObject();
         userDetails.put("username", username);
         userDetails.put("password", password);
-        userDetails.put("nickname", nickname.substring(1, nickname.length()-1));
+        userDetails.put("nickname", correctDoubleQuotation(nickname));
         userDetails.put("email", email);
-        userDetails.put("slogan", slogan);
+        userDetails.put("slogan", correctDoubleQuotation(slogan));
         userDetails.put("securityQuestion", questionNumber);
         userDetails.put("securityAnswer", answer);
         userDetails.put("highScore", 0);
@@ -245,10 +222,11 @@ public class RegisterMenuController {
         }
         file.close();
 
-        return "Registration successful.\nWelcome to the club, mate!";
+        if (randomSlogan) return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.manipulateRandomSlogan(slogan);
+        else return ProfisterControllerOut.SUCCESSFULLY_REGISTERED.getContent();
     }
 
-    private String encryptPassword(String password) throws NoSuchAlgorithmException {
+    public String encryptPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
         String encoded = Base64.getEncoder().encodeToString(hash);
@@ -257,16 +235,15 @@ public class RegisterMenuController {
 
 
     //Warning: can cause infinite loop:
-    private String findSomethingSimilar(String username) {
+    public String findSomethingSimilar(String username) {
         String randomStringWeAddEachTime;
         while (true) {
             randomStringWeAddEachTime = username + createRandomString();
-            if (!isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json",randomStringWeAddEachTime, "username"))
+            if (!isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", randomStringWeAddEachTime, "username"))
                 return randomStringWeAddEachTime;
         }
     }
 
-    //todo: save the address somewhere.
     public static String createRandomString() {
         Random rand = new Random();
         int numberOfCharacterWeAdd = rand.nextInt(5) + 1;
@@ -280,12 +257,6 @@ public class RegisterMenuController {
         return random.toString();
     }
 
-    public String dataExtractor(String string, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(string);
-        if (!matcher.find()) return "";
-        return matcher.group("wantedPart");
-    }
 
     public boolean getPasswordConfirmation(String string) {
         String regex = "(?<!\\S)-p\\s+(?<originalPassword>(\"[^\"]*\")|\\S*)\\s+(?<confirmation>(\"[^\"]*\")|\\S*)(?<!\\s)";
@@ -299,24 +270,24 @@ public class RegisterMenuController {
     }
 
 
-    private String randomPasswordGenerator() {
+    public String randomPasswordGenerator() {
         String lowerCases = "abcdefghijklmnopqrstuvwxyz";
         String upperCases = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String symbols = "\\*\\.\\!\\@\\$\\%\\^\\&\\(\\)\\{\\}\\[\\]\\:\\;\\<\\>\\,\\?\\/\\~\\_\\+\\-\\=\\|";
         StringBuilder randomPassword = new StringBuilder();
         int randomLength = (int) (6 * Math.random()) + 2;
-
+        int randomMathNumber = (int) (10 * Math.random());
         //first, we need to make sure password we make is valid:
         randomPassword.append(lowerCases.charAt((int) (lowerCases.length() * Math.random())));
         randomPassword.append(upperCases.charAt((int) (upperCases.length() * Math.random())));
         randomPassword.append(symbols.charAt((int) (symbols.length() * Math.random())));
-        randomPassword.append(10 * Math.random());
-
+        randomPassword.append(randomMathNumber);
         for (int i = 0; i < randomLength; i++) {
             int rand = (int) (4 * Math.random());
             switch (rand) {
                 case 0:
-                    randomPassword.append(10 * Math.random());
+                    rand = (int) (10 * Math.random());
+                    randomPassword.append(rand);
                     break;
                 case 1:
                     rand = (int) (lowerCases.length() * Math.random());
@@ -376,4 +347,22 @@ public class RegisterMenuController {
         return false;
     }
 
+    public String correctDoubleQuotation(String input) {
+        if (input.length() == 0 || input.equals("\"\"")) return input;
+        if (input.charAt(0) == '"' && input.charAt(input.length() - 1) == '"' && input.contains(" "))
+            return input.substring(1, input.length() - 1);
+        return input;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setQuestionNumber(int questionNumber) {
+        this.questionNumber = questionNumber;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 }
