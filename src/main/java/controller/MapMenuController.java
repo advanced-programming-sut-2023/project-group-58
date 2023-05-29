@@ -489,6 +489,8 @@ public class MapMenuController {
         if (!checkFinance(currentPlayer, type)) return ProfisterControllerOut.NOT_ENOUGH_RESOURCES;
         if (type.equals(BuildingEnum.SMALL_STONE_GATEHOUSE) || type.equals(BuildingEnum.BIG_STONE_GATEHOUSE))
             return ProfisterControllerOut.ONLY_ONE_GATEHOUSE;
+        if(type.equals(BuildingEnum.STAIR) && !checkThePlaceForStairs(currentPlayer))
+            return ProfisterControllerOut.INVALID_STAIR_LOCATION;
         Building addingBuilding = null;
         boolean enoughPlayers = currentPlayer.getGovernance().getUnemployedPopulation() >= type.getWorker();
         if (enoughPlayers) currentPlayer.getGovernance().changeUnemployedPopulation(-1 * type.getWorker());
@@ -529,6 +531,15 @@ public class MapMenuController {
         primaryPerformance(currentPlayer,addingBuilding);
         if (!enoughPlayers) return ProfisterControllerOut.CREATED_EMPTY_BUILDING;
         return ProfisterControllerOut.SUCCESSFULLY_ADDED_BUILDING;
+    }
+
+    private boolean checkThePlaceForStairs(User currentPlayer) {
+        for(int i = yTexture - 1; i < yTexture + 2; yTexture++)
+            for(int j = xTexture - 1; j < xTexture + 2; j++) {
+                if(selectedMap.getTile(i,j).doWeHaveWallsOrGates(currentPlayer))
+                    return true;
+            }
+        return false;
     }
 
     private void primaryPerformance(User currentPlayer, Building addingBuilding) {

@@ -1,8 +1,8 @@
 package model;
 
-import model.buildings.Building;
-import model.buildings.Gate;
-import model.buildings.Trap;
+import controller.PatchFinding;
+import controller.gameMenuControllers.GameController;
+import model.buildings.*;
 import model.units.Troop;
 import model.units.Unit;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Tile implements Comparable<Tile>{
+public class Tile implements Comparable<Tile> {
     private int x;
     private int y;
     private Tile parent;
@@ -84,7 +84,7 @@ public class Tile implements Comparable<Tile>{
     public String showBuildings() {
         String ans = "\nBuilding(s) here:";
         for (Building building : this.buildings) {
-            ans += "\n" + building.getType().getName();
+            ans += "\n" + building.getType().getName() + " -> hp: " + building.getHp();
         }
         return ans;
     }
@@ -122,10 +122,10 @@ public class Tile implements Comparable<Tile>{
     }
 
     public int getLongRangeDamage(User master, int xorigin, int yorigin, int distance) {
-        Unit selected = findUnitByOrigin(master,xorigin,yorigin);
+        Unit selected = findUnitByOrigin(master, xorigin, yorigin);
         int totalDamage = 0;
         for (Troop troop : selected.getTroops()) {
-            if(troop.getType().getRange() >= distance)
+            if (troop.getType().getRange() >= distance)
                 totalDamage += troop.getType().getDamage() * (master.getGovernance().getFearRate() * 5 + 100);
         }
         return totalDamage / 100;
@@ -144,7 +144,7 @@ public class Tile implements Comparable<Tile>{
     }
 
     public void unifyYourUnits(ArrayList<Unit> replacement, User master) {
-        if(replacement == null || replacement.size() == 0)
+        if (replacement == null || replacement.size() == 0)
             this.playersUnits.remove(master.getUsername());
         for (Map.Entry<String, ArrayList<Unit>> arrayListEntry : this.playersUnits.entrySet()) {
             if (arrayListEntry.getKey().equals(master.getUsername()))
@@ -234,15 +234,28 @@ public class Tile implements Comparable<Tile>{
 
     public boolean checkPossibleBuilding(User currentForce) {
         for (Building building : buildings) {
+            if (building instanceof Gate || building.getType().equals(BuildingEnum.SMALL_WALL) || building.getType().equals(BuildingEnum.BIG_WALL)) {
+                if (PatchFinding.isClearance()) {
+                    PatchFinding.setClearance(false);
+                    return true;
+                }
+            }
             if (building instanceof Gate) {
+                PatchFinding.setClearance(false);
                 if (!((Gate) building).isOpen()) return false;
             } else if (building instanceof Trap) {
+                PatchFinding.setClearance(false);
                 if (building.getOwner().getUsername().equals(currentForce.getUsername())) return false;
                 if (((Trap) building).isVisible()) return false;
-            } else return false;
+            } else {
+                if (building.getType().equals(BuildingEnum.STAIR))
+                    PatchFinding.setClearance(true);
+                return false;
+            }
         }
         return true;
     }
+
 
     public HashMap<String, ArrayList<Unit>> getPlayersUnits() {
         return playersUnits;
@@ -255,7 +268,7 @@ public class Tile implements Comparable<Tile>{
             if (usersUnit.getxOrigin() != unit.getxOrigin() || usersUnit.getyOrigin() != unit.getyOrigin())
                 replacement.add(usersUnit);
         }
-        unifyYourUnits(replacement , unit.getMaster());
+        unifyYourUnits(replacement, unit.getMaster());
     }
 
     public void damageAllEnemies(User master, int damage) {
@@ -276,8 +289,19 @@ public class Tile implements Comparable<Tile>{
     public void setDistance(int distance) {
         this.distance = distance;
     }
+
     @Override
     public int compareTo(Tile other) {
         return Double.compare(distance, other.distance);
+    }
+
+    public boolean doWeHaveWallsOrGates(User currentPlayer) {
+        for (Building building : buildings) {
+            if (building.getOwner().getUsername().equals(currentPlayer.getUsername()))
+                if (building.getType().equals(BuildingEnum.SMALL_WALL) || building.getType().equals(BuildingEnum.BIG_WALL) ||
+                        building instanceof Gate)
+                    return true;
+        }
+        return false;
     }
 }

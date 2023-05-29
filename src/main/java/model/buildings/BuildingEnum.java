@@ -39,16 +39,18 @@ public enum BuildingEnum {
     BLACKSMITH(BuildingEnumType.RESOURCE_MAKER,2, "blacksmith", 2000, 1, 100, new Resource(ResourceEnum.WOOD, 20), 1),
     BREWER(BuildingEnumType.RESOURCE_MAKER, 2,"brewer", 2000, 1, 0, new Resource(ResourceEnum.WOOD, 10), 1),
     GRANARY(BuildingEnumType.STORAGE, 0,"granary", 6000, 1, 0, new Resource(ResourceEnum.WOOD, 5), 0),
-    STAIR(BuildingEnumType.BUILDING, 0,"stair", 500, 1, 0, new Resource(ResourceEnum.STONE, 0), 0),//چرا سمگ؟
+    STAIR(BuildingEnumType.BUILDING, 0,"stair", 500, 1, 0, new Resource(ResourceEnum.STONE, 0), 0),
     ARMOURER(BuildingEnumType.RESOURCE_MAKER, 2,"armourer", 2000, 1, 100, new Resource(ResourceEnum.WOOD, 20), 1),
     FLETCHER(BuildingEnumType.RESOURCE_MAKER, 2,"fletcher", 2000, 1, 100, new Resource(ResourceEnum.WOOD, 20), 1),
     POLE_TURNER(BuildingEnumType.RESOURCE_MAKER, 2,"pole_turner", 2000, 1, 100, new Resource(ResourceEnum.WOOD, 10), 1),
     OIL_SMELTER(BuildingEnumType.RESOURCE_MAKER, 2,"oil_smelter", 4000, 1, 100, new Resource(ResourceEnum.IRON, 10), 1),
-    //WALL(BuildingEnumType.BUILDING, "wall", 0, 0, new Resource(ResourceEnum.STONE, 0), 0),
+    SMALL_WALL(BuildingEnumType.BUILDING, 0,"small_wall", 20000, 0, 4000,new Resource(ResourceEnum.STONE, 5), 0),
+    BIG_WALL(BuildingEnumType.BUILDING, 0,"big_wall", 40000, 0, 4000,new Resource(ResourceEnum.STONE, 15), 0),
     HUNTERS_POST(BuildingEnumType.RESOURCE_MAKER, 1,"hunter_post", 2000, 1, 0, new Resource(ResourceEnum.WOOD, 5), 1),
     SIEGE_TENT(BuildingEnumType.BUILDING, 0,"siege_tent", 2000, 1, 0, new Resource(null, 0), 0),
     STABLE(BuildingEnumType.BUILDING, 0,"stable", 2000, 1, 400, new Resource(ResourceEnum.WOOD, 20), 0),
     MARKET(BuildingEnumType.BUILDING, 0,"market", 2000, 1, 0, new Resource(ResourceEnum.WOOD, 5), 1),
+    BATTERING_RAM(BuildingEnumType.BUILDING, 0,"battering_ram", 2000, 0, 0, new Resource(ResourceEnum.STONE, 10), 0),
     ;
     private BuildingEnumType type;
     private String name;

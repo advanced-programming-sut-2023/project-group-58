@@ -31,10 +31,17 @@ public class Governance {
     private static ArrayList<TradeItem> allTrades = new ArrayList<>();
 
     public Governance() {
-        resources.add(new Resource(ResourceEnum.WOOD, 50));
-        resources.add(new Resource(ResourceEnum.APPLE, 50));
-        resources.add(new Resource(ResourceEnum.BREAD, 50));
-        resources.add(new Resource(ResourceEnum.STONE, 50));
+        changeResourceAmount(ResourceEnum.WOOD,75);
+        changeResourceAmount(ResourceEnum.APPLE,75);
+        changeResourceAmount(ResourceEnum.BREAD,75);
+        changeResourceAmount(ResourceEnum.STONE,75);
+        changeResourceAmount(ResourceEnum.BOW,15);
+        changeResourceAmount(ResourceEnum.SPEAR,15);
+        changeResourceAmount(ResourceEnum.SWORD,15);
+        changeResourceAmount(ResourceEnum.ARMOUR,15);
+        changeResourceAmount(ResourceEnum.MACE,15);
+        changeResourceAmount(ResourceEnum.LEATHER_ARMOR,15);
+        changeResourceAmount(ResourceEnum.PIKE,15);
     }
 
     public void changeUnemployedPopulation(int unemployedPopulation) {
@@ -124,7 +131,7 @@ public class Governance {
     }
 
     public void changeFearRate(int number) {
-        this.fearRate = number;
+        this.fearRate += number;
     }
 
     public void changeTaxRate(int number) {

@@ -28,13 +28,23 @@ public class GameController {
     private int xOriginOFSelectedUnit = -1;
     private int yOriginOFSelectedUnit = -1;
 
+    public void prepareForNextPlayer(User currentUser) {
+        this.xOriginOFSelectedUnit = -1;
+        this.yOriginOFSelectedUnit = -1;
+        this.selectedBuilding = null;
+        this.xOFSelectedBuilding = 0;
+        this.yOFSelectedBuilding = 0;
+        this.xCoor = 0;
+        this.yCoor = 0;
+        this.indexOFSelectedBuilding = 0;
+        this.CurrentUser = currentUser;
+    }
+
+
     public User getCurrentUser() {
         return CurrentUser;
     }
 
-    public void setCurrentUser(User currentUser) {
-        CurrentUser = currentUser;
-    }
 
     public String showPopularityFactors() {
         String ans = "";
@@ -53,6 +63,7 @@ public class GameController {
         int fearRate = ruler.getGovernance().getFearRate();
         return fearRate * 5 + 100;
     }
+
     public GameControllerOut setFoodRate(String rateNumber) {
         if (this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.APPLE) == 0 &&
                 this.CurrentUser.getGovernance().getResourceAmount(ResourceEnum.BREAD) == 0 &&
@@ -62,7 +73,7 @@ public class GameController {
         if (rateNumber == null || rateNumber.length() == 0 || rateNumber.trim().length() == 0)
             return GameControllerOut.INVALID_INPUT_FORMAT;
         int rate = Integer.parseInt(rateNumber.trim());
-        if (rate>2 || rate<-2) return GameControllerOut.INVALID_NUMBER_INPUT;
+        if (rate > 2 || rate < -2) return GameControllerOut.INVALID_NUMBER_INPUT;
         this.CurrentUser.getGovernance().changeFoodRate(rate);
         return GameControllerOut.SUCCESSFULLY_CHANGED_FOODRATE;
     }
@@ -75,7 +86,7 @@ public class GameController {
         if (this.CurrentUser.getGovernance().getGold() <= 0)
             return GameControllerOut.NO_GOLD_NO_RATE_CHANGE;
         int rate = Integer.parseInt(rateNumber.trim());
-        if (rate<-3 || rate>8) return GameControllerOut.INVALID_NUMBER_INPUT;
+        if (rate < -3 || rate > 8) return GameControllerOut.INVALID_NUMBER_INPUT;
         this.CurrentUser.getGovernance().changeTaxRate(rate);
         return GameControllerOut.SUCCESSFULLY_CHANGED_TAXRATE;
     }
@@ -357,7 +368,7 @@ public class GameController {
         Gate addingGate = ans == 1 ? new Gate(BuildingEnum.SMALL_STONE_GATEHOUSE, getCurrentUser(), direction, true) :
                 new Gate(BuildingEnum.BIG_STONE_GATEHOUSE, getCurrentUser(), direction, true);
         selectedMap.getTile(yCoor, xCoor).getBuildings().add(addingGate);
-        if(ans == 1)
+        if (ans == 1)
             getCurrentUser().getGovernance().changeMaximumPopulation(8);
         else
             getCurrentUser().getGovernance().changeMaximumPopulation(10);
@@ -406,16 +417,16 @@ public class GameController {
     }
 
     private void moveForwardThePath(Unit unit, List<Point> patchPoints, int xOrigin, int yOrigin) {
-        boolean bumer = false;
-        for (Point patchPoint : patchPoints) {
-            if(bumer)
-                System.out.println(patchPoint.getX() + " , " + patchPoint.getY());
-            else System.out.println(patchPoint.getY() + " , " + patchPoint.getX());
-            bumer = !bumer;
-        }
+//        boolean bumer = false;
+//        for (Point patchPoint : patchPoints) {
+//            if (bumer)
+//                System.out.println(patchPoint.getX() + " , " + patchPoint.getY());
+//            else System.out.println(patchPoint.getY() + " , " + patchPoint.getX());
+//            bumer = !bumer;
+//        }
         boolean jumper = false;
-        int xPresent;
-        int yPresent;
+        int xPresent = 0;
+        int yPresent = 0;
         int previousX = xOrigin;
         int previousY = yOrigin;
         int counter = 0;
@@ -430,9 +441,12 @@ public class GameController {
             }
             jumper = !jumper;
 
-            System.out.println("previous: "+previousX+","+previousY);
-            System.out.println("now: "+xPresent+","+yPresent);
-            System.out.println("unit: "+unit.getxDestination()+","+unit.getyDestination());
+            counter += Math.abs(previousX - xPresent) + Math.abs(previousY - yPresent);
+            if (counter > unit.getSpeed())
+                return;
+//            System.out.println("previous: " + previousX + "," + previousY);
+//            System.out.println("now: " + xPresent + "," + yPresent);
+//            System.out.println("unit: " + unit.getxDestination() + "," + unit.getyDestination());
 
             selectedMap.getTile(previousY, previousX).removeAUnit(unit);
             selectedMap.getTile(yPresent, xPresent).addUnitToTile(unit);
@@ -444,23 +458,24 @@ public class GameController {
 
             if (unit.getTroops().size() == 0)
                 return;
-            counter = Math.abs(previousX - xPresent) + Math.abs(previousY - yPresent);
             previousX = xPresent;
             previousY = yPresent;
-            if (counter >= unit.getSpeed())
-                return;
         }
-        unit.setxDestination(-1);
-        unit.setyDestination(-1);
+        if(xPresent != unit.getxDestination() || yPresent != unit.getyDestination())
+            return;
         if (unit.isOnPatrol()) {
-            if (unit.getPatrolDestinations()[0].getY() == unit.getxDestination() &&
-                    unit.getPatrolDestinations()[0].getX() == unit.getyDestination()) {
-                unit.setxDestination(unit.getPatrolDestinations()[1].getY());
-                unit.setyDestination(unit.getPatrolDestinations()[1].getX());
-            } else {
-                unit.setxDestination(unit.getPatrolDestinations()[0].getY());
-                unit.setyDestination(unit.getPatrolDestinations()[0].getX());
+            if (unit.getPatrolDestinations()[0].getX() == xPresent &&
+                    unit.getPatrolDestinations()[0].getY() == yPresent) {
+                unit.setxDestination(unit.getPatrolDestinations()[1].getX());
+                unit.setyDestination(unit.getPatrolDestinations()[1].getY());
+            } else{
+                unit.setxDestination(unit.getPatrolDestinations()[0].getX());
+                unit.setyDestination(unit.getPatrolDestinations()[0].getY());
             }
+        }
+        else {
+            unit.setxDestination(-1);
+            unit.setyDestination(-1);
         }
     }
 
@@ -472,7 +487,8 @@ public class GameController {
                 totalDamage += troop.getType().getDamage() * performance;
         }
         for (Building building : tile.getBuildings()) {
-            building.takeDamage(totalDamage/100);
+            if (!building.getOwner().getUsername().equals(unit.getMaster().getUsername()))
+                building.takeDamage(totalDamage / 100);
         }
     }
 
@@ -527,19 +543,20 @@ public class GameController {
     private void fightOfTwoUnits(Unit unit, Unit unit1) {
         if (unit.getTroops().size() == 0 || unit1.getTroops().size() == 0) return;
         for (Troop troop : unit.getTroops()) {
-            for (Troop unit1Troop : unit1.getTroops()) {
-                if (!unit1Troop.isDead())
-                    troop.takeDamage(unit1Troop.getType().getDamage() *  getPerformance(unit1.getMaster()) / 100);
-                if (!troop.isDead())
-                    unit1Troop.takeDamage(troop.getType().getDamage() * getPerformance(unit.getMaster()) / 100);
-            }
+            for (Troop unit1Troop : unit1.getTroops())
+                if (!unit1.getMaster().getUsername().equals(unit.getMaster().getUsername())) {
+                    if (!unit1Troop.isDead())
+                        troop.takeDamage(unit1Troop.getType().getDamage() * getPerformance(unit1.getMaster()) / 100);
+                    if (!troop.isDead())
+                        unit1Troop.takeDamage(troop.getType().getDamage() * getPerformance(unit.getMaster()) / 100);
+                }
         }
     }
 
     private void getCaughtByTraps(Tile tile, Unit unit) {
         if (tile.isTrap()) {
             for (Building building : tile.getBuildings())
-                if (building instanceof Trap) {
+                if (building instanceof Trap && !building.getOwner().getUsername().equals(unit.getMaster().getUsername())) {
                     unit.takeSteadyDamageForAll(((Trap) building).getDamage());
                     unit.clearTheDead();
                 }
@@ -566,10 +583,9 @@ public class GameController {
         patrol[0] = new Point(xCoor, yCoor);
         patrol[1] = new Point(x2Coor, y2Coor);
         int[] currentLocation = findUnit(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit, selectedMap);
-
         selectedMap.getTile(currentLocation[0], currentLocation[1]).setPetrolStatus(getCurrentUser(),
                 xOriginOFSelectedUnit, yOriginOFSelectedUnit, patrol);
-        return GameControllerOut.PATROL_SET_SUCCESSFULLY;
+           return GameControllerOut.PATROL_SET_SUCCESSFULLY;
     }
 
     public GameControllerOut attack(String data) {
@@ -582,6 +598,8 @@ public class GameController {
             return GameControllerOut.INVALID_INPUT_FORMAT;
         if (!validateCoordinates(selectedMap.getLength(), selectedMap.getWidth()))
             return GameControllerOut.INVALID_COORDINATES;
+        if (!selectedMap.getTile(yCoor, xCoor).areEnemiesHere(getCurrentUser()))
+            return GameControllerOut.NO_ENEMIES_HERE;
         int[] currentLocation = findUnit(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit, selectedMap);
         if (shooting) {
             int distance = Math.abs(xCoor - xOriginOFSelectedUnit) + Math.abs(yCoor - yOriginOFSelectedUnit);
@@ -600,10 +618,10 @@ public class GameController {
 
     public void setTargets() {
         for (User empire : Governance.getEmpires()) {
-            if(empire.getGovernance().getUnits().size() != 0) {
+            if (empire.getGovernance().getUnits().size() != 0) {
                 for (Unit unit : empire.getGovernance().getUnits()) {
                     int[] currentLocation = findUnit(empire, unit.getxOrigin(), unit.getyOrigin(), selectedMap);
-                    setUnitTarget(unit,currentLocation[0],currentLocation[1]);
+                    setUnitTarget(unit, currentLocation[0], currentLocation[1]);
                 }
             }
         }
@@ -652,22 +670,30 @@ public class GameController {
             if (empire.getGovernance().getUnits().size() != 0) {
                 for (Unit unit : empire.getGovernance().getUnits()) {
                     PatchFinding.setCurrentForce(empire);
-                    if(unit.getxDestination() == -1 || unit.getyDestination() == -1)
-                    {
+                    if (unit.getxDestination() == -1 || unit.getyDestination() == -1 || unit.isOnPatrol()) {
                         int[] currentLocation = findUnit(empire, unit.getxOrigin(), unit.getyOrigin(), selectedMap);
-                        if(currentLocation[1] == 32)
-                            System.out.println(currentLocation[1] + " , " + currentLocation[0]);
-                        continue;
                     }
                     int[] currentLocation = findUnit(empire, unit.getxOrigin(), unit.getyOrigin(), selectedMap);
-                    List<Point> patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
+                    List<Point> patchPoints = new ArrayList<>();
+                    if(!unit.isOnPatrol() && unit.getxDestination() != -1 && unit.getyDestination() != -1)
+                    patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
                             new Point(unit.getxDestination(), unit.getyDestination()), true);
+                    else if(unit.isOnPatrol()) {
+                        Point des = new Point();
+                        if(unit.getPatrolDestinations()[0].getX() == currentLocation[1] && unit.getPatrolDestinations()[0].getY() == currentLocation[0])
+                            des = new Point(unit.getPatrolDestinations()[1].getX(),unit.getPatrolDestinations()[1].getY());
+                        else
+                            des = new Point(unit.getPatrolDestinations()[0].getX(),unit.getPatrolDestinations()[0].getY());
+                        patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
+                                des, true);
+                    }
                     moveForwardThePath(unit, patchPoints, currentLocation[1], currentLocation[0]);
                 }
             }
         }
     }
-    public void foodRateEffect(){
+
+    public void foodRateEffect() {
         int rate = CurrentUser.getGovernance().getFoodRate();
         switch (rate) {
             case -2:
@@ -687,13 +713,15 @@ public class GameController {
         }
         ArrayList<Resource> resources = CurrentUser.getGovernance().getResources();
         int countOfFood = 0;
-        for (Resource resource : resources){
+        for (Resource resource : resources) {
             String name = resource.getType().getName();
-            if (name.equals("apple")||name.equals("meat")||name.equals("bread")||name.equals("cheese")) countOfFood++;
+            if (name.equals("apple") || name.equals("meat") || name.equals("bread") || name.equals("cheese"))
+                countOfFood++;
         }
-        CurrentUser.getGovernance().changePopularity(countOfFood-1);
+        CurrentUser.getGovernance().changePopularity(countOfFood - 1);
     }
-    public void taxRateEffect(){
+
+    public void taxRateEffect() {
         int rate = CurrentUser.getGovernance().getTaxRate();
         switch (rate) {
             case -3:
@@ -734,37 +762,78 @@ public class GameController {
                 break;
         }
     }
-    public void fearRateEffect(){
+
+    public void fearRateEffect() {
         int rate = CurrentUser.getGovernance().getFearRate();
         getCurrentUser().getGovernance().changePopularity(rate * -2);
     }
-    public void churchEffect(){
-        int count=0;
+
+    public void churchEffect() {
+        int count = 0;
         ArrayList<Building> buildings = CurrentUser.getGovernance().getBuildings();
-        for (Building building : buildings){
-            if (building.getType().getName().equals("cathedral") || building.getType().getName().equals("church")){
+        for (Building building : buildings) {
+            if (building.getType().getName().equals("cathedral") || building.getType().getName().equals("church")) {
                 count++;
             }
         }
-        CurrentUser.getGovernance().changePopularity(count*2);
+        CurrentUser.getGovernance().changePopularity(count * 2);
     }
+
     public void produce() {
         for (User empire : Governance.getEmpires()) {
             //first wave:
             for (Building building : empire.getGovernance().getBuildings()) {
-                if(building.getType().getWave() == 1)
-                    ((ResourceMaker)building).produceAfterEachTurn();
+                if (building.getType().getWave() == 1)
+                    ((ResourceMaker) building).produceAfterEachTurn();
             }
             //second wave:
             for (Building building : empire.getGovernance().getBuildings()) {
-                if(building.getType().getWave() == 2)
-                    ((ResourceMaker)building).produceAfterEachTurn();
+                if (building.getType().getWave() == 2)
+                    ((ResourceMaker) building).produceAfterEachTurn();
             }
             //third wave:
             for (Building building : empire.getGovernance().getBuildings()) {
-                if(building.getType().getWave() == 3)
-                    ((ResourceMaker)building).produceAfterEachTurn();
+                if (building.getType().getWave() == 3)
+                    ((ResourceMaker) building).produceAfterEachTurn();
             }
         }
+    }
+
+    public GameControllerOut disbandUnit() {
+        if (xOriginOFSelectedUnit == -1)
+            return GameControllerOut.SELECT_A_UNIT_FIRST;
+        return findAndSetUnitDestination();
+    }
+
+    private GameControllerOut findAndSetUnitDestination() {
+        int[] currentLocation = findUnit(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit, selectedMap);
+        Unit selectedUnit = selectedMap.getTile(currentLocation[0], currentLocation[1]).findUnitByOrigin(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit);
+        for (int i = 0; i < selectedMap.getWidth(); i++)
+            for (int j = 0; j < selectedMap.getLength(); j++)
+                for (Building building : selectedMap.getTile(i, j).getBuildings()) {
+                    if (building.getOwner().getUsername().equals(getCurrentUser().getUsername()))
+                        if ((selectedUnit.getTroops().get(0).getType().equals(UnitEnum.ENGINEER) && building.getType().equals(BuildingEnum.ENGINEERS_GUILD)) ||
+                                (selectedUnit.getTroops().get(0).getType().isArab() && building.getType().equals(BuildingEnum.MERCENARY_POST) &&
+                                        !selectedUnit.getTroops().get(0).getType().equals(UnitEnum.ENGINEER)) ||
+                                (!selectedUnit.getTroops().get(0).getType().isArab() && building.getType().equals(BuildingEnum.BARRACKS) &&
+                                        !selectedUnit.getTroops().get(0).getType().equals(UnitEnum.ENGINEER))
+                        ) {
+                            selectedMap.getTile(currentLocation[0], currentLocation[1]).findYourUnits(getCurrentUser()).get(0)
+                                    .setxDestination(j);
+                            selectedMap.getTile(currentLocation[0], currentLocation[1]).findYourUnits(getCurrentUser()).get(0)
+                                    .setyDestination(i);
+                            return GameControllerOut.RETREATING;
+                        }
+                }
+        return GameControllerOut.NO_PLACE_TO_GO;
+    }
+
+    public GameControllerOut stopPetrol() {
+        int[] currentLocation = findUnit(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit, selectedMap);
+        Unit selectedUnit = selectedMap.getTile(currentLocation[0], currentLocation[1]).findUnitByOrigin(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit);
+        selectedUnit.setOnPatrol(false);
+        selectedUnit.setxDestination(-1);
+        selectedUnit.setyDestination(-1);
+        return GameControllerOut.SUCCESSFULLY_STOPPED;
     }
 }
