@@ -1,14 +1,12 @@
 package model;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class Captcha {
     private int width;
     private String number;
 
-    public BufferedImage getCaptcha() {
+    /*public BufferedImage getCaptcha() {
         String number = randomNumber();
         this.number = number;
         int width = number.length() * 10;
@@ -35,7 +33,7 @@ public class Captcha {
         }
         return number;
     }
-
+*/
 
     public int getWidth() {
         return width;
