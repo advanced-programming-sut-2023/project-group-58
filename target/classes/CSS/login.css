@@ -58,6 +58,7 @@
 .Label{
     -fx-padding: 10;
     -fx-alignment: center;
+    -fx-max-width: 400;
     -fx-border-insets: 10;
     -fx-background-insets: 10;
     -fx-background-color: darkred;
@@ -70,4 +71,22 @@
     -fx-background-size: 100;
     -fx-font-size: 50;
     -fx-font-family: "Cambria Math";
+}
+
+.background {
+    -fx-background-image: url("../Images/desktop-wallpaper-stronghold.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+.fancyStyle {
+}
+
+.otherButtons {
+}
+
+.mainButton {
+}
+
+.textStyle {
 }

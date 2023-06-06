@@ -1,3 +1,4 @@
+package view;
 import model.User;
 import view.MapMenu;
 import view.RegisterMenu;

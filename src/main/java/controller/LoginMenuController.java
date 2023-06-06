@@ -3,6 +3,10 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import model.Captcha;
 import model.User;
 import org.json.simple.JSONArray;
@@ -22,6 +26,12 @@ import java.util.regex.Pattern;
 
 
 public class LoginMenuController {
+    public TextField username;
+    public PasswordField password;
+    public Label label;
+    public Button login;
+    public Button guest;
+    public Button register;
     private String data;
     private String inputUsername;
     private String inputPassword;
