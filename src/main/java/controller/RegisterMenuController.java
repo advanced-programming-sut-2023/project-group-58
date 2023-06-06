@@ -139,11 +139,13 @@ public class RegisterMenuController {
         return ProfisterControllerOut.VALID;
     }
 
-    public String usernameExist() {
-        if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", username, "username")) {
-            username = findSomethingSimilar(username);
+    public String usernameExist(String inputUsername) {
+        if(inputUsername.equals("not graphic")) inputUsername = username;
+        else
+            username = inputUsername;
+        if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", inputUsername, "username")) {
+            username = findSomethingSimilar(inputUsername);
             return ProfisterControllerOut.SUGGESTING_USERNAME.manipulateSuggestedUsername(username);
-
         }
         return ProfisterControllerOut.VALID.getContent();
     }

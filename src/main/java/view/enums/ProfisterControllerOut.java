@@ -62,7 +62,7 @@ public enum ProfisterControllerOut {
 
 
     public String manipulateSuggestedUsername(String username) {
-        return this.content + username + " instead?\nType y for yes and n for no";
+        return this.content + username + " instead?";
     }
 
 }

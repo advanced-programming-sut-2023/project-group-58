@@ -20,6 +20,7 @@
             <HBox spacing="10" alignment="CENTER" style="-fx-padding: 30 0 0 0">
                 <Label text="username: " styleClass="Label" maxWidth="240"  maxHeight="50" style="-fx-font-size: 25"/>
                 <TextField promptText="your name" maxWidth="500" fx:id="username" styleClass="TextField"/>
+                <Label styleClass="TextField" fx:id="usernameErrorHandler" maxWidth="240" maxHeight="50" style="-fx-font-size: 25"/>
             </HBox>
             <HBox spacing="10" alignment="CENTER">
                 <Label text="password: " styleClass="Label" maxWidth="240"  maxHeight="50" style="-fx-font-size: 25"/>
