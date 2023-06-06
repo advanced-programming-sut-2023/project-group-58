@@ -8,7 +8,6 @@ import view.enums.Commands;
 import view.enums.LoginControllerOut;
 import view.enums.ProfisterControllerOut;
 
-import javax.swing.*;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;

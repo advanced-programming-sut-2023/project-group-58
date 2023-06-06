@@ -5,7 +5,6 @@ import controller.gameMenuControllers.LobbyController;
 import model.User;
 import view.enums.Commands;
 
-import java.awt.desktop.OpenURIEvent;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;

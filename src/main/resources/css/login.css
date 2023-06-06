@@ -1,0 +1,73 @@
+.Button{
+    -fx-border-width: 20;
+    -fx-fill-width: 20;
+    -fx-text-fill: white;
+    -fx-fit-to-width: 20;
+    -fx-background-color: Gray;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+    -fx-pref-width: 100px;
+    -fx-cursor: "Hand";
+}
+.TextField{
+    -fx-max-width: 300;
+    -fx-min-width: 300;
+    -fx-font-family: "Arial";
+    -fx-pref-width: 300;
+    -fx-font-size: 20px;
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-highlight-fill: derive(-fx-control-inner-background,-20%);
+    -fx-highlight-text-fill: -fx-text-inner-color;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent transparent white transparent;
+    -fx-border-width: 1;
+    -fx-border-insets: 0 0 1 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-cursor: text;
+    -fx-padding: 0.166667em 0em 0.333333em 0em;
+}
+.PasswordField{
+    -fx-max-width: 200;
+    -fx-min-width: 100;
+    -fx-pref-width: 300;
+    -fx-font-family: "Arial";
+    -fx-font-size: 20px;
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-highlight-fill: derive(-fx-control-inner-background,-20%);
+    -fx-highlight-text-fill: -fx-text-inner-color;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-prompt-text-fill: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent transparent white transparent;
+    -fx-border-width: 1;
+    -fx-border-insets: 0 0 1 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-cursor: text;
+    -fx-padding: 0.166667em 0em 0.333333em 0em;
+}
+.Button:hover {
+    -fx-background-color: linear-gradient(lightskyblue, dodgerblue);
+}
+.Label{
+    -fx-padding: 10;
+    -fx-alignment: center;
+    -fx-border-insets: 10;
+    -fx-background-insets: 10;
+    -fx-background-color: darkred;
+    -fx-text-fill: orange;
+    -fx-pref-width: 700;
+    -fx-pref-height: 100;
+    -fx-background-radius: 40;
+    -fx-content-display: center;
+    -fx-border-radius: 40;
+    -fx-background-size: 100;
+    -fx-font-size: 50;
+    -fx-font-family: "Cambria Math";
+}
