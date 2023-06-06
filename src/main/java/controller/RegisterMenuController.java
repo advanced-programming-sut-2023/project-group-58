@@ -6,7 +6,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import view.ScanMatch;
 import view.enums.ProfisterControllerOut;
 
 import java.io.*;
@@ -15,8 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -140,7 +138,7 @@ public class RegisterMenuController {
     }
 
     public String usernameExist(String inputUsername) {
-        if(inputUsername.equals("not graphic")) inputUsername = username;
+        if (inputUsername.equals("not graphic")) inputUsername = username;
         else
             username = inputUsername;
         if (isUsernameOrEmailAlreadyTaken(System.getProperty("user.dir") + "/DataBase/userInfo.json", inputUsername, "username")) {
@@ -366,5 +364,27 @@ public class RegisterMenuController {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public ArrayList<String> getTop10Slogans() throws FileNotFoundException {
+        LoginMenuController.extractUserData();
+        HashMap<String, Integer> sloganCount = new HashMap<>();
+        for (User user : User.getUsers()) {
+            int count = sloganCount.getOrDefault(user.getSlogan(), 0) + 1;
+            sloganCount.put(user.getSlogan(), count);
+        }
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(sloganCount.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+        ArrayList<String> topTen = new ArrayList<>();
+        for (int i = 0; i < 10 && i < list.size(); i++) {
+            Map.Entry<String, Integer> entry = list.get(i);
+            if (entry.getKey() != null && entry.getKey().length() != 0)
+                topTen.add(entry.getKey());
+        }
+        return topTen;
     }
 }

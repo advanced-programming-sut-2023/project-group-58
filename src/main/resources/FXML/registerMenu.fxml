@@ -42,7 +42,10 @@
                 <CheckBox text="slogan" fx:id="sloganCheckBox"  maxHeight="150" style="-fx-font-size: 27; -fx-text-fill: white"/>
                 <Button text="random" fx:id="randomSlogan" styleClass="Button" onMouseClicked="#chooseRandomSlogan" visible="false"/>
                 <TextField visible="false" promptText="Slogan shall you have!"
-                           fx:id="sloganTextField" styleClass="TextField" style="-fx-font-size: 15; -fx-text-fill: white"/>
+                           fx:id="sloganTextField" styleClass="TextField"  onMouseClicked="#showList"  style="-fx-font-size: 15; -fx-text-fill: white"/>
+            </HBox>
+            <HBox spacing="10" alignment="CENTER"  style="-fx-padding: 20 0 0 185">
+            <ListView fx:id="listView" prefHeight="80" visible="false" minWidth="300"/>
             </HBox>
         </VBox>
     </center>

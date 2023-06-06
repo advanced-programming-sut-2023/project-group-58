@@ -2,28 +2,25 @@ package view.controls;
 
 import controller.CommonController;
 import controller.RegisterMenuController;
-import javafx.fxml.FXML;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import model.User;
-import view.CaptchaMenu;
-import view.GetStyle;
 import view.LoginMenu;
-import view.ScanMatch;
-import view.enums.Commands;
 import view.enums.ProfisterControllerOut;
 
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
 
 public class LoginRegisterMenuControl implements Initializable {
 
@@ -36,6 +33,7 @@ public class LoginRegisterMenuControl implements Initializable {
     public CheckBox sloganCheckBox;
     public TextField sloganTextField;
     public Button randomSlogan;
+    public ListView listView;
     private RegisterMenuController registerMenuController = new RegisterMenuController();
 
     public void login() throws IOException {
@@ -124,6 +122,11 @@ public class LoginRegisterMenuControl implements Initializable {
                 randomSlogan.setVisible(sloganCheckBox.isSelected());
             });
 
+        if(listView != null)
+            listView.setOnMouseClicked(event -> {
+                String selectedItem = (String) listView.getSelectionModel().getSelectedItem();
+                sloganTextField.setText(selectedItem);
+            });
     }
 
     public void chooseRandomSlogan(MouseEvent mouseEvent) throws IOException {
@@ -146,5 +149,20 @@ public class LoginRegisterMenuControl implements Initializable {
         if (option.get() == ButtonType.OK) {
             password.setText(newPassword);
         }
+    }
+
+    public void showList(MouseEvent mouseEvent) throws IOException {
+        if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+            if(listView.isVisible()) {
+                listView.setVisible(false);
+                return;
+            }
+            listView.setVisible(true);
+            ArrayList<String> slogans = registerMenuController.getTop10Slogans();
+            for (String slogan : slogans) {
+                listView.getItems().add(slogan);
+            }
+        }
+
     }
 }
