@@ -22,7 +22,7 @@ public enum ProfisterControllerOut {
     SUCCESSFULLY_CHANGED_EMAIL("Your Email changed to "),
     EMPTY_FIELDS("Make sure to fill all the essential fields and try again!"),
     SLOGAN_AND_NO_SLOGAN("You either enter the slogan field, or you don't!"),
-    SUGGESTING_USERNAME("This username is already taken. would like to use "),
+    SUGGESTING_USERNAME("This username is already taken.\nwould like to use "),
     SUGGESTING_PASSWORD("Your random password is: "),
     FAILED("Mission failed."),
     INVALID_INPUT_FORMAT("Failed: invalid input format"),

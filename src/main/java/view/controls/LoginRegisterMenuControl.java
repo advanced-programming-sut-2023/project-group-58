@@ -1,5 +1,6 @@
 package view.controls;
 
+import controller.CommonController;
 import controller.RegisterMenuController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import model.User;
 import view.CaptchaMenu;
+import view.GetStyle;
 import view.LoginMenu;
 import view.ScanMatch;
 import view.enums.Commands;
@@ -17,6 +19,8 @@ import view.enums.ProfisterControllerOut;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -28,6 +32,10 @@ public class LoginRegisterMenuControl implements Initializable {
     public TextField nickname;
     public TextField email;
     public Label usernameErrorHandler;
+    public Label passwordErrorHandler;
+    public CheckBox sloganCheckBox;
+    public TextField sloganTextField;
+    public Button randomSlogan;
     private RegisterMenuController registerMenuController = new RegisterMenuController();
 
     public void login() throws IOException {
@@ -93,12 +101,50 @@ public class LoginRegisterMenuControl implements Initializable {
                 if (checkUsername(username.getText()) != null)
                     usernameErrorHandler.setText(checkUsername(username.getText()).getContent());
 
-                if (checkUsername(username.getText()).equals(ProfisterControllerOut.VALID) || username.getText().equals(""))
+                if (checkUsername(username.getText()).equals(ProfisterControllerOut.VALID))
                     usernameErrorHandler.setText("");
 
                 String tempResult = registerMenuController.usernameExist(username.getText());
                 if (!tempResult.equals(ProfisterControllerOut.VALID.getContent()))
                     usernameErrorHandler.setText(tempResult);
+
+                if (username.getText().equals(""))
+                    usernameErrorHandler.setText("");
             });
+
+        if (password != null)
+            password.textProperty().addListener((observable, oldText, newText) -> {
+                if (CommonController.checkPasswordFormat(password.getText()) != ProfisterControllerOut.VALID)
+                    passwordErrorHandler.setText(CommonController.checkPasswordFormat(password.getText()).getContent());
+            });
+
+        if (sloganCheckBox != null)
+            sloganCheckBox.setOnAction(event -> {
+                sloganTextField.setVisible(sloganCheckBox.isSelected());
+                randomSlogan.setVisible(sloganCheckBox.isSelected());
+            });
+
+    }
+
+    public void chooseRandomSlogan(MouseEvent mouseEvent) throws IOException {
+        int pickSlogan = (int) (5 * Math.random());
+        String newSlogan = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "/DataBase/slogans.txt")).get(pickSlogan);
+        while(newSlogan.equals(sloganTextField.getText())) {
+            pickSlogan = (int) (5 * Math.random());
+            newSlogan = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "/DataBase/slogans.txt")).get(pickSlogan);
+        }
+        sloganTextField.setText(newSlogan);
+    }
+
+    public void chooseRandomPassword(MouseEvent mouseEvent) {
+       String newPassword = registerMenuController.randomPasswordGenerator();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm");
+        alert.setHeaderText("Random password");
+        alert.setContentText("Here's a random one: " + newPassword + "\nWould you like to set it as your password?");
+        Optional<ButtonType> option = alert.showAndWait();
+        if (option.get() == ButtonType.OK) {
+            password.setText(newPassword);
+        }
     }
 }
