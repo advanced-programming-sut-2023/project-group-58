@@ -17,13 +17,16 @@ import javafx.stage.Stage;
 import java.net.URL;
 
 public class LoginMenu extends Application {
+    private static Stage stage;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Stage stage = new Stage();
+        stage = new Stage();
         URL url = LoginMenu.class.getResource("/FXML/firstMenu.fxml");
         BorderPane pane = FXMLLoader.load(url);
+
         Scene scene = new Scene(pane);
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.show();
 
 
@@ -57,7 +60,7 @@ public class LoginMenu extends Application {
     }
     private void addToVbox(VBox vBox){
         LoginMenuControl loginMenuControl = new LoginMenuControl();
-        Label label = GetStyle.label("Welcome toStrongHold!");
+        Label label = GetStyle.label("Welcome to StrongHold!");
         TextField username = GetStyle.textField("username");
         username.focusedProperty().addListener(
                 new ChangeListener<Boolean>() {
@@ -81,5 +84,9 @@ public class LoginMenu extends Application {
         vBox.getChildren().addAll(label, username);
         vBox.getChildren().get(1).setLayoutY(100);
         vBox.getChildren().get(0).setLayoutY(200);
+    }
+
+    public static Stage getStage() {
+        return stage;
     }
 }

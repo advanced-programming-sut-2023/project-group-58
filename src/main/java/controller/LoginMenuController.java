@@ -26,12 +26,6 @@ import java.util.regex.Pattern;
 
 
 public class LoginMenuController {
-    public TextField username;
-    public PasswordField password;
-    public Label label;
-    public Button login;
-    public Button guest;
-    public Button register;
     private String data;
     private String inputUsername;
     private String inputPassword;

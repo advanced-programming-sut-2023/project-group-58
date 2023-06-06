@@ -5,20 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/firstMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/loginMenu.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/GetStyle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/GetStyle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CSS/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/image/desktop-wallpaper-stronghold.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/desktop-wallpaper-stronghold.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/image/login.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/login.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/CSS/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CSS/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/firstMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/firstMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/CSS/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/CSS/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/FXML/firstMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXML/firstMenu.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/LoginMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/LoginMenuController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,7 +197,7 @@
       <workItem from="1685823143287" duration="111000" />
       <workItem from="1685823683375" duration="25000" />
       <workItem from="1685550300590" duration="11600000" />
-      <workItem from="1686061818618" duration="978000" />
+      <workItem from="1686061818618" duration="5805000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

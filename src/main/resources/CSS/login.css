@@ -1,4 +1,7 @@
 .Button{
+    -fx-font-family: "Brush Script MT";
+    -fx-font-size: 30;
+    -fx-max-width: 300;
     -fx-border-width: 20;
     -fx-fill-width: 20;
     -fx-text-fill: white;
@@ -58,7 +61,7 @@
 .Label{
     -fx-padding: 10;
     -fx-alignment: center;
-    -fx-max-width: 400;
+    -fx-max-width: 600;
     -fx-border-insets: 10;
     -fx-background-insets: 10;
     -fx-background-color: darkred;
@@ -75,18 +78,23 @@
 
 .background {
     -fx-background-image: url("../Images/desktop-wallpaper-stronghold.jpg");
-    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
-}
-
-.fancyStyle {
+    -fx-background-attachment: fixed;
 }
 
 .otherButtons {
+    -fx-font-family: "Brush Script MT";
+    -fx-background-color: transparent;
+    -fx-max-width: 200;
+    -fx-font-size: 30;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
 }
 
-.mainButton {
-}
-
-.textStyle {
+.otherButtons:hover {
+    -fx-background-color: rgb(115, 13, 13);
+    -fx-font-weight: bold;
+    -fx-text-fill: #9b9090;
 }
