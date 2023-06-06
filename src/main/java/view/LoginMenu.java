@@ -3,6 +3,7 @@ import controller.LoginMenuControl;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,23 +11,27 @@ import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import view.controls.LoginRegisterMenuControl;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class LoginMenu extends Application {
     private static Stage stage;
     @Override
     public void start(Stage primaryStage) throws Exception {
+        LoginMenuControl loginMenuControl = new LoginMenuControl();
         stage = new Stage();
         URL url = LoginMenu.class.getResource("/FXML/firstMenu.fxml");
         BorderPane pane = FXMLLoader.load(url);
-
         Scene scene = new Scene(pane);
         stage.setScene(scene);
-        stage.setFullScreen(true);
+        //stage.setFullScreen(true);
         stage.show();
 
 
@@ -58,8 +63,8 @@ public class LoginMenu extends Application {
 //        stage.setFullScreen(true);
 //        stage.show();
     }
+
     private void addToVbox(VBox vBox){
-        LoginMenuControl loginMenuControl = new LoginMenuControl();
         Label label = GetStyle.label("Welcome to StrongHold!");
         TextField username = GetStyle.textField("username");
         username.focusedProperty().addListener(

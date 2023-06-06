@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="view.controls.LoginRegisterMenuControl"
+            stylesheets="@../CSS/login.css"
+            styleClass="background"
+            prefHeight="800.0" prefWidth="1530.0">
+    <center>
+        <VBox alignment="CENTER" spacing="15">
+            <Label text="Register form" styleClass="Label"/>
+            <HBox spacing="10" alignment="CENTER" style="-fx-padding: 30 0 0 0">
+                <Label text="username: " styleClass="Label" maxWidth="240"  maxHeight="50" style="-fx-font-size: 25"/>
+                <TextField promptText="your name" maxWidth="500" fx:id="username" styleClass="TextField"/>
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="password: " styleClass="Label" maxWidth="240"  maxHeight="50" style="-fx-font-size: 25"/>
+                <PasswordField promptText="password here" maxWidth="200" fx:id="password" styleClass="TextField"/>
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="nickname: " styleClass="Label" maxWidth="240"  maxHeight="50" style="-fx-font-size: 25"/>
+                <TextField promptText="what would you like to be called??" maxWidth="500" fx:id="nickname" styleClass="TextField"/>
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="email: " styleClass="Label" maxWidth="240"  maxHeight="50" style="-fx-font-size: 25"/>
+                <TextField promptText="enter a valid email" maxWidth="500" fx:id="email" styleClass="TextField"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

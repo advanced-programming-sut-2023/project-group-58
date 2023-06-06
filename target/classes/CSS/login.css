@@ -61,7 +61,6 @@
 .Label{
     -fx-padding: 10;
     -fx-alignment: center;
-    -fx-max-width: 600;
     -fx-border-insets: 10;
     -fx-background-insets: 10;
     -fx-background-color: darkred;

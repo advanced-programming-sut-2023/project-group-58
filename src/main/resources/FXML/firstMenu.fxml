@@ -22,7 +22,6 @@
                 <Button text="Register" onMouseClicked="#register"   styleClass="Button"/>
             </HBox>
             <Button text="Exit" onMouseClicked="#exit"  styleClass="otherButtons"/>
-
         </VBox>
     </center>
 </BorderPane>
