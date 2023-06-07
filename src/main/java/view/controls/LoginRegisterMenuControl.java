@@ -263,7 +263,7 @@ public class LoginRegisterMenuControl implements Initializable {
 
     }
 
-    public void validateAndRegister(MouseEvent mouseEvent) {
+    public void validateAndRegister(MouseEvent mouseEvent) throws IOException {
         boolean dead = false;
 
         if (username.getText() == null || username.getText().length() == 0) {
@@ -313,6 +313,23 @@ public class LoginRegisterMenuControl implements Initializable {
         }
 
         if (dead) return;
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Registration's first level: complete");
+        alert.setContentText("If you think filling the form was the end of it, You couldn't be more wrong\nI'm gonna make you cry\n" +
+                "let's head to security questions:");
+        Optional<ButtonType> option = alert.showAndWait();
+        enterSecurityQuestionWindow();
         //should now go to the other stuff
+    }
+
+    public void enterSecurityQuestionWindow() throws IOException {
+        URL url = LoginMenu.class.getResource("/FXML/securityQuestion.fxml");
+        BorderPane pane = FXMLLoader.load(url);
+        Scene scene = new Scene(pane);
+        LoginMenu.getStage().setScene(scene);
+        //LoginMenu.getStage().setFullScreen(true);
+        LoginMenu.getStage().show();
     }
 }

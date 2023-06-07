@@ -127,3 +127,13 @@
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
+
+.radio-button {
+    -fx-text-fill: gray;
+    -fx-font-weight: bold;
+    -fx-font-size: 25;
+    -fx-min-width: 500;
+    -fx-background-color: rgb(24, 36, 59);
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}

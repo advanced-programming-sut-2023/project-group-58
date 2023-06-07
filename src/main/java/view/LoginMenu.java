@@ -20,23 +20,29 @@ public class LoginMenu extends Application {
     private static Stage stage;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        RegisterMenuController registerMenuController = new RegisterMenuController();
-        registerMenuController.setUpSloganDataBase();
-        registerMenuController.setUpUserInfo();
-        LoginMenuController.setUpStayedLogin();
-        LoginMenuController.extractUserData();
-        if (stayLogin()) {
-            //todo: enter main menu immediately
-        }
         LoginRegisterMenuControl loginMenuControl = new LoginRegisterMenuControl();
         stage = new Stage();
-        URL url = LoginMenu.class.getResource("/FXML/firstMenu.fxml");
-        BorderPane pane = FXMLLoader.load(url);
-        Scene scene = new Scene(pane);
-        stage.setScene(scene);
-        //stage.setFullScreen(true);
-        stage.show();
+        loginMenuControl.enterSecurityQuestionWindow();
 
+        //todo---------------------------------------------------------------
+        //todo: add again once registration and login are completed
+//        RegisterMenuController registerMenuController = new RegisterMenuController();
+//        registerMenuController.setUpSloganDataBase();
+//        registerMenuController.setUpUserInfo();
+//        LoginMenuController.setUpStayedLogin();
+//        LoginMenuController.extractUserData();
+//
+//        if (stayLogin()) {
+//            //todo: enter main menu immediately
+//        }
+//        stage = new Stage();
+//        URL url = LoginMenu.class.getResource("/FXML/firstMenu.fxml");
+//        BorderPane pane = FXMLLoader.load(url);
+//        Scene scene = new Scene(pane);
+//        stage.setScene(scene);
+//        //stage.setFullScreen(true);
+//        stage.show();
+        //todo---------------------------------------------------------------
 
 
 //        BorderPane borderPane = new BorderPane();
