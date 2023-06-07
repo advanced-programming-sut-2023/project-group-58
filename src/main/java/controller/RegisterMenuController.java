@@ -367,7 +367,6 @@ public class RegisterMenuController {
     }
 
     public ArrayList<String> getTop10Slogans() throws FileNotFoundException {
-        LoginMenuController.extractUserData();
         HashMap<String, Integer> sloganCount = new HashMap<>();
         for (User user : User.getUsers()) {
             int count = sloganCount.getOrDefault(user.getSlogan(), 0) + 1;

@@ -1,4 +1,6 @@
 package view;
+import controller.LoginMenuController;
+import controller.RegisterMenuController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,10 +14,20 @@ import view.controls.LoginRegisterMenuControl;
 
 import java.net.URL;
 
+import static view.RegisterMenu.stayLogin;
+
 public class LoginMenu extends Application {
     private static Stage stage;
     @Override
     public void start(Stage primaryStage) throws Exception {
+        RegisterMenuController registerMenuController = new RegisterMenuController();
+        registerMenuController.setUpSloganDataBase();
+        registerMenuController.setUpUserInfo();
+        LoginMenuController.setUpStayedLogin();
+        LoginMenuController.extractUserData();
+        if (stayLogin()) {
+            //todo: enter main menu immediately
+        }
         LoginRegisterMenuControl loginMenuControl = new LoginRegisterMenuControl();
         stage = new Stage();
         URL url = LoginMenu.class.getResource("/FXML/firstMenu.fxml");
