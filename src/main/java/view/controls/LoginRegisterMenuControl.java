@@ -5,12 +5,17 @@ import controller.RegisterMenuController;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import model.User;
+import view.GetStyle;
 import view.LoginMenu;
 import view.enums.ProfisterControllerOut;
 
@@ -34,6 +39,8 @@ public class LoginRegisterMenuControl implements Initializable {
     public TextField sloganTextField;
     public Button randomSlogan;
     public ListView listView;
+    public Button eye;
+    public HBox TheHbox;
     private RegisterMenuController registerMenuController = new RegisterMenuController();
 
     public void login() throws IOException {
@@ -114,6 +121,8 @@ public class LoginRegisterMenuControl implements Initializable {
             password.textProperty().addListener((observable, oldText, newText) -> {
                 if (CommonController.checkPasswordFormat(password.getText()) != ProfisterControllerOut.VALID)
                     passwordErrorHandler.setText(CommonController.checkPasswordFormat(password.getText()).getContent());
+                else
+                    passwordErrorHandler.setText("");
             });
 
         if (sloganCheckBox != null)
@@ -122,17 +131,34 @@ public class LoginRegisterMenuControl implements Initializable {
                 randomSlogan.setVisible(sloganCheckBox.isSelected());
             });
 
-        if(listView != null)
+        if (listView != null)
             listView.setOnMouseClicked(event -> {
                 String selectedItem = (String) listView.getSelectionModel().getSelectedItem();
                 sloganTextField.setText(selectedItem);
             });
+
+        if (eye != null)
+            eye.setOnMouseClicked(event -> {
+                if (TheHbox.getChildren().get(3) instanceof PasswordField) {
+                    String saving = ((PasswordField)TheHbox.getChildren().get(3)).getText();
+                    TheHbox.getChildren().set(3, GetStyle.textField(""));
+                    TheHbox.getChildren().get(3).setStyle("-fx-fill: darkred; -fx-prompt-text-fill: darkred");
+                    ((TextField)TheHbox.getChildren().get(3)).setText(saving);
+
+                } else {
+                    String saving = ((TextField)TheHbox.getChildren().get(3)).getText();
+                    TheHbox.getChildren().set(3, GetStyle.passwordField(""));
+                    ((PasswordField)TheHbox.getChildren().get(3)).setText(saving);
+                }
+            });
+
+
     }
 
     public void chooseRandomSlogan(MouseEvent mouseEvent) throws IOException {
         int pickSlogan = (int) (5 * Math.random());
         String newSlogan = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "/DataBase/slogans.txt")).get(pickSlogan);
-        while(newSlogan.equals(sloganTextField.getText())) {
+        while (newSlogan.equals(sloganTextField.getText())) {
             pickSlogan = (int) (5 * Math.random());
             newSlogan = Files.readAllLines(Paths.get(System.getProperty("user.dir") + "/DataBase/slogans.txt")).get(pickSlogan);
         }
@@ -140,7 +166,7 @@ public class LoginRegisterMenuControl implements Initializable {
     }
 
     public void chooseRandomPassword(MouseEvent mouseEvent) {
-       String newPassword = registerMenuController.randomPasswordGenerator();
+        String newPassword = registerMenuController.randomPasswordGenerator();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm");
         alert.setHeaderText("Random password");
@@ -153,7 +179,7 @@ public class LoginRegisterMenuControl implements Initializable {
 
     public void showList(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-            if(listView.isVisible()) {
+            if (listView.isVisible()) {
                 listView.setVisible(false);
                 return;
             }
