@@ -5,12 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/securityQuestion.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/captcha.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/1181.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/1381.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/1491.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/1722.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/1959.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/2163.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/2177.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/2723.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/2785.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/3541.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/3847.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/3855.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/3876.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/3967.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/4185.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/4310.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/4487.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/4578.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/4602.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/4681.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/4924.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/5326.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/5463.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/5771.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/5849.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/6426.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/6553.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/6601.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/6733.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/6960.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/7415.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/7609.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/7755.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/7825.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/7905.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8003.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8070.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8368.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8455.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8506.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8555.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8583.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8692.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8776.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8972.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/8996.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/9061.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/9386.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/9582.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captcha/9633.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/captchaChange.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/changeCaptcha.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/f.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/w.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/CSS/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CSS/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/securityQuestion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/securityQuestion.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/CSS/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/CSS/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/FXML/securityQuestion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXML/securityQuestion.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl.class" afterDir="false" />
@@ -65,12 +122,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "settings.editor.selected.configurable": "preferences.JavaFX"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="view" />
@@ -84,7 +141,7 @@
       <module name="APPOnMave" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="view.*" />
+          <option name="PATTERN" value="view.controls.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -193,7 +250,8 @@
       <workItem from="1685823143287" duration="111000" />
       <workItem from="1685823683375" duration="25000" />
       <workItem from="1685550300590" duration="11600000" />
-      <workItem from="1686061818618" duration="37279000" />
+      <workItem from="1686061818618" duration="37474000" />
+      <workItem from="1686140669941" duration="13101000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

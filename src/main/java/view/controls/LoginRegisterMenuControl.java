@@ -2,10 +2,15 @@ package view.controls;
 
 import controller.CommonController;
 import controller.RegisterMenuController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -14,13 +19,20 @@ import javafx.scene.text.Text;
 import model.User;
 import view.GetStyle;
 import view.LoginMenu;
+import view.ProfileMenu;
+import view.ScanMatch;
+import view.enums.Commands;
 import view.enums.ProfisterControllerOut;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -43,6 +55,14 @@ public class LoginRegisterMenuControl implements Initializable {
     public Label nicknameErrorHandler;
     public Label emailErrorHandler;
     public Label sloganErrorHandler;
+    public RadioButton question1;
+    public TextField question1Ans;
+    public RadioButton question2;
+    public TextField question2Ans;
+    public RadioButton question3;
+    public TextField question3Ans;
+    @FXML
+    ToggleGroup group;
     private RegisterMenuController registerMenuController = new RegisterMenuController();
 
     public void login() throws IOException {
@@ -188,9 +208,9 @@ public class LoginRegisterMenuControl implements Initializable {
 
         if (TheHbox != null && TheHbox.getChildren() != null && TheHbox.getChildren().get(3) != null) {
 
-                ((TextInputControl) TheHbox.getChildren().get(3)).textProperty().addListener((observable, oldText, newText) -> {
-                    password.setText(((TextField) TheHbox.getChildren().get(3)).getText());
-                });
+            ((TextInputControl) TheHbox.getChildren().get(3)).textProperty().addListener((observable, oldText, newText) -> {
+                password.setText(((TextField) TheHbox.getChildren().get(3)).getText());
+            });
 
         }
 
@@ -223,7 +243,28 @@ public class LoginRegisterMenuControl implements Initializable {
                 }
             });
 
-
+        if (group != null) {
+            group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+                @Override
+                public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle t1) {
+                    if(t1.equals(question1)) {
+                        question1Ans.setVisible(true);
+                        question2Ans.setVisible(false);
+                        question3Ans.setVisible(false);
+                    }
+                    else if(t1.equals(question2)) {
+                        question2Ans.setVisible(true);
+                        question3Ans.setVisible(false);
+                        question1Ans.setVisible(false);
+                    }
+                    else if(t1.equals(question3)) {
+                        question3Ans.setVisible(true);
+                        question1Ans.setVisible(false);
+                        question2Ans.setVisible(false);
+                    }
+                }
+            });
+        }
     }
 
     public void chooseRandomSlogan(MouseEvent mouseEvent) throws IOException {
@@ -324,9 +365,53 @@ public class LoginRegisterMenuControl implements Initializable {
         //should now go to the other stuff
     }
 
-    public void enterSecurityQuestionWindow() throws IOException {
+    public static void enterSecurityQuestionWindow() throws IOException {
         URL url = LoginMenu.class.getResource("/FXML/securityQuestion.fxml");
         BorderPane pane = FXMLLoader.load(url);
+        Scene scene = new Scene(pane);
+        LoginMenu.getStage().setScene(scene);
+        //LoginMenu.getStage().setFullScreen(true);
+        LoginMenu.getStage().show();
+    }
+
+    public void saveSecurityAndJumpToCaptcha(MouseEvent mouseEvent) throws IOException {
+        String ans = "question pick -q ";
+        RadioButton radioButton = (RadioButton) group.getSelectedToggle();
+        if (question1.equals(radioButton) && question1Ans != null && question1Ans.getText().length() != 0)
+            ans += "1  -a " + question1Ans + " -c " + question1Ans;
+        else if (question2.equals(radioButton) && question2Ans != null && question2Ans.getText().length() != 0)
+            ans += "2  -a " + question2Ans + " -c " + question2Ans;
+        else if (question3.equals(radioButton) && question3Ans != null && question3Ans.getText().length() != 0)
+            ans += "3  -a " + question3Ans + " -c " + question3Ans;
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to pass security");
+            alert.setContentText("You have to pick one question, and type your answer in its field.");
+            alert.show();
+        }
+        Matcher temp;
+        if ((temp = Commands.getMatcher(ans, Commands.SECURITY_QUESTION_PICK)) != null) {
+            ProfisterControllerOut result = registerMenuController.getSecurityQuestion(temp);
+            if (!result.equals(ProfisterControllerOut.VALID)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Failed to pass security");
+                alert.setContentText("You have to pick one question, and type your answer in its field.");
+                alert.show();
+            }
+            else {
+                openCaptcha();
+            }
+        }
+    }
+
+    public void openCaptcha() throws IOException {
+        URL url = LoginMenu.class.getResource("/FXML/captcha.fxml");
+        BorderPane pane = FXMLLoader.load(url);
+        CaptchaGraphic.pane = pane;
+        CaptchaGraphic.enterCaptcha();
+        CaptchaGraphic.setRegisterMenuController(registerMenuController);
         Scene scene = new Scene(pane);
         LoginMenu.getStage().setScene(scene);
         //LoginMenu.getStage().setFullScreen(true);

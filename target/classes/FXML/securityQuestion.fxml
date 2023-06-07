@@ -19,11 +19,18 @@
         <fx:define>
             <ToggleGroup fx:id="group"/>
         </fx:define>
-        <VBox alignment="CENTER" maxWidth="400" spacing="40">
-        <Label text="Pick a question:" styleClass="Label"/>
-            <RadioButton toggleGroup="$group" text="What is your father’s name?"/>
-            <RadioButton toggleGroup="$group" text="What was your first pet’s name?"/>
-            <RadioButton toggleGroup="$group" text="What is your mother’s last name?"/>
+        <VBox alignment="CENTER" maxWidth="300" spacing="20">
+            <Label text="Pick a question:" styleClass="Label"/>
+            <RadioButton  alignment="BOTTOM_CENTER" fx:id="question1" toggleGroup="$group" text="What is your father’s name?"/>
+            <TextField alignment="TOP_CENTER" fx:id="question1Ans" styleClass="secTextField" visible="false"/>
+            <RadioButton alignment="BOTTOM_CENTER" fx:id="question2" toggleGroup="$group" text="What was your first pet’s name?"/>
+            <TextField  alignment="TOP_CENTER" fx:id="question2Ans" styleClass="secTextField" visible="false"/>
+            <RadioButton alignment="BOTTOM_CENTER" fx:id="question3" toggleGroup="$group" text="What is your mother’s last name?"/>
+            <TextField  alignment="TOP_CENTER" fx:id="question3Ans" styleClass="secTextField" visible="false"/>
+            <HBox spacing="20" alignment="TOP_CENTER">
+                <Button text="back" styleClass="Button" onMouseClicked="#register"/>
+                <Button text="proceed" styleClass="Button" onMouseClicked="#saveSecurityAndJumpToCaptcha"/>
+            </HBox>
         </VBox>
     </center>
 </BorderPane>
