@@ -114,7 +114,7 @@ public class CaptchaGraphic  {
     }
 
     public void backToSec(MouseEvent mouseEvent) throws IOException {
-        LoginRegisterMenuControl.enterSecurityQuestionWindow();
+        LoginRegisterMenuControl.openAddress("/FXML/securityQuestion.fxml");
     }
 
     public static void setRegisterMenuController(RegisterMenuController registerMenuController) {

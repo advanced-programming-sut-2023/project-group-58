@@ -10,8 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.User;
 import view.controls.CaptchaGraphic;
 import view.controls.LoginRegisterMenuControl;
+import view.controls.ShopMenuControl;
 
 import java.net.URL;
 
@@ -23,8 +25,9 @@ public class LoginMenu extends Application {
     public void start(Stage primaryStage) throws Exception {
         LoginRegisterMenuControl loginMenuControl = new LoginRegisterMenuControl();
         stage = new Stage();
-        //loginMenuControl.enterSecurityQuestionWindow();
-        loginMenuControl.openCaptcha();
+        //loginMenuControl.openCaptcha();
+        ShopMenuControl.setCurentUser(new User("test","test","test","test","test",0,"test",0));
+        LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
 
         //todo---------------------------------------------------------------
         //todo: add again once registration and login are completed

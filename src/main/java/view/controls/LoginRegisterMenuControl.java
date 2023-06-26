@@ -2,6 +2,7 @@ package view.controls;
 
 import controller.CommonController;
 import controller.RegisterMenuController;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -65,22 +66,13 @@ public class LoginRegisterMenuControl implements Initializable {
     ToggleGroup group;
     private RegisterMenuController registerMenuController = new RegisterMenuController();
 
+
     public void login() throws IOException {
-        URL url = LoginMenu.class.getResource("/FXML/loginMenu.fxml");
-        BorderPane pane = FXMLLoader.load(url);
-        Scene scene = new Scene(pane);
-        LoginMenu.getStage().setScene(scene);
-        //LoginMenu.getStage().setFullScreen(true);
-        LoginMenu.getStage().show();
+        openAddress("/FXML/loginMenu.fxml");
     }
 
     public void register() throws IOException {
-        URL url = LoginMenu.class.getResource("/FXML/registerMenu.fxml");
-        BorderPane pane = FXMLLoader.load(url);
-        Scene scene = new Scene(pane);
-        LoginMenu.getStage().setScene(scene);
-        //LoginMenu.getStage().setFullScreen(true);
-        LoginMenu.getStage().show();
+        openAddress("/FXML/registerMenu.fxml");
     }
 
     public void exit(MouseEvent mouseEvent) {
@@ -100,11 +92,7 @@ public class LoginRegisterMenuControl implements Initializable {
     }
 
     public void back(MouseEvent mouseEvent) throws Exception {
-        URL url = LoginMenu.class.getResource("/FXML/firstMenu.fxml");
-        BorderPane pane = FXMLLoader.load(url);
-        Scene scene = new Scene(pane);
-        LoginMenu.getStage().setScene(scene);
-        LoginMenu.getStage().show();
+        openAddress("/FXML/firstMenu.fxml");
     }
 
     public ProfisterControllerOut checkUsername(String username) {
@@ -175,14 +163,14 @@ public class LoginRegisterMenuControl implements Initializable {
             });
 
 
-        if (password != null)
-            password.textProperty().addListener((observable, oldText, newText) -> {
-                if (CommonController.checkPasswordFormat(password.getText()) != ProfisterControllerOut.VALID)
-                    passwordErrorHandler.setText(CommonController.checkPasswordFormat(password.getText()).getContent());
-                else
-                    passwordErrorHandler.setText("");
-            });
-
+//        if (password != null)
+//            password.textProperty().addListener((observable, oldText, newText) -> {
+//                if (CommonController.checkPasswordFormat(password.getText()) != ProfisterControllerOut.VALID)
+//                    passwordErrorHandler.setText(CommonController.checkPasswordFormat(password.getText()).getContent());
+//                else
+//                    passwordErrorHandler.setText("");
+//            });
+//
 
 //        if (TheHbox != null && TheHbox.getChildren() != null && TheHbox.getChildren().get(3) != null) {
 //            if (TheHbox.getChildren().get(3) instanceof TextField) {
@@ -206,13 +194,7 @@ public class LoginRegisterMenuControl implements Initializable {
 //        }
 
 
-        if (TheHbox != null && TheHbox.getChildren() != null && TheHbox.getChildren().get(3) != null) {
-
-            ((TextInputControl) TheHbox.getChildren().get(3)).textProperty().addListener((observable, oldText, newText) -> {
-                password.setText(((TextField) TheHbox.getChildren().get(3)).getText());
-            });
-
-        }
+        addListenerToPassword();
 
         if (sloganCheckBox != null)
             sloganCheckBox.setOnAction(event -> {
@@ -230,16 +212,19 @@ public class LoginRegisterMenuControl implements Initializable {
             eye.setOnMouseClicked(event -> {
                 if (TheHbox.getChildren().get(3) instanceof PasswordField) {
                     String saving = ((PasswordField) TheHbox.getChildren().get(3)).getText();
+
                     TheHbox.getChildren().set(3, GetStyle.textField(""));
                     TheHbox.getChildren().get(3).setStyle("-fx-fill: darkred; -fx-prompt-text-fill: darkred");
                     ((TextField) TheHbox.getChildren().get(3)).setText(saving);
-                    password.setText(saving);
+                    addListenerToPassword();
 
                 } else {
+
+
                     String saving = ((TextField) TheHbox.getChildren().get(3)).getText();
                     TheHbox.getChildren().set(3, GetStyle.passwordField(""));
                     ((PasswordField) TheHbox.getChildren().get(3)).setText(saving);
-                    password.setText(saving);
+                    addListenerToPassword();
                 }
             });
 
@@ -265,6 +250,35 @@ public class LoginRegisterMenuControl implements Initializable {
                 }
             });
         }
+    }
+
+    private void addListenerToPassword() {
+        String text;
+        if (TheHbox != null && TheHbox.getChildren() != null && TheHbox.getChildren().get(3) != null) {
+            if(TheHbox.getChildren().get(3) instanceof TextField) {
+                text = ((TextField) TheHbox.getChildren().get(3)).getText();
+                ((TextField) TheHbox.getChildren().get(3)).textProperty().addListener((observable, oldText, newText) -> {
+
+                    if (CommonController.checkPasswordFormat(text) != ProfisterControllerOut.VALID)
+                        passwordErrorHandler.setText(CommonController.checkPasswordFormat(text).getContent());
+                    else
+                        passwordErrorHandler.setText("");
+                });
+
+            }
+            else {
+                text = ((PasswordField) TheHbox.getChildren().get(3)).getText();
+                ((PasswordField) TheHbox.getChildren().get(3)).textProperty().addListener((observable, oldText, newText) -> {
+
+                    if (CommonController.checkPasswordFormat(text) != ProfisterControllerOut.VALID)
+                        passwordErrorHandler.setText(CommonController.checkPasswordFormat(text).getContent());
+                    else
+                        passwordErrorHandler.setText("");
+                });
+            }
+            password.setText(text);
+        }
+
     }
 
     public void chooseRandomSlogan(MouseEvent mouseEvent) throws IOException {
@@ -361,17 +375,8 @@ public class LoginRegisterMenuControl implements Initializable {
         alert.setContentText("If you think filling the form was the end of it, You couldn't be more wrong\nI'm gonna make you cry\n" +
                 "let's head to security questions:");
         Optional<ButtonType> option = alert.showAndWait();
-        enterSecurityQuestionWindow();
+        openAddress("/FXML/securityQuestion.fxml");
         //should now go to the other stuff
-    }
-
-    public static void enterSecurityQuestionWindow() throws IOException {
-        URL url = LoginMenu.class.getResource("/FXML/securityQuestion.fxml");
-        BorderPane pane = FXMLLoader.load(url);
-        Scene scene = new Scene(pane);
-        LoginMenu.getStage().setScene(scene);
-        //LoginMenu.getStage().setFullScreen(true);
-        LoginMenu.getStage().show();
     }
 
     public void saveSecurityAndJumpToCaptcha(MouseEvent mouseEvent) throws IOException {
@@ -412,6 +417,15 @@ public class LoginRegisterMenuControl implements Initializable {
         CaptchaGraphic.pane = pane;
         CaptchaGraphic.enterCaptcha();
         CaptchaGraphic.setRegisterMenuController(registerMenuController);
+        Scene scene = new Scene(pane);
+        LoginMenu.getStage().setScene(scene);
+        //LoginMenu.getStage().setFullScreen(true);
+        LoginMenu.getStage().show();
+    }
+
+    public static void openAddress(String address) throws IOException {
+        URL url = LoginMenu.class.getResource(address);
+        BorderPane pane = FXMLLoader.load(url);
         Scene scene = new Scene(pane);
         LoginMenu.getStage().setScene(scene);
         //LoginMenu.getStage().setFullScreen(true);

@@ -27,9 +27,9 @@ public class ShopTests {
     public void buyAndShow() {
         User user = shopMenuController.getCurrentUser();
         Assertions.assertNotNull(shopMenuController.showPriceList(user));
-        Matcher matcher = Commands.getMatcher(" buy -a 54  -i watermelon   ",Commands.BUY_SHOP);
+        Matcher matcher = Commands.getMatcher(" sell -a 54  -i watermelon   ",Commands.BUY_SHOP);
         Assertions.assertEquals(shopMenuController.buy(matcher.group("data"), user),ShopAndTradeControllerOut.INVALID_ITEM);
-        matcher = Commands.getMatcher(" buy  -a 22 -i  meat ",Commands.BUY_SHOP);
+        matcher = Commands.getMatcher(" sell  -a 22 -i  meat ",Commands.BUY_SHOP);
         Assertions.assertEquals(shopMenuController.buy(matcher.group("data"), user),ShopAndTradeControllerOut.PROMPT_CONFIRMATION_FOR_PURCHASE);
         user.getGovernance().changeGold(2000);
         Assertions.assertEquals(shopMenuController.buy(matcher.group("data"), user),ShopAndTradeControllerOut.PROMPT_CONFIRMATION_FOR_PURCHASE);
@@ -45,11 +45,11 @@ public class ShopTests {
     public void sell() {
         User user = shopMenuController.getCurrentUser();
         user.getGovernance().changeResourceAmount(ResourceEnum.MEAT, 22);
-        Matcher matcher = Commands.getMatcher(" sell -a 54  -i watermelon   ",Commands.SELL_SHOP);
+        Matcher matcher = Commands.getMatcher(" buy -a 54  -i watermelon   ",Commands.SELL_SHOP);
         Assertions.assertEquals(shopMenuController.sell(matcher.group("data"), user),ShopAndTradeControllerOut.INVALID_ITEM);
-        matcher = Commands.getMatcher(" sell  -a 252 -i  meat ",Commands.SELL_SHOP);
+        matcher = Commands.getMatcher(" buy  -a 252 -i  meat ",Commands.SELL_SHOP);
         Assertions.assertEquals(shopMenuController.sell(matcher.group("data"), user),ShopAndTradeControllerOut.NOT_ENOUGH_COMMODITY);
-        matcher = Commands.getMatcher(" sell  -a 20 -i  meat ",Commands.SELL_SHOP);
+        matcher = Commands.getMatcher(" buy  -a 20 -i  meat ",Commands.SELL_SHOP);
         Assertions.assertEquals(shopMenuController.sell(matcher.group("data"), user),ShopAndTradeControllerOut.PROMPT_CONFIRMATION_FOR_SELL);
         int cashBefore = user.getGovernance().getGold();
         int meatBefore = user.getGovernance().getResourceAmount(ResourceEnum.MEAT);
