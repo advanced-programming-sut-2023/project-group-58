@@ -6,6 +6,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import model.Resource;
 import model.ResourceEnum;
 import model.User;
@@ -16,6 +18,7 @@ import java.util.EnumSet;
 import java.util.ResourceBundle;
 
 public class ShopMenuControl implements Initializable {
+    MediaPlayer mediaPlayer;
     public Label breadstock;
     private static User curentUser;
     public Label meatstock;
@@ -79,7 +82,7 @@ public class ShopMenuControl implements Initializable {
             return;
         }
         shopMenuController.purchase();
-        setStock();
+        completeTransaction("buy");
     }
 
     public void sell(MouseEvent mouseEvent) {
@@ -95,7 +98,24 @@ public class ShopMenuControl implements Initializable {
             return;
         }
         shopMenuController.retail();
+        completeTransaction("sell");
+    }
+
+    private void completeTransaction(String type) {
+        successNotifier(type);
         setStock();
+        playCashAudio();
+    }
+    private void successNotifier(String type) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Success");
+        alert.setHeaderText("Transaction complete");
+        if (type.equals("sell")) {
+            alert.setContentText("Successfully sold item");
+        } else {
+            alert.setContentText("Successfully bought item");
+        }
+        alert.show();
     }
 
     public static ResourceEnum resourceTypeSpecifier(String type) {
@@ -105,6 +125,12 @@ public class ShopMenuControl implements Initializable {
                 return resourceEnum;
         }
         return null;
+    }
+
+    public void playCashAudio() {
+        Media media = new Media(ShopMenuControl.class.getResource("/Music/cashDesk.mp3").toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
     }
 
     public void backToGame(MouseEvent mouseEvent) {
