@@ -155,24 +155,31 @@ public class TradeMenuController {
     public String popup() {
         String result = new String();
         String ans = new String();
-        for (TradeItem trade : currentUser.getGovernance().getUserTrades()) {
-            if (!trade.getNotified() && !trade.getActive() && trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername())) {
-                if (trade.getPrice() != 0)
-                    ans += trade.getOneWhoAnswersTheCall().getNickname() + " (" + trade.getOneWhoAnswersTheCall().getUsername()
-                            + ") has accepted your request " + " (" + trade.getTypeName() + " for " + trade.getPrice() +
-                            " golds, id = " + trade.getId() + "), and left you this message: " +
-                            trade.getMessage() + "\n";
-                else
-                    ans += trade.getOneWhoAnswersTheCall().getNickname() + " ( " + trade.getOneWhoAnswersTheCall().getUsername()
-                            + " ) has donated " + trade.getAmount() + " unit(s) of " + trade.getTypeName() + " to your empire, and left you this message: "
-                            + trade.getMessage() + "\n";
-                trade.setNotified(true);
+        for (TradeItem trade : Governance.getAllTrades()) {
+            if ((!trade.getSeenRequester() && !trade.getActive() && trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername())) ||
+                    (!trade.getSeenAccepter() && trade.getActive() && trade.getOneWhoAnswersTheCall().getUsername().equals(currentUser.getUsername()))) {
+                if(trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername())) {
+                    if (trade.getPrice() != 0)
+                        ans += trade.getLastDateUpdate() + trade.getOneWhoAnswersTheCall().getNickname() + " (" + trade.getOneWhoAnswersTheCall().getUsername()
+                                + ") has accepted your request " + " (" + trade.getTypeName() + " for " + trade.getPrice() +
+                                " golds). Message: " +
+                                trade.getMessage() + " id: " + trade.getId() + "\n";
+                    else
+                        ans += trade.getLastDateUpdate() +  trade.getOneWhoAnswersTheCall().getNickname() + " ( " + trade.getOneWhoAnswersTheCall().getUsername()
+                                + " ) has donated " + trade.getAmount() + " unit(s) of " + trade.getTypeName() + " to your empire. Message: "
+                                + trade.getMessage() + " id: " + trade.getId()  + "\n";
+                }
+                else {
+                    ans += trade.getLastDateUpdate() +  trade.getOneWhoRequests().getNickname() + " ( " + trade.getOneWhoRequests().getUsername()
+                            + " ) has requested for " + trade.getAmount() + " unit(s) of " + trade.getTypeName() + " from you. Message:  "
+                            + trade.getMessage() + " id: " + trade.getId() + "\n";
+                }
             }
         }
         if (ans.length() == 0 || ans.trim().length() == 0)
-            result = "Welcome! Not much has happened since your last visit\n";
+            result = "Umm... Not much has happened since your last visit!\n";
         else
-            result = "Welcome! here's a brief report of the trade market while you were gone:\n" + ans;
+            result = ans;
         return result;
     }
 }

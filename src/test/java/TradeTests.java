@@ -1,8 +1,6 @@
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import controller.LoginMenuController;
 import controller.gameMenuControllers.TradeMenuController;
 import model.Governance;
-import model.Resource;
 import model.TradeItem;
 import model.User;
 import org.junit.BeforeClass;
@@ -80,13 +78,13 @@ public class TradeTests {
         //for manual testing:
         //System.out.println(tradeMenuController.getCurrentUser().getUsername() + "\n" + tradeMenuController.showTradeHistory());
         //System.out.println(tradeMenuController.showTradeList());
-        Assertions.assertFalse(Governance.getAllTrades().get(0).getNotified());
-        Assertions.assertFalse(Governance.getAllTrades().get(1).getNotified());
+        Assertions.assertFalse(Governance.getAllTrades().get(0).getSeenRequester());
+        Assertions.assertFalse(Governance.getAllTrades().get(1).getSeenRequester());
         Assertions.assertNotNull(tradeMenuController.popup());
         Assertions.assertNotNull(tradeMenuController.popup());
         tradeMenuController.setCurrentUser(other);
         Assertions.assertNotNull(tradeMenuController.popup());
-        Assertions.assertFalse(Governance.getAllTrades().get(0).getNotified());
-        Assertions.assertTrue(Governance.getAllTrades().get(1).getNotified());
+        Assertions.assertFalse(Governance.getAllTrades().get(0).getSeenRequester());
+        Assertions.assertTrue(Governance.getAllTrades().get(1).getSeenRequester());
     }
 }

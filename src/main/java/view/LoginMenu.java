@@ -1,23 +1,13 @@
 package view;
-import controller.LoginMenuController;
-import controller.RegisterMenuController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.User;
-import view.controls.CaptchaGraphic;
 import view.controls.LoginRegisterMenuControl;
 import view.controls.ShopMenuControl;
-
-import java.net.URL;
-
-import static view.RegisterMenu.stayLogin;
 
 public class LoginMenu extends Application {
     private static Stage stage;
@@ -27,7 +17,9 @@ public class LoginMenu extends Application {
         stage = new Stage();
         //loginMenuControl.openCaptcha();
         ShopMenuControl.setCurentUser(new User("test","test","test","test","test",0,"test",0));
-        LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
+        ShopMenuControl shopMenuControl = new ShopMenuControl();
+        shopMenuControl.enterTrade();
+        //LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
 
         //todo---------------------------------------------------------------
         //todo: add again once registration and login are completed

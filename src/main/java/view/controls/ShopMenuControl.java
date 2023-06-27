@@ -1,18 +1,23 @@
 package view.controls;
 
 import controller.gameMenuControllers.ShopMenuController;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import model.Resource;
 import model.ResourceEnum;
 import model.User;
+import view.LoginMenu;
 import view.enums.ShopAndTradeControllerOut;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.EnumSet;
 import java.util.ResourceBundle;
@@ -102,12 +107,12 @@ public class ShopMenuControl implements Initializable {
     }
 
     private void completeTransaction(String type) {
+        playCashAudio();
         successNotifier(type);
         setStock();
-        playCashAudio();
     }
     private void successNotifier(String type) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
         alert.setHeaderText("Transaction complete");
         if (type.equals("sell")) {
@@ -136,4 +141,15 @@ public class ShopMenuControl implements Initializable {
     public void backToGame(MouseEvent mouseEvent) {
         //todo
     }
+
+    public void enterTrade() throws IOException {
+        TradeMenuControl.setCurrentUser(curentUser);
+        URL url = ShopMenuControl.class.getResource("/FXML/tradeMenu.fxml");
+        Pane pane = FXMLLoader.load(url);
+        Scene scene = new Scene(pane);
+        LoginMenu.getStage().setScene(scene);
+        //LoginMenu.getStage().setFullScreen(true);
+        LoginMenu.getStage().show();
+    }
+
 }

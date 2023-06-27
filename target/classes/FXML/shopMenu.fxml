@@ -6,7 +6,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="view.controls.ShopMenuControl"
-            stylesheets="@../CSS/shop.css"
+            stylesheets="@../CSS/shopAndTrade.css"
             styleClass="background"
             prefHeight="800.0" prefWidth="1530.0">
     <left>
@@ -21,14 +21,17 @@
     <center>
         <VBox  style="-fx-padding: 20 0 0 500" spacing="20">
             <HBox>
-            <ImageView style="-fx-graphic-text-gap: 1;">
+            <ImageView style="-fx-graphic-text-gap: 1;" fitWidth="198" fitHeight="102">
                 <Image url="@../Images/titles/shop.png"/>
             </ImageView>
             </HBox>
             <ScrollPane maxWidth="460" maxHeight="640"
                         style="-fx-background-color: transparent; -fx-padding: 0 0 0 -270">
                 <VBox style="-fx-background-color: transparent;">
-                    <Button text="back" styleClass="backButton" maxWidth="700" onMouseClicked="#backToGame"/>
+                    <HBox>
+                    <Button text="back to game" styleClass="backButton" minWidth="350" onMouseClicked="#backToGame"/>
+                    <Button text="Enter trade menu" styleClass="backButton" minWidth="350" onMouseClicked="#enterTrade"/>
+                    </HBox>
                     <HBox style="-fx-background-color: rgba(243,219,135,0.38); -fx-padding: 0 0 0 20; -fx-min-height: 150;">
                         <VBox style="-fx-padding: 10 0 0 0">
                             <ImageView style="-fx-graphic-text-gap: 1" fitWidth="95" fitHeight="95">

@@ -5,10 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Music/cashDesk.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/TradeMenuControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/tradeItem.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/tradeMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/titles/trade.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/CommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/CommonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/TradeMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/TradeMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/TradeItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/TradeItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/ShopMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/ShopMenuControl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/CSS/shop.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CSS/shopAndTrade.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/shopMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/shopMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/titles/shop.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Images/titles/shop.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TradeTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TradeTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/CSS/shop.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/FXML/shopMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXML/shopMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/titles/shop.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Images/titles/shop.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/CommonController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/CommonController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/TradeMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/TradeMenuController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/TradeItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/TradeItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/controls/ShopMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/ShopMenuControl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -196,7 +214,8 @@
       <workItem from="1686309310897" duration="6000" />
       <workItem from="1687703178445" duration="1594000" />
       <workItem from="1687704791757" duration="13455000" />
-      <workItem from="1687784056424" duration="12880000" />
+      <workItem from="1687784056424" duration="16995000" />
+      <workItem from="1687871724910" duration="13590000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

@@ -60,6 +60,43 @@
     -fx-background-radius : 2.0em;
 }
 
+.underlineButton {
+    -fx-background-color: transparent;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffab00;
+    -fx-font-size: 20;
+    -fx-font-family: Arial;
+
+    -fx-border-color: transparent transparent white transparent;
+    -fx-border-width: 2;
+    -fx-border-insets: 0 0 1 0;
+    -fx-border-style: hidden hidden solid hidden;
+
+    -fx-background-radius: 20;
+}
+
+.underlineButton:hover {
+    -fx-text-fill: rgba(33, 17, 1, 0.84);
+}
+
+.message {
+    -fx-background-color: transparent;
+    -fx-font-family: Garamond;
+    -fx-font-size: 25;
+    -fx-text-fill: #eee2bb;
+    -fx-font-weight: bold;
+    -fx-min-width: 950;
+}
+
+.message:hover {
+    -fx-text-fill: gray;
+}
+
+.my-separator-class {
+    -fx-background-color: transparent;
+}
+
+
 .proName {
     -fx-font-family: "Old English Text MT";
     -fx-font-size: 25px;
@@ -96,11 +133,36 @@
     -fx-text-fill: #282525FF;
     -fx-font-size: 20;
     -fx-font-family: Garamond;
-    -fx-background-color: rgba(89, 127, 136, 0.65);
+    -fx-background-color: rgba(136, 89, 89, 0.65);
     -fx-background-insets: 0;
     -fx-background-radius: 0;
 }
 
 .backButton:hover {
-    -fx-background-color: rgba(75, 214, 255, 0.68);
+    -fx-background-color: rgba(255, 75, 75, 0.68);
+}
+
+.scroll-pane1 > .viewport {
+    -fx-background-color: rgba(73, 7, 7, 0.85);
+    -fx-border-color: linear-gradient(rgba(101, 0, 0, 0.74) 10%, rgba(155, 2, 2, 0.74) 20%, rgba(155, 57, 2, 0.74) 35%, rgba(138, 89, 0, 0.74) 45%);
+    -fx-border-width: 5;
+    -fx-border-radius: 20;
+    -fx-border-insets: 20;
+    -fx-background-insets: 20;
+    -fx-background-radius: 20;
+}
+
+.borderButton {
+    -fx-background-color: rgba(114, 79, 3, 0.72);
+    -fx-max-width: 200;
+    -fx-font-weight: bold;
+    -fx-text-fill: #282525;
+    -fx-font-size: 20;
+}
+
+.borderButton:hover {
+    -fx-background-color: rgba(162, 89, 10, 0.84);
+    -fx-max-width: 200;
+    -fx-font-weight: bold;
+    -fx-text-fill: gold;
 }

@@ -1,8 +1,11 @@
 package model;
 
-import java.util.function.BiPredicate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class TradeItem {
+
+    private String lastDateUpdate;
     private String id;
     private User oneWhoRequests;
     private User oneWhoAnswersTheCall;
@@ -11,7 +14,14 @@ public class TradeItem {
     private int price;
     private String message;
     private Boolean active;
-    private Boolean isNotified = false;
+    private Boolean seenRequester = false;
+    private Boolean seenAccepter = false;
+
+    private void updateDate() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd at HH:mm: ");
+        lastDateUpdate = now.format(formatter);
+    }
 
     public TradeItem(String id, User oneWhoRequests, ResourceEnum type, int amount, int price, String message, Boolean active) {
         this.id = id;
@@ -21,22 +31,15 @@ public class TradeItem {
         this.price = price;
         this.message = message;
         this.active = active;
+        updateDate();
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public User getOneWhoRequests() {
         return oneWhoRequests;
-    }
-
-    public void setOneWhoRequests(User oneWhoRequests) {
-        this.oneWhoRequests = oneWhoRequests;
     }
 
     public User getOneWhoAnswersTheCall() {
@@ -45,6 +48,7 @@ public class TradeItem {
 
     public void setOneWhoAnswersTheCall(User oneWhoAnswersTheCall) {
         this.oneWhoAnswersTheCall = oneWhoAnswersTheCall;
+        updateDate();
     }
 
     public String getTypeName() {
@@ -59,16 +63,8 @@ public class TradeItem {
         return amount;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     public int getPrice() {
         return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     public String getMessage() {
@@ -77,6 +73,7 @@ public class TradeItem {
 
     public void setMessage(String message) {
         this.message = message;
+        updateDate();
     }
 
     public Boolean getActive() {
@@ -85,13 +82,26 @@ public class TradeItem {
 
     public void setActive(Boolean active) {
         this.active = active;
+        updateDate();
     }
 
-    public void setNotified(Boolean notified) {
-        isNotified = notified;
+    public void setSeenRequester(Boolean notified) {
+        seenRequester = notified;
     }
 
-    public Boolean getNotified() {
-        return isNotified;
+    public Boolean getSeenRequester() {
+        return seenRequester;
+    }
+
+    public Boolean getSeenAccepter() {
+        return seenAccepter;
+    }
+
+    public void setSeenAccepter(Boolean seenAccepter) {
+        this.seenAccepter = seenAccepter;
+    }
+
+    public String getLastDateUpdate() {
+        return lastDateUpdate;
     }
 }
