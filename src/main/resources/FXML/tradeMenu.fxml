@@ -24,7 +24,7 @@
                 style="-fx-background-color: transparent;" styleClass="scroll-pane1">
         <VBox spacing="5">
             <HBox style="-fx-background-color: transparent; -fx-padding: 25 0 0 25">
-                <Button text="back to game" minWidth="475" styleClass="underlineButton" onMouseClicked="#backToGame"/>
+                <Button text="New Request" minWidth="475" styleClass="underlineButton" onMouseClicked="#newRequest"/>
                 <Button text="back to shop" minWidth="475" styleClass="underlineButton" onMouseClicked="#enterShop"/>
             </HBox>
             <Label text="Some of your recent messages: "

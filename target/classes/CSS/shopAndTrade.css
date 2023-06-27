@@ -166,3 +166,17 @@
     -fx-font-weight: bold;
     -fx-text-fill: gold;
 }
+
+.titleButton {
+    background-image: url(../Images/titles/donate.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    -fx-background-color: rgb(40, 37, 37);
+    -fx-background-radius: 20;
+}
+.titleButton:hover {
+    -fx-border-color: transparent transparent #282525 transparent;
+    -fx-border-width: 2;
+    -fx-border-insets: 0 0 1 0;
+    -fx-border-style: hidden hidden solid hidden;
+}
