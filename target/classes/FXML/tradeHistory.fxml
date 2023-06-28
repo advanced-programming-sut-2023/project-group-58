@@ -21,7 +21,15 @@
     </ImageView>
 
     <ScrollPane minWidth="1000" minHeight="650" maxHeight="650" maxWidth="1000" layoutY="115" layoutX="300"
-                style="-fx-background-color: transparent;" styleClass="scroll-pane1" fx:id="scrollPane">
+                style="-fx-background-color: transparent;" styleClass="scroll-pane1" fx:id="historyScrollPane">
+
+        <VBox spacing="5">
+            <HBox style="-fx-background-color: transparent; -fx-padding: 25 0 0 25">
+                <Button text="Sent" minWidth="475" styleClass="underlineButton" onMouseClicked="#enterSend"/>
+                <Button text="Received" minWidth="475" styleClass="underlineButton" onMouseClicked="#enterReceived"/>
+            </HBox>
+            <VBox fx:id="historyBox"/>
+        </VBox>
     </ScrollPane>
     <HBox style="-fx-background-color: transparent;" layoutX="750" layoutY="750" spacing="15">
         <Button text="back" styleClass="borderButton" onMouseClicked="#enterTrade"/>

@@ -25,46 +25,45 @@
         <VBox spacing="5">
             <HBox style="-fx-background-color: transparent; -fx-padding: 25 0 0 25">
                 <Button text="New Request" minWidth="475" styleClass="underlineButton" onMouseClicked="#newRequest"/>
-                <Button text="back to shop" minWidth="475" styleClass="underlineButton" onMouseClicked="#enterShop"/>
+                <Button text="Previous Trades" minWidth="475" styleClass="underlineButton" onMouseClicked="#enterHistory"/>
             </HBox>
-            <Label text="Some of your recent messages: "
+            <Label text="Some of your recent messages: Head to 'Previous Trades' section to see more details" fx:id="promptingMenuTest"
                    style="-fx-font-family: x fantasy; -fx-text-fill: EEE2BBFF; -fx-padding: 0 0 0 30; -fx-font-weight: bold; -fx-font-size: 15"/>
 
-            <Label text="this is it" fx:id="message1" visible="false" onMouseClicked="#enterMassage" styleClass="message"
+            <Label text="this is it" fx:id="message1" visible="false" styleClass="message"
                    style="-fx-padding: 25 0 0 45" maxWidth="960"/>
             <Separator fx:id="sep1" visible="false" styleClass="my-separator-class" style="-fx-padding: 0 0 0 27"
                        maxWidth="970"/>
 
-            <Label fx:id="message2" visible="false" onMouseClicked="#enterMassage" styleClass="message"
+            <Label fx:id="message2" visible="false" styleClass="message"
                    style="-fx-padding: 25 0 0 45" maxWidth="960"/>
             <Separator fx:id="sep2" visible="false" styleClass="my-separator-class" style="-fx-padding: 0 0 0 27"
                        maxWidth="970"/>
 
-            <Label fx:id="message3" visible="false" onMouseClicked="#enterMassage" styleClass="message"
+            <Label fx:id="message3" visible="false" styleClass="message"
                    style="-fx-padding: 25 0 0 45" maxWidth="960"/>
             <Separator fx:id="sep3" visible="false" styleClass="my-separator-class" style="-fx-padding: 0 0 0 27"
                        maxWidth="970"/>
 
-            <Label fx:id="message4" visible="false" onMouseClicked="#enterMassage" styleClass="message"
+            <Label fx:id="message4" visible="false" styleClass="message"
                    style="-fx-padding: 25 0 0 45" maxWidth="960"/>
             <Separator fx:id="sep4" visible="false" styleClass="my-separator-class" style="-fx-padding: 0 0 0 27"
                        maxWidth="970"/>
 
-            <Label fx:id="message5" visible="false" onMouseClicked="#enterMassage" styleClass="message"
+            <Label fx:id="message5" visible="false" styleClass="message"
                    style="-fx-padding: 25 0 0 45" maxWidth="960"/>
             <Separator fx:id="sep5" visible="false" styleClass="my-separator-class" style="-fx-padding: 0 0 0 27"
                        maxWidth="970"/>
 
-            <Label fx:id="message6" visible="false" onMouseClicked="#enterMassage" styleClass="message"
+            <Label fx:id="message6" visible="false" styleClass="message"
                    style="-fx-padding: 25 0 0 45" maxWidth="960"/>
             <Separator fx:id="sep6" visible="false" styleClass="my-separator-class" style="-fx-padding: 0 0 0 27"
                        maxWidth="970"/>
 
-            <Label fx:id="message7" visible="false" onMouseClicked="#enterMassage" styleClass="message"
+            <Label fx:id="message7" visible="false" styleClass="message"
                    style="-fx-padding: 25 0 0 45" maxWidth="960"/>
             <Separator fx:id="sep7" visible="false" styleClass="my-separator-class" style="-fx-padding: 0 0 0 27"
                        maxWidth="970"/>
-
         </VBox>
     </ScrollPane>
     <HBox style="-fx-background-color: transparent;" layoutX="650" layoutY="750" spacing="15">

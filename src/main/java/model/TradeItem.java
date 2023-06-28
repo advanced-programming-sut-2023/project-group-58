@@ -16,14 +16,17 @@ public class TradeItem {
     private Boolean active;
     private Boolean seenRequester = false;
     private Boolean seenAccepter = false;
+    private Boolean accepted = false;
+
+    private boolean donation;
 
     private void updateDate() {
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd at HH:mm: ");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm: ");
         lastDateUpdate = now.format(formatter);
     }
 
-    public TradeItem(String id, User oneWhoRequests, ResourceEnum type, int amount, int price, String message, Boolean active) {
+    public TradeItem(String id, User oneWhoAnswersTheCall, User oneWhoRequests, ResourceEnum type, int amount, int price, String message, Boolean active, boolean donation) {
         this.id = id;
         this.oneWhoRequests = oneWhoRequests;
         this.type = type;
@@ -31,6 +34,8 @@ public class TradeItem {
         this.price = price;
         this.message = message;
         this.active = active;
+        this.donation = donation;
+        this.oneWhoAnswersTheCall = oneWhoAnswersTheCall;
         updateDate();
     }
 
@@ -104,4 +109,17 @@ public class TradeItem {
     public String getLastDateUpdate() {
         return lastDateUpdate;
     }
+
+    public Boolean getAccepted() {return accepted;}
+
+    public void setAccepted(Boolean accepted) {this.accepted = accepted;}
+
+    public User getTheOtherUser(User currentUser) {
+        if(getOneWhoAnswersTheCall().getUsername().equals(currentUser.getUsername()))
+            return getOneWhoRequests();
+        else
+            return getOneWhoAnswersTheCall();
+    }
+
+    public boolean isDonation() {return donation;}
 }

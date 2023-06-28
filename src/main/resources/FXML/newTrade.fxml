@@ -23,9 +23,7 @@
     <ScrollPane minWidth="1000" minHeight="650" maxHeight="650" maxWidth="1000" layoutY="115" layoutX="300"
                 style="-fx-background-color: transparent;" styleClass="scroll-pane1" fx:id="scrollPane">
     </ScrollPane>
-    <HBox style="-fx-background-color: transparent;" layoutX="700" layoutY="750" spacing="15">
-        <Button text="back to game" styleClass="titleButton" style="-fx-background-image: url(../Images/titles/donate.png);
-            -fx-background-repeat: no-repeat; -fx-background-position: center;" onMouseClicked="#backToGame"/>
-        <Button text="back to shop" styleClass="borderButton" onMouseClicked="#enterShop"/>
+    <HBox style="-fx-background-color: transparent;" layoutX="750" layoutY="750" spacing="15">
+        <Button text="back" styleClass="borderButton" onMouseClicked="#enterTrade"/>
     </HBox>
 </Pane>

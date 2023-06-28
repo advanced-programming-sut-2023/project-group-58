@@ -115,4 +115,7 @@ public class User {
         this.highScore = highScore;
     }
 
+    public static void resetUsers() {
+        User.users = new ArrayList<>();
+    }
 }

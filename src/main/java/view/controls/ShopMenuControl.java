@@ -1,6 +1,7 @@
 package view.controls;
 
 import controller.gameMenuControllers.ShopMenuController;
+import controller.gameMenuControllers.TradeMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -151,5 +152,4 @@ public class ShopMenuControl implements Initializable {
         //LoginMenu.getStage().setFullScreen(true);
         LoginMenu.getStage().show();
     }
-
 }

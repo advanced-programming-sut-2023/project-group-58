@@ -82,6 +82,7 @@
             linear-gradient(#ffffff, #e8f5fc),
             linear-gradient(#de5770 10%, #d71633 25%, #8a021a 50%, #3c010c 75% , #200408 100%);
 }
+
 .Label{
     -fx-padding: 10;
     -fx-alignment: center;

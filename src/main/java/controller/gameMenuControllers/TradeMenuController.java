@@ -40,7 +40,7 @@ public class TradeMenuController {
         if (currentUser.getGovernance().getGold() < price)
             return ShopAndTradeControllerOut.CANNOT_AFFORD_TRADE;
         String idMaker = currentUser.getUsername() + currentUser.getGovernance().getUserTrades().size();
-        this.newRequset = new TradeItem(idMaker, currentUser, type, amount, price, message, true);
+        this.newRequset = new TradeItem(idMaker, null,  currentUser, type, amount, price, message, true, price == 0);
         currentUser.getGovernance().addToUserTrades(newRequset);
         Governance.addToAllTrades(newRequset);
         return ShopAndTradeControllerOut.REQUEST_ADDED;
@@ -92,31 +92,31 @@ public class TradeMenuController {
         this.currentUser = currentUser;
     }
 
-    public ShopAndTradeControllerOut doTheTrade(String data) {
-        if (CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0 ||
-                CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
-            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
-        if (CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0 ||
-                CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0)
-            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
+    public ShopAndTradeControllerOut doTheTrade(String data, TradeItem tradeItem) {
+//        if (CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0 ||
+//                CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").length() == 0)
+//            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
+//        if (CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0 ||
+//                CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim().length() == 0)
+//            return ShopAndTradeControllerOut.INVALID_INPUT_FORMAT;
+//        String id = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
+//        String message = CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
+//        TradeItem trade = findTradeById(id);
+//        if (trade == null)
+//            return ShopAndTradeControllerOut.TRADE_NOT_FOUND;
 
-        String id = CommonController.dataExtractor(data, "((?<!\\S)-i\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
-        String message = CommonController.dataExtractor(data, "((?<!\\S)-m\\s+(?<wantedPart>([^-]+))(?<!\\s))").trim();
-        TradeItem trade = findTradeById(id);
-        if (trade == null)
-            return ShopAndTradeControllerOut.TRADE_NOT_FOUND;
-        if (currentUser.getUsername().equals(trade.getOneWhoRequests().getUsername()))
+        if (currentUser.getUsername().equals(tradeItem.getOneWhoRequests().getUsername()))
             return ShopAndTradeControllerOut.SELF_TRADE;
-        if (currentUser.getGovernance().getResourceAmount(trade.getType()) < trade.getAmount())
+        if (currentUser.getGovernance().getResourceAmount(tradeItem.getType()) < tradeItem.getAmount())
             return ShopAndTradeControllerOut.NOT_ENOUGH_COMMODITY;
-        currentUser.getGovernance().changeGold(trade.getPrice());
-        trade.getOneWhoRequests().getGovernance().changeGold(-1 * trade.getPrice());
-        currentUser.getGovernance().changeResourceAmount(trade.getType(), -1 * trade.getAmount());
-        trade.getOneWhoRequests().getGovernance().changeResourceAmount(trade.getType(), trade.getAmount());
-        trade.setOneWhoAnswersTheCall(currentUser);
-        trade.setActive(false);
-        trade.setMessage(message);
-        updateTradeStatus(trade);
+        currentUser.getGovernance().changeGold(tradeItem.getPrice());
+        tradeItem.getOneWhoRequests().getGovernance().changeGold(-1 * tradeItem.getPrice());
+        currentUser.getGovernance().changeResourceAmount(tradeItem.getType(), -1 * tradeItem.getAmount());
+        tradeItem.getOneWhoRequests().getGovernance().changeResourceAmount(tradeItem.getType(), tradeItem.getAmount());
+        tradeItem.setOneWhoAnswersTheCall(currentUser);
+        tradeItem.setActive(false);
+        //trade.setMessage(message);
+        updateTradeStatus(tradeItem);
         return ShopAndTradeControllerOut.SUCCESS_FOR_TRADE;
     }
 
@@ -156,24 +156,29 @@ public class TradeMenuController {
         String result = new String();
         String ans = new String();
         for (TradeItem trade : Governance.getAllTrades()) {
-            if ((!trade.getSeenRequester() && !trade.getActive() && trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername())) ||
-                    (!trade.getSeenAccepter() && trade.getActive() && trade.getOneWhoAnswersTheCall().getUsername().equals(currentUser.getUsername()))) {
+            if ((!trade.getSeenRequester()  && trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername())) ||
+                    (!trade.getSeenAccepter() && trade.getOneWhoAnswersTheCall().getUsername().equals(currentUser.getUsername()))) {
                 if(trade.getOneWhoRequests().getUsername().equals(currentUser.getUsername())) {
-                    if (trade.getPrice() != 0)
+                    if (!trade.isDonation() && !trade.getActive()) {
+                        String status = trade.getAccepted()? "accepted" : "rejected";
                         ans += trade.getLastDateUpdate() + trade.getOneWhoAnswersTheCall().getNickname() + " (" + trade.getOneWhoAnswersTheCall().getUsername()
-                                + ") has accepted your request " + " (" + trade.getTypeName() + " for " + trade.getPrice() +
+                                + ") has " + status + " your request " + " (" + trade.getTypeName() + " for " + trade.getPrice() +
                                 " golds). Message: " +
                                 trade.getMessage() + " id: " + trade.getId() + "\n";
-                    else
+                    }
+                    else if(trade.isDonation()){
                         ans += trade.getLastDateUpdate() +  trade.getOneWhoAnswersTheCall().getNickname() + " ( " + trade.getOneWhoAnswersTheCall().getUsername()
                                 + " ) has donated " + trade.getAmount() + " unit(s) of " + trade.getTypeName() + " to your empire. Message: "
                                 + trade.getMessage() + " id: " + trade.getId()  + "\n";
+                    }
                 }
-                else {
+
+                else if(trade.getOneWhoAnswersTheCall().getUsername().equals(currentUser.getUsername()) && !trade.isDonation()){
                     ans += trade.getLastDateUpdate() +  trade.getOneWhoRequests().getNickname() + " ( " + trade.getOneWhoRequests().getUsername()
-                            + " ) has requested for " + trade.getAmount() + " unit(s) of " + trade.getTypeName() + " from you. Message:  "
+                            + " ) has requested for " + trade.getAmount() + " unit(s) of " + trade.getTypeName() + ". Message:  "
                             + trade.getMessage() + " id: " + trade.getId() + "\n";
                 }
+
             }
         }
         if (ans.length() == 0 || ans.trim().length() == 0)

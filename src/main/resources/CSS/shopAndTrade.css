@@ -180,3 +180,64 @@
     -fx-border-insets: 0 0 1 0;
     -fx-border-style: hidden hidden solid hidden;
 }
+
+.Button{
+    -fx-font-family: "Brush Script MT";
+    -fx-font-size: 30;
+    -fx-text-fill: white;
+    -fx-background-color:
+            #a0becb,
+            linear-gradient(black, black),
+            linear-gradient(#7c0a02 25%,  #b22222  50%, #c24914 75% ,  #ed9728 100%);
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+    -fx-cursor: "Hand";
+}
+
+.Button:hover {
+    -fx-background-color:
+            #a0becb,
+            linear-gradient(#ffffff, #e8f5fc),
+            linear-gradient(#de5770 10%, #d71633 25%, #8a021a 50%, #3c010c 75% , #200408 100%);
+}
+
+.acceptButton {
+    -fx-font-family: Garamond;
+    -fx-font-size: 28;
+    -fx-text-fill: white;
+    -fx-background-color:
+            linear-gradient(black, black),
+            linear-gradient(#ADC9C5 25%, #6CB0A8 50%,#16796F  75% , #10564F  100%);
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+    -fx-cursor: "Hand";
+}
+
+.acceptButton:hover {
+    -fx-background-color:
+            linear-gradient(black, black),
+            linear-gradient(#10564F 25%, #16796F 50%, #6CB0A8 75% , #ADC9C5 100%);
+}
+
+.rejectButton {
+    -fx-font-family: Garamond;
+    -fx-font-size: 28;
+    -fx-text-fill: white;
+    -fx-background-color:
+            linear-gradient(black, black),
+            linear-gradient(#fa769b 25%, #da2d2d 50%, #cc0022 75% , #8f0028  100%);
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+    -fx-cursor: "Hand";
+}
+
+.rejectButton:hover {
+    -fx-background-color:
+            linear-gradient(black, black),
+            linear-gradient(#8f0028 25%, #cc0022 50%, #da2d2d 75% , #fa769b 100%);
+}
+
+

@@ -1,10 +1,14 @@
 package view;
+import controller.LoginMenuController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.Governance;
+import model.ResourceEnum;
+import model.TradeItem;
 import model.User;
 import view.controls.LoginRegisterMenuControl;
 import view.controls.ShopMenuControl;
@@ -16,8 +20,13 @@ public class LoginMenu extends Application {
         LoginRegisterMenuControl loginMenuControl = new LoginRegisterMenuControl();
         stage = new Stage();
         //loginMenuControl.openCaptcha();
-        ShopMenuControl.setCurentUser(new User("test","test","test","test","test",0,"test",0));
+        LoginMenuController.extractUserData();
+        User user = new User("test","test","test","test","test",0,"test",0);
+        ShopMenuControl.setCurentUser(user);
         ShopMenuControl shopMenuControl = new ShopMenuControl();
+        Governance.getAllTrades().add(new TradeItem("1234" , user , User.getUsers().get(0) , ResourceEnum.MEAT, 1 , 100 , "hi0", true, false));
+        Governance.getAllTrades().add(new TradeItem("1200" , User.getUsers().get(0) , user  , ResourceEnum.BREAD, 1 , 0 , "hi0", true, true));
+        Governance.getAllTrades().add(new TradeItem("1204" , User.getUsers().get(0) , user  , ResourceEnum.CHEESE, 3 , 50 , "hi0", true, false));
         shopMenuControl.enterTrade();
         //LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
 
