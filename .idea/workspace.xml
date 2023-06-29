@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameMenuControl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/CSS/game.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/gameMenu.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameMenuControl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,7 +196,7 @@
       <workItem from="1687784056424" duration="16995000" />
       <workItem from="1687871724910" duration="30665000" />
       <workItem from="1687945864214" duration="36886000" />
-      <workItem from="1688032195360" duration="3025000" />
+      <workItem from="1688032195360" duration="5710000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
