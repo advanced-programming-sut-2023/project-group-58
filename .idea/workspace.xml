@@ -5,40 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9ff55f3-303d-485a-aee0-6240be3f7d80" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/tradeHistory.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/minus.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/plus.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/seen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unseen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameMenuControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/CSS/game.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/gameMenu.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/TradeMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/TradeMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/TradeItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/TradeItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/TradeMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/TradeMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/ShopMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/ShopMenuControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/TradeMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/TradeMenuControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/CSS/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CSS/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/CSS/shopAndTrade.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CSS/shopAndTrade.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/newTrade.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/newTrade.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/tradeMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/tradeMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/CSS/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/CSS/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/CSS/shopAndTrade.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/CSS/shopAndTrade.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FXML/newTrade.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXML/newTrade.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FXML/tradeMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXML/tradeMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/TradeMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/TradeMenuController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/TradeItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/TradeItem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/TradeMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/TradeMenu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/ShopMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/ShopMenuControl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/TradeMenuControl$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/TradeMenuControl$1$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/TradeMenuControl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/TradeMenuControl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/TradeMenuControl$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/TradeMenuControl$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/TradeMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/TradeMenuControl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/ShopTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ShopTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/TradeTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/TradeTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,10 +22,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
         <option value="Enum" />
         <option value="module-info" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -227,7 +198,8 @@
       <workItem from="1687704791757" duration="13455000" />
       <workItem from="1687784056424" duration="16995000" />
       <workItem from="1687871724910" duration="30665000" />
-      <workItem from="1687945864214" duration="36286000" />
+      <workItem from="1687945864214" duration="36886000" />
+      <workItem from="1688032195360" duration="3025000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

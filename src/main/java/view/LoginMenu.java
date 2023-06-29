@@ -10,6 +10,7 @@ import model.Governance;
 import model.ResourceEnum;
 import model.TradeItem;
 import model.User;
+import view.controls.GameMenuControl;
 import view.controls.LoginRegisterMenuControl;
 import view.controls.ShopMenuControl;
 
@@ -19,7 +20,7 @@ public class LoginMenu extends Application {
     public void start(Stage primaryStage) throws Exception {
         LoginRegisterMenuControl loginMenuControl = new LoginRegisterMenuControl();
         stage = new Stage();
-        //loginMenuControl.openCaptcha();
+        loginMenuControl.openCaptcha();
         LoginMenuController.extractUserData();
         User user = new User("test","test","test","test","test",0,"test",0);
         ShopMenuControl.setCurentUser(user);
@@ -27,8 +28,9 @@ public class LoginMenu extends Application {
         Governance.getAllTrades().add(new TradeItem("1234" , user , User.getUsers().get(0) , ResourceEnum.MEAT, 1 , 100 , "hi0", true, false));
         Governance.getAllTrades().add(new TradeItem("1200" , User.getUsers().get(0) , user  , ResourceEnum.BREAD, 1 , 0 , "hi0", true, true));
         Governance.getAllTrades().add(new TradeItem("1204" , User.getUsers().get(0) , user  , ResourceEnum.CHEESE, 3 , 50 , "hi0", true, false));
-        shopMenuControl.enterTrade();
+        // shopMenuControl.enterTrade();
         //LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
+        new GameMenuControl().start(LoginMenu.getStage());
 
         //todo---------------------------------------------------------------
         //todo: add again once registration and login are completed
