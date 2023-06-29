@@ -11,47 +11,38 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class GameControlTest {
-    private final int GRID_SIZE = 3; // Number of rows/columns in the grid
-    private final int TILE_SIZE = 150; // Size of each pane
-
-    Pane[][] panes;
+    private final int TILE_SIZE = 150;
+    private Stage primaryStage;
+    private Pane root;
+    ImageView buildingImageView = new ImageView();
 
     public void start(Stage primaryStage) {
-        Button btn = new Button("Click Me");
-        btn.setOnMouseEntered(event -> {
-
-            // Create a new building image view
-            buildingImageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/hovel.png").toExternalForm()));
-            buildingImageView.setFitWidth(TILE_SIZE);
-            buildingImageView.setPreserveRatio(true);
-            buildingImageView.setSmooth(true);
-            buildingImageView.setCache(true);
-
-
-            // Add mouse event handlers for dragging and dropping
-            buildingImageView.setOnMouseDragged(this::onMouseDragged);
-            buildingImageView.setOnMouseReleased(this::onMouseReleased);
-            buildingImageView.setUserData(new double[]{event.getX(), event.getY()});
-
-            // Add the building to the pane
-            ((Pane) primaryStage.getScene().getRoot()).getChildren().add(buildingImageView);
-            buildingImageView.setX(50);
-            buildingImageView.setY(700);
-        });
-
         Pane root = new Pane();
+        this.primaryStage = primaryStage;
+        this.root = root;
+
         for (int i = 0; i < 50; i++)
             addTile(root, i);
 
-        // Set up the scene
-        root.getChildren().add(btn);
+        createSourceButton("/Images/hovel.png", 100, 200);
+        createSourceButton("/Images/hovel.png", 450, 100);
 
-
-        btn.setLayoutX(250);
-        btn.setLayoutY(200);
-        //buildingImageView.setUserData(new double[]{btn.getTranslateX(), btn.getTranslateY()});
         primaryStage.setScene(new Scene(root, 1530, 800));
         primaryStage.show();
+    }
+
+    private void createSourceButton(String address, int i, int j) {
+        Button btn = new Button("");
+        btn.setGraphic(new ImageView(new Image(GameControlTest.class.getResource(address).toExternalForm())));
+        btn.setStyle("-fx-background-color: transparent");
+        btn.setOnMouseEntered(event -> {
+            createPicture(event,i,j);
+            ((Pane) primaryStage.getScene().getRoot()).getChildren().add(buildingImageView);
+        });
+
+        root.getChildren().add(btn);
+        btn.setLayoutX(i);
+        btn.setLayoutY(j);
     }
 
     private void addTile(Pane root, int index) {
@@ -75,75 +66,24 @@ public class GameControlTest {
         ranges[0] = ((index % 10) * TILE_SIZE);
         ranges[1] = (index / 10) * TILE_SIZE;
 
-        System.out.println("this is the x: " + buildingImageView.getLayoutX() + " and this is were we put it: " +
-                ranges[0]);
-
         buildingImageView.setLayoutY(ranges[1] - buildingImageView.getY());
         buildingImageView.setLayoutX(ranges[0] - buildingImageView.getX());
-
     }
 
+    private void createPicture(MouseEvent event, int i, int j) {
 
-    private Pane createPane() {
-        Pane pane = new Pane();
-        pane.setPrefSize(TILE_SIZE, TILE_SIZE);
-        pane.setStyle("-fx-border-color: black;");
-        return pane;
-    }
+        buildingImageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/hovel.png").toExternalForm()));
+        buildingImageView.setFitWidth(TILE_SIZE);
+        buildingImageView.setPreserveRatio(true);
+        buildingImageView.setSmooth(true);
+        buildingImageView.setCache(true);
 
-    private ImageView createPicture() {
-        Image pictureImage = new Image(GameControlTest.class.getResource("/Images/hovel.png").toExternalForm());
-        ImageView picture = new ImageView(pictureImage);
-        picture.setFitWidth(TILE_SIZE);
-        picture.setFitHeight(TILE_SIZE);
-        return picture;
-    }
+        buildingImageView.setOnMouseDragged(this::onMouseDragged);
+        buildingImageView.setOnMouseReleased(this::onMouseReleased);
+        buildingImageView.setUserData(new double[]{event.getX(), event.getY()});
 
-    private Point2D getNearestPaneCenter(ImageView picture, Pane[][] panes) {
-        if (picture == null) return null;
-        double minDistance = Double.MAX_VALUE;
-        Point2D pictureCenter = new Point2D(picture.getFitWidth() / 2, picture.getFitHeight() / 2);
-        Point2D nearestPaneCenter = null;
-
-        for (Pane[] paneRow : panes) {
-            for (Pane pane : paneRow) {
-                Point2D paneCenter = new Point2D(pane.getLayoutX() + pane.getWidth() / 2,
-                        pane.getLayoutY() + pane.getHeight() / 2);
-                double distance = pictureCenter.distance(paneCenter);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    nearestPaneCenter = paneCenter;
-                }
-            }
-        }
-
-        return nearestPaneCenter;
-    }
-
-
-    ImageView buildingImageView = new ImageView();
-
-    private void addButton(Stage primaryStage, Pane root) {
-        Button btn = new Button("Click Me");
-        btn.setOnMouseEntered(event -> {
-
-
-            // Create a new building image view
-            buildingImageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/hovel.png").toExternalForm()));
-
-            // Add mouse event handlers for dragging and dropping
-            buildingImageView.setOnMouseDragged(this::onMouseDragged);
-            buildingImageView.setOnMouseReleased(this::onMouseReleased);
-            buildingImageView.setUserData(new double[]{event.getX(), event.getY()});
-
-            // Add the building to the pane
-            ((GridPane) primaryStage.getScene().getRoot()).getChildren().add(buildingImageView);
-            buildingImageView.setX(50);
-            buildingImageView.setY(700);
-        });
-        btn.setLayoutX(50);
-        btn.setLayoutY(100);
-        root.getChildren().add(btn);
+        buildingImageView.setX(i);
+        buildingImageView.setY(j);
     }
 
     private void onMouseDragged(MouseEvent event) {
@@ -153,26 +93,22 @@ public class GameControlTest {
         double[] initialPosition = (double[]) buildingImageView.getUserData();
         buildingImageView.relocate(event.getScreenX() - initialPosition[0], event.getScreenY() - initialPosition[1]);
     }
-
     private void onMouseReleased(MouseEvent event) {
         if (buildingImageView == null) return;
         buildingImageView.setOnMouseDragged(null);
         buildingImageView.setOnMouseReleased(null);
-        placeBuildingOnATTile();
-        buildingImageView = null;
-    }
-
-    private void placeBuildingOnATTile() {
         int index = findTheNearestTile();
-        System.out.println("index found: " + index);
         addToTile(index);
+        buildingImageView = null;
     }
 
     private int findTheNearestTile() {
         int[] coor = new int[2];
+        double[] offset = (double[])buildingImageView.getUserData();
         double currentX = buildingImageView.getLayoutX();
         double currentY = buildingImageView.getLayoutY();
-        if (currentX <= 20)
+        //System.out.println(buildingImageView.getX() + " , " + buildingImageView.getLayoutX() + " , " + buildingImageView.getTranslateX());
+        if (currentX  <= 20)
             coor[0] = 0;
         else {
             if (currentX >= 1225)
