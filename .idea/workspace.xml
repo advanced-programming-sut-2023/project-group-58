@@ -5,75 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/caged war dogs.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/catheral.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/church.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/hovel.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/inn.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/large stone gatehouse.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/perimeter tower.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/round tower.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/siege tent.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/small stone gatehouse.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/square tower.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/castle/stairs.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/apple orchard.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/armourer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/bakery.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/blacksmith.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/brewer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/dairy farmer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/fletcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/hops farmer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/iron mine.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/mill.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/oil smelter.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/oil smelter.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/ox tether.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/poleturner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/quarry.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/stable.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/wheat farmer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/woodcutter.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/shop/market.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/shop/market0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/storage/armoury.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/storage/armoury0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/storage/granary.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/storage/granary0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/storage/stockpile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/training/barracks.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/training/castle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/training/engineers guild.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/training/mercenary post.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/training/mercenary post0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/navar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/navar.png.bmp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/big_pond.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/earth.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/ford.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/iron.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/lawn.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/oil.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/river.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/rock.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/sand.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/scrub.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/sea.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/small_pond.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/thick_scrub.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/CSS/game.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CSS/game.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/CSS/game.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/CSS/game.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/governance.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Images/governance.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/Point.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/Point.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/enums/Commands.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/enums/Commands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/enums/ProfisterControllerOut.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/enums/ProfisterControllerOut.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
