@@ -1,9 +1,16 @@
 package controller;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import model.ResourceEnum;
 import model.units.UnitEnum;
+import view.LoginMenu;
+import view.controls.ShopMenuControl;
 import view.enums.ProfisterControllerOut;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

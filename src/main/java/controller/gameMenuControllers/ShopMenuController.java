@@ -10,6 +10,10 @@ public class ShopMenuController {
     private final User currentUser;
     private Resource merchandise;
 
+    public void setMerchandise(Resource merchandise) {
+        this.merchandise = merchandise;
+    }
+
     public ShopMenuController(User currentUser) {
         this.currentUser = currentUser;
     }
@@ -26,17 +30,17 @@ public class ShopMenuController {
         String ans = new String();
         for (ResourceEnum value : ResourceEnum.values()) {
             if (!value.getName().equals(""))
-                ans += value.getName() + ":\n        buy cost -> " + value.getBuyCost() + "\n        sell cost -> " +
+                ans += value.getName() + ":\n        sell cost -> " + value.getBuyCost() + "\n        buy cost -> " +
                         value.getSellCost() + "\n        storage amount -> " + currentUser.getGovernance().getResourceAmount(value) + "\n";
         }
         return ans;
     }
 
-    //doThePurchase and sell must be called immediately after extract item and amount
+    //doThePurchase and buy must be called immediately after extract item and amount
     public ShopAndTradeControllerOut buy(String data, User master) {
-        ShopAndTradeControllerOut out = extractItemAndAmount(data);
-        if (!out.equals(ShopAndTradeControllerOut.SUCCESS_FOR_SHOP))
-            return out;
+        //ShopAndTradeControllerOut out = extractItemAndAmount(data);
+        //if (!out.equals(ShopAndTradeControllerOut.SUCCESS_FOR_SHOP))
+        //    return out;
         if (this.merchandise.getType().equals(ResourceEnum.NULL))
             return ShopAndTradeControllerOut.INVALID_ITEM;
         if (master.getGovernance().getGold() < this.merchandise.getType().getBuyCost() * this.merchandise.getAmount())
@@ -47,9 +51,9 @@ public class ShopMenuController {
     }
 
     public ShopAndTradeControllerOut sell(String data, User master) {
-        ShopAndTradeControllerOut out = extractItemAndAmount(data);
-        if (!out.equals(ShopAndTradeControllerOut.SUCCESS_FOR_SHOP))
-            return out;
+        //ShopAndTradeControllerOut out = extractItemAndAmount(data);
+        //if (!out.equals(ShopAndTradeControllerOut.SUCCESS_FOR_SHOP))
+        //   return out;
         if (this.merchandise.getType().equals(ResourceEnum.NULL))
             return ShopAndTradeControllerOut.INVALID_ITEM;
         if (master.getGovernance().getResourceAmount(this.merchandise.getType()) < merchandise.getAmount())

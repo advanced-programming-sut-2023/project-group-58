@@ -2,15 +2,13 @@ package view;
 
 import model.Captcha;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class CaptchaMenu {
     public boolean run() {
         while (true) {
             Captcha captcha = new Captcha();
-            BufferedImage image = captcha.getCaptcha();
+           /* BufferedImage image = captcha.getCaptcha();
             for (int y = 0; y < 15; y++) {
                 StringBuilder sb = new StringBuilder();
                 for (int x = 0; x < captcha.getWidth(); x++) {
@@ -22,7 +20,7 @@ public class CaptchaMenu {
                     continue;
                 }
                 System.out.println(sb);
-            }
+            }*/
             ;
             String[] number = captcha.getNumber().split(" ");
             String finalNum = "";

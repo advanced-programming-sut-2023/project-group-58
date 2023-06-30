@@ -8,7 +8,6 @@ import view.enums.Commands;
 import view.enums.LoginControllerOut;
 import view.enums.ProfisterControllerOut;
 
-import javax.swing.*;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -74,7 +73,7 @@ public class RegisterMenu {
         Matcher temp;
         ProfisterControllerOut result = registerMenuController.validateBeforeCreation(data);
         if (!result.equals(ProfisterControllerOut.VALID)) return result.getContent();
-        String tempResult = registerMenuController.usernameExist();
+        String tempResult = registerMenuController.usernameExist("not graphic");
         if (!tempResult.equals(ProfisterControllerOut.VALID.getContent())) {
             System.out.println(tempResult);
             String respondToChangeUsername = ScanMatch.getScanner().nextLine().trim();

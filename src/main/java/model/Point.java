@@ -4,7 +4,7 @@ public class Point {
     private int x;
     private int y;
 
-    public Point() {
+    public Point(double section1X, double section1Y) {
         this(0, 0);
     }
 

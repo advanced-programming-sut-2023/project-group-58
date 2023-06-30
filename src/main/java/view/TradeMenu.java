@@ -25,7 +25,7 @@ public class TradeMenu {
             } else if (command.matches("\\s*trade\\s+list\\s*")) {
                 System.out.print(tradeMenuController.showTradeList());
             } else if ((matcher = Commands.getMatcher(command, Commands.ACCEPT_TRADE)) != null) {
-                System.out.println(tradeMenuController.doTheTrade(matcher.group("data")).getContent());
+                System.out.println(tradeMenuController.doTheTrade(matcher.group("data"), null).getContent());
             } else if (command.matches("\\s*trade\\s+history\\s*")) {
                 System.out.print(tradeMenuController.showTradeHistory());
             } else if (command.matches("show current menu")) System.out.println("trade menu");

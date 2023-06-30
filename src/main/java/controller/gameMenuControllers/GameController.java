@@ -585,7 +585,7 @@ public class GameController {
         int[] currentLocation = findUnit(getCurrentUser(), xOriginOFSelectedUnit, yOriginOFSelectedUnit, selectedMap);
         selectedMap.getTile(currentLocation[0], currentLocation[1]).setPetrolStatus(getCurrentUser(),
                 xOriginOFSelectedUnit, yOriginOFSelectedUnit, patrol);
-           return GameControllerOut.PATROL_SET_SUCCESSFULLY;
+        return GameControllerOut.PATROL_SET_SUCCESSFULLY;
     }
 
     public GameControllerOut attack(String data) {
@@ -676,10 +676,10 @@ public class GameController {
                     int[] currentLocation = findUnit(empire, unit.getxOrigin(), unit.getyOrigin(), selectedMap);
                     List<Point> patchPoints = new ArrayList<>();
                     if(!unit.isOnPatrol() && unit.getxDestination() != -1 && unit.getyDestination() != -1)
-                    patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
-                            new Point(unit.getxDestination(), unit.getyDestination()), true);
+                        patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
+                                new Point(unit.getxDestination(), unit.getyDestination()), true);
                     else if(unit.isOnPatrol()) {
-                        Point des = new Point();
+                        Point des;
                         if(unit.getPatrolDestinations()[0].getX() == currentLocation[1] && unit.getPatrolDestinations()[0].getY() == currentLocation[0])
                             des = new Point(unit.getPatrolDestinations()[1].getX(),unit.getPatrolDestinations()[1].getY());
                         else
@@ -725,7 +725,7 @@ public class GameController {
         int rate = CurrentUser.getGovernance().getTaxRate();
         switch (rate) {
             case -3:
-                this.CurrentUser.getGovernance().changePopularity(7);
+                this.CurrentUser.getGovernance().changePopularity(8);
                 break;
             case -2:
                 this.CurrentUser.getGovernance().changePopularity(5);

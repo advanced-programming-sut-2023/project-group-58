@@ -18,4 +18,9 @@
       <module name="pro" target="11" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="APP" options="--add-exports java.datatransfer/java.awt=APP --add-exports javafx.controls/javafx=APP" />
+    </option>
+  </component>
 </project>
