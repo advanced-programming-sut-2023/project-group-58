@@ -31,7 +31,7 @@ public class LoginMenu extends Application {
         Governance.getAllTrades().add(new TradeItem("1204" , User.getUsers().get(0) , user  , ResourceEnum.CHEESE, 3 , 50 , "hi0", true, false));
         // shopMenuControl.enterTrade();
         //LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
-        new GameControlTest().start(LoginMenu.getStage());
+        new GameControlTest().start(LoginMenu.getStage(), user);
 
         //todo---------------------------------------------------------------
         //todo: add again once registration and login are completed

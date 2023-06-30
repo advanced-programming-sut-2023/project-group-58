@@ -1,8 +1,8 @@
 package view.controls;
-
 import controller.MapMenuController;
 import controller.gameMenuControllers.GameController;
 import javafx.beans.binding.Bindings;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -12,8 +12,11 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import model.Map;
 import model.Tile;
@@ -32,9 +35,12 @@ public class GameControlTest {
     private ImageView buildingImageView = new ImageView();
     private HashMap<ImageView , Building> buildings = new HashMap<>();
 
+    private static final double SCALE_DELTA = 1.1;
+    private final Scale scaleTransform = new Scale(1, 1);
+
 
     private VBox popularityFactorsBar = new VBox();
-    private VBox mainBar = new VBox();
+    private HBox mainBar = new HBox();
     private VBox changeFactorsBar = new VBox();
     private VBox barBook = new VBox();
     private ImageView barScene = new ImageView();
@@ -45,7 +51,7 @@ public class GameControlTest {
     private int xCenter = 50;
     private int yCenter = 50;
     private Pane[][] panes = new Pane[10][5];
-    private HashMap<Tile, Pane> linkedHouses = new HashMap<>();
+    private HashMap<Pane, Tile> linkedHouses = new HashMap<>();
     private Map map;
     private GameController gameController;
 
@@ -57,6 +63,7 @@ public class GameControlTest {
         this.gameController = new GameController(currentPlayer, map);
 
         Pane root = new Pane();
+        root.getTransforms().add(scaleTransform);
         this.primaryStage = primaryStage;
         this.root = root;
 
@@ -64,14 +71,30 @@ public class GameControlTest {
             addTile(root, i);
 
         addBar(root);
+        createGamePane(currentSet);
 
-        houses[0] = createSourceButton("/Images/hovel.png", 550, 625);
-        houses[1] = createSourceButton("/Images/hovel.png", 670, 625);
-        houses[2] = createSourceButton("/Images/hovel.png", 790, 625);
-        houses[3] = createSourceButton("/Images/hovel.png", 910, 625);
-
+        Label navar2 = new Label();
+        navar2.setPrefHeight(633);
+        navar2.setPrefWidth(30);
+        navar2.setStyle("-fx-background-color: #2a0a0a");
+        navar2.setLayoutX(1500);
+        navar2.setLayoutY(0);
+        root.getChildren().add(navar2);
+        
         primaryStage.setScene(new Scene(root, 1530, 800));
+        primaryStage.getScene().addEventFilter(ScrollEvent.ANY, this::handleMouseScroll);
         primaryStage.show();
+    }
+
+    private void createGamePane(BuildingType currentSet) {
+
+    }
+
+    private void handleMouseScroll(ScrollEvent event) {
+        double scaleFactor = (event.getDeltaY() > 0) ? SCALE_DELTA : 1 / SCALE_DELTA;
+        scaleTransform.setX(scaleTransform.getX() * scaleFactor);
+        scaleTransform.setY(scaleTransform.getY() * scaleFactor);
+        event.consume();
     }
 
     private void setBarScene(String address) {
@@ -286,29 +309,38 @@ public class GameControlTest {
 
         boolean first = mainBar.getChildren().size() == 0;
 
-
-
-        if (first) root.getChildren().add(mainBar);
-        //todo: the rest
-    /*    else {
-            popularityFactorsBar.getChildren().set(0,food);
-            popularityFactorsBar.getChildren().set(1,fear);
-            popularityFactorsBar.getChildren().set(2,religion);
-            popularityFactorsBar.getChildren().set(3,tax);
+        if(currentSet.equals(BuildingType.FOOD_PROCESSING)) {
+            houses[0] = createSourceButton("/Images/buildings/castle/hovel.png", 550, 625,BuildingEnum.HOVEL);
+            houses[1] = createSourceButton("/Images/buildings/castle/church.png", 670, 625,BuildingEnum.CHURCH);
+            houses[2] = createSourceButton("/Images/buildings/castle/catheral.png", 790, 625,BuildingEnum.CATHEDRAL);
+            houses[3] = createSourceButton("/Images/buildings/castle/small stone gatehouse.png", 910, 625,BuildingEnum.SMALL_STONE_GATEHOUSE);
         }
-    }*/
+
+        mainBar.setLayoutX(635);
+        mainBar.setLayoutY(640);
+
+        if (first) {
+            mainBar.getChildren().addAll(houses[0],houses[1],houses[2],houses[3]);
+            root.getChildren().add(mainBar);
+        }
+        else {
+            mainBar.getChildren().set(0, houses[0]);
+            mainBar.getChildren().set(1, houses[1]);
+            mainBar.getChildren().set(2, houses[2]);
+            mainBar.getChildren().set(3, houses[3]);
+        }
     }
 
-    private Button createSourceButton(String address, int i, int j) {
+    private Button createSourceButton(String address, int i, int j, BuildingEnum buildingEnum) {
         Button btn = new Button("");
-        btn.setGraphic(new ImageView(new Image(GameControlTest.class.getResource(address).toExternalForm())));
+        btn.setGraphic(new ImageView(new Image(GameControlTest.class.getResource(address).toExternalForm(), 100,
+                100, false, false)));
         btn.setStyle("-fx-background-color: transparent");
         btn.setOnMouseEntered(event -> {
-            createPicture(event, i, j);
+            createPicture(event, i, j,address,buildingEnum);
             ((Pane) primaryStage.getScene().getRoot()).getChildren().add(buildingImageView);
         });
 
-        root.getChildren().add(btn);
         btn.setLayoutX(i);
         btn.setLayoutY(j);
         return btn;
@@ -325,7 +357,10 @@ public class GameControlTest {
         ranges[1] = (index / 10) * TILE_SIZE;
         panes[index % 10][index / 10] = section;
         int[] coordinates = assignTileToScreen(index);
-        linkedHouses.put(map.getTile(coordinates[1], coordinates[0]), section);
+        linkedHouses.put(section, map.getTile(coordinates[1], coordinates[0]));
+        section.getChildren().add(new ImageView(new Image(GameMenuControl.class.getResource("/Images/textures/" + map.getTile(
+                coordinates[1], coordinates[0]).getTexture().getName() + ".jpg").toExternalForm(), TILE_SIZE, TILE_SIZE, false
+                , false)));
         //todo: set up tile. including texture.
         root.getChildren().get(index).setLayoutX(ranges[0]);
         root.getChildren().get(index).setLayoutY(ranges[1]);
@@ -341,23 +376,28 @@ public class GameControlTest {
     private void addToTile(int[] index, int say) {
 
         double[] ranges = new double[2];
-        ranges[0] = -600 + 120 * index[0] + say * 120;
-        ranges[1] = -605 + 120 * index[1];
+        ranges[0] = -550 + 155 * index[0];
+        ranges[1] = -605 + 140 * index[1];
         System.out.println("final rang: " + index[0] + " , " + index[1]);
         buildingImageView.setLayoutY(ranges[1]);
         buildingImageView.setLayoutX(ranges[0]);
     }
 
-    private void createPicture(MouseEvent event, int i, int j) {
+    private void createPicture(MouseEvent event, int i, int j, String address, BuildingEnum buildingEnum) {
 
-        buildingImageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/hovel.png").toExternalForm()));
-        buildingImageView.setFitWidth(TILE_SIZE);
+        buildingImageView = new ImageView(new Image(GameMenuControl.class.getResource(address).toExternalForm()));
+        buildingImageView.setFitWidth(TILE_SIZE - 10);
         buildingImageView.setPreserveRatio(true);
         buildingImageView.setSmooth(true);
         buildingImageView.setCache(true);
 
         buildingImageView.setOnMouseDragged(this::onMouseDragged);
-        buildingImageView.setOnMouseReleased(this::onMouseReleased);
+        buildingImageView.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                onMouseReleased(mouseEvent,buildingEnum);
+            }
+        });
         buildingImageView.setUserData(new double[]{event.getY() , event.getY() , ((Button)event.getSource()).getLayoutX()
                 , ((Button)event.getSource()).getLayoutY()});
 
@@ -373,18 +413,20 @@ public class GameControlTest {
         buildingImageView.relocate(event.getScreenX() - initialPosition[0] - TILE_SIZE/2, event.getScreenY() - initialPosition[1] - TILE_SIZE/2);
     }
 
-    private void onMouseReleased(MouseEvent event) {
+    private void onMouseReleased(MouseEvent event, BuildingEnum buildingEnum) {
         if (buildingImageView == null) return;
         // System.out.println("this is the mouse coor: " + event.getScreenX() + " , " + event.getScreenY());
         buildingImageView.setOnMouseDragged(null);
         buildingImageView.setOnMouseReleased(null);
-        buildings.put(buildingImageView,new Building(BuildingEnum.BARRACKS,currentPlayer,0,true));
+        buildings.put(buildingImageView,new Building(buildingEnum,currentPlayer,0,true));
         //buildingImageView.setLayoutY(100);
         //System.out.println("button number: " + say(event));
         //buildingImageView.setLayoutY(-540);
-        //int[] index = findTheNearestTile(say(event));
-        //  System.out.println("index: " + index);
-        //addToTile(index, say(event));
+        int[] index = findTheNearestTile(say(event));
+        linkedHouses.get(panes[index[0]][index[1]]).getBuildings().add(buildings.get(buildingImageView));
+        //todo: do the drop building thing here
+        System.out.println("index: " + index[0] + " , " + index[1]);
+        addToTile(index, say(event));
         buildingImageView = null;
     }
 
