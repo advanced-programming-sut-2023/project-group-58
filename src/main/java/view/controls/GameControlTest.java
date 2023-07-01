@@ -3,7 +3,6 @@ package view.controls;
 import controller.MapMenuController;
 import controller.gameMenuControllers.GameController;
 import javafx.beans.binding.Bindings;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
 import javafx.scene.Node;
@@ -31,7 +30,9 @@ import model.buildings.Building;
 import model.buildings.BuildingEnum;
 import view.GetStyle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GameControlTest {
@@ -62,6 +63,13 @@ public class GameControlTest {
     private Map map;
     private GameController gameController;
     private boolean tilesOccupied = false;
+    private boolean isCopyActive = false;
+    private boolean isPasteActive = false;
+    private List<ImageView> savedImageViews = new ArrayList<>();
+    private ArrayList<Building> copiedBuildings = new ArrayList<>();
+    private boolean clipboardPaneUp = false;
+    private Label navar;
+    private int navarIndex = 1;
 
     public void start(Stage primaryStage, User currentPlayer) {
         this.currentPlayer = currentPlayer;
@@ -75,27 +83,185 @@ public class GameControlTest {
         this.primaryStage = primaryStage;
         this.root = root;
 
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 50; i++) {
             addTile(root, i);
+        }
 
         addBar(root);
         createGamePane(currentSet);
 
-        Label navar2 = new Label();
-        navar2.setPrefHeight(633);
-        navar2.setPrefWidth(30);
-        navar2.setStyle("-fx-background-color: #2a0a0a");
-        navar2.setLayoutX(1500);
-        navar2.setLayoutY(0);
-        root.getChildren().add(navar2);
+        navar = new Label();
+        navar.setPrefHeight(633);
+        navar.setPrefWidth(60);
+        navar.setStyle("-fx-background-color: #2a0a0a");
+        navar.setLayoutX(1480);
+        navar.setLayoutY(0);
+        root.getChildren().add(navar);
+        navarIndex = root.getChildren().indexOf(navar);
 
         joyStick();
 
         selectArea();
 
+        copySetUp();
+        clipBoardSetUp();
+
         primaryStage.setScene(new Scene(root, 1530, 800));
         primaryStage.getScene().addEventFilter(ScrollEvent.ANY, this::handleMouseScroll);
         primaryStage.show();
+    }
+
+    private VBox clipBoardBox = null;
+
+    private void clipBoardSetUp() {
+        Button addButton = new Button();
+        ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/clipboard.png").toExternalForm()));
+        imageView.setFitWidth(25);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        addButton.setGraphic(imageView);
+        addButton.setLayoutX(1485);
+        addButton.setLayoutY(90);
+
+        addButton.setOnMouseClicked(mouseEvent -> {
+            if (!clipboardPaneUp) {
+                clipBoardBox = extractClipBoard();
+                navar.setPrefWidth(160);
+                navar.setLayoutX(1380);
+            } else {
+                if (clipBoardBox != null) root.getChildren().remove(clipBoardBox);
+                navar.setPrefWidth(80);
+                navar.setLayoutX(1480);
+                clipBoardBox = null;
+            }
+            clipboardPaneUp = !clipboardPaneUp;
+        });
+        root.getChildren().add(addButton);
+    }
+
+    private int counter = 0;
+    private boolean imFromClipboard = false;
+
+    private VBox extractClipBoard() {
+        if (copiedBuildings == null || copiedBuildings.size() == 0) return null;
+        counter = 0;
+        VBox vBox = new VBox();
+        vBox.setSpacing(10);
+        Label label = new Label("clipboard:");
+        label.setStyle("-fx-alignment: baseline-left ; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-font-size: 25; -fx-font-weight: bold");
+        vBox.getChildren().add(label);
+        ImageView imageView;
+        while (counter < 5) {
+            if (copiedBuildings.size() - 1 - counter < 0) break;
+            imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/buildings/" +
+                            copiedBuildings.get(copiedBuildings.size() - 1 - counter).getType().getName() + ".png")
+                    .toExternalForm()));
+            imageView.setFitWidth(80);
+            imageView.setFitHeight(80);
+            imageView.setSmooth(true);
+            imageView.setCache(true);
+            imageView.setOnMouseClicked(mouseEvent -> {
+                if(copiedBuildings == null || copiedBuildings.size() == 0) return;
+                int index = (int) Math.floor((mouseEvent.getSceneY() - 180)/90);
+                System.out.println("copied number: " + index + " , " + mouseEvent.getScreenY() + " , " + mouseEvent.getY() + " , " + mouseEvent.getSceneY());
+                if (copiedBuildings.size() - counter < 0) return;
+                Building building = copiedBuildings.get(copiedBuildings.size() - 1 - index);
+                copiedBuildings.remove(copiedBuildings.size() - 1 - index);
+                copiedBuildings.add(building);
+                isPasteActive = true;
+                imFromClipboard = true;
+            });
+            vBox.getChildren().add(imageView);
+            counter++;
+        }
+        vBox.setLayoutX(1400);
+        vBox.setLayoutY(180);
+        root.getChildren().add(vBox);
+        return vBox;
+    }
+
+    private void copySetUp() {
+        Button addButton = new Button();
+        ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/copy.png").toExternalForm()));
+        imageView.setFitWidth(25);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        addButton.setGraphic(imageView);
+        addButton.setLayoutX(1485);
+        addButton.setLayoutY(30);
+        addButton.setOnAction(event -> {
+            isCopyActive = !isCopyActive;
+            if (isCopyActive) {
+                imageView.setFitWidth(35);
+                imageView.setPreserveRatio(true);
+                if (imFromClipboard) {
+                    isPasteActive = true;
+                    imageView.setImage(new Image(GameMenuControl.class.getResource("/Images/paste.png").toExternalForm()));
+                    imFromClipboard = false;
+                }
+            } else {
+                if (!imFromClipboard) {
+                    isPasteActive = false;
+                } else {
+                    imFromClipboard = false;
+                }
+                imageView.setImage(new Image(GameMenuControl.class.getResource("/Images/copy.png").toExternalForm()));
+                imageView.setFitWidth(25);
+                imageView.setPreserveRatio(true);
+                imFromClipboard = false;
+            }
+        });
+        root.getChildren().add(addButton);
+        root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (event.getScreenX() > 1470) return;
+            if (event.getScreenY() > 600) return;
+            if (isCopyActive) {
+                if (!isPasteActive) {
+                    getPaneIndex(event.getScreenX(), event.getScreenY(), imageView);
+                } else {
+                    paste(event.getScreenX(), event.getScreenY());
+                    imageView.setImage(new Image(GameMenuControl.class.getResource("/Images/copy.png").toExternalForm()));
+                }
+            }
+        });
+    }
+
+    private void paste(double screenX, double screenY) {
+        if (screenX > 1470) return;
+        if (screenY > 600) return;
+        int xIndex = (int) Math.floor(screenX / TILE_SIZE);
+        int yIndex = (int) Math.floor(screenY / TILE_SIZE);
+        linkedHouses.get(panes[xIndex][yIndex]).getBuildings().add(copiedBuildings.get(copiedBuildings.size() - 1));
+        isPasteActive = false;
+        copiedBuildings.remove(copiedBuildings.size() - 1);
+        indexOfHoveringTilesTogether = -1;
+        indexOfHoveringTile = -1;
+        indexOfHoveringBuilding = -1;
+        for (int i = 0; i < 50; i++)
+            addTile(root, i);
+        for (int i = 0; i < 50; i++) {
+            int[] coordinates = assignTileToScreen(i);
+            setUpTile(panes[i % 10][i / 10], map.getTile(coordinates[1], coordinates[0]));
+        }
+    }
+
+    private void getPaneIndex(double screenX, double screenY, ImageView imageView) {
+        if (screenX > 1470) return;
+        if (screenY > 600) return;
+        int xIndex = (int) Math.floor(screenX / TILE_SIZE);
+        int yIndex = (int) Math.floor(screenY / TILE_SIZE);
+        System.out.println("this is the pane on which we copy form: " + xIndex + " and " + yIndex);
+        Tile selected = linkedHouses.get(panes[xIndex][yIndex]);
+        if (selected.getBuildings() == null || selected.getBuildings().size() == 0)
+            System.out.println("no building on this tile");
+        else
+            System.out.println("I found this building: " + selected.getBuildings().get(0).getType());
+        if (selected.getBuildings() == null || selected.getBuildings().size() == 0) return;
+        copiedBuildings.add(selected.getBuildings().get(selected.getBuildings().size() - 1));
+        imageView.setImage(new Image(GameMenuControl.class.getResource("/Images/paste.png").toExternalForm()));
+        isPasteActive = true;
     }
 
     private int indexOfHoveringTilesTogether = -1;
@@ -110,7 +276,9 @@ public class GameControlTest {
         });
 
         root.setOnMouseDragged(event -> {
-            if(indexOfHoveringTile >= 0) {
+            if (selectionArea.getY() > 600)
+                return;
+            if (indexOfHoveringTile >= 0) {
                 root.getChildren().remove(indexOfHoveringTile);
                 indexOfHoveringTile = -1;
             }
@@ -236,6 +404,10 @@ public class GameControlTest {
         yCenter += yChange;
         for (int i = 0; i < 50; i++)
             addTile(root, i);
+        for (int i = 0; i < 50; i++) {
+            int[] coordinates = assignTileToScreen(i);
+            setUpTile(panes[i % 10][i / 10], map.getTile(coordinates[1], coordinates[0]));
+        }
     }
 
     private void resetBuffers() {
@@ -477,8 +649,8 @@ public class GameControlTest {
         if (currentSet.equals(BuildingType.FOOD_PROCESSING)) {
             houses[0] = createSourceButton("/Images/buildings/hovel.png", 550, 625, BuildingEnum.HOVEL);
             houses[1] = createSourceButton("/Images/buildings/church.png", 670, 625, BuildingEnum.CHURCH);
-            houses[2] = createSourceButton("/Images/buildings/catheral.png", 790, 625, BuildingEnum.CATHEDRAL);
-            houses[3] = createSourceButton("/Images/buildings/small stone gatehouse.png", 910, 625, BuildingEnum.SMALL_STONE_GATEHOUSE);
+            houses[2] = createSourceButton("/Images/buildings/cathedral.png", 790, 625, BuildingEnum.CATHEDRAL);
+            houses[3] = createSourceButton("/Images/buildings/small_stone_gatehouse.png", 910, 625, BuildingEnum.SMALL_STONE_GATEHOUSE);
         }
 
         mainBar.setLayoutX(635);
@@ -549,7 +721,7 @@ public class GameControlTest {
 
         addTileTexture(section, coordinates);
         section.getChildren().get(0).setOnMouseEntered(mouseEvent -> {
-            if(tilesOccupied) return;
+            if (tilesOccupied) return;
             Tile tile = findTileByPane(section);
             String infoStr = "Texture: " + tile.getTexture().getName() + "\nbuilding num: " + tile.getBuildings().size();
             Label info = simpleLabelStyler(infoStr);
@@ -561,11 +733,10 @@ public class GameControlTest {
 
 
         section.getChildren().get(0).setOnMouseExited(mouseEvent -> {
-            if(tilesOccupied) return;
+            if (tilesOccupied) return;
             if (indexOfHoveringTile > 0) root.getChildren().remove(indexOfHoveringTile);
             indexOfHoveringTile = -1;
         });
-        setUpTile(section, map.getTile(coordinates[1], coordinates[0]));
 
         int fixedSize = root.getChildren().size();
         if (fixedSize <= index)
@@ -610,7 +781,6 @@ public class GameControlTest {
 
     private void setUpTile(Pane section, Tile tile) {
         //todo add units and trees
-        //sdsdsdsdsddfdf
         if (tile.getBuildings() != null)
             for (Building building : tile.getBuildings()) {
                 //System.out.println("this is going to be a building " + building.getType().getName());
@@ -632,9 +802,8 @@ public class GameControlTest {
     }
 
     private void addToTile(int[] index, int say) {
-
         double[] ranges = new double[2];
-        ranges[0] = -550 + 155 * index[0];
+        ranges[0] = -550 + 150 * index[0] - say * 120;
         ranges[1] = -605 + 140 * index[1];
         System.out.println("final rang: " + index[0] + " , " + index[1]);
         buildingImageView.setLayoutY(ranges[1]);
@@ -650,12 +819,7 @@ public class GameControlTest {
         buildingImageView.setCache(true);
 
         buildingImageView.setOnMouseDragged(this::onMouseDragged);
-        buildingImageView.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                onMouseReleased(mouseEvent, buildingEnum);
-            }
-        });
+        buildingImageView.setOnMouseReleased(mouseEvent -> onMouseReleased(mouseEvent, buildingEnum));
         buildingImageView.setUserData(new double[]{event.getY(), event.getY(), ((Button) event.getSource()).getLayoutX()
                 , ((Button) event.getSource()).getLayoutY()});
 
@@ -732,7 +896,7 @@ public class GameControlTest {
     private int[] findTheNearestTile(int number) {
         int[] coor = new int[2];
         double offset = number * 120;
-        double currentX = buildingImageView.getLayoutX() - offset;
+        double currentX = buildingImageView.getLayoutX() + offset;
         double currentY = buildingImageView.getLayoutY();
         //System.out.println(buildingImageView.getX() + " , " + buildingImageView.getLayoutX() + " , " + buildingImageView.getTranslateX());
         if (currentX <= -480)
@@ -753,6 +917,7 @@ public class GameControlTest {
             else
                 coor[1] = (int) (((540 - currentY) / TILE_SIZE) + 1);
         }
+        System.out.println("this is my result: " + coor[0] + " , " + coor[1]);
         return coor;
     }
 }

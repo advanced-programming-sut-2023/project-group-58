@@ -5,8 +5,74 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/paste.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/catheral.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/apple orchard.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/armourer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/bakery.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/blacksmith.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/brewer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/dairy farmer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/fletcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/hops farmer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/iron mine.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/mill.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/oil smelter.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/oil smelter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/ox tether.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/poleturner.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/quarry.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/stable.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/wheat farmer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/production/woodcutter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/shop/market.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/shop/market0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/small stone gatehouse.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/storage/armoury.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/storage/armoury0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/storage/granary.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/storage/granary0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/storage/stockpile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/training/barracks.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/training/castle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/training/engineers guild.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/training/mercenary post.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/training/mercenary post0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/apple orchard.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/armourer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/bakery.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/blacksmith.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/brewer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/dairy farmer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/fletcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/hops farmer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/iron mine.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/mill.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/oil smelter.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/oil smelter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/ox tether.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/poleturner.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/quarry.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/stable.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/wheat farmer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/production/woodcutter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/shop/market.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/shop/market0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/storage/armoury.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/storage/armoury0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/storage/granary.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/storage/granary0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/storage/stockpile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/training/barracks.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/training/castle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/training/engineers guild.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/training/mercenary post.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/training/mercenary post0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +266,7 @@
       <workItem from="1687871724910" duration="30665000" />
       <workItem from="1687945864214" duration="36886000" />
       <workItem from="1688032195360" duration="23307000" />
-      <workItem from="1688201251928" duration="13335000" />
+      <workItem from="1688201251928" duration="34443000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
