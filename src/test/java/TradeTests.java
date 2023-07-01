@@ -52,13 +52,13 @@ public class TradeTests {
         tradeMenuController.setCurrentUser(other);
 
         matcher = Commands.getMatcher((" trade accept -i " + Governance.getAllTrades().get(0).getId() + " -m   "),Commands.ACCEPT_TRADE);
-        Assertions.assertEquals(tradeMenuController.doTheTrade(matcher.group("data")), ShopAndTradeControllerOut.INVALID_INPUT_FORMAT);
+        Assertions.assertEquals(tradeMenuController.doTheTrade(matcher.group("data"), null), ShopAndTradeControllerOut.INVALID_INPUT_FORMAT);
         matcher = Commands.getMatcher((" trade accept -i rubbish here -m accepted"),Commands.ACCEPT_TRADE);
-        Assertions.assertEquals(tradeMenuController.doTheTrade(matcher.group("data")), ShopAndTradeControllerOut.TRADE_NOT_FOUND);
+        Assertions.assertEquals(tradeMenuController.doTheTrade(matcher.group("data") , null), ShopAndTradeControllerOut.TRADE_NOT_FOUND);
         matcher = Commands.getMatcher((" trade accept -i " + Governance.getAllTrades().get(0).getId() + " -m accepted"),Commands.ACCEPT_TRADE);
-        Assertions.assertEquals(tradeMenuController.doTheTrade(matcher.group("data")), ShopAndTradeControllerOut.SELF_TRADE);
+        Assertions.assertEquals(tradeMenuController.doTheTrade(matcher.group("data") , null), ShopAndTradeControllerOut.SELF_TRADE);
         matcher = Commands.getMatcher((" trade accept -i " + Governance.getAllTrades().get(1).getId() + " -m accepted"),Commands.ACCEPT_TRADE);
-        Assertions.assertEquals(tradeMenuController.doTheTrade(matcher.group("data")), ShopAndTradeControllerOut.NOT_ENOUGH_COMMODITY);
+        Assertions.assertEquals(tradeMenuController.doTheTrade(matcher.group("data") , null), ShopAndTradeControllerOut.NOT_ENOUGH_COMMODITY);
         TradeItem activeTrade = Governance.getAllTrades().get(1);
         other.getGovernance().changeResourceAmount(activeTrade.getType(),50);
         int otherPreviousGold = other.getGovernance().getGold();
@@ -66,7 +66,7 @@ public class TradeTests {
         int otherPreviousResource = other.getGovernance().getResourceAmount(activeTrade.getType());
         int userPreviousResource = user.getGovernance().getResourceAmount(activeTrade.getType());
         matcher = Commands.getMatcher((" trade accept -i " + Governance.getAllTrades().get(1).getId() + " -m accepted"),Commands.ACCEPT_TRADE);
-        Assertions.assertEquals(tradeMenuController.doTheTrade(matcher.group("data")), ShopAndTradeControllerOut.SUCCESS_FOR_TRADE);
+        Assertions.assertEquals(tradeMenuController.doTheTrade(matcher.group("data"), null), ShopAndTradeControllerOut.SUCCESS_FOR_TRADE);
         Assertions.assertEquals(user.getGovernance().getResourceAmount(activeTrade.getType()),userPreviousResource + activeTrade.getAmount());
         Assertions.assertEquals(user.getGovernance().getGold(),userPreviousGold - activeTrade.getPrice());
         Assertions.assertEquals(other.getGovernance().getResourceAmount(activeTrade.getType()),otherPreviousResource - activeTrade.getAmount());

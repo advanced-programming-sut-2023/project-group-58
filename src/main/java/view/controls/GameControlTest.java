@@ -5,11 +5,13 @@ import controller.gameMenuControllers.GameController;
 import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -18,6 +20,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import model.Map;
@@ -92,11 +95,15 @@ public class GameControlTest {
     }
 
     private int upBuffer = 0, downBuffer = 0, rightBuffer = 0, leftBuffer = 0;
-    private int lock = 20;
+    private final int lock = 5;
 
     private void joyStick() {
-        Button button = new Button("Drag me!");
-
+        Button button = new Button();
+        button.setGraphic(new ImageView(new Image(GameMenuControl.class.getResource("/Images/joystick.png").toExternalForm(),
+                100, 100, false, false)));
+        button.setStyle("-fx-background-color: transparent");
+        button.setLayoutX(20);
+        button.setLayoutY(500);
         // Store initial coordinates for determination of direction
         AtomicReference<Double> initialX = new AtomicReference<>((double) 0);
         AtomicReference<Double> initialY = new AtomicReference<>((double) 0);
@@ -116,29 +123,28 @@ public class GameControlTest {
             if (Math.abs(offsetX) > Math.abs(offsetY)) {
                 if (offsetX > 0) {
                     // Right drag
-                    if (++rightBuffer == lock) {
-                        moveUp();
-                        System.out.println("right!");
+                    if (++rightBuffer >= lock) {
+                        scroll(1,0);
                         resetBuffers();
                     }
                 } else {
                     // Left drag
-                    if (++leftBuffer == lock) {
-                        System.out.println("left!");
+                    if (++leftBuffer >= lock) {
+                        scroll(-1,0);
                         resetBuffers();
                     }
                 }
             } else {
                 if (offsetY > 0) {
                     // Down drag
-                    if (++downBuffer == lock) {
-                        System.out.println("down!");
+                    if (++downBuffer >= lock) {
+                        scroll(0,-1);
                         resetBuffers();
                     }
                 } else {
                     // Up drag
-                    if (++upBuffer == lock) {
-                        System.out.println("up!");
+                    if (++upBuffer >= lock) {
+                        scroll(0,1);
                         resetBuffers();
                     }
                 }
@@ -147,14 +153,17 @@ public class GameControlTest {
         root.getChildren().add(button);
     }
 
-    private void moveUp() {
-        ssdsds
+    private void scroll(int xChange, int yChange) {
+        xCenter += xChange;
+        yCenter += yChange;
+        for(int i = 0; i < 50; i++)
+            addTile(root,i);
     }
 
     private void resetBuffers() {
         rightBuffer = 0;
         downBuffer = 0;
-        rightBuffer = 0;
+        upBuffer = 0;
         leftBuffer = 0;
     }
 
@@ -388,10 +397,10 @@ public class GameControlTest {
         boolean first = mainBar.getChildren().size() == 0;
 
         if (currentSet.equals(BuildingType.FOOD_PROCESSING)) {
-            houses[0] = createSourceButton("/Images/buildings/castle/hovel.png", 550, 625, BuildingEnum.HOVEL);
-            houses[1] = createSourceButton("/Images/buildings/castle/church.png", 670, 625, BuildingEnum.CHURCH);
-            houses[2] = createSourceButton("/Images/buildings/castle/catheral.png", 790, 625, BuildingEnum.CATHEDRAL);
-            houses[3] = createSourceButton("/Images/buildings/castle/small stone gatehouse.png", 910, 625, BuildingEnum.SMALL_STONE_GATEHOUSE);
+            houses[0] = createSourceButton("/Images/buildings/hovel.png", 550, 625, BuildingEnum.HOVEL);
+            houses[1] = createSourceButton("/Images/buildings/church.png", 670, 625, BuildingEnum.CHURCH);
+            houses[2] = createSourceButton("/Images/buildings/catheral.png", 790, 625, BuildingEnum.CATHEDRAL);
+            houses[3] = createSourceButton("/Images/buildings/small stone gatehouse.png", 910, 625, BuildingEnum.SMALL_STONE_GATEHOUSE);
         }
 
         mainBar.setLayoutX(635);
@@ -426,24 +435,30 @@ public class GameControlTest {
     int indexOfHoveringTile = -1;
 
     private void addTile(Pane root, int index) {
+        for (java.util.Map.Entry<ImageView, Building> entry : buildings.entrySet()) {
+            for (Node child : root.getChildren()) {
+                if(child.equals(entry.getKey())) {
+                    root.getChildren().remove(child);
+                    break;
+                }
+            }
+        }
+
+        buildings = new HashMap<>();
         Pane section = new Pane();
         section.setStyle("-fx-border-color: black;");
         section.setPrefHeight(TILE_SIZE);
         section.setPrefWidth(TILE_SIZE);
-        root.getChildren().add(section);
         double[] ranges = new double[2];
         ranges[0] = ((index % 10) * TILE_SIZE);
         ranges[1] = (index / 10) * TILE_SIZE;
         panes[index % 10][index / 10] = section;
         int[] coordinates = assignTileToScreen(index);
         linkedHouses.put(section, map.getTile(coordinates[1], coordinates[0]));
-        section.getChildren().add(new ImageView(new Image(GameMenuControl.class.getResource("/Images/textures/" + map.getTile(
-                coordinates[1], coordinates[0]).getTexture().getName() + ".jpg").toExternalForm(), TILE_SIZE, TILE_SIZE, false
-                , false)));
 
-        section.getChildren().get(0).setOnMouseEntered(new EventHandler<MouseEvent>() {
+        addTileTexture(section,coordinates);
+        section.getChildren().get(0).setOnMouseEntered(new EventHandler<>() {
             Tile tile;
-
             @Override
             public void handle(MouseEvent mouseEvent) {
                 for (java.util.Map.Entry<Pane, Tile> entry : linkedHouses.entrySet()) {
@@ -467,9 +482,62 @@ public class GameControlTest {
         section.getChildren().get(0).setOnMouseExited(mouseEvent -> {
             if (indexOfHoveringTile > 0) root.getChildren().remove(indexOfHoveringTile);
         });
-        //todo: set up tile. including texture.
+        setUpTile(section,map.getTile(coordinates[1], coordinates[0]));
+
+        int fixedSize = root.getChildren().size();
+        if(fixedSize <= index)
+            root.getChildren().add(section);
+        else root.getChildren().set(index , section);
         root.getChildren().get(index).setLayoutX(ranges[0]);
         root.getChildren().get(index).setLayoutY(ranges[1]);
+    }
+
+    private void addTileTexture(Pane section, int[] coordinates) {
+        ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/textures/" + map.getTile(
+                coordinates[1], coordinates[0]).getTexture().getName() + ".jpg").toExternalForm(), TILE_SIZE, TILE_SIZE, false
+                , false));
+        ColorAdjust monochrome = new ColorAdjust();
+        monochrome.setSaturation(-1.0);
+
+        Blend blush = new Blend(
+                BlendMode.MULTIPLY,
+                monochrome,
+                new ColorInput(
+                        0,
+                        0,
+                        imageView.getImage().getWidth(),
+                        imageView.getImage().getHeight(),
+                        Color.RED
+                )
+        );
+        blush.setOpacity(0.25);
+
+        imageView.effectProperty().bind(
+                Bindings
+                        .when(imageView.hoverProperty())
+                        .then((Effect) blush)
+                        .otherwise((Effect) null)
+        );
+
+        imageView.setCache(true);
+        imageView.setCacheHint(CacheHint.SPEED);
+        section.getChildren().add(imageView);
+    }
+
+    private void setUpTile(Pane section, Tile tile) {
+        //todo add units and trees
+        //sdsdsdsdsddfdf
+        if(tile.getBuildings() != null)
+            for (Building building : tile.getBuildings()) {
+                //System.out.println("this is going to be a building " + building.getType().getName());
+                buildingImageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/buildings/" +
+                        building.getType().getName() + ".png").toExternalForm()));
+                buildingImageView.setFitWidth(TILE_SIZE - 10);
+                buildingImageView.setPreserveRatio(true);
+                buildingImageView.setSmooth(true);
+                buildingImageView.setCache(true);
+                section.getChildren().add(buildingImageView);
+            }
     }
 
     private int[] assignTileToScreen(int index) {
@@ -536,6 +604,7 @@ public class GameControlTest {
         buildings.put(buildingImageView, new Building(buildingEnum, currentPlayer, 0, true));
 
         int[] index = findTheNearestTile(say(event));
+        Tile tile = linkedHouses.get(panes[index[0]][index[1]]);
         linkedHouses.get(panes[index[0]][index[1]]).getBuildings().add(buildings.get(buildingImageView));
         //todo: do the drop building thing here
         System.out.println("index: " + index[0] + " , " + index[1]);
@@ -562,6 +631,7 @@ public class GameControlTest {
         buildingImageView.setOnMouseExited(mouseEvent -> {
             if (indexOfHoveringBuilding > 0) root.getChildren().remove(indexOfHoveringBuilding);
         });
+
         buildingImageView = null;
     }
 
