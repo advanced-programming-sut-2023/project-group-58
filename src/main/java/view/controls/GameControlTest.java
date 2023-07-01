@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import model.Map;
@@ -60,6 +61,7 @@ public class GameControlTest {
     private HashMap<Pane, Tile> linkedHouses = new HashMap<>();
     private Map map;
     private GameController gameController;
+    private boolean tilesOccupied = false;
 
     public void start(Stage primaryStage, User currentPlayer) {
         this.currentPlayer = currentPlayer;
@@ -89,9 +91,85 @@ public class GameControlTest {
 
         joyStick();
 
+        selectArea();
+
         primaryStage.setScene(new Scene(root, 1530, 800));
         primaryStage.getScene().addEventFilter(ScrollEvent.ANY, this::handleMouseScroll);
         primaryStage.show();
+    }
+
+    private int indexOfHoveringTilesTogether = -1;
+
+    private void selectArea() {
+        Rectangle selectionArea = new Rectangle();
+        selectionArea.setFill(Color.TRANSPARENT);
+        selectionArea.setStroke(Color.BLUE);
+        root.setOnMousePressed(event -> {
+            selectionArea.setX(event.getX());
+            selectionArea.setY(event.getY());
+        });
+
+        root.setOnMouseDragged(event -> {
+            if(indexOfHoveringTile >= 0) {
+                root.getChildren().remove(indexOfHoveringTile);
+                indexOfHoveringTile = -1;
+            }
+            tilesOccupied = true;
+            String infoStr = "";
+            double width = event.getX() - selectionArea.getX();
+            double height = event.getY() - selectionArea.getY();
+            selectionArea.setWidth(width);
+            selectionArea.setHeight(height);
+
+            int buildingCounter = 0;
+            int unitCounter = 0;
+            int minRate = 0;
+            int maxRate = 0;
+            int sumRate = 0;
+            int yourUnits = 0;
+            int averageRate = 0;
+
+            for (Node node : root.getChildren()) {
+                if (node.getBoundsInParent().intersects(selectionArea.getBoundsInParent())) {
+                    if (node instanceof Pane) {
+                        Tile tile = findTileByPane((Pane) node);
+                        infoStr += "Texture: " + tile.getTexture().getName() + "\n";
+                        if (tile.getBuildings() != null) {
+                            buildingCounter += tile.getBuildings().size();
+                            for (Building building : tile.getBuildings()) {
+                                maxRate = Math.max(maxRate, building.getType().getRate());
+                                minRate = Math.min(minRate, building.getType().getRate());
+                                sumRate += building.getType().getRate();
+                            }
+                        }
+                        if (tile.getPlayersUnits() != null)
+                            unitCounter += tile.getPlayersUnits().size();
+                        if (tile.findYourUnits(currentPlayer) != null)
+                            yourUnits += tile.findYourUnits(currentPlayer).size();
+                    }
+                }
+            }
+
+            averageRate = buildingCounter == 0 ? 0 : sumRate / buildingCounter;
+            infoStr += "Building number: " + buildingCounter + "\nUnit number: " + unitCounter + "\nYour units: " + yourUnits
+                    + "\nMin rate: " + minRate + "\nMax rate: " + maxRate + "\nAverage rate: " + averageRate;
+            Label info = simpleLabelStyler(infoStr);
+            info.setStyle("-fx-alignment: center; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-background-color: rgba(40,37,37,0.38);" +
+                    "; -fx-font-size: 25; -fx-font-weight: bold");
+            if (indexOfHoveringTilesTogether >= 0)
+                root.getChildren().set(indexOfHoveringTilesTogether, info);
+            else {
+                root.getChildren().add(info);
+                indexOfHoveringTilesTogether = root.getChildren().indexOf(info);
+            }
+        });
+
+        root.setOnMouseReleased(event -> {
+            if (indexOfHoveringTilesTogether >= 0) root.getChildren().remove(indexOfHoveringTilesTogether);
+            indexOfHoveringTilesTogether = -1;
+            tilesOccupied = false;
+        });
+
     }
 
     private int upBuffer = 0, downBuffer = 0, rightBuffer = 0, leftBuffer = 0;
@@ -124,13 +202,13 @@ public class GameControlTest {
                 if (offsetX > 0) {
                     // Right drag
                     if (++rightBuffer >= lock) {
-                        scroll(1,0);
+                        scroll(1, 0);
                         resetBuffers();
                     }
                 } else {
                     // Left drag
                     if (++leftBuffer >= lock) {
-                        scroll(-1,0);
+                        scroll(-1, 0);
                         resetBuffers();
                     }
                 }
@@ -138,13 +216,13 @@ public class GameControlTest {
                 if (offsetY > 0) {
                     // Down drag
                     if (++downBuffer >= lock) {
-                        scroll(0,-1);
+                        scroll(0, -1);
                         resetBuffers();
                     }
                 } else {
                     // Up drag
                     if (++upBuffer >= lock) {
-                        scroll(0,1);
+                        scroll(0, 1);
                         resetBuffers();
                     }
                 }
@@ -156,8 +234,8 @@ public class GameControlTest {
     private void scroll(int xChange, int yChange) {
         xCenter += xChange;
         yCenter += yChange;
-        for(int i = 0; i < 50; i++)
-            addTile(root,i);
+        for (int i = 0; i < 50; i++)
+            addTile(root, i);
     }
 
     private void resetBuffers() {
@@ -434,10 +512,23 @@ public class GameControlTest {
 
     int indexOfHoveringTile = -1;
 
+    private Tile findTileByPane(Pane section) {
+        Tile tile = null;
+        for (java.util.Map.Entry<Pane, Tile> entry : linkedHouses.entrySet()) {
+            if (section == null) continue;
+            if (entry.getKey().getLayoutX() == section.getLayoutX() &&
+                    entry.getKey().getLayoutY() == section.getLayoutY()) {
+                tile = entry.getValue();
+                break;
+            }
+        }
+        return tile;
+    }
+
     private void addTile(Pane root, int index) {
         for (java.util.Map.Entry<ImageView, Building> entry : buildings.entrySet()) {
             for (Node child : root.getChildren()) {
-                if(child.equals(entry.getKey())) {
+                if (child.equals(entry.getKey())) {
                     root.getChildren().remove(child);
                     break;
                 }
@@ -456,38 +547,30 @@ public class GameControlTest {
         int[] coordinates = assignTileToScreen(index);
         linkedHouses.put(section, map.getTile(coordinates[1], coordinates[0]));
 
-        addTileTexture(section,coordinates);
-        section.getChildren().get(0).setOnMouseEntered(new EventHandler<>() {
-            Tile tile;
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                for (java.util.Map.Entry<Pane, Tile> entry : linkedHouses.entrySet()) {
-                    if (section == null) continue;
-                    if (entry.getKey().getLayoutX() == section.getLayoutX() &&
-                            entry.getKey().getLayoutY() == section.getLayoutY()) {
-                        tile = entry.getValue();
-                        break;
-                    }
-                }
-                String infoStr = "Texture: " + tile.getTexture().getName() + "\nbuilding num: " + tile.getBuildings().size();
-                Label info = simpleLabelStyler(infoStr);
-                info.setStyle("-fx-alignment: center; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-background-color: rgba(40,37,37,0.25);" +
-                        "; -fx-font-size: 25; -fx-font-weight: bold");
-                root.getChildren().add(info);
-                indexOfHoveringTile = root.getChildren().indexOf(info);
-            }
+        addTileTexture(section, coordinates);
+        section.getChildren().get(0).setOnMouseEntered(mouseEvent -> {
+            if(tilesOccupied) return;
+            Tile tile = findTileByPane(section);
+            String infoStr = "Texture: " + tile.getTexture().getName() + "\nbuilding num: " + tile.getBuildings().size();
+            Label info = simpleLabelStyler(infoStr);
+            info.setStyle("-fx-alignment: center; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-background-color: rgba(40,37,37,0.25);" +
+                    "; -fx-font-size: 25; -fx-font-weight: bold");
+            root.getChildren().add(info);
+            indexOfHoveringTile = root.getChildren().indexOf(info);
         });
 
 
         section.getChildren().get(0).setOnMouseExited(mouseEvent -> {
+            if(tilesOccupied) return;
             if (indexOfHoveringTile > 0) root.getChildren().remove(indexOfHoveringTile);
+            indexOfHoveringTile = -1;
         });
-        setUpTile(section,map.getTile(coordinates[1], coordinates[0]));
+        setUpTile(section, map.getTile(coordinates[1], coordinates[0]));
 
         int fixedSize = root.getChildren().size();
-        if(fixedSize <= index)
+        if (fixedSize <= index)
             root.getChildren().add(section);
-        else root.getChildren().set(index , section);
+        else root.getChildren().set(index, section);
         root.getChildren().get(index).setLayoutX(ranges[0]);
         root.getChildren().get(index).setLayoutY(ranges[1]);
     }
@@ -524,10 +607,11 @@ public class GameControlTest {
         section.getChildren().add(imageView);
     }
 
+
     private void setUpTile(Pane section, Tile tile) {
         //todo add units and trees
         //sdsdsdsdsddfdf
-        if(tile.getBuildings() != null)
+        if (tile.getBuildings() != null)
             for (Building building : tile.getBuildings()) {
                 //System.out.println("this is going to be a building " + building.getType().getName());
                 buildingImageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/buildings/" +
@@ -630,6 +714,7 @@ public class GameControlTest {
         });
         buildingImageView.setOnMouseExited(mouseEvent -> {
             if (indexOfHoveringBuilding > 0) root.getChildren().remove(indexOfHoveringBuilding);
+            indexOfHoveringBuilding = -1;
         });
 
         buildingImageView = null;
