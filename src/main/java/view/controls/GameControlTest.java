@@ -296,8 +296,6 @@ public class GameControlTest {
         ArrayList<Building> tileBuildings = linkedHouses.get(panes[xIndex][yIndex]).getBuildings();
         if (tileBuildings == null || tileBuildings.size() == 0) return;
         selectedBuilding.put(currentPlayer, tileBuildings.get(tileBuildings.size() - 1));
-        System.out.println("selecting: " + event.getScreenY() + " , " + event.getScreenX());
-        System.out.println("building selected: " + selectedBuilding.get(currentPlayer).getType().getName());
     }
 
     private void paste(double screenX, double screenY) {
