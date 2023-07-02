@@ -4,44 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/barrack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/buildings/mercenary_post.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitMenu.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/arabian swordsman.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/archer bow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/assassin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/fire thrower.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/horse archer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/ladder man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/slave.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/slinger.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/units/UnitEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/units/UnitEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/barracks.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/buildings/mercenary post0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/ArabianSwordsmen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/ArcherBow.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/Assassins.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/FireThrowers.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/HorseArchers.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/Laddermen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/Slaves.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/arabian/Slingers.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/barracks.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/buildings/mercenary post0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/units/arabian/ArabianSwordsmen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/units/arabian/ArcherBow.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/units/arabian/Assassins.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/units/arabian/FireThrowers.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/units/arabian/HorseArchers.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/units/arabian/Laddermen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/units/arabian/Slaves.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Images/units/arabian/Slingers.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/units/UnitEnum.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/units/UnitEnum.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" afterDir="false" />
-    </list>
+    <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -236,7 +199,7 @@
       <workItem from="1688032195360" duration="23307000" />
       <workItem from="1688201251928" duration="47887000" />
       <workItem from="1688295192963" duration="703000" />
-      <workItem from="1688299430848" duration="15271000" />
+      <workItem from="1688299430848" duration="15776000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
