@@ -3,17 +3,13 @@ package view.controls;
 import controller.MapMenuController;
 import controller.gameMenuControllers.GameController;
 import javafx.beans.binding.Bindings;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,7 +30,9 @@ import model.buildings.BuildingEnum;
 import model.units.Unit;
 import model.units.UnitEnum;
 import view.GetStyle;
+import view.enums.GameControllerOut;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -296,6 +294,23 @@ public class GameControlTest {
         ArrayList<Building> tileBuildings = linkedHouses.get(panes[xIndex][yIndex]).getBuildings();
         if (tileBuildings == null || tileBuildings.size() == 0) return;
         selectedBuilding.put(currentPlayer, tileBuildings.get(tileBuildings.size() - 1));
+        if (selectedBuilding.get(currentPlayer).getType() == BuildingEnum.MARKET ||
+                selectedBuilding.get(currentPlayer).getType() == BuildingEnum.BARRACKS ||
+                selectedBuilding.get(currentPlayer).getType() == BuildingEnum.MERCENARY_POST) {
+            for (java.util.Map.Entry<ImageView, Building> entry : buildings.entrySet()) {
+                if (entry.getValue() == selectedBuilding.get(currentPlayer))
+                    entry.getKey().setOnMouseClicked(mouseEvent -> {
+                        if (selectedBuilding.get(currentPlayer).getType() == BuildingEnum.MARKET)
+                            try {
+                                LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        else
+                            enterDropUnitBar(xIndex, yIndex);
+                    });
+            }
+        }
     }
 
     private void paste(double screenX, double screenY) {
@@ -868,9 +883,7 @@ public class GameControlTest {
     }
 
 
-
-/*
-    private void enterDropUnitBar() {
+    private void enterDropUnitBar(int xIndex, int yIndex) {
         if (selectedBuilding == null) return;
         if (changeFactorsBar != null)
             for (Node child : changeFactorsBar.getChildren()) {
@@ -887,14 +900,24 @@ public class GameControlTest {
         HBox unitList = new HBox();
         ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/green.jpg").toExternalForm(), 20, 20, false, false));
         Button[] troops = new Button[7];
-        if (selectedBuilding.getType() == BuildingEnum.MERCENARY_POST) {
-            troops[0] = createSourceButton("/Images/units/arabian/slave.png", 550, 625, null, UnitEnum.SLAVE, 60);
-            troops[1] = createSourceButton("/Images/units/arabian/slinger.png", 670, 625, null, UnitEnum.SLINGER, 60);
-            troops[2] = createSourceButton("/Images/units/arabian/arabian swordsman.png", 790, 625, null, UnitEnum.ARABIAN_SWORDSMAN, 60);
-            troops[3] = createSourceButton("/Images/units/arabian/archer bow.png", 910, 625, null, UnitEnum.ARCHER_BOW, 60);
-            troops[4] = createSourceButton("/Images/units/arabian/assassin.png", 550, 625, null, UnitEnum.ASSASSIN, 60);
-            troops[5] = createSourceButton("/Images/units/arabian/fire thrower.png", 550, 625, null, UnitEnum.FIRE_THROWER, 60);
-            troops[6] = createSourceButton("/Images/units/arabian/horse archer.png", 550, 625, null, UnitEnum.HORSE_ARCHER, 60);
+        if (selectedBuilding.get(currentPlayer).getType() == BuildingEnum.MERCENARY_POST) {
+            String preAddress = "/Images/units/arabian/";
+            troops[0] = createTroopButton(preAddress + "slave.png", 550, UnitEnum.SLAVE, xIndex, yIndex);
+            troops[1] = createTroopButton(preAddress + "slinger.png", 670, UnitEnum.SLINGER, xIndex, yIndex);
+            troops[2] = createTroopButton(preAddress + "arabian swordsman.png", 790, UnitEnum.ARABIAN_SWORDSMAN, xIndex, yIndex);
+            troops[3] = createTroopButton(preAddress + "archer bow.png", 910, UnitEnum.ARCHER_BOW, xIndex, yIndex);
+            troops[4] = createTroopButton(preAddress + "assassin.png", 550, UnitEnum.ASSASSIN, xIndex, yIndex);
+            troops[5] = createTroopButton(preAddress + "fire thrower.png", 550, UnitEnum.FIRE_THROWER, xIndex, yIndex);
+            troops[6] = createTroopButton(preAddress + "horse archer.png", 550, UnitEnum.HORSE_ARCHER, xIndex, yIndex);
+        } else {
+            String preAddress = "/Images/units/european/";
+            troops[0] = createTroopButton(preAddress + "Archer.png", 550, UnitEnum.ARCHER, xIndex, yIndex);
+            troops[1] = createTroopButton(preAddress + "Crossbowmen.png", 670, UnitEnum.CROSSBOW_MAN, xIndex, yIndex);
+            troops[2] = createTroopButton(preAddress + "Knight.png", 790, UnitEnum.KNIGHT, xIndex, yIndex);
+            troops[3] = createTroopButton(preAddress + "Macemen.png", 910, UnitEnum.MACE_MAN, xIndex, yIndex);
+            troops[4] = createTroopButton(preAddress + "Pikemen.png", 550, UnitEnum.PIKE_MAN, xIndex, yIndex);
+            troops[5] = createTroopButton(preAddress + "Spearmen.png", 550, UnitEnum.SPEAR_MAN, xIndex, yIndex);
+            troops[6] = createTroopButton(preAddress + "Swordsmen.png", 550, UnitEnum.SWORDS_MAN, xIndex, yIndex);
         }
 
         unitBar.setLayoutX(700);
@@ -913,7 +936,17 @@ public class GameControlTest {
             unitBar.getChildren().set(3, troops[6]);
         }
     }
-*/
+
+    private Button createTroopButton(String address, int i, UnitEnum unitEnum, int xIndex, int yIndex) {
+        Button btn = new Button("");
+        btn.setGraphic(new ImageView(new Image(GameControlTest.class.getResource(address).toExternalForm(), 60,
+                60, false, false)));
+        btn.setStyle("-fx-background-color: transparent");
+        btn.setOnMouseEntered(event -> setNumber(xIndex, yIndex, unitEnum));
+        btn.setLayoutX(i);
+        btn.setLayoutY(625);
+        return btn;
+    }
 
     private void enterMainBar() {
         if (changeFactorsBar != null)
@@ -932,7 +965,7 @@ public class GameControlTest {
             houses[0] = createSourceButton("/Images/buildings/hovel.png", 550, 625, BuildingEnum.HOVEL, 100);
             houses[1] = createSourceButton("/Images/buildings/church.png", 670, 625, BuildingEnum.CHURCH, 100);
             houses[2] = createSourceButton("/Images/buildings/cathedral.png", 790, 625, BuildingEnum.CATHEDRAL, 100);
-            houses[3] = createSourceButton("/Images/buildings/market.png", 910, 625, BuildingEnum.SMALL_STONE_GATEHOUSE, 100);
+            houses[3] = createSourceButton("/Images/buildings/market.png", 910, 625, BuildingEnum.MARKET, 100);
         } else if (currentSet.equals(BuildingType.WEAPONS)) {
             houses[0] = createSourceButton("/Images/buildings/mercenary_post.png", 550, 625, BuildingEnum.MERCENARY_POST, 100);
             houses[1] = createSourceButton("/Images/buildings/barrack.png", 670, 625, BuildingEnum.BARRACKS, 100);
@@ -994,7 +1027,7 @@ public class GameControlTest {
 
     private TextField troopNumberField;
 
-    private void setNumber() {
+    private void setNumber(int xIndex, int yIndex, UnitEnum unitEnum) {
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(5);
@@ -1002,7 +1035,7 @@ public class GameControlTest {
         grid.setStyle("-fx-background-color: rgba(56,56,56,0.56)");
 
         Label troopNumberLabel = new Label("Troop Number:");
-        troopNumberLabel.setStyle("-fx-text-fill: white; -fx-font-size: 25");
+        troopNumberLabel.setStyle("-fx-text-fill: white; -fx-font-size: 23");
         GridPane.setConstraints(troopNumberLabel, 0, 0);
         grid.getChildren().add(troopNumberLabel);
 
@@ -1034,9 +1067,17 @@ public class GameControlTest {
         Button okButton = new Button("OK");
         cancelButton.setOnAction(e -> root.getChildren().remove(grid));
         okButton.setOnAction(e -> {
+
             int troopNumber = Integer.parseInt(troopNumberField.getText());
             root.getChildren().remove(grid);
-            System.out.println("Troop Number: " + troopNumber);
+            GameControllerOut result = gameController.createUnit("createunit -t " + unitEnum.getName() + " -c " +
+                    troopNumber, false);
+            if (result != GameControllerOut.SUCCESSFULLY_CREATED_UNIT)
+                showError(result.getContent(), "Failed to create unit");
+            else {
+                
+            }
+
         });
         buttonBox.getChildren().addAll(cancelButton, okButton);
         GridPane.setConstraints(buttonBox, 0, 1, 4, 1);
@@ -1044,6 +1085,14 @@ public class GameControlTest {
         grid.setLayoutX(520);
         grid.setLayoutY(300);
         root.getChildren().add(grid);
+    }
+
+    private void showError(String message, String title) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("error");
+        alert.setHeaderText(title);
+        alert.setContentText(message);
+        alert.show();
     }
 
     int indexOfHoveringTile = -1;

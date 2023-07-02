@@ -139,8 +139,8 @@ public class ShopMenuControl implements Initializable {
         mediaPlayer.play();
     }
 
-    public void backToGame(MouseEvent mouseEvent) {
-        //todo
+    public void backToGame() {
+        LoginMenu.getStage().close();
     }
 
     public void enterTrade() throws IOException {
