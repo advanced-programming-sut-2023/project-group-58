@@ -3,6 +3,7 @@ package view.controls;
 import controller.MapMenuController;
 import controller.gameMenuControllers.GameController;
 import javafx.beans.binding.Bindings;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
@@ -84,6 +85,9 @@ public class GameControlTest {
     private HashMap<ImageView, Building> lastBuildingsUndo = new HashMap<>();
 
     private boolean doWeHaveUndo = false;
+    private HashMap<User, Building> selectedBuilding = new HashMap<>();
+    private boolean selectActive = false;
+
 
     //todo: don't forget to update minimap whenever you change the main map.
     private GridPane miniMap = new GridPane();
@@ -120,10 +124,40 @@ public class GameControlTest {
         selectArea();
         copySetUp();
         clipBoardSetUp();
+        selectBuildingSetUp();
 
         primaryStage.setScene(new Scene(root, 1530, 800));
         primaryStage.getScene().addEventFilter(ScrollEvent.ANY, this::handleMouseScroll);
         primaryStage.show();
+    }
+
+    private void selectBuildingSetUp() {
+        Button addButton = new Button();
+        ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/select.png").toExternalForm()));
+        imageView.setFitWidth(25);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        addButton.setGraphic(imageView);
+        addButton.setLayoutX(1485);
+        addButton.setLayoutY(150);
+        addButton.setOnMouseClicked(mouseEvent -> {
+            selectActive = !selectActive;
+            if (selectActive)
+                imageView.setFitWidth(35);
+            else
+                imageView.setFitWidth(25);
+            imageView.setPreserveRatio(true);
+        });
+
+        root.getChildren().add(addButton);
+        root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (event.getScreenX() > 1470) return;
+            if (event.getScreenY() > 600) return;
+            if (selectActive) {
+                selectBuilding(event);
+            }
+        });
     }
 
     private void deleteButton(Button button) {
@@ -254,6 +288,16 @@ public class GameControlTest {
                 }
             }
         });
+    }
+
+    private void selectBuilding(MouseEvent event) {
+        int xIndex = (int) Math.floor(event.getScreenX() / TILE_SIZE);
+        int yIndex = (int) Math.floor(event.getScreenY() / TILE_SIZE);
+        ArrayList<Building> tileBuildings = linkedHouses.get(panes[xIndex][yIndex]).getBuildings();
+        if (tileBuildings == null || tileBuildings.size() == 0) return;
+        selectedBuilding.put(currentPlayer, tileBuildings.get(tileBuildings.size() - 1));
+        System.out.println("selecting: " + event.getScreenY() + " , " + event.getScreenX());
+        System.out.println("building selected: " + selectedBuilding.get(currentPlayer).getType().getName());
     }
 
     private void paste(double screenX, double screenY) {
@@ -571,7 +615,7 @@ public class GameControlTest {
         imageView.setCache(true);
         resetAddMiniMapDetails();
 
-        HBox buttons = new HBox(changeFactorButton,deleteButton,undoButton);
+        HBox buttons = new HBox(changeFactorButton, deleteButton, undoButton);
         buttons.setSpacing(30);
         barBook.getChildren().addAll(popularity, population, mask, buttons);
         barBook.setSpacing(-20);
@@ -826,7 +870,6 @@ public class GameControlTest {
     }
 
 
-    private Building selectedBuilding = null;
 
 /*
     private void enterDropUnitBar() {
@@ -902,7 +945,7 @@ public class GameControlTest {
 
         Button armoury = new Button();
         ImageView armIcon = new ImageView(new Image(GameControlTest.class.getResource("/Images/i2.png").toExternalForm(), 35, 35, false, false));
-        armoury.setStyle("-fx-background-color: transparent; -fx-padding: 100 0 -100 -0;");
+        armoury.setStyle("-fx-background-color: transparent; -fx-padding: 0 30 -0 -30;");
         armoury.setGraphic(armIcon);
         armoury.setOnMouseClicked(mouseEvent -> {
             currentSet = BuildingType.WEAPONS;
@@ -911,7 +954,7 @@ public class GameControlTest {
 
         Button home = new Button();
         ImageView homeIcon = new ImageView(new Image(GameControlTest.class.getResource("/Images/i4.png").toExternalForm(), 40, 40, false, false));
-        home.setStyle("-fx-background-color: transparent; -fx-padding: 95 0 -95 -0;");
+        home.setStyle("-fx-background-color: transparent; -fx-padding: 0 20 -0 -20;");
         home.setGraphic(homeIcon);
         home.setOnMouseClicked(mouseEvent -> {
             currentSet = BuildingType.TOWN;
@@ -919,22 +962,20 @@ public class GameControlTest {
         });
 
 
-        mainBar.setLayoutX(635);
+        mainBar.setLayoutX(600);
         mainBar.setLayoutY(640);
         HBox hBox = new HBox();
-        hBox.getChildren().addAll(armoury,home);
+        hBox.getChildren().addAll(armoury, home);
+        HBox hBox1 = new HBox();
+        hBox1.getChildren().addAll(houses[0], houses[1], houses[2], houses[3]);
         VBox vBox = new VBox();
-        vBox.getChildren().addAll
+        vBox.getChildren().addAll(hBox1, hBox);
 
         if (first) {
-            mainBar.getChildren().addAll(hBox, houses[0], houses[1], houses[2], houses[3]);
+            mainBar.getChildren().add(vBox);
             root.getChildren().add(mainBar);
         } else {
-            mainBar.getChildren().set(0, hBox);
-            mainBar.getChildren().set(1, houses[0]);
-            mainBar.getChildren().set(2, houses[1]);
-            mainBar.getChildren().set(3, houses[2]);
-            mainBar.getChildren().set(4, houses[3]);
+            mainBar.getChildren().set(0, vBox);
         }
     }
 
@@ -1132,7 +1173,7 @@ public class GameControlTest {
         ranges[1] = -605 + 140 * index[1];
         System.out.println("final rang: " + index[0] + " , " + index[1]);
         buildingImageView.setLayoutY(ranges[1]);
-        buildingImageView.setLayoutX(ranges[0]);
+        buildingImageView.setLayoutX(ranges[0] - TILE_SIZE / 2 + 12.5);
     }
 
     private void createPicture(MouseEvent event, int i, int j, String address, BuildingEnum buildingEnum) {
@@ -1147,9 +1188,10 @@ public class GameControlTest {
         buildingImageView.setOnMouseReleased(mouseEvent -> onMouseReleased(mouseEvent, buildingEnum));
         buildingImageView.setUserData(new double[]{event.getY(), event.getY(), ((Button) event.getSource()).getLayoutX()
                 , ((Button) event.getSource()).getLayoutY()});
-        buildingImageView.setX(i + TILE_SIZE * 1.1);
+        buildingImageView.setX(i + TILE_SIZE / 2 - 12.5);
         buildingImageView.setY(j);
     }
+
 
     private void onMouseDragged(MouseEvent event) {
         if (buildingImageView == null)
