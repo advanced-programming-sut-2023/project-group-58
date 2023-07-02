@@ -5,6 +5,7 @@ import controller.gameMenuControllers.GameController;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -70,6 +71,7 @@ public class GameControlTest {
     private boolean clipboardPaneUp = false;
     private Label navar;
     private int navarIndex = 1;
+    private boolean isDeleteActive = false;
 
     public void start(Stage primaryStage, User currentPlayer) {
         this.currentPlayer = currentPlayer;
@@ -100,15 +102,26 @@ public class GameControlTest {
         navarIndex = root.getChildren().indexOf(navar);
 
         joyStick();
-
         selectArea();
-
         copySetUp();
         clipBoardSetUp();
 
         primaryStage.setScene(new Scene(root, 1530, 800));
         primaryStage.getScene().addEventFilter(ScrollEvent.ANY, this::handleMouseScroll);
         primaryStage.show();
+    }
+
+    private void deleteButton(Button button) {
+        if (button == null) return;
+        isDeleteActive = !isDeleteActive;
+        if (isDeleteActive) {
+            button.setGraphic(new ImageView(new Image(GameMenuControl.class.getResource("/Images/selected_delete.png").toExternalForm())));
+            Image cursorImage = new Image(GameMenuControl.class.getResource("/Images/delete_cursor_2.png").toExternalForm());
+            primaryStage.getScene().setCursor(new ImageCursor(cursorImage));
+        } else {
+            button.setGraphic(new ImageView(new Image(GameMenuControl.class.getResource("/Images/delete.png").toExternalForm())));
+            primaryStage.getScene().setCursor(null);
+        }
     }
 
     private VBox clipBoardBox = null;
@@ -162,8 +175,8 @@ public class GameControlTest {
             imageView.setSmooth(true);
             imageView.setCache(true);
             imageView.setOnMouseClicked(mouseEvent -> {
-                if(copiedBuildings == null || copiedBuildings.size() == 0) return;
-                int index = (int) Math.floor((mouseEvent.getSceneY() - 180)/90);
+                if (copiedBuildings == null || copiedBuildings.size() == 0) return;
+                int index = (int) Math.floor((mouseEvent.getSceneY() - 180) / 90);
                 System.out.println("copied number: " + index + " , " + mouseEvent.getScreenY() + " , " + mouseEvent.getY() + " , " + mouseEvent.getSceneY());
                 if (copiedBuildings.size() - counter < 0) return;
                 Building building = copiedBuildings.get(copiedBuildings.size() - 1 - index);
@@ -471,7 +484,7 @@ public class GameControlTest {
 
         Button changeFactorButton = new Button();
         ImageView change = new ImageView(new Image(GameControlTest.class.getResource("/Images/changeFactor.png").toExternalForm(), 25, 25, false, false));
-        changeFactorButton.setStyle("-fx-background-color: transparent; -fx-padding: 20 -55 -20 -55;");
+        changeFactorButton.setStyle("-fx-background-color: transparent; -fx-padding: 35 0 -35 0;");
         changeFactorButton.setGraphic(change);
         changeFactorButton.setOnMouseClicked(mouseEvent -> {
             System.out.println("88888888888888888888888888");
@@ -483,11 +496,58 @@ public class GameControlTest {
             } else enterChangeFactorBar();
         });
 
-        barBook.getChildren().addAll(popularity, population, mask, changeFactorButton);
+        Button deleteButton = new Button();
+        ImageView deleteImage = new ImageView(new Image(GameControlTest.class.getResource("/Images/delete.png").toExternalForm(), 25, 25, false, false));
+        deleteButton.setStyle("-fx-background-color: transparent; -fx-padding: 30 -40 -30 40;");
+        deleteButton.setGraphic(deleteImage);
+        deleteButton.setOnMouseClicked(mouseEvent -> deleteButton(deleteButton));
+        root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (event.getScreenX() > 1470) return;
+            if (event.getScreenY() > 600) return;
+            if (isDeleteActive) {
+                indexOfHoveringBuilding = -1;
+                indexOfHoveringTile = -1;
+                indexOfHoveringTilesTogether = -1;
+                deleteAndHeadBackIfNecessary(event,deleteButton);
+            }
+        });
+
+        barBook.getChildren().addAll(popularity, population, mask, changeFactorButton, deleteButton);
         barBook.setSpacing(-20);
         barBook.setLayoutY(660);
         barBook.setLayoutX(1150);
         root.getChildren().add(barBook);
+    }
+
+    private void deleteAndHeadBackIfNecessary(MouseEvent event, Button button) {
+        if (event.getScreenX() > 1470) return;
+        if (event.getScreenY() > 600) return;
+        int xIndex = (int) Math.floor(event.getScreenX() / TILE_SIZE);
+        int yIndex = (int) Math.floor(event.getScreenY() / TILE_SIZE);
+        Tile selected = linkedHouses.get(panes[xIndex][yIndex]);
+        boolean[] state = new boolean[3];
+
+        if ((state[0] = (selected.getBuildings() == null || selected.getBuildings().size() == 0)) &&
+                (state[1] = (selected.getTrees() == null || selected.getTrees().size() == 0)) &&
+                (state[2] = (selected.findYourUnits(currentPlayer) == null || selected.findYourUnits(currentPlayer).size() == 0)))
+            return;
+
+        if (!state[0])
+            selected.getBuildings().remove(selected.getBuildings().size() - 1);
+        else if(!state[1])
+            selected.getTrees().remove(selected.getTrees().size() - 1);
+        else
+            selected.removeAUnit(selected.findYourUnits(currentPlayer).get(selected.findYourUnits(currentPlayer).size() - 1));
+
+        button.setGraphic(new ImageView(new Image(GameMenuControl.class.getResource("/Images/delete.png").toExternalForm(), 25, 25, false, false)));
+        primaryStage.getScene().setCursor(null);
+        isDeleteActive = false;
+        for (int i = 0; i < 50; i++)
+            addTile(root, i);
+        for (int i = 0; i < 50; i++) {
+            int[] coordinates = assignTileToScreen(i);
+            setUpTile(panes[i % 10][i / 10], map.getTile(coordinates[1], coordinates[0]));
+        }
     }
 
     private void enterChangeFactorBar() {
