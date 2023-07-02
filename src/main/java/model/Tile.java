@@ -304,4 +304,26 @@ public class Tile implements Comparable<Tile> {
         }
         return false;
     }
+
+    public void setTrees(ArrayList<Tree> trees) {
+        this.trees = trees;
+    }
+
+    public void setPlayersUnits(HashMap<String, ArrayList<Unit>> playersUnits) {
+        this.playersUnits = playersUnits;
+    }
+
+    public Tile copy() {
+        Tile tile = new Tile(this.getX(), this.getY());
+        for (Tree tree : this.getTrees()) {
+            tile.getTrees().add(tree);
+        }
+        for (Building buildnig : this.getBuildings()) {
+            tile.getBuildings().add(buildnig);
+        }
+        for (Map.Entry<String, ArrayList<Unit>> stringArrayListEntry : this.playersUnits.entrySet()) {
+            tile.getPlayersUnits().put(stringArrayListEntry.getKey(), stringArrayListEntry.getValue());
+        }
+        return tile;
+    }
 }

@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!" />
+=======
+    <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
+    </list>
+>>>>>>> 230618e9aa68bfb9f1599d6ccbad6cf00f2e4a57
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -203,8 +212,14 @@
       <workItem from="1687871724910" duration="30665000" />
       <workItem from="1687945864214" duration="36886000" />
       <workItem from="1688032195360" duration="23307000" />
+<<<<<<< HEAD
       <workItem from="1688201251928" duration="47133000" />
       <workItem from="1688306148064" duration="8729000" />
+=======
+      <workItem from="1688201251928" duration="47887000" />
+      <workItem from="1688295192963" duration="703000" />
+      <workItem from="1688299430848" duration="4150000" />
+>>>>>>> 230618e9aa68bfb9f1599d6ccbad6cf00f2e4a57
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
