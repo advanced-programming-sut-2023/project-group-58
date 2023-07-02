@@ -1,9 +1,16 @@
 package view;
 import controller.LoginMenuController;
+import controller.RegisterMenuController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Governance;
@@ -14,6 +21,10 @@ import view.controls.GameControlTest;
 import view.controls.GameMenuControl;
 import view.controls.LoginRegisterMenuControl;
 import view.controls.ShopMenuControl;
+
+import java.net.URL;
+
+import static view.RegisterMenu.stayLogin;
 
 public class LoginMenu extends Application {
     private static Stage stage;
@@ -29,28 +40,28 @@ public class LoginMenu extends Application {
         Governance.getAllTrades().add(new TradeItem("1234" , user , User.getUsers().get(0) , ResourceEnum.MEAT, 1 , 100 , "hi0", true, false));
         Governance.getAllTrades().add(new TradeItem("1200" , User.getUsers().get(0) , user  , ResourceEnum.BREAD, 1 , 0 , "hi0", true, true));
         Governance.getAllTrades().add(new TradeItem("1204" , User.getUsers().get(0) , user  , ResourceEnum.CHEESE, 3 , 50 , "hi0", true, false));
-        // shopMenuControl.enterTrade();
-        //LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
-        new GameControlTest().start(LoginMenu.getStage(), user);
+         shopMenuControl.enterTrade();
+      //  LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
+       // new GameControlTest().start(LoginMenu.getStage(), user);
 
         //todo---------------------------------------------------------------
         //todo: add again once registration and login are completed
-//        RegisterMenuController registerMenuController = new RegisterMenuController();
-//        registerMenuController.setUpSloganDataBase();
-//        registerMenuController.setUpUserInfo();
-//        LoginMenuController.setUpStayedLogin();
-//        LoginMenuController.extractUserData();
-//
-//        if (stayLogin()) {
-//            //todo: enter main menu immediately
-//        }
-//        stage = new Stage();
-//        URL url = LoginMenu.class.getResource("/FXML/firstMenu.fxml");
-//        BorderPane pane = FXMLLoader.load(url);
-//        Scene scene = new Scene(pane);
-//        stage.setScene(scene);
-//        //stage.setFullScreen(true);
-//        stage.show();
+        RegisterMenuController registerMenuController = new RegisterMenuController();
+        registerMenuController.setUpSloganDataBase();
+        registerMenuController.setUpUserInfo();
+        LoginMenuController.setUpStayedLogin();
+        LoginMenuController.extractUserData();
+
+        if (stayLogin()) {
+            //todo: enter main menu immediately
+        }
+        stage = new Stage();
+        URL url = LoginMenu.class.getResource("/FXML/firstMenu.fxml");
+        BorderPane pane = FXMLLoader.load(url);
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        //stage.setFullScreen(true);
+        stage.show();
         //todo---------------------------------------------------------------
 
 
