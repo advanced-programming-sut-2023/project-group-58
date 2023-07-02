@@ -309,6 +309,10 @@ public class GameController {
         return selectedBuilding;
     }
 
+    public void setSelectedBuilding(Building selectedBuilding) {
+        this.selectedBuilding = selectedBuilding;
+    }
+
     public GameControllerOut setFearRate(String rateNumber) {
         if (rateNumber == null || rateNumber.length() == 0 || rateNumber.trim().length() == 0)
             return GameControllerOut.INVALID_INPUT_FORMAT;

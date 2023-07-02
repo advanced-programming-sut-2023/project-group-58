@@ -3,6 +3,7 @@ package view.controls;
 import controller.MapMenuController;
 import controller.gameMenuControllers.GameController;
 import javafx.beans.binding.Bindings;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
@@ -51,7 +52,7 @@ public class GameControlTest {
     private final Scale scaleTransform = new Scale(1, 1);
 
 
-    private VBox unitBar = new VBox();
+    private HBox unitBar = new HBox();
     private VBox popularityFactorsBar = new VBox();
     private HBox mainBar = new HBox();
     private VBox changeFactorsBar = new VBox();
@@ -749,6 +750,10 @@ public class GameControlTest {
             for (Node child : mainBar.getChildren()) {
                 child.setVisible(false);
             }
+        if (unitBar != null)
+            for (Node child : unitBar.getChildren()) {
+                child.setVisible(false);
+            }
 
         boolean first = changeFactorsBar.getChildren().size() == 0;
         barScene.setImage(new Image(GameMenuControl.class.getResource("/Images/governance.png").toExternalForm()));
@@ -812,6 +817,11 @@ public class GameControlTest {
             for (Node child : mainBar.getChildren()) {
                 child.setVisible(false);
             }
+        if (unitBar != null)
+            for (Node child : unitBar.getChildren()) {
+                child.setVisible(false);
+            }
+
 
         boolean first = popularityFactorsBar.getChildren().size() == 0;
         barScene.setImage(new Image(GameMenuControl.class.getResource("/Images/popularityMenu.png").toExternalForm()));
@@ -889,6 +899,10 @@ public class GameControlTest {
             for (Node child : changeFactorsBar.getChildren()) {
                 child.setVisible(false);
             }
+        if (popularityFactorsBar != null)
+            for (Node child : popularityFactorsBar.getChildren()) {
+                child.setVisible(false);
+            }
         if (mainBar != null)
             for (Node child : mainBar.getChildren()) {
                 child.setVisible(false);
@@ -911,17 +925,25 @@ public class GameControlTest {
             troops[6] = createTroopButton(preAddress + "horse archer.png", 550, UnitEnum.HORSE_ARCHER, xIndex, yIndex);
         } else {
             String preAddress = "/Images/units/european/";
-            troops[0] = createTroopButton(preAddress + "Archer.png", 550, UnitEnum.ARCHER, xIndex, yIndex);
-            troops[1] = createTroopButton(preAddress + "Crossbowmen.png", 670, UnitEnum.CROSSBOW_MAN, xIndex, yIndex);
-            troops[2] = createTroopButton(preAddress + "Knight.png", 790, UnitEnum.KNIGHT, xIndex, yIndex);
-            troops[3] = createTroopButton(preAddress + "Macemen.png", 910, UnitEnum.MACE_MAN, xIndex, yIndex);
-            troops[4] = createTroopButton(preAddress + "Pikemen.png", 550, UnitEnum.PIKE_MAN, xIndex, yIndex);
-            troops[5] = createTroopButton(preAddress + "Spearmen.png", 550, UnitEnum.SPEAR_MAN, xIndex, yIndex);
-            troops[6] = createTroopButton(preAddress + "Swordsmen.png", 550, UnitEnum.SWORDS_MAN, xIndex, yIndex);
+            troops[0] = createTroopButton(preAddress + "archer.png", 550, UnitEnum.ARCHER, xIndex, yIndex);
+            troops[1] = createTroopButton(preAddress + "crossbow_man.png", 670, UnitEnum.CROSSBOW_MAN, xIndex, yIndex);
+            troops[2] = createTroopButton(preAddress + "knight.png", 790, UnitEnum.KNIGHT, xIndex, yIndex);
+            troops[3] = createTroopButton(preAddress + "mace man.png", 910, UnitEnum.MACE_MAN, xIndex, yIndex);
+            troops[4] = createTroopButton(preAddress + "pike man.png", 550, UnitEnum.PIKE_MAN, xIndex, yIndex);
+            troops[5] = createTroopButton(preAddress + "spear man.png", 550, UnitEnum.SPEAR_MAN, xIndex, yIndex);
+            troops[6] = createTroopButton(preAddress + "swords man.png", 550, UnitEnum.SWORDS_MAN, xIndex, yIndex);
         }
 
-        unitBar.setLayoutX(700);
-        unitBar.setLayoutY(600);
+        unitBar.setLayoutX(565);
+        unitBar.setLayoutY(666);
+        unitBar.setSpacing(20);
+
+        ImageView imageView1 = new ImageView(new Image(GameControlTest.class.getResource("/Images/leftHand.png").toExternalForm()));
+        imageView.setFitWidth(25);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        imageView1.setOnMouseClicked(mouseEvent -> enterMainBar());
 
         if (first) {
             unitBar.getChildren().addAll(troops[0], troops[1], troops[2], troops[3], troops[4], troops[5], troops[6]);
@@ -938,11 +960,16 @@ public class GameControlTest {
     }
 
     private Button createTroopButton(String address, int i, UnitEnum unitEnum, int xIndex, int yIndex) {
+        ImageView imageView = new ImageView(new Image(GameControlTest.class.getResource(address).toExternalForm()));
+        imageView.setFitWidth(75);
+        imageView.setFitHeight(75);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
         Button btn = new Button("");
-        btn.setGraphic(new ImageView(new Image(GameControlTest.class.getResource(address).toExternalForm(), 60,
-                60, false, false)));
+        btn.setGraphic(imageView);
         btn.setStyle("-fx-background-color: transparent");
-        btn.setOnMouseEntered(event -> setNumber(xIndex, yIndex, unitEnum));
+        btn.setOnMouseClicked(event -> setNumber(xIndex, yIndex, unitEnum));
         btn.setLayoutX(i);
         btn.setLayoutY(625);
         return btn;
@@ -957,6 +984,11 @@ public class GameControlTest {
             for (Node child : popularityFactorsBar.getChildren()) {
                 child.setVisible(false);
             }
+        if (unitBar != null)
+            for (Node child : unitBar.getChildren()) {
+                child.setVisible(false);
+            }
+
         barScene.setImage(new Image(GameMenuControl.class.getResource("/Images/governance.png").toExternalForm()));
 
         boolean first = mainBar.getChildren().size() == 0;
@@ -1015,7 +1047,7 @@ public class GameControlTest {
         btn.setGraphic(new ImageView(new Image(GameControlTest.class.getResource(address).toExternalForm(), size,
                 size, false, false)));
         btn.setStyle("-fx-background-color: transparent");
-        btn.setOnMouseEntered(event -> {
+        btn.setOnMouseClicked(event -> {
             createPicture(event, i, j, address, buildingEnum);
             ((Pane) primaryStage.getScene().getRoot()).getChildren().add(buildingImageView);
         });
@@ -1067,15 +1099,40 @@ public class GameControlTest {
         Button okButton = new Button("OK");
         cancelButton.setOnAction(e -> root.getChildren().remove(grid));
         okButton.setOnAction(e -> {
-
+            int[] properIndexes = adjustIndexes(xIndex, yIndex);
+            Tile tile = linkedHouses.get(panes[properIndexes[0]][properIndexes[1]]);
             int troopNumber = Integer.parseInt(troopNumberField.getText());
             root.getChildren().remove(grid);
-            GameControllerOut result = gameController.createUnit("createunit -t " + unitEnum.getName() + " -c " +
-                    troopNumber, false);
+            gameController.setSelectedBuilding(selectedBuilding.get(currentPlayer));
+            GameControllerOut result = gameController.createUnit("createunit -x " + tile.getX() + " -y " +
+                    tile.getY() + " -t " + unitEnum.getName() + " -c " +
+                    troopNumber, true);
+
             if (result != GameControllerOut.SUCCESSFULLY_CREATED_UNIT)
                 showError(result.getContent(), "Failed to create unit");
             else {
-                
+                ImageView unit;
+                Image image;
+                if (unitEnum.isArab())
+                    image = new Image(GameControlTest.class.getResource("/Images/units/arabian/" +
+                            unitEnum.getName() + ".png").toExternalForm());
+                else
+                    image = new Image(GameControlTest.class.getResource("/Images/units/european/" +
+                            unitEnum.getName() + ".png").toExternalForm());
+
+                //todo: fix it
+                //adding troops to a grid pane
+                GridPane gridPane = new GridPane();
+                int width = (int) (TILE_SIZE / Math.sqrt(troopNumber));
+                for (int j = 0; j < troopNumber; j++) {
+                        unit = new ImageView(image);
+                        unit.setFitWidth(width);
+                        unit.setPreserveRatio(true);
+                        unit.setSmooth(true);
+                        unit.setCache(true);
+                        gridPane.add(unit, (int) (j%Math.sqrt(troopNumber)),(int) (j/Math.sqrt(troopNumber)));
+                    }
+                panes[properIndexes[0]][properIndexes[1]].getChildren().add(gridPane);
             }
 
         });
@@ -1085,6 +1142,21 @@ public class GameControlTest {
         grid.setLayoutX(520);
         grid.setLayoutY(300);
         root.getChildren().add(grid);
+    }
+
+    private int[] adjustIndexes(int xIndex, int yIndex) {
+        int[] indexes = new int[2];
+        for (int i = -1; i < 2; i++)
+            for (int j = -1; j < 2; j++)
+                if (linkedHouses.get(panes[i + xIndex][j + yIndex]).getTexture().isWalkability()) {
+                    if (i == 0 && j == 0) continue;
+                    indexes[0] = i + xIndex;
+                    indexes[1] = j + yIndex;
+                    return indexes;
+                }
+        indexes[0] = xIndex;
+        indexes[1] = yIndex;
+        return indexes;
     }
 
     private void showError(String message, String title) {
@@ -1219,7 +1291,7 @@ public class GameControlTest {
         ranges[0] = -550 + 150 * index[0] - say * 120;
         ranges[1] = -605 + 140 * index[1];
         System.out.println("final rang: " + index[0] + " , " + index[1]);
-        buildingImageView.setLayoutY(ranges[1]);
+        buildingImageView.setLayoutY(ranges[1] + 12.5);
         buildingImageView.setLayoutX(ranges[0] - TILE_SIZE / 2 + 12.5);
     }
 
@@ -1235,7 +1307,7 @@ public class GameControlTest {
         buildingImageView.setOnMouseReleased(mouseEvent -> onMouseReleased(mouseEvent, buildingEnum));
         buildingImageView.setUserData(new double[]{event.getY(), event.getY(), ((Button) event.getSource()).getLayoutX()
                 , ((Button) event.getSource()).getLayoutY()});
-        buildingImageView.setX(i + TILE_SIZE / 2 - 12.5);
+        buildingImageView.setX(i + TILE_SIZE / 2);
         buildingImageView.setY(j);
     }
 
@@ -1245,7 +1317,7 @@ public class GameControlTest {
             return;
         // Update the position of the building while dragging
         double[] initialPosition = (double[]) buildingImageView.getUserData();
-        buildingImageView.relocate(event.getScreenX() - initialPosition[0] - TILE_SIZE / 2, event.getScreenY() - initialPosition[1] - TILE_SIZE / 2);
+        buildingImageView.relocate(event.getScreenX() - initialPosition[0] - TILE_SIZE / 2 + 50, event.getScreenY() - initialPosition[1] - TILE_SIZE / 2);
     }
 
     private Label simpleLabelStyler(String text) {
@@ -1270,10 +1342,14 @@ public class GameControlTest {
         doWeHaveUndo = true;
         buildingImageView.setOnMouseDragged(null);
         buildingImageView.setOnMouseReleased(null);
-        if (buildingEnum != null)
-            buildings.put(buildingImageView, new Building(buildingEnum, currentPlayer, 0, true));
+        if (buildingEnum != null) {
+            Building building = new Building(buildingEnum, currentPlayer, 0, true);
+            buildings.put(buildingImageView, building);
+            currentPlayer.getGovernance().getBuildings().add(building);
+        }
 
         linkedHouses.get(panes[index[0]][index[1]]).getBuildings().add(buildings.get(buildingImageView));
+
         //todo: do the drop building thing here
         System.out.println("index: " + index[0] + " , " + index[1]);
         addToTile(index, say(event));
