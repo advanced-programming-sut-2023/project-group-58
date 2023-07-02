@@ -21,7 +21,7 @@ public enum UnitEnum {
     ASSASSIN("assassin", ResourceEnum.NULL, 500, 100, 200, 0, 2, true),
     FIRE_THROWER("fire thrower", ResourceEnum.NULL, 100, 100, 50, 0, 4, true),
     SLAVE("slave", ResourceEnum.NULL, 300, 25, 1, 0, 3, true),
-    ENGINEER("engineer", ResourceEnum.NULL, 25, 0, 25, 0, 2, false),
+    ENGINEER("engineer", ResourceEnum.NULL, 25, 0, 25, 0, 2, true),
     SLINGER("slinger", ResourceEnum.STONE, 50, 25, 25, 0, 3, true),
     DOGS("dog", ResourceEnum.NULL, 0, 25, 100, 0, 4, false);
     private String name;
