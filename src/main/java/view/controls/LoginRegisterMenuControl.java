@@ -1,6 +1,7 @@
 package view.controls;
 
 import controller.CommonController;
+import controller.LoginMenuController;
 import controller.RegisterMenuController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -430,5 +431,59 @@ public class LoginRegisterMenuControl implements Initializable {
         LoginMenu.getStage().setScene(scene);
         //LoginMenu.getStage().setFullScreen(true);
         LoginMenu.getStage().show();
+    }
+    public void loginValidate(MouseEvent mouseEvent, boolean stayed) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Login failed");
+        boolean dead = false;
+
+        if (username.getText() == null || username.getText().length() == 0) {
+            alert.setContentText("Username cannot be empty!");
+            dead = true;
+        }
+
+        if (password.getText() == null || password.getText().length() == 0) {
+            alert.setContentText("Password cannot be empty!");
+            dead = true;
+        }
+        if (!isUsernameOrEmailAlreadyTaken(username.getText())) {
+            alert.setContentText("Username cannot be empty!");
+            dead = true;
+        }
+        LoginMenuController loginMenuController = new LoginMenuController();
+        if (!loginMenuController.passwordMatch(username.getText(), password.getText())) {
+            alert.setContentText("This username doesn't exist!");
+            dead = true;
+        }
+        // if (dead){
+        //alert.showAndWait();
+        // return;}
+        User user = null;
+        if (stayed){
+            for (User u : User.getUsers()){
+                if (u.getUsername().equals(username.getText())){
+                    user=u;
+                }
+            }
+            loginMenuController.saveUserStayed(user);
+        }
+
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Login : complete");
+        alert.setContentText("Welcome to the game, lets go and fight for world!");
+        Optional<ButtonType> option = alert.showAndWait();
+        openAddress("/FXML/securityQuestion.fxml");
+        openCaptcha();
+        //should now go to the other stuff
+    }
+
+    public void stayLogin(MouseEvent mouseEvent) throws IOException {
+        loginValidate(mouseEvent, true);
+    }
+
+    public void notStayed(MouseEvent mouseEvent) throws IOException {
+        loginValidate(mouseEvent, false);
     }
 }

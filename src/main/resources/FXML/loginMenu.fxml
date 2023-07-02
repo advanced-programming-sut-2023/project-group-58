@@ -18,6 +18,8 @@
         <VBox alignment="CENTER" spacing="15">
             <TextField promptText="username" maxWidth="500" fx:id="username" styleClass="TextField"/>
             <PasswordField promptText="password" maxWidth="200" fx:id="password" styleClass="TextField"/>
+            <Button text="Login" onMouseClicked="#notStayed" styleClass="Button"/>
+            <Button text="Stay Login" onMouseClicked="#stayLogin" styleClass="Button"/>
             <Button text="Forgot my password" onMouseClicked="#forgotpass" styleClass="Button"/>
             <Button text="back" onMouseClicked="#back" styleClass="otherButtons"/>
         </VBox>

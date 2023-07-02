@@ -40,6 +40,9 @@ public class LoginMenuController {
         extractData();
     }
 
+    public LoginMenuController() {
+    }
+
     private void extractData() {
         inputUsername = CommonController.dataExtractor(data, "((?<!\\S)-u\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
         inputPassword = CommonController.dataExtractor(data, "((?<!\\S)-p\\s+(?<wantedPart>(\"[^\"]*\")|[^-\\s]\\S*)(?<!\\s))").trim();
@@ -273,6 +276,21 @@ public class LoginMenuController {
             throw new RuntimeException(e);
         }
         file.close();
+    }
+    public boolean passwordMatch(String username, String inputPassword) {
+        for (int i = 0; i < User.getUsers().size(); i++) {
+            if (User.getUsers().get(i).getUsername().equals(inputUsername)) {
+                user = User.getUsers().get(i);
+            }
+        }
+        if (user==null) return false;
+        try {
+            inputPassword = encryptPassword(inputPassword);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        if (user.passwordMatch(inputPassword)) return true;
+        return false;
     }
 
     public User getUser() {
