@@ -25,12 +25,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
-import model.Map;
-import model.Tile;
-import model.TileGraphicTexture;
-import model.User;
+import model.*;
 import model.buildings.Building;
 import model.buildings.BuildingEnum;
+import model.units.Unit;
 import view.GetStyle;
 
 import java.util.ArrayList;
@@ -74,6 +72,13 @@ public class GameControlTest {
     private Label navar;
     private int navarIndex = 1;
     private boolean isDeleteActive = false;
+
+    private Tile lastTileUndo;
+    private HashMap<Pane, Tile> lastLinkedHousesUndo = new HashMap<>();
+    private ImageView lastBuildingImageViewUndo = new ImageView();
+    private HashMap<ImageView, Building> lastBuildingsUndo = new HashMap<>();
+
+    private boolean doWeHaveUndo = false;
 
     //todo: don't forget to update minimap whenever you change the main map.
     private GridPane miniMap = new GridPane();
@@ -251,6 +256,14 @@ public class GameControlTest {
         if (screenY > 600) return;
         int xIndex = (int) Math.floor(screenX / TILE_SIZE);
         int yIndex = (int) Math.floor(screenY / TILE_SIZE);
+
+        //saving for undo:
+        lastTileUndo = linkedHouses.get(panes[xIndex][yIndex]).copy();
+        lastLinkedHousesUndo = linkedHouses;
+        lastBuildingImageViewUndo = buildingImageView;
+        lastBuildingsUndo = buildings;
+        doWeHaveUndo = true;
+
         linkedHouses.get(panes[xIndex][yIndex]).getBuildings().add(copiedBuildings.get(copiedBuildings.size() - 1));
         isPasteActive = false;
         copiedBuildings.remove(copiedBuildings.size() - 1);
@@ -517,6 +530,33 @@ public class GameControlTest {
             }
         });
 
+
+        Button undoButton = new Button();
+        ImageView undoImage = new ImageView(new Image(GameControlTest.class.getResource("/Images/undo.png").toExternalForm(), 25, 25, false, false));
+        undoButton.setStyle("-fx-background-color: transparent; -fx-padding: 25 -80 -25 80;");
+        undoButton.setGraphic(undoImage);
+        undoButton.setOnMouseClicked(mouseEvent -> {
+            if (doWeHaveUndo) {
+                indexOfHoveringBuilding = -1;
+                indexOfHoveringTile = -1;
+                indexOfHoveringTilesTogether = -1;
+                doWeHaveUndo = false;
+                map.getTile(lastTileUndo.getY(),lastTileUndo.getX()).setTrees(lastTileUndo.getTrees());
+                map.getTile(lastTileUndo.getY(),lastTileUndo.getX()).setPlayersUnits(lastTileUndo.getPlayersUnits());
+                map.getTile(lastTileUndo.getY(),lastTileUndo.getX()).setBuildings(lastTileUndo.getBuildings());
+                linkedHouses = lastLinkedHousesUndo;
+                buildingImageView = lastBuildingImageViewUndo;
+                System.out.println("number of buildings: " + lastTileUndo.getBuildings().size());
+                for (int i = 0; i < 50; i++)
+                    addTile(root, i);
+                for (int i = 0; i < 50; i++) {
+                    int[] coordinates = assignTileToScreen(i);
+                    setUpTile(panes[i % 10][i / 10], map.getTile(coordinates[1], coordinates[0]));
+                }
+            }
+        });
+
+
         miniMap = new GridPane();
         ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/minimapFrame.jpg")
                 .toExternalForm()));
@@ -526,7 +566,7 @@ public class GameControlTest {
         imageView.setCache(true);
         resetAddMiniMapDetails();
 
-        barBook.getChildren().addAll(popularity, population, mask, changeFactorButton, deleteButton);
+        barBook.getChildren().addAll(popularity, population, mask, changeFactorButton, deleteButton, undoButton);
         barBook.setSpacing(-20);
         barBook.setLayoutY(660);
         barBook.setLayoutX(1150);
@@ -535,7 +575,7 @@ public class GameControlTest {
         miniMap.setLayoutY(474);
         miniMap.setLayoutX(1318);
 
-        root.getChildren().addAll(barBook,imageView,miniMap);
+        root.getChildren().addAll(barBook, imageView, miniMap);
     }
 
     private void resetAddMiniMapDetails() {
@@ -602,6 +642,14 @@ public class GameControlTest {
         int xIndex = (int) Math.floor(event.getScreenX() / TILE_SIZE);
         int yIndex = (int) Math.floor(event.getScreenY() / TILE_SIZE);
         Tile selected = linkedHouses.get(panes[xIndex][yIndex]);
+
+        //saving for undo:
+        lastTileUndo = selected.copy();
+        lastLinkedHousesUndo = linkedHouses;
+        lastBuildingImageViewUndo = buildingImageView;
+        lastBuildingsUndo = buildings;
+        doWeHaveUndo = true;
+
         boolean[] state = new boolean[3];
 
         if ((state[0] = (selected.getBuildings() == null || selected.getBuildings().size() == 0)) &&
@@ -983,13 +1031,21 @@ public class GameControlTest {
 
     private void onMouseReleased(MouseEvent event, BuildingEnum buildingEnum) {
         if (buildingImageView == null) return;
+
+        //saving for undo:
+        int[] index = findTheNearestTile(say(event));
+        Tile tile = linkedHouses.get(panes[index[0]][index[1]]);
+        lastTileUndo = tile.copy();
+        lastLinkedHousesUndo = linkedHouses;
+        lastBuildingImageViewUndo = buildingImageView;
+        lastBuildingsUndo = buildings;
+        doWeHaveUndo = true;
+
         // System.out.println("this is the mouse coor: " + event.getScreenX() + " , " + event.getScreenY());
         buildingImageView.setOnMouseDragged(null);
         buildingImageView.setOnMouseReleased(null);
         buildings.put(buildingImageView, new Building(buildingEnum, currentPlayer, 0, true));
 
-        int[] index = findTheNearestTile(say(event));
-        Tile tile = linkedHouses.get(panes[index[0]][index[1]]);
         linkedHouses.get(panes[index[0]][index[1]]).getBuildings().add(buildings.get(buildingImageView));
         //todo: do the drop building thing here
         System.out.println("index: " + index[0] + " , " + index[1]);
