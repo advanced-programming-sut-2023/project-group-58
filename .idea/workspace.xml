@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/delete.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/delete_cursor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/selected_delete.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/TileGraphicTexture.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/minimapFrame.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/building.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/people.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/textures/tree.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/TileTexture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/TileTexture.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/TileTexture.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/TileTexture.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,10 +27,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="module-info" />
         <option value="FxmlFile" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -204,7 +208,7 @@
       <workItem from="1687871724910" duration="30665000" />
       <workItem from="1687945864214" duration="36886000" />
       <workItem from="1688032195360" duration="23307000" />
-      <workItem from="1688201251928" duration="38530000" />
+      <workItem from="1688201251928" duration="47133000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

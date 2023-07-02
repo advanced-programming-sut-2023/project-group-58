@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -26,6 +27,7 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import model.Map;
 import model.Tile;
+import model.TileGraphicTexture;
 import model.User;
 import model.buildings.Building;
 import model.buildings.BuildingEnum;
@@ -72,6 +74,9 @@ public class GameControlTest {
     private Label navar;
     private int navarIndex = 1;
     private boolean isDeleteActive = false;
+
+    //todo: don't forget to update minimap whenever you change the main map.
+    private GridPane miniMap = new GridPane();
 
     public void start(Stage primaryStage, User currentPlayer) {
         this.currentPlayer = currentPlayer;
@@ -508,15 +513,87 @@ public class GameControlTest {
                 indexOfHoveringBuilding = -1;
                 indexOfHoveringTile = -1;
                 indexOfHoveringTilesTogether = -1;
-                deleteAndHeadBackIfNecessary(event,deleteButton);
+                deleteAndHeadBackIfNecessary(event, deleteButton);
             }
         });
+
+        miniMap = new GridPane();
+        ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/minimapFrame.jpg")
+                .toExternalForm()));
+        imageView.setFitWidth(TILE_SIZE + 22);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        resetAddMiniMapDetails();
 
         barBook.getChildren().addAll(popularity, population, mask, changeFactorButton, deleteButton);
         barBook.setSpacing(-20);
         barBook.setLayoutY(660);
         barBook.setLayoutX(1150);
-        root.getChildren().add(barBook);
+        imageView.setLayoutY(450);
+        imageView.setLayoutX(1300);
+        miniMap.setLayoutY(474);
+        miniMap.setLayoutX(1318);
+
+        root.getChildren().addAll(barBook,imageView,miniMap);
+    }
+
+    private void resetAddMiniMapDetails() {
+        miniMap.setHgap(0);
+        miniMap.setVgap(-15);
+        //first, we set tile boundaries.
+        int minXIndex = Math.max(xCenter - 8, 0);
+        int maxXIndex = Math.min(minXIndex + 7, map.getLength() - 1);
+        if (maxXIndex == map.getLength() - 1) minXIndex = maxXIndex - 7;
+        int minYIndex = Math.max(yCenter - 8, 0);
+        int maxYIndex = Math.min(minYIndex + 7, map.getWidth() - 1);
+        if (maxYIndex == map.getWidth() - 1) minYIndex = maxYIndex - 7;
+
+        //now, we go through tiles and pick appropriate pictures.
+        Image waterm = new Image(GameMenuControl.class.getResource("/Images/textures/sea.jpg").toExternalForm());
+        Image treem = new Image(GameMenuControl.class.getResource("/Images/textures/tree.jpg").toExternalForm());
+        Image peoplem = new Image(GameMenuControl.class.getResource("/Images/textures/people.jpg").toExternalForm());
+        Image buildingm = new Image(GameMenuControl.class.getResource("/Images/textures/building.jpg").toExternalForm());
+        Image landm = new Image(GameMenuControl.class.getResource("/Images/textures/earth.jpg").toExternalForm());
+        Image selectedTile;
+
+        Tile selected;
+        int rowCounter = 0;
+        int columnCounter = 0;
+        for (int j = minYIndex; j <= maxYIndex; j++) {
+            for (int i = minXIndex; i <= maxXIndex; i++) {
+                selected = map.getTile(j, i);
+                if (selected.getBuildings() != null && selected.getBuildings().size() != 0) {
+                    selectedTile = buildingm;
+                } else if (selected.getPlayersUnits() != null && selected.getPlayersUnits().size() != 0) {
+                    selectedTile = peoplem;
+                } else if (selected.getTrees() != null && selected.getTrees().size() != 0) {
+                    selectedTile = treem;
+                } else {
+                    if (selected.getTexture().getTileGraphicTexture() == TileGraphicTexture.LAND)
+                        selectedTile = landm;
+                    else if (selected.getTexture().getTileGraphicTexture() == TileGraphicTexture.SEA)
+                        selectedTile = waterm;
+                    else
+                        selectedTile = treem;
+                }
+
+                if (columnCounter++ == 0 || rowCounter == 0) continue;
+                miniMap.add(createLittleImage(selectedTile), columnCounter, rowCounter);
+                columnCounter++;
+            }
+            columnCounter = 0;
+            rowCounter++;
+        }
+    }
+
+    private ImageView createLittleImage(Image image) {
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(20);
+        imageView.setFitHeight(30);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        return imageView;
     }
 
     private void deleteAndHeadBackIfNecessary(MouseEvent event, Button button) {
@@ -534,7 +611,7 @@ public class GameControlTest {
 
         if (!state[0])
             selected.getBuildings().remove(selected.getBuildings().size() - 1);
-        else if(!state[1])
+        else if (!state[1])
             selected.getTrees().remove(selected.getTrees().size() - 1);
         else
             selected.removeAUnit(selected.findYourUnits(currentPlayer).get(selected.findYourUnits(currentPlayer).size() - 1));
