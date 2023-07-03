@@ -53,6 +53,9 @@ public class LoginRegisterMenuControl implements Initializable {
     public Button randomSlogan;
     public ListView listView;
     public Button eye;
+    public TextField answer;
+    public PasswordField newPass;
+    public PasswordField reNewPass;
     public HBox TheHbox;
     public Label nicknameErrorHandler;
     public Label emailErrorHandler;
@@ -88,8 +91,8 @@ public class LoginRegisterMenuControl implements Initializable {
         }
     }
 
-    public void forgotpass(MouseEvent mouseEvent) {
-
+    public void forgotpass(MouseEvent mouseEvent) throws IOException {
+        openAddress("/FXML/forgotPass.fxml");
     }
 
     public void back(MouseEvent mouseEvent) throws Exception {
@@ -485,5 +488,9 @@ public class LoginRegisterMenuControl implements Initializable {
 
     public void notStayed(MouseEvent mouseEvent) throws IOException {
         loginValidate(mouseEvent, false);
+    }
+
+    public void forgotValidate(MouseEvent mouseEvent) {
+
     }
 }

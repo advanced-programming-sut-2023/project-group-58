@@ -172,7 +172,7 @@ public class RegisterMenuController {
     }
 
     public String createUser() throws IOException {
-
+        if (slogan==null || nickname==null) return null;
         boolean randomSlogan = false;
         //handling random slogan:
         if (slogan.equals("random")) {

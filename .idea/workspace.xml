@@ -4,16 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!" />
-=======
     <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/ForgotPassword.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/ForgotCapcha.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/forgotPass.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/PasswordReset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/PasswordReset.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/PasswordReset.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/PasswordReset.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl.class" afterDir="false" />
     </list>
->>>>>>> 230618e9aa68bfb9f1599d6ccbad6cf00f2e4a57
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,9 +32,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="module-info" />
-        <option value="FxmlFile" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -212,14 +218,12 @@
       <workItem from="1687871724910" duration="30665000" />
       <workItem from="1687945864214" duration="36886000" />
       <workItem from="1688032195360" duration="23307000" />
-<<<<<<< HEAD
       <workItem from="1688201251928" duration="47133000" />
       <workItem from="1688306148064" duration="8729000" />
-=======
       <workItem from="1688201251928" duration="47887000" />
       <workItem from="1688295192963" duration="703000" />
       <workItem from="1688299430848" duration="4150000" />
->>>>>>> 230618e9aa68bfb9f1599d6ccbad6cf00f2e4a57
+      <workItem from="1688398114479" duration="819000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
@@ -259,7 +263,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java</url>
-          <line>70</line>
+          <line>73</line>
           <properties class="view.controls.LoginRegisterMenuControl" method="login">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

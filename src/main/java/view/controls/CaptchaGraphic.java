@@ -86,10 +86,12 @@ public class CaptchaGraphic  {
     }
 
     public void submit(MouseEvent mouseEvent) throws IOException {
-        int index = currentPath.lastIndexOf("/") + 1;
+        int index = currentPath.lastIndexOf("\\") + 1;
         String photoName = currentPath.substring(index, currentPath.length() - 4);
         if(userCaptchaAnswer == null || userCaptchaAnswer.getText().length() == 0 ||
                 !userCaptchaAnswer.getText().trim().equals(photoName)) {
+            System.out.println(userCaptchaAnswer.getText().trim());
+            System.out.println(photoName);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Wrong Captcha");
@@ -119,5 +121,31 @@ public class CaptchaGraphic  {
 
     public static void setRegisterMenuController(RegisterMenuController registerMenuController) {
         CaptchaGraphic.registerMenuController = registerMenuController;
+    }
+
+    public void submitForgot(MouseEvent mouseEvent) throws IOException {
+        int index = currentPath.lastIndexOf("\\") + 1;
+        String photoName = currentPath.substring(index, currentPath.length() - 4);
+        if(userCaptchaAnswer == null || userCaptchaAnswer.getText().length() == 0 ||
+                !userCaptchaAnswer.getText().trim().equals(photoName)) {
+            System.out.println(userCaptchaAnswer.getText().trim());
+            System.out.println(photoName);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Wrong Captcha");
+            alert.setContentText("Captcha wasn't entered correctly.\nTry again!");
+            alert.show();
+            changeCaptcha();
+        }
+        else {
+
+            ForgotPassword.stage.close();
+        }
+    }
+
+    public void backToForgot(MouseEvent mouseEvent) throws IOException {
+        ForgotPassword.stage.close();
+        ForgotPassword.stage = LoginMenu.getStage();
+        LoginRegisterMenuControl.openAddress("/FXML/forgotPass.fxml");
     }
 }

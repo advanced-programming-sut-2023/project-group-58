@@ -55,7 +55,7 @@ public class PasswordReset {
         else return false;
     }
 
-    private String encryptPassword(String password) throws NoSuchAlgorithmException {
+    public String encryptPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
         String encoded = Base64.getEncoder().encodeToString(hash);
@@ -91,7 +91,7 @@ public class PasswordReset {
         return ProfisterControllerOut.VALID;
     }
 
-    private void changePassword(String username) {
+    public void changePassword(String username) {
         String userInfoAddress = System.getProperty("user.dir") + "/DataBase/userInfo.json";
         Gson gson = new Gson();
         JsonArray usersList;
@@ -149,5 +149,8 @@ public class PasswordReset {
         if (input.charAt(0) == '"' && input.charAt(input.length() - 1) == '"')
             return input.substring(1, input.length() - 1);
         return input;
+    }
+
+    public PasswordReset() {
     }
 }
