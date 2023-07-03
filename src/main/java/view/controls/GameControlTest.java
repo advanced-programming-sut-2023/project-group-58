@@ -3,14 +3,14 @@ package view.controls;
 import controller.MapMenuController;
 import controller.gameMenuControllers.GameController;
 import javafx.beans.binding.Bindings;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,8 +29,11 @@ import model.*;
 import model.buildings.Building;
 import model.buildings.BuildingEnum;
 import model.units.Unit;
+import model.units.UnitEnum;
 import view.GetStyle;
+import view.enums.GameControllerOut;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,11 +46,13 @@ public class GameControlTest {
     private User currentPlayer;
     private ImageView buildingImageView = new ImageView();
     private HashMap<ImageView, Building> buildings = new HashMap<>();
+    private HashMap<ImageView, Unit> units = new HashMap<>();
 
     private static final double SCALE_DELTA = 1.1;
     private final Scale scaleTransform = new Scale(1, 1);
 
 
+    private HBox unitBar = new HBox();
     private VBox popularityFactorsBar = new VBox();
     private HBox mainBar = new HBox();
     private VBox changeFactorsBar = new VBox();
@@ -55,7 +60,7 @@ public class GameControlTest {
     private ImageView barScene = new ImageView();
 
     private Button[] houses = new Button[4];
-    private BuildingType currentSet = BuildingType.FOOD_PROCESSING;
+    private BuildingType currentSet = BuildingType.TOWN;
 
     private int xCenter = 50;
     private int yCenter = 50;
@@ -79,6 +84,9 @@ public class GameControlTest {
     private HashMap<ImageView, Building> lastBuildingsUndo = new HashMap<>();
 
     private boolean doWeHaveUndo = false;
+    private HashMap<User, Building> selectedBuilding = new HashMap<>();
+    private boolean selectActive = false;
+
 
     //todo: don't forget to update minimap whenever you change the main map.
     private GridPane miniMap = new GridPane();
@@ -115,10 +123,40 @@ public class GameControlTest {
         selectArea();
         copySetUp();
         clipBoardSetUp();
+        selectBuildingSetUp();
 
         primaryStage.setScene(new Scene(root, 1530, 800));
         primaryStage.getScene().addEventFilter(ScrollEvent.ANY, this::handleMouseScroll);
         primaryStage.show();
+    }
+
+    private void selectBuildingSetUp() {
+        Button addButton = new Button();
+        ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/select.png").toExternalForm()));
+        imageView.setFitWidth(25);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        addButton.setGraphic(imageView);
+        addButton.setLayoutX(1485);
+        addButton.setLayoutY(150);
+        addButton.setOnMouseClicked(mouseEvent -> {
+            selectActive = !selectActive;
+            if (selectActive)
+                imageView.setFitWidth(35);
+            else
+                imageView.setFitWidth(25);
+            imageView.setPreserveRatio(true);
+        });
+
+        root.getChildren().add(addButton);
+        root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (event.getScreenX() > 1470) return;
+            if (event.getScreenY() > 600) return;
+            if (selectActive) {
+                selectBuilding(event);
+            }
+        });
     }
 
     private void deleteButton(Button button) {
@@ -249,6 +287,31 @@ public class GameControlTest {
                 }
             }
         });
+    }
+
+    private void selectBuilding(MouseEvent event) {
+        int xIndex = (int) Math.floor(event.getScreenX() / TILE_SIZE);
+        int yIndex = (int) Math.floor(event.getScreenY() / TILE_SIZE);
+        ArrayList<Building> tileBuildings = linkedHouses.get(panes[xIndex][yIndex]).getBuildings();
+        if (tileBuildings == null || tileBuildings.size() == 0) return;
+        selectedBuilding.put(currentPlayer, tileBuildings.get(tileBuildings.size() - 1));
+        if (selectedBuilding.get(currentPlayer).getType() == BuildingEnum.MARKET ||
+                selectedBuilding.get(currentPlayer).getType() == BuildingEnum.BARRACKS ||
+                selectedBuilding.get(currentPlayer).getType() == BuildingEnum.MERCENARY_POST) {
+            for (java.util.Map.Entry<ImageView, Building> entry : buildings.entrySet()) {
+                if (entry.getValue() == selectedBuilding.get(currentPlayer))
+                    entry.getKey().setOnMouseClicked(mouseEvent -> {
+                        if (selectedBuilding.get(currentPlayer).getType() == BuildingEnum.MARKET)
+                            try {
+                                LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        else
+                            enterDropUnitBar(xIndex, yIndex);
+                    });
+            }
+        }
     }
 
     private void paste(double screenX, double screenY) {
@@ -505,7 +568,7 @@ public class GameControlTest {
         changeFactorButton.setStyle("-fx-background-color: transparent; -fx-padding: 35 0 -35 0;");
         changeFactorButton.setGraphic(change);
         changeFactorButton.setOnMouseClicked(mouseEvent -> {
-            System.out.println("88888888888888888888888888");
+            System.out.println("playing with change");
             if (changeFactorsBar != null && changeFactorsBar.getChildren().size() != 0 && changeFactorsBar.getChildren().get(0).isVisible()) {
                 currentPlayer.getGovernance().setFearRate((int) ((Slider) changeFactorsBar.getChildren().get(3)).getValue());
                 currentPlayer.getGovernance().setFoodRate((int) ((Slider) changeFactorsBar.getChildren().get(4)).getValue());
@@ -516,7 +579,7 @@ public class GameControlTest {
 
         Button deleteButton = new Button();
         ImageView deleteImage = new ImageView(new Image(GameControlTest.class.getResource("/Images/delete.png").toExternalForm(), 25, 25, false, false));
-        deleteButton.setStyle("-fx-background-color: transparent; -fx-padding: 30 -40 -30 40;");
+        deleteButton.setStyle("-fx-background-color: transparent; -fx-padding: 35 -0 -35 0;");
         deleteButton.setGraphic(deleteImage);
         deleteButton.setOnMouseClicked(mouseEvent -> deleteButton(deleteButton));
         root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -533,7 +596,7 @@ public class GameControlTest {
 
         Button undoButton = new Button();
         ImageView undoImage = new ImageView(new Image(GameControlTest.class.getResource("/Images/undo.png").toExternalForm(), 25, 25, false, false));
-        undoButton.setStyle("-fx-background-color: transparent; -fx-padding: 25 -80 -25 80;");
+        undoButton.setStyle("-fx-background-color: transparent; -fx-padding: 35 -0 -35 0;");
         undoButton.setGraphic(undoImage);
         undoButton.setOnMouseClicked(mouseEvent -> {
             if (doWeHaveUndo) {
@@ -541,9 +604,9 @@ public class GameControlTest {
                 indexOfHoveringTile = -1;
                 indexOfHoveringTilesTogether = -1;
                 doWeHaveUndo = false;
-                map.getTile(lastTileUndo.getY(),lastTileUndo.getX()).setTrees(lastTileUndo.getTrees());
-                map.getTile(lastTileUndo.getY(),lastTileUndo.getX()).setPlayersUnits(lastTileUndo.getPlayersUnits());
-                map.getTile(lastTileUndo.getY(),lastTileUndo.getX()).setBuildings(lastTileUndo.getBuildings());
+                map.getTile(lastTileUndo.getY(), lastTileUndo.getX()).setTrees(lastTileUndo.getTrees());
+                map.getTile(lastTileUndo.getY(), lastTileUndo.getX()).setPlayersUnits(lastTileUndo.getPlayersUnits());
+                map.getTile(lastTileUndo.getY(), lastTileUndo.getX()).setBuildings(lastTileUndo.getBuildings());
                 linkedHouses = lastLinkedHousesUndo;
                 buildingImageView = lastBuildingImageViewUndo;
                 System.out.println("number of buildings: " + lastTileUndo.getBuildings().size());
@@ -566,7 +629,9 @@ public class GameControlTest {
         imageView.setCache(true);
         resetAddMiniMapDetails();
 
-        barBook.getChildren().addAll(popularity, population, mask, changeFactorButton, deleteButton, undoButton);
+        HBox buttons = new HBox(changeFactorButton, deleteButton, undoButton);
+        buttons.setSpacing(30);
+        barBook.getChildren().addAll(popularity, population, mask, buttons);
         barBook.setSpacing(-20);
         barBook.setLayoutY(660);
         barBook.setLayoutX(1150);
@@ -685,6 +750,10 @@ public class GameControlTest {
             for (Node child : mainBar.getChildren()) {
                 child.setVisible(false);
             }
+        if (unitBar != null)
+            for (Node child : unitBar.getChildren()) {
+                child.setVisible(false);
+            }
 
         boolean first = changeFactorsBar.getChildren().size() == 0;
         barScene.setImage(new Image(GameMenuControl.class.getResource("/Images/governance.png").toExternalForm()));
@@ -748,6 +817,11 @@ public class GameControlTest {
             for (Node child : mainBar.getChildren()) {
                 child.setVisible(false);
             }
+        if (unitBar != null)
+            for (Node child : unitBar.getChildren()) {
+                child.setVisible(false);
+            }
+
 
         boolean first = popularityFactorsBar.getChildren().size() == 0;
         barScene.setImage(new Image(GameMenuControl.class.getResource("/Images/popularityMenu.png").toExternalForm()));
@@ -818,6 +892,89 @@ public class GameControlTest {
         return result;
     }
 
+
+    private void enterDropUnitBar(int xIndex, int yIndex) {
+        if (selectedBuilding == null) return;
+        if (changeFactorsBar != null)
+            for (Node child : changeFactorsBar.getChildren()) {
+                child.setVisible(false);
+            }
+        if (popularityFactorsBar != null)
+            for (Node child : popularityFactorsBar.getChildren()) {
+                child.setVisible(false);
+            }
+        if (mainBar != null)
+            for (Node child : mainBar.getChildren()) {
+                child.setVisible(false);
+            }
+
+        boolean first = unitBar.getChildren().size() == 0;
+        barScene.setImage(new Image(GameMenuControl.class.getResource("/Images/unitMenu.png").toExternalForm()));
+
+        HBox unitList = new HBox();
+        ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/green.jpg").toExternalForm(), 20, 20, false, false));
+        Button[] troops = new Button[7];
+        if (selectedBuilding.get(currentPlayer).getType() == BuildingEnum.MERCENARY_POST) {
+            String preAddress = "/Images/units/arabian/";
+            troops[0] = createTroopButton(preAddress + "slave.png", 550, UnitEnum.SLAVE, xIndex, yIndex);
+            troops[1] = createTroopButton(preAddress + "slinger.png", 670, UnitEnum.SLINGER, xIndex, yIndex);
+            troops[2] = createTroopButton(preAddress + "arabian swordsman.png", 790, UnitEnum.ARABIAN_SWORDSMAN, xIndex, yIndex);
+            troops[3] = createTroopButton(preAddress + "archer bow.png", 910, UnitEnum.ARCHER_BOW, xIndex, yIndex);
+            troops[4] = createTroopButton(preAddress + "assassin.png", 550, UnitEnum.ASSASSIN, xIndex, yIndex);
+            troops[5] = createTroopButton(preAddress + "fire thrower.png", 550, UnitEnum.FIRE_THROWER, xIndex, yIndex);
+            troops[6] = createTroopButton(preAddress + "horse archer.png", 550, UnitEnum.HORSE_ARCHER, xIndex, yIndex);
+        } else {
+            String preAddress = "/Images/units/european/";
+            troops[0] = createTroopButton(preAddress + "archer.png", 550, UnitEnum.ARCHER, xIndex, yIndex);
+            troops[1] = createTroopButton(preAddress + "crossbow_man.png", 670, UnitEnum.CROSSBOW_MAN, xIndex, yIndex);
+            troops[2] = createTroopButton(preAddress + "knight.png", 790, UnitEnum.KNIGHT, xIndex, yIndex);
+            troops[3] = createTroopButton(preAddress + "mace man.png", 910, UnitEnum.MACE_MAN, xIndex, yIndex);
+            troops[4] = createTroopButton(preAddress + "pike man.png", 550, UnitEnum.PIKE_MAN, xIndex, yIndex);
+            troops[5] = createTroopButton(preAddress + "spear man.png", 550, UnitEnum.SPEAR_MAN, xIndex, yIndex);
+            troops[6] = createTroopButton(preAddress + "swords man.png", 550, UnitEnum.SWORDS_MAN, xIndex, yIndex);
+        }
+
+        unitBar.setLayoutX(565);
+        unitBar.setLayoutY(666);
+        unitBar.setSpacing(20);
+
+        ImageView imageView1 = new ImageView(new Image(GameControlTest.class.getResource("/Images/leftHand.png").toExternalForm()));
+        imageView.setFitWidth(25);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        imageView1.setOnMouseClicked(mouseEvent -> enterMainBar());
+
+        if (first) {
+            unitBar.getChildren().addAll(troops[0], troops[1], troops[2], troops[3], troops[4], troops[5], troops[6]);
+            root.getChildren().add(unitBar);
+        } else {
+            unitBar.getChildren().set(0, troops[0]);
+            unitBar.getChildren().set(1, troops[1]);
+            unitBar.getChildren().set(2, troops[2]);
+            unitBar.getChildren().set(3, troops[3]);
+            unitBar.getChildren().set(1, troops[4]);
+            unitBar.getChildren().set(2, troops[5]);
+            unitBar.getChildren().set(3, troops[6]);
+        }
+    }
+
+    private Button createTroopButton(String address, int i, UnitEnum unitEnum, int xIndex, int yIndex) {
+        ImageView imageView = new ImageView(new Image(GameControlTest.class.getResource(address).toExternalForm()));
+        imageView.setFitWidth(75);
+        imageView.setFitHeight(75);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        Button btn = new Button("");
+        btn.setGraphic(imageView);
+        btn.setStyle("-fx-background-color: transparent");
+        btn.setOnMouseClicked(event -> setNumber(xIndex, yIndex, unitEnum));
+        btn.setLayoutX(i);
+        btn.setLayoutY(625);
+        return btn;
+    }
+
     private void enterMainBar() {
         if (changeFactorsBar != null)
             for (Node child : changeFactorsBar.getChildren()) {
@@ -827,37 +984,70 @@ public class GameControlTest {
             for (Node child : popularityFactorsBar.getChildren()) {
                 child.setVisible(false);
             }
+        if (unitBar != null)
+            for (Node child : unitBar.getChildren()) {
+                child.setVisible(false);
+            }
+
         barScene.setImage(new Image(GameMenuControl.class.getResource("/Images/governance.png").toExternalForm()));
 
         boolean first = mainBar.getChildren().size() == 0;
 
-        if (currentSet.equals(BuildingType.FOOD_PROCESSING)) {
-            houses[0] = createSourceButton("/Images/buildings/hovel.png", 550, 625, BuildingEnum.HOVEL);
-            houses[1] = createSourceButton("/Images/buildings/church.png", 670, 625, BuildingEnum.CHURCH);
-            houses[2] = createSourceButton("/Images/buildings/cathedral.png", 790, 625, BuildingEnum.CATHEDRAL);
-            houses[3] = createSourceButton("/Images/buildings/small_stone_gatehouse.png", 910, 625, BuildingEnum.SMALL_STONE_GATEHOUSE);
+        if (currentSet.equals(BuildingType.TOWN)) {
+            houses[0] = createSourceButton("/Images/buildings/hovel.png", 550, 625, BuildingEnum.HOVEL, 100);
+            houses[1] = createSourceButton("/Images/buildings/church.png", 670, 625, BuildingEnum.CHURCH, 100);
+            houses[2] = createSourceButton("/Images/buildings/cathedral.png", 790, 625, BuildingEnum.CATHEDRAL, 100);
+            houses[3] = createSourceButton("/Images/buildings/market.png", 910, 625, BuildingEnum.MARKET, 100);
+        } else if (currentSet.equals(BuildingType.WEAPONS)) {
+            houses[0] = createSourceButton("/Images/buildings/mercenary_post.png", 550, 625, BuildingEnum.MERCENARY_POST, 100);
+            houses[1] = createSourceButton("/Images/buildings/barrack.png", 670, 625, BuildingEnum.BARRACKS, 100);
+            houses[2] = createSourceButton("/Images/buildings/blacksmith.png", 790, 625, BuildingEnum.BLACKSMITH, 100);
+            houses[3] = createSourceButton("/Images/buildings/fletcher.png", 910, 625, BuildingEnum.FLETCHER, 100);
         }
 
-        mainBar.setLayoutX(635);
+
+        Button armoury = new Button();
+        ImageView armIcon = new ImageView(new Image(GameControlTest.class.getResource("/Images/i2.png").toExternalForm(), 35, 35, false, false));
+        armoury.setStyle("-fx-background-color: transparent; -fx-padding: 0 30 -0 -30;");
+        armoury.setGraphic(armIcon);
+        armoury.setOnMouseClicked(mouseEvent -> {
+            currentSet = BuildingType.WEAPONS;
+            enterMainBar();
+        });
+
+        Button home = new Button();
+        ImageView homeIcon = new ImageView(new Image(GameControlTest.class.getResource("/Images/i4.png").toExternalForm(), 40, 40, false, false));
+        home.setStyle("-fx-background-color: transparent; -fx-padding: 0 20 -0 -20;");
+        home.setGraphic(homeIcon);
+        home.setOnMouseClicked(mouseEvent -> {
+            currentSet = BuildingType.TOWN;
+            enterMainBar();
+        });
+
+
+        mainBar.setLayoutX(600);
         mainBar.setLayoutY(640);
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(armoury, home);
+        HBox hBox1 = new HBox();
+        hBox1.getChildren().addAll(houses[0], houses[1], houses[2], houses[3]);
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(hBox1, hBox);
 
         if (first) {
-            mainBar.getChildren().addAll(houses[0], houses[1], houses[2], houses[3]);
+            mainBar.getChildren().add(vBox);
             root.getChildren().add(mainBar);
         } else {
-            mainBar.getChildren().set(0, houses[0]);
-            mainBar.getChildren().set(1, houses[1]);
-            mainBar.getChildren().set(2, houses[2]);
-            mainBar.getChildren().set(3, houses[3]);
+            mainBar.getChildren().set(0, vBox);
         }
     }
 
-    private Button createSourceButton(String address, int i, int j, BuildingEnum buildingEnum) {
+    private Button createSourceButton(String address, int i, int j, BuildingEnum buildingEnum, int size) {
         Button btn = new Button("");
-        btn.setGraphic(new ImageView(new Image(GameControlTest.class.getResource(address).toExternalForm(), 100,
-                100, false, false)));
+        btn.setGraphic(new ImageView(new Image(GameControlTest.class.getResource(address).toExternalForm(), size,
+                size, false, false)));
         btn.setStyle("-fx-background-color: transparent");
-        btn.setOnMouseEntered(event -> {
+        btn.setOnMouseClicked(event -> {
             createPicture(event, i, j, address, buildingEnum);
             ((Pane) primaryStage.getScene().getRoot()).getChildren().add(buildingImageView);
         });
@@ -865,6 +1055,116 @@ public class GameControlTest {
         btn.setLayoutX(i);
         btn.setLayoutY(j);
         return btn;
+    }
+
+    private TextField troopNumberField;
+
+    private void setNumber(int xIndex, int yIndex, UnitEnum unitEnum) {
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10, 10, 10, 10));
+        grid.setVgap(5);
+        grid.setHgap(5);
+        grid.setStyle("-fx-background-color: rgba(56,56,56,0.56)");
+
+        Label troopNumberLabel = new Label("Troop Number:");
+        troopNumberLabel.setStyle("-fx-text-fill: white; -fx-font-size: 23");
+        GridPane.setConstraints(troopNumberLabel, 0, 0);
+        grid.getChildren().add(troopNumberLabel);
+
+        troopNumberField = new TextField("1");
+        GridPane.setConstraints(troopNumberField, 1, 0);
+        grid.getChildren().add(troopNumberField);
+
+        Button increaseButton = new Button("+");
+        increaseButton.setOnAction(e -> {
+            int currentValue = Integer.parseInt(troopNumberField.getText());
+            troopNumberField.setText(String.valueOf(currentValue + 1));
+        });
+        GridPane.setConstraints(increaseButton, 2, 0);
+        grid.getChildren().add(increaseButton);
+
+        Button decreaseButton = new Button("-");
+        decreaseButton.setOnAction(e -> {
+            int currentValue = Integer.parseInt(troopNumberField.getText());
+            if (currentValue > 1) {
+                troopNumberField.setText(String.valueOf(currentValue - 1));
+            }
+        });
+        GridPane.setConstraints(decreaseButton, 3, 0);
+        grid.getChildren().add(decreaseButton);
+
+        HBox buttonBox = new HBox(10);
+        buttonBox.setAlignment(Pos.CENTER);
+        Button cancelButton = new Button("Cancel");
+        Button okButton = new Button("OK");
+        cancelButton.setOnAction(e -> root.getChildren().remove(grid));
+        okButton.setOnAction(e -> {
+            int[] properIndexes = adjustIndexes(xIndex, yIndex);
+            Tile tile = linkedHouses.get(panes[properIndexes[0]][properIndexes[1]]);
+            int troopNumber = Integer.parseInt(troopNumberField.getText());
+            root.getChildren().remove(grid);
+            gameController.setSelectedBuilding(selectedBuilding.get(currentPlayer));
+            GameControllerOut result = gameController.createUnit("createunit -x " + tile.getX() + " -y " +
+                    tile.getY() + " -t " + unitEnum.getName() + " -c " +
+                    troopNumber, true);
+
+            if (result != GameControllerOut.SUCCESSFULLY_CREATED_UNIT)
+                showError(result.getContent(), "Failed to create unit");
+            else {
+                ImageView unit;
+                Image image;
+                if (unitEnum.isArab())
+                    image = new Image(GameControlTest.class.getResource("/Images/units/arabian/" +
+                            unitEnum.getName() + ".png").toExternalForm());
+                else
+                    image = new Image(GameControlTest.class.getResource("/Images/units/european/" +
+                            unitEnum.getName() + ".png").toExternalForm());
+
+                //todo: fix it
+                //adding troops to a grid pane
+                GridPane gridPane = new GridPane();
+                int width = (int) (TILE_SIZE / Math.sqrt(troopNumber));
+                for (int j = 0; j < troopNumber; j++) {
+                        unit = new ImageView(image);
+                        unit.setFitWidth(width);
+                        unit.setPreserveRatio(true);
+                        unit.setSmooth(true);
+                        unit.setCache(true);
+                        gridPane.add(unit, (int) (j%Math.sqrt(troopNumber)),(int) (j/Math.sqrt(troopNumber)));
+                    }
+                panes[properIndexes[0]][properIndexes[1]].getChildren().add(gridPane);
+            }
+
+        });
+        buttonBox.getChildren().addAll(cancelButton, okButton);
+        GridPane.setConstraints(buttonBox, 0, 1, 4, 1);
+        grid.getChildren().add(buttonBox);
+        grid.setLayoutX(520);
+        grid.setLayoutY(300);
+        root.getChildren().add(grid);
+    }
+
+    private int[] adjustIndexes(int xIndex, int yIndex) {
+        int[] indexes = new int[2];
+        for (int i = -1; i < 2; i++)
+            for (int j = -1; j < 2; j++)
+                if (linkedHouses.get(panes[i + xIndex][j + yIndex]).getTexture().isWalkability()) {
+                    if (i == 0 && j == 0) continue;
+                    indexes[0] = i + xIndex;
+                    indexes[1] = j + yIndex;
+                    return indexes;
+                }
+        indexes[0] = xIndex;
+        indexes[1] = yIndex;
+        return indexes;
+    }
+
+    private void showError(String message, String title) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("error");
+        alert.setHeaderText(title);
+        alert.setContentText(message);
+        alert.show();
     }
 
     int indexOfHoveringTile = -1;
@@ -991,14 +1291,14 @@ public class GameControlTest {
         ranges[0] = -550 + 150 * index[0] - say * 120;
         ranges[1] = -605 + 140 * index[1];
         System.out.println("final rang: " + index[0] + " , " + index[1]);
-        buildingImageView.setLayoutY(ranges[1]);
-        buildingImageView.setLayoutX(ranges[0]);
+        buildingImageView.setLayoutY(ranges[1] + 12.5);
+        buildingImageView.setLayoutX(ranges[0] - TILE_SIZE / 2 + 12.5);
     }
 
     private void createPicture(MouseEvent event, int i, int j, String address, BuildingEnum buildingEnum) {
 
         buildingImageView = new ImageView(new Image(GameMenuControl.class.getResource(address).toExternalForm()));
-        buildingImageView.setFitWidth(TILE_SIZE - 10);
+        buildingImageView.setFitWidth(TILE_SIZE - 25);
         buildingImageView.setPreserveRatio(true);
         buildingImageView.setSmooth(true);
         buildingImageView.setCache(true);
@@ -1007,17 +1307,17 @@ public class GameControlTest {
         buildingImageView.setOnMouseReleased(mouseEvent -> onMouseReleased(mouseEvent, buildingEnum));
         buildingImageView.setUserData(new double[]{event.getY(), event.getY(), ((Button) event.getSource()).getLayoutX()
                 , ((Button) event.getSource()).getLayoutY()});
-
-        buildingImageView.setX(i);
+        buildingImageView.setX(i + TILE_SIZE / 2);
         buildingImageView.setY(j);
     }
+
 
     private void onMouseDragged(MouseEvent event) {
         if (buildingImageView == null)
             return;
         // Update the position of the building while dragging
         double[] initialPosition = (double[]) buildingImageView.getUserData();
-        buildingImageView.relocate(event.getScreenX() - initialPosition[0] - TILE_SIZE / 2, event.getScreenY() - initialPosition[1] - TILE_SIZE / 2);
+        buildingImageView.relocate(event.getScreenX() - initialPosition[0] - TILE_SIZE / 2 + 50, event.getScreenY() - initialPosition[1] - TILE_SIZE / 2);
     }
 
     private Label simpleLabelStyler(String text) {
@@ -1040,13 +1340,16 @@ public class GameControlTest {
         lastBuildingImageViewUndo = buildingImageView;
         lastBuildingsUndo = buildings;
         doWeHaveUndo = true;
-
-        // System.out.println("this is the mouse coor: " + event.getScreenX() + " , " + event.getScreenY());
         buildingImageView.setOnMouseDragged(null);
         buildingImageView.setOnMouseReleased(null);
-        buildings.put(buildingImageView, new Building(buildingEnum, currentPlayer, 0, true));
+        if (buildingEnum != null) {
+            Building building = new Building(buildingEnum, currentPlayer, 0, true);
+            buildings.put(buildingImageView, building);
+            currentPlayer.getGovernance().getBuildings().add(building);
+        }
 
         linkedHouses.get(panes[index[0]][index[1]]).getBuildings().add(buildings.get(buildingImageView));
+
         //todo: do the drop building thing here
         System.out.println("index: " + index[0] + " , " + index[1]);
         addToTile(index, say(event));

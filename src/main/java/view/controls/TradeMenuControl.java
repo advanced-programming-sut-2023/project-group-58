@@ -156,8 +156,8 @@ public class TradeMenuControl implements Initializable {
         return null;
     }
 
-    public void backToGame(MouseEvent mouseEvent) {
-        //todo
+    public void backToGame() {
+        LoginMenu.getStage().close();
     }
 
     public void enterShop(MouseEvent mouseEvent) throws IOException {
