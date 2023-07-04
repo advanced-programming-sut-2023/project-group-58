@@ -1,7 +1,11 @@
 package model.units;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import model.Point;
+import model.Tile;
 import model.User;
+import view.controls.GameControlTest;
 
 import java.util.ArrayList;
 
@@ -12,10 +16,24 @@ public class Unit {
     //updated everytime select order is used:
     private int xOrigin;
     private int yOrigin;
+    private Tile originTile = null;
+    private Tile targetTile = null;
     private int xDestination = -1;
     private int yDestination = -1;
     private boolean onPatrol = false;
     private Point[] patrolDestinations;
+    private boolean isOnMove = false;
+
+    private BooleanProperty attack = new SimpleBooleanProperty();
+    public boolean isAttack() {
+        return attack.get();
+    }
+    public BooleanProperty attackProperty() {
+        return attack;
+    }
+    public void setAttack(boolean attack) {
+        this.attack.set(attack);
+    }
     User master;
     //private HashMap<UnitEnum, ArrayList<Troop>> troops = new HashMap<>();
     private ArrayList<Troop> troops = new ArrayList<>();
@@ -152,4 +170,58 @@ public class Unit {
     public void setPatrolDestinations(Point[] patrolDestinations) {
         this.patrolDestinations = patrolDestinations;
     }
+
+    public int getUnitDamage() {
+        int damage = 0;
+        for (Troop troop : this.troops) {
+            damage += troop.getType().getDamage();
+        }
+        return damage;
+    }
+
+    public int getUnitHp() {
+        int hp = 0;
+        for (Troop troop : this.troops) {
+            hp += troop.getHp();
+        }
+        return hp;
+    }
+
+    public String getPresentTypes() {
+        StringBuilder types = new StringBuilder();
+        ArrayList<UnitEnum> unitEnums = new ArrayList<>();
+        for (Troop troop : this.troops) {
+            if(!unitEnums.contains(troop.getType())) {
+                unitEnums.add(troop.getType());
+                types.append("\n").append(troop.getType().getName());
+            }
+        }
+        return types.toString();
+    }
+
+    public boolean isOnMove() {
+        return isOnMove;
+    }
+
+    public void setOnMove(boolean onMove) {
+        isOnMove = onMove;
+    }
+
+    public Tile getOriginTile() {
+        return originTile;
+    }
+
+    public void setOriginTile(Tile originTile) {
+        this.originTile = originTile;
+    }
+
+    public Tile getTargetTile() {
+        return targetTile;
+    }
+
+    public void setTargetTile(Tile targetTile) {
+        this.targetTile = targetTile;
+    }
+
 }
+

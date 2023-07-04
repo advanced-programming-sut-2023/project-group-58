@@ -840,4 +840,12 @@ public class GameController {
         selectedUnit.setyDestination(-1);
         return GameControllerOut.SUCCESSFULLY_STOPPED;
     }
+
+    public void setxOFSelectedBuilding(int xOFSelectedBuilding) {
+        this.xOFSelectedBuilding = xOFSelectedBuilding;
+    }
+
+    public void setyOFSelectedBuilding(int yOFSelectedBuilding) {
+        this.yOFSelectedBuilding = yOFSelectedBuilding;
+    }
 }

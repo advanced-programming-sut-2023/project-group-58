@@ -80,9 +80,9 @@ public class CaptchaGraphic  {
         int randomPick = (int) (picNum * Math.random());
         while(randomPick == currentCaptcha)
             randomPick = (int) (picNum * Math.random());
-       currentCaptcha = randomPick;
-       pane.getChildren().remove(pane.getChildren().size() - 1);
-       getAPic();
+        currentCaptcha = randomPick;
+        pane.getChildren().remove(pane.getChildren().size() - 1);
+        getAPic();
     }
 
     public void submit(MouseEvent mouseEvent) throws IOException {
