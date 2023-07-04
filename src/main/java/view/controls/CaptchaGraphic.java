@@ -2,17 +2,21 @@ package view.controls;
 
 import controller.RegisterMenuController;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import model.units.Unit;
 import view.LoginMenu;
+import view.RegisterMenu;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -22,6 +26,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 public class CaptchaGraphic  {
 
@@ -75,16 +80,18 @@ public class CaptchaGraphic  {
         int randomPick = (int) (picNum * Math.random());
         while(randomPick == currentCaptcha)
             randomPick = (int) (picNum * Math.random());
-       currentCaptcha = randomPick;
-       pane.getChildren().remove(pane.getChildren().size() - 1);
-       getAPic();
+        currentCaptcha = randomPick;
+        pane.getChildren().remove(pane.getChildren().size() - 1);
+        getAPic();
     }
 
     public void submit(MouseEvent mouseEvent) throws IOException {
-        int index = currentPath.lastIndexOf("/") + 1;
+        int index = currentPath.lastIndexOf("\\") + 1;
         String photoName = currentPath.substring(index, currentPath.length() - 4);
         if(userCaptchaAnswer == null || userCaptchaAnswer.getText().length() == 0 ||
                 !userCaptchaAnswer.getText().trim().equals(photoName)) {
+            System.out.println(userCaptchaAnswer.getText().trim());
+            System.out.println(photoName);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Wrong Captcha");
@@ -116,4 +123,29 @@ public class CaptchaGraphic  {
         CaptchaGraphic.registerMenuController = registerMenuController;
     }
 
+    public void submitForgot(MouseEvent mouseEvent) throws IOException {
+        int index = currentPath.lastIndexOf("\\") + 1;
+        String photoName = currentPath.substring(index, currentPath.length() - 4);
+        if(userCaptchaAnswer == null || userCaptchaAnswer.getText().length() == 0 ||
+                !userCaptchaAnswer.getText().trim().equals(photoName)) {
+            System.out.println(userCaptchaAnswer.getText().trim());
+            System.out.println(photoName);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Wrong Captcha");
+            alert.setContentText("Captcha wasn't entered correctly.\nTry again!");
+            alert.show();
+            changeCaptcha();
+        }
+        else {
+
+            ForgotPassword.stage.close();
+        }
+    }
+
+    public void backToForgot(MouseEvent mouseEvent) throws IOException {
+        ForgotPassword.stage.close();
+        ForgotPassword.stage = LoginMenu.getStage();
+        LoginRegisterMenuControl.openAddress("/FXML/forgotPass.fxml");
+    }
 }
