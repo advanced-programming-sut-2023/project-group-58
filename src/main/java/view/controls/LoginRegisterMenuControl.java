@@ -459,9 +459,10 @@ public class LoginRegisterMenuControl implements Initializable {
             alert.setContentText("This username doesn't exist!");
             dead = true;
         }
-        // if (dead){
-        //alert.showAndWait();
-        // return;}
+         if (dead) {
+             alert.showAndWait();
+             //  return;
+         }
         User user = null;
         if (stayed){
             for (User u : User.getUsers()){
@@ -478,7 +479,15 @@ public class LoginRegisterMenuControl implements Initializable {
         alert.setContentText("Welcome to the game, lets go and fight for world!");
         Optional<ButtonType> option = alert.showAndWait();
         openAddress("/FXML/securityQuestion.fxml");
-        openCaptcha();
+        URL url = LoginMenu.class.getResource("/FXML/LoginCaptcha.fxml");
+        BorderPane pane = FXMLLoader.load(url);
+        CaptchaGraphic.pane = pane;
+        CaptchaGraphic.enterCaptcha();
+        CaptchaGraphic.setRegisterMenuController(registerMenuController);
+        Scene scene = new Scene(pane);
+        LoginMenu.getStage().setScene(scene);
+        //LoginMenu.getStage().setFullScreen(true);
+        LoginMenu.getStage().show();
         //should now go to the other stuff
     }
 

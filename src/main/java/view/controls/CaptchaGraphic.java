@@ -148,4 +148,31 @@ public class CaptchaGraphic  {
         ForgotPassword.stage = LoginMenu.getStage();
         LoginRegisterMenuControl.openAddress("/FXML/forgotPass.fxml");
     }
+
+    public void submitLogin(MouseEvent mouseEvent) throws IOException {
+        int index = currentPath.lastIndexOf("\\") + 1;
+        String photoName = currentPath.substring(index, currentPath.length() - 4);
+        if(userCaptchaAnswer == null || userCaptchaAnswer.getText().length() == 0 ||
+                !userCaptchaAnswer.getText().trim().equals(photoName)) {
+            System.out.println(userCaptchaAnswer.getText().trim());
+            System.out.println(photoName);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Wrong Captcha");
+            alert.setContentText("Captcha wasn't entered correctly.\nTry again!");
+            alert.show();
+            changeCaptcha();
+        }
+        else {
+            URL url = LoginMenu.class.getResource("/FXML/mainMenu.fxml");
+            BorderPane pane = FXMLLoader.load(url);
+            Scene scene = new Scene(pane);
+            LoginMenu.getStage().setScene(scene);
+            LoginMenu.getStage().show();
+        }
+    }
+
+    public void backToLogin(MouseEvent mouseEvent) throws IOException {
+        LoginRegisterMenuControl.openAddress("/FXML/loginMenu.fxml");
+    }
 }

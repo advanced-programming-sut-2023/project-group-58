@@ -109,6 +109,20 @@
     -fx-background-position: center center;
     -fx-background-attachment: fixed;
 }
+.backgroundMainMenu {
+    -fx-background-image: url("../Images/MainMenu.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-attachment: fixed;
+}
+.backgroundProfile {
+    -fx-background-image: url("../Images/profile.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-attachment: fixed;
+}
 
 .otherButtons {
     -fx-border-width: 20;
@@ -151,4 +165,56 @@
     -fx-border-color: black;
     -fx-border-width: 0.8;
     -fx-background-color: linear-gradient(rgba(97, 121, 145, 0.74) 10%, rgba(53, 93, 131, 0.74) 20%, rgba(50, 71, 114, 0.73) 35%, rgba(52, 76, 119, 0.67) 45%, #36454f 100%);
+}
+.ButtonMainMenu{
+    -fx-padding: 40;
+    -fx-border-insets: 40;
+    -fx-background-insets: 40;
+    -fx-background-color: darkred;
+    -fx-text-fill: orange;
+    -fx-pref-width: 400;
+    -fx-pref-height: 100;
+    -fx-background-radius: 51;
+    -fx-border-radius: 51;
+    -fx-background-size: 100;
+    -fx-font-size: 40;
+    -fx-font-family: "Cambria Math";
+}
+.ButtonMainMenu:pressed {
+    -fx-background-color: linear-gradient(sandybrown, yellow);
+}
+.LabelProfile{
+    -fx-padding: 10;
+    -fx-alignment: center;
+    -fx-border-insets: 10;
+    -fx-background-insets: 10;
+    -fx-background-color: black,
+    linear-gradient(#ffffff, #e8f5fc),
+    linear-gradient(#de5770 10%, #d71633 25%, #8a021a 50%, #3c010c 75% , #200408 100%);
+    -fx-text-fill: orange;
+    -fx-pref-width: 400;
+    -fx-pref-height: 80;
+    -fx-background-radius: 40;
+    -fx-content-display: center;
+    -fx-border-radius: 40;
+    -fx-background-size: 100;
+    -fx-font-size: 40;
+    -fx-font-family: "Cambria Math";
+}
+.ButtonProfile{
+    -fx-padding: 10;
+    -fx-border-insets: 10;
+    -fx-background-insets: 10;
+    -fx-background-color: darkred;
+    -fx-text-fill: orange;
+    -fx-pref-width: 320;
+    -fx-pref-height: 60;
+    -fx-background-radius: 51;
+    -fx-border-radius: 51;
+    -fx-background-size: 40;
+    -fx-font-size: 20;
+    -fx-font-family: "Cambria Math";
+}
+.ButtonProfile:pressed {
+    -fx-background-color: linear-gradient(sandybrown, yellow);
 }

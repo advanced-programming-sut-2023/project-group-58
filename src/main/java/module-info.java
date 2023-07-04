@@ -13,4 +13,5 @@ module APP {
     opens model to javafx.fxml;
     opens controller to javafx.fxml;
     opens view.controls to javafx.fxml;
+    opens view.controls.changers to javafx.fxml;
 }
