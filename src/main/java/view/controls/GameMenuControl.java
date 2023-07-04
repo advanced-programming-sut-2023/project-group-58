@@ -170,7 +170,7 @@ public class GameMenuControl {
         if(buildingImageView == null) return;
         // Update the position of the building while dragging
         double[] initialPosition = (double[]) buildingImageView.getUserData();
-        buildingImageView.relocate(event.getScreenX() - initialPosition[0], event.getScreenY() - initialPosition[1]);
+        buildingImageView.relocate(event.getScreenX() - initialPosition[0] + 50, event.getScreenY() - initialPosition[1]);
     }
 
     private void onMouseReleased(MouseEvent event) {

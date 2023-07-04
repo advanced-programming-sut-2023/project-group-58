@@ -1,9 +1,13 @@
 package view.controls;
 
 import controller.MapMenuController;
+import controller.PatchFinding;
 import controller.gameMenuControllers.GameController;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
@@ -17,14 +21,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.*;
 import model.buildings.Building;
 import model.buildings.BuildingEnum;
@@ -46,13 +51,13 @@ public class GameControlTest {
     private User currentPlayer;
     private ImageView buildingImageView = new ImageView();
     private HashMap<ImageView, Building> buildings = new HashMap<>();
-    private HashMap<ImageView, Unit> units = new HashMap<>();
+    private HashMap<GridPane, Unit> units = new HashMap<>();
 
     private static final double SCALE_DELTA = 1.1;
     private final Scale scaleTransform = new Scale(1, 1);
 
 
-    private HBox unitBar = new HBox();
+    private VBox unitBar = new VBox();
     private VBox popularityFactorsBar = new VBox();
     private HBox mainBar = new HBox();
     private VBox changeFactorsBar = new VBox();
@@ -64,7 +69,7 @@ public class GameControlTest {
 
     private int xCenter = 50;
     private int yCenter = 50;
-    private Pane[][] panes = new Pane[10][5];
+    private static Pane[][] panes = new Pane[10][5];
     private HashMap<Pane, Tile> linkedHouses = new HashMap<>();
     private Map map;
     private GameController gameController;
@@ -86,6 +91,7 @@ public class GameControlTest {
     private boolean doWeHaveUndo = false;
     private HashMap<User, Building> selectedBuilding = new HashMap<>();
     private boolean selectActive = false;
+    private boolean hoverActive = true;
 
 
     //todo: don't forget to update minimap whenever you change the main map.
@@ -332,6 +338,7 @@ public class GameControlTest {
         copiedBuildings.remove(copiedBuildings.size() - 1);
         indexOfHoveringTilesTogether = -1;
         indexOfHoveringTile = -1;
+        indexOfHoveringUnit = -1;
         indexOfHoveringBuilding = -1;
         for (int i = 0; i < 50; i++)
             addTile(root, i);
@@ -418,6 +425,7 @@ public class GameControlTest {
             Label info = simpleLabelStyler(infoStr);
             info.setStyle("-fx-alignment: center; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-background-color: rgba(40,37,37,0.38);" +
                     "; -fx-font-size: 25; -fx-font-weight: bold");
+            if(!hoverActive) return;
             if (indexOfHoveringTilesTogether >= 0)
                 root.getChildren().set(indexOfHoveringTilesTogether, info);
             else {
@@ -586,6 +594,7 @@ public class GameControlTest {
             if (event.getScreenX() > 1470) return;
             if (event.getScreenY() > 600) return;
             if (isDeleteActive) {
+                indexOfHoveringUnit = -1;
                 indexOfHoveringBuilding = -1;
                 indexOfHoveringTile = -1;
                 indexOfHoveringTilesTogether = -1;
@@ -600,6 +609,7 @@ public class GameControlTest {
         undoButton.setGraphic(undoImage);
         undoButton.setOnMouseClicked(mouseEvent -> {
             if (doWeHaveUndo) {
+                indexOfHoveringUnit = -1;
                 indexOfHoveringBuilding = -1;
                 indexOfHoveringTile = -1;
                 indexOfHoveringTilesTogether = -1;
@@ -934,9 +944,7 @@ public class GameControlTest {
             troops[6] = createTroopButton(preAddress + "swords man.png", 550, UnitEnum.SWORDS_MAN, xIndex, yIndex);
         }
 
-        unitBar.setLayoutX(565);
-        unitBar.setLayoutY(666);
-        unitBar.setSpacing(20);
+        unitList.setSpacing(20);
 
         ImageView imageView1 = new ImageView(new Image(GameControlTest.class.getResource("/Images/leftHand.png").toExternalForm()));
         imageView.setFitWidth(25);
@@ -944,18 +952,19 @@ public class GameControlTest {
         imageView.setSmooth(true);
         imageView.setCache(true);
         imageView1.setOnMouseClicked(mouseEvent -> enterMainBar());
+        imageView1.setOnMouseEntered(mouseEvent -> imageView1.setImage(new Image(GameControlTest.class.getResource("/Images/leftHandHover.png").toExternalForm())));
+        imageView1.setOnMouseExited(mouseEvent -> imageView1.setImage(new Image(GameControlTest.class.getResource("/Images/leftHand.png").toExternalForm())));
+
+        unitBar.setLayoutX(565);
+        unitBar.setLayoutY(666);
+        unitList.getChildren().addAll(troops[0], troops[1], troops[2], troops[3], troops[4], troops[5], troops[6]);
 
         if (first) {
-            unitBar.getChildren().addAll(troops[0], troops[1], troops[2], troops[3], troops[4], troops[5], troops[6]);
+            unitBar.getChildren().addAll(unitList, imageView1);
             root.getChildren().add(unitBar);
         } else {
-            unitBar.getChildren().set(0, troops[0]);
-            unitBar.getChildren().set(1, troops[1]);
-            unitBar.getChildren().set(2, troops[2]);
-            unitBar.getChildren().set(3, troops[3]);
-            unitBar.getChildren().set(1, troops[4]);
-            unitBar.getChildren().set(2, troops[5]);
-            unitBar.getChildren().set(3, troops[6]);
+            unitBar.getChildren().set(0, unitList);
+            unitBar.getChildren().set(1, imageView1);
         }
     }
 
@@ -1058,6 +1067,7 @@ public class GameControlTest {
     }
 
     private TextField troopNumberField;
+    private int indexOfHoveringUnit = -1;
 
     private void setNumber(int xIndex, int yIndex, UnitEnum unitEnum) {
         GridPane grid = new GridPane();
@@ -1103,38 +1113,98 @@ public class GameControlTest {
             Tile tile = linkedHouses.get(panes[properIndexes[0]][properIndexes[1]]);
             int troopNumber = Integer.parseInt(troopNumberField.getText());
             root.getChildren().remove(grid);
+            if(tile.getPlayersUnits() != null && tile.getPlayersUnits().size() != 0) {
+                showError("There is no empty space to add a new unit!", "Failed to create unit");
+                return;
+            }
             gameController.setSelectedBuilding(selectedBuilding.get(currentPlayer));
+            gameController.setxOFSelectedBuilding(tile.getX());
+            gameController.setyOFSelectedBuilding(tile.getY());
             GameControllerOut result = gameController.createUnit("createunit -x " + tile.getX() + " -y " +
                     tile.getY() + " -t " + unitEnum.getName() + " -c " +
                     troopNumber, true);
 
+            System.out.println("real coordinate: " + tile.getX() + " , " + tile.getY());
+            System.out.println("units addeded tp tile: " + tile.findYourUnits(currentPlayer).size());
             if (result != GameControllerOut.SUCCESSFULLY_CREATED_UNIT)
                 showError(result.getContent(), "Failed to create unit");
             else {
-                ImageView unit;
+                ImageView unitMember;
                 Image image;
-                if (unitEnum.isArab())
-                    image = new Image(GameControlTest.class.getResource("/Images/units/arabian/" +
+                if(troopNumber < 4) {
+                    if (unitEnum.isArab())
+                        image = new Image(GameControlTest.class.getResource("/Images/units/arabian/" +
+                                unitEnum.getName() + ".png").toExternalForm());
+                    else
+                        image = new Image(GameControlTest.class.getResource("/Images/units/european/" +
+                                unitEnum.getName() + ".png").toExternalForm());
+                }
+                else {
+                    image = new Image(GameControlTest.class.getResource("/Images/unitCrowd/" +
                             unitEnum.getName() + ".png").toExternalForm());
-                else
-                    image = new Image(GameControlTest.class.getResource("/Images/units/european/" +
-                            unitEnum.getName() + ".png").toExternalForm());
+                }
 
-                //todo: fix it
-                //adding troops to a grid pane
                 GridPane gridPane = new GridPane();
-                int width = (int) (TILE_SIZE / Math.sqrt(troopNumber));
+                gridPane.maxHeight(TILE_SIZE - 30);
+                gridPane.maxWidth(TILE_SIZE - 30);
+                if(troopNumber < 4)
                 for (int j = 0; j < troopNumber; j++) {
-                        unit = new ImageView(image);
-                        unit.setFitWidth(width);
-                        unit.setPreserveRatio(true);
-                        unit.setSmooth(true);
-                        unit.setCache(true);
-                        gridPane.add(unit, (int) (j%Math.sqrt(troopNumber)),(int) (j/Math.sqrt(troopNumber)));
+                    unitMember = new ImageView(image);
+                    unitMember.setSmooth(true);
+                    unitMember.setCache(true);
+                    gridPane.add(unitMember, j, 0);
+                    units.put(gridPane, currentPlayer.getGovernance().getUnits().get
+                            (currentPlayer.getGovernance().getUnits().size() - 1));
+                }
+                else {
+                    unitMember = new ImageView(image);
+                    unitMember.setSmooth(true);
+                    unitMember.setCache(true);
+                    unitMember.setFitWidth(TILE_SIZE - 30);
+                    unitMember.setFitHeight(TILE_SIZE - 30);
+                    gridPane.add(unitMember, 0, 0);
+                    units.put(gridPane, currentPlayer.getGovernance().getUnits().get
+                            (currentPlayer.getGovernance().getUnits().size() - 1));
+                }
+
+                //saving the current pane index:
+                gridPane.setUserData(new int[]{properIndexes[0], properIndexes[1]});
+
+                gridPane.setOnMouseEntered(mouseEvent -> {
+                    Unit unit = units.get(gridPane);
+                    String infoStr = "Troop number: " + gridPane.getChildren().size() + "\nOwner: " + unit.getMaster().getUsername() +
+                            "\nState: " + unit.getState() + "\nSpeed: " + unit.getSpeed() + "\nDamage: " + unit.getUnitDamage() +
+                            "\nHp: " + unit.getUnitHp() + "\nTypes present:" + unit.getPresentTypes();
+                    Label info = simpleLabelStyler(infoStr);
+                    info.setStyle("-fx-alignment: center; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-background-color: rgba(40,37,37,0.25);" +
+                            "; -fx-font-size: 25; -fx-font-weight: bold");
+                    info.setLayoutX(mouseEvent.getScreenX() - TILE_SIZE);
+                    info.setLayoutY(mouseEvent.getScreenY() - 20);
+                    if(!hoverActive) return;
+
+                    if (indexOfHoveringUnit >= 0)
+                        root.getChildren().set(indexOfHoveringUnit, info);
+                    else {
+                        root.getChildren().add(info);
+                        indexOfHoveringUnit = root.getChildren().indexOf(info);
                     }
+                });
+
+                gridPane.setOnMouseExited(mouseEvent -> {
+                    if (indexOfHoveringUnit > -1)
+                        root.getChildren().remove(indexOfHoveringUnit);
+                    indexOfHoveringUnit = -1;
+                });
+
+                gridPane.setOnMouseClicked(mouseEvent -> {
+                    if (!selectActive) return;
+                    hoverActive = false;
+                    openWindow(gridPane,tile,properIndexes);
+                    closeHovers();
+                });
+
                 panes[properIndexes[0]][properIndexes[1]].getChildren().add(gridPane);
             }
-
         });
         buttonBox.getChildren().addAll(cancelButton, okButton);
         GridPane.setConstraints(buttonBox, 0, 1, 4, 1);
@@ -1144,16 +1214,244 @@ public class GameControlTest {
         root.getChildren().add(grid);
     }
 
+    private void openWindow(GridPane gridPane, Tile tile, int[] properIndexes) {
+        Stage window = new Stage();
+        window.setTitle("Unit Options");
+
+        VBox layout = new VBox(9);
+        layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color: linear-gradient(rgba(101, 0, 0, 0.74) 10%, rgba(155, 2, 2, 0.74) 20%," +
+                " rgba(155, 57, 2, 0.74) 35%, rgba(138, 89, 0, 0.74) 45%); -fx-font-size: 20; -fx-font-family: Garamond");
+
+        RadioButton defensiveBtn = new RadioButton("defensive");
+        RadioButton aggressiveBtn = new RadioButton("aggressive");
+        RadioButton standingBtn = new RadioButton("standing");
+        ToggleGroup unitStateGroup = new ToggleGroup();
+        defensiveBtn.setToggleGroup(unitStateGroup);
+        aggressiveBtn.setToggleGroup(unitStateGroup);
+        standingBtn.setToggleGroup(unitStateGroup);
+
+        RadioButton moveBtn = new RadioButton("Move");
+        RadioButton attackBtn = new RadioButton("Attack");
+        ToggleGroup moveAttackGroup = new ToggleGroup();
+        moveBtn.setToggleGroup(moveAttackGroup);
+        attackBtn.setToggleGroup(moveAttackGroup);
+
+        HBox buttons =  new HBox();
+        Button okBtn = new Button("OK");
+        Button cancelBtn = new Button("Cancel");
+        buttons.getChildren().addAll(okBtn,cancelBtn);
+        buttons.setAlignment(Pos.CENTER);
+
+        Label state = new Label("Choose unit state:");
+        state.setStyle("-fx-font-size: 22; -fx-font-family: Garamond; -fx-font-weight: bold");
+        Label move = new Label("Move unit:");
+        move.setStyle("-fx-font-size: 22; -fx-font-family: Garamond; -fx-font-weight: bold");
+        layout.getChildren().addAll(
+                state,
+                defensiveBtn, aggressiveBtn, standingBtn,
+                move,
+                moveBtn, attackBtn,
+                buttons
+        );
+
+        Scene scene = new Scene(layout, 400, 320);
+        window.setScene(scene);
+        window.show();
+
+        okBtn.setOnAction(event1 -> {
+            if (unitStateGroup.getSelectedToggle() != null) {
+                RadioButton selectedState = (RadioButton) unitStateGroup.getSelectedToggle();
+                units.get(gridPane).setState(selectedState.getText());
+                System.out.println("Selected unit state: " + selectedState.getText());
+            }
+            if (moveAttackGroup.getSelectedToggle() != null) {
+                Unit unit = units.get(gridPane);
+                unit.setOnMove(true);
+                RadioButton selectedAction = (RadioButton) moveAttackGroup.getSelectedToggle();
+                if(selectedAction.getText().equals("Attack"))
+                    showBannerAndWait(unit);
+
+                root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    if (event.getScreenX() > 1470) return;
+                    if (event.getScreenY() > 600) return;
+                    if (!unit.isOnMove()) return;
+                    int targetX = (int) Math.floor(event.getScreenX() / TILE_SIZE);
+                    int targetY = (int) Math.floor(event.getScreenY() / TILE_SIZE);
+                    if (((int[]) gridPane.getUserData())[0] == targetX && ((int[]) gridPane.getUserData())[1] == targetY)
+                        return;
+                    System.out.println("moving click detected");
+                    Tile targetTile = linkedHouses.get(panes[targetX][targetY]);
+                    int[] targetIndexes = new int[]{targetX, targetY};
+                    //move the unit.
+                    Tile primaryHolder = unit.getOriginTile() == null ? tile : unit.getOriginTile();
+                    Tile secondaryHolder = unit.getTargetTile() == null ? targetTile : unit.getTargetTile();
+                    List<Point> pathPoints = PatchFinding.findPath(map, new Point(primaryHolder.getX(), primaryHolder.getY()),
+                            new Point(secondaryHolder.getX(), secondaryHolder.getY()), true);
+                    moveUnitsOnScreen(pathPoints, unit, gridPane, properIndexes, targetIndexes, tile, targetTile);
+                    unit.setOnMove(false);
+                });
+            }
+
+            window.close();
+        });
+
+        cancelBtn.setOnAction(event -> {window.close(); hoverActive = true;});
+    }
+
+
+    private static final Duration TWINKLE_DURATION = Duration.seconds(2);
+    private static final double MIN_OPACITY = 0.0;
+    private static final double MAX_OPACITY = 1.0;
+
+    private void showBannerAndWait(Unit unit) {
+        unit.setAttack(true);
+
+        Label attackText = new Label("Attack");
+        attackText.setFont(Font.font("Arial", FontWeight.BOLD, 72));
+        attackText.setTextFill(Color.RED);
+        root.getChildren().add(attackText);
+        attackText.setLayoutX(700);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(attackText.opacityProperty(), MAX_OPACITY)),
+                new KeyFrame(TWINKLE_DURATION.divide(2), new KeyValue(attackText.opacityProperty(), MIN_OPACITY)),
+                new KeyFrame(TWINKLE_DURATION, new KeyValue(attackText.opacityProperty(), MAX_OPACITY))
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        AnimationManager.timers.add(timeline);
+        timeline.play();
+
+        attackText.visibleProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                timeline.stop();
+            }
+        });
+
+        unit.attackProperty().addListener((observable, oldValue, newValue) -> attackText.setVisible(newValue));
+    }
+
+
+    private void closeHovers() {
+        boolean disarrangement = false;
+        if (indexOfHoveringUnit > -1) {
+            disarrangement = true;
+            root.getChildren().remove(indexOfHoveringUnit);
+        }
+        indexOfHoveringUnit = -1;
+        if (indexOfHoveringTile > -1) {
+            if(disarrangement) indexOfHoveringTile--;
+            root.getChildren().remove(indexOfHoveringTile);
+        }
+        indexOfHoveringTile = -1;
+        if (indexOfHoveringBuilding > -1)
+            root.getChildren().remove(indexOfHoveringBuilding);
+        indexOfHoveringBuilding = -1;
+    }
+
+    private void adjustUnitCurrentPosition(Tile primaryTile, Tile targetTile, Unit changingUnit) {
+        map.getTile(primaryTile.getY(), primaryTile.getX()).removeAUnit(changingUnit);
+        changingUnit.setxOrigin(targetTile.getX());
+        changingUnit.setyOrigin(targetTile.getY());
+        changingUnit.setOriginTile(targetTile);
+        changingUnit.setTargetTile(null);
+        map.getTile(targetTile.getY(), targetTile.getX()).addUnitToTile(changingUnit);
+        if(!targetTile.areEnemiesHere(currentPlayer)) changingUnit.setAttack(false);
+    }
+
+    private void moveUnitsOnScreen(List<Point> pathPoints, Unit unit, GridPane gridPane, int[] properIndexes, int[] targetIndexes, Tile tile, Tile targetTile) {
+        List<Point> correctedPathPoints = screenFormatter(pathPoints);
+        ArrayList<Pane> paneSequence = createPaneSequence(correctedPathPoints);
+        if (paneSequence.size() == 0) return;
+        if (panes[properIndexes[0]][properIndexes[1]] == paneSequence.get(0) && paneSequence.size() == 1) return;
+
+        panes[properIndexes[0]][properIndexes[1]].getChildren().remove(gridPane);
+        if (unit.getOriginTile() == null)
+            unit.setOriginTile(tile);
+        if (unit.getTargetTile() == null)
+            unit.setTargetTile(targetTile);
+
+        System.out.println("this is the target tile: " + targetTile.getY() + " , " + targetTile.getX());
+        System.out.println("original path");
+        for (Point pathTilePoint : pathPoints) {
+            System.out.println(unit.getTargetTile().getX() + " , " + unit.getTargetTile().getY());
+        }
+        MoveAnimation moveAnimation = new MoveAnimation(map, unit, correctedPathPoints, root, panes, gridPane, (int[]) gridPane.getUserData(), paneSequence);
+
+        moveAnimation.statusProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == Animation.Status.STOPPED) {
+                hoverActive = true;
+                adjustUnitCurrentPosition(unit.getOriginTile(), unit.getTargetTile(), unit);
+                gridPane.setUserData(new int[]{targetIndexes[0], targetIndexes[1]});
+                panes[targetIndexes[0]][targetIndexes[1]].getChildren().add(gridPane);
+                System.out.println("indexes of target pane: " + targetIndexes[0] + " , " + targetIndexes[1]);
+//                if (--indexOfHoveringTile >= 0) {
+//                    System.out.println("is our index really correct? " + (root.getChildren().get(indexOfHoveringTile) instanceof Label));
+//                    root.getChildren().remove(indexOfHoveringTile);
+//                    indexOfHoveringTile = -1;
+//                }
+//                if (--indexOfHoveringBuilding >= 0) {
+//                    System.out.println("is our index really correct? " + (root.getChildren().get(indexOfHoveringBuilding) instanceof Label));
+//                    root.getChildren().remove(indexOfHoveringBuilding);
+//                    indexOfHoveringBuilding = -1;
+//                }
+            }
+        });
+
+        AnimationManager.animations.add(moveAnimation);
+        moveAnimation.play();
+
+    }
+
+
+    private ArrayList<Pane> createPaneSequence(List<Point> correctedPathPoints) {
+        ArrayList<Pane> paneArrayList = new ArrayList<>();
+        for (Point point : correctedPathPoints) {
+            paneArrayList.add(getPaneByTile(map.getTile(point.getX(), point.getY())));
+        }
+        return paneArrayList;
+    }
+
+    private Pane getPaneByTile(Tile tile) {
+        for (java.util.Map.Entry<Pane, Tile> paneTileEntry : linkedHouses.entrySet()) {
+            if (paneTileEntry.getValue().getX() == tile.getX() && paneTileEntry.getValue().getY() == tile.getY())
+                return paneTileEntry.getKey();
+        }
+        return null;
+    }
+
+    private List<Point> screenFormatter(List<Point> pathPoints) {
+        Tile tile;
+        List<Point> path = new ArrayList<>();
+        for (int i = 0; i < pathPoints.size(); i++) {
+            if (getPaneByTile(tile = map.getTile(pathPoints.get(i).getX(), pathPoints.get(i).getY())) != null)
+                path.add(new Point(tile.getY(), tile.getX()));
+        }
+        return path;
+    }
+
+
     private int[] adjustIndexes(int xIndex, int yIndex) {
         int[] indexes = new int[2];
         for (int i = -1; i < 2; i++)
-            for (int j = -1; j < 2; j++)
-                if (linkedHouses.get(panes[i + xIndex][j + yIndex]).getTexture().isWalkability()) {
+            for (int j = -1; j < 2; j++) {
+                int Xindex = Math.max(i + xIndex, 0);
+                int Yindex = Math.max(j + yIndex, 0);
+                Xindex = Math.min(Xindex, 9);
+                Yindex = Math.min(Yindex, 3);
+                if (linkedHouses.get(panes[Xindex][Yindex]).getTexture().isWalkability()) {
                     if (i == 0 && j == 0) continue;
-                    indexes[0] = i + xIndex;
-                    indexes[1] = j + yIndex;
+                    if(linkedHouses.get(panes[Xindex][Yindex]).getPlayersUnits() != null &&
+                            linkedHouses.get(panes[Xindex][Yindex]).getPlayersUnits().size() != 0)
+                        continue;
+                    indexes[0] = Xindex;
+                    indexes[1] = Yindex;
                     return indexes;
+                } else {
+                    yIndex = -1;
+                    xIndex = -1;
                 }
+            }
         indexes[0] = xIndex;
         indexes[1] = yIndex;
         return indexes;
@@ -1212,8 +1510,13 @@ public class GameControlTest {
             Label info = simpleLabelStyler(infoStr);
             info.setStyle("-fx-alignment: center; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-background-color: rgba(40,37,37,0.25);" +
                     "; -fx-font-size: 25; -fx-font-weight: bold");
-            root.getChildren().add(info);
-            indexOfHoveringTile = root.getChildren().indexOf(info);
+            if(!hoverActive) return;
+            if (indexOfHoveringTile >= 0)
+                root.getChildren().set(indexOfHoveringTile, info);
+            else {
+                root.getChildren().add(info);
+                indexOfHoveringTile = root.getChildren().indexOf(info);
+            }
         });
 
 
@@ -1317,7 +1620,7 @@ public class GameControlTest {
             return;
         // Update the position of the building while dragging
         double[] initialPosition = (double[]) buildingImageView.getUserData();
-        buildingImageView.relocate(event.getScreenX() - initialPosition[0] - TILE_SIZE / 2 + 50, event.getScreenY() - initialPosition[1] - TILE_SIZE / 2);
+        buildingImageView.relocate(event.getScreenX() - initialPosition[0] - TILE_SIZE / 2 + 50, event.getScreenY() - initialPosition[1] - TILE_SIZE / 2 + 50);
     }
 
     private Label simpleLabelStyler(String text) {
@@ -1369,8 +1672,14 @@ public class GameControlTest {
             Label info = simpleLabelStyler(infoStr);
             info.setStyle("-fx-alignment: center; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-background-color: rgba(40,37,37,0.25);" +
                     "; -fx-font-size: 25; -fx-font-weight: bold");
-            root.getChildren().add(info);
-            indexOfHoveringBuilding = root.getChildren().indexOf(info);
+
+            if(!hoverActive) return;
+            if (indexOfHoveringBuilding >= 0)
+                root.getChildren().set(indexOfHoveringBuilding, info);
+            else {
+                root.getChildren().add(info);
+                indexOfHoveringBuilding = root.getChildren().indexOf(info);
+            }
         });
         buildingImageView.setOnMouseExited(mouseEvent -> {
             if (indexOfHoveringBuilding > 0) root.getChildren().remove(indexOfHoveringBuilding);

@@ -5,23 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/european/crossbow_man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/european/mace man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/european/pike man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/european/spear man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/european/swords man.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/AnimationManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/MoveAnimation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/cloud.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/arabian swordsman.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/archer bow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/archer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/assassin.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/crossbow_man.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/fire thrower.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/horse archer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/knight.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/ladder man.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/mace man.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/pike man.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/slave.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/slinger.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/spear man.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/swords man.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/units/UnitEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/units/UnitEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/european/Crossbowmen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/european/Macemen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/european/Pikemen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/european/Spearmen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Images/units/european/Swordsmen.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameMenuControl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/checknevis.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/units/UnitEnum.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/units/UnitEnum.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/GameMenuControl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/checknevis.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +53,7 @@
         <option value="FxmlFile" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -74,14 +90,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="view" />
@@ -227,6 +240,8 @@
       <workItem from="1688295192963" duration="703000" />
       <workItem from="1688299430848" duration="20888000" />
       <workItem from="1688299430848" duration="4150000" />
+      <workItem from="1688384277851" duration="38126000" />
+      <workItem from="1688456586927" duration="15433000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
