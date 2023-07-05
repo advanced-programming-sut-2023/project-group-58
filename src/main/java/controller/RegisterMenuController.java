@@ -24,6 +24,7 @@ public class RegisterMenuController {
     private String email;
     private String nickname;
     private String slogan;
+    public String url;
     int questionNumber;
     String answer;
     int numberOfSlogans = 5;

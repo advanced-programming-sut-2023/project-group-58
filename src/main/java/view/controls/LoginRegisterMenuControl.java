@@ -18,11 +18,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import model.User;
-import view.GetStyle;
-import view.LoginMenu;
-import view.ProfileMenu;
-import view.ScanMatch;
+import view.*;
 import view.enums.Commands;
 import view.enums.ProfisterControllerOut;
 
@@ -33,10 +31,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,6 +50,7 @@ public class LoginRegisterMenuControl implements Initializable {
     public ListView listView;
     public Button eye;
     public TextField answer;
+    private static User currentUser;
     public PasswordField newPass;
     public PasswordField reNewPass;
     public HBox TheHbox;
@@ -402,7 +398,7 @@ public class LoginRegisterMenuControl implements Initializable {
         //should now go to the other stuff
     }
 
-    public void saveSecurityAndJumpToCaptcha(MouseEvent mouseEvent) throws IOException {
+    public void saveSecurityAndJumpToCaptcha(MouseEvent mouseEvent) throws Exception {
         String ans = "question pick -q ";
         RadioButton radioButton = (RadioButton) group.getSelectedToggle();
         if (question1.equals(radioButton) && question1Ans != null && question1Ans.getText().length() != 0)
@@ -426,9 +422,11 @@ public class LoginRegisterMenuControl implements Initializable {
                 alert.setTitle("Error");
                 alert.setHeaderText("Failed to pass security");
                 alert.setContentText("You have to pick one question, and type your answer in its field.");
-                alert.show();
-            } else {
-                openCaptcha();
+                alert.show();}
+            else {
+                AvatarMenu avatarMenu = new AvatarMenu(registerMenuController);
+                avatarMenu.start(LoginMenu.getStage());
+
             }
         }
     }
@@ -492,7 +490,7 @@ public class LoginRegisterMenuControl implements Initializable {
             }
             loginMenuController.saveUserStayed(user);
         }
-
+        currentUser = user;
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
         alert.setHeaderText("Login : complete");
@@ -524,4 +522,40 @@ public class LoginRegisterMenuControl implements Initializable {
     public void forgotValidate(MouseEvent mouseEvent) {
 
     }
+
+    public void randomAvatar(MouseEvent mouseEvent) throws Exception {
+        Random random = new Random();
+        int number = random.nextInt(10-1)+1;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Avatar Selected");
+        alert.setContentText("Are you sure to choose avatar "+number+"?");
+        if ( alert.showAndWait().get().getButtonData().isCancelButton()) return;
+        selectedSuccessfully(getClass().getResource("/Images/avatar"+number+".png").toString(), null);
+    }
+
+    public void chooseMyAvatar(MouseEvent mouseEvent) throws Exception {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(LoginMenu.getStage());
+        if (file == null) return;
+        String s = "file:/"+file.toString().replaceAll("\\\\", "/");
+        selectedSuccessfully(s, null);
+    }
+    public void selectedSuccessfully(String avatarUrl, User user) throws Exception {
+        //  System.out.println(avatarUrl);
+//        saveUrlToJson(user, avatarUrl);
+//        user.setAvatarUrl(avatarUrl);
+//        if (!isProfile) {
+//            MainMenu mainMenu = new MainMenu(MainMenu.onMusic, user);
+//            mainMenu.start(LoginMenu.getStage());
+//        }
+//        else {
+//            ProfileMenu profileMenu = new ProfileMenu(user);
+//            profileMenu.start(LoginMenu.getStage());
+//        }
+        registerMenuController.url = avatarUrl;
+        openCaptcha();
+    };
 }

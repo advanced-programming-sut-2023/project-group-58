@@ -60,6 +60,7 @@ public class LoginMenu extends Application {
         BorderPane pane = FXMLLoader.load(url);
         Scene scene = new Scene(pane);
         stage.setScene(scene);
+        System.out.println(User.getUsers().size());
         //stage.setFullScreen(true);
         stage.show();
         //todo---------------------------------------------------------------
