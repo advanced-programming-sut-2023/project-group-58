@@ -5,65 +5,71 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
-
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/AnimationManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/MoveAnimation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/cloud.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/arabian swordsman.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/archer bow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/archer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/assassin.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/crossbow_man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/fire thrower.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/horse archer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/knight.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/ladder man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/mace man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/pike man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/slave.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/slinger.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/spear man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/unitCrowd/swords man.png" afterDir="false" />
-
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/ForgotPassword.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/ForgotCapcha.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/FXML/forgotPass.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/PasswordReset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/PasswordReset.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/PasswordReset.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/PasswordReset.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl.class" afterDir="false" />
-=======
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/european/crossbow_man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/european/mace man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/european/pike man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/european/spear man.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/units/european/swords man.png" afterDir="false" />
->>>>>>> 8b0fc1b0a9711b34f74016e1d75de47a21774339
+      <change afterPath="$PROJECT_DIR$/hs_err_pid14172.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/brefing_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/briefing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/coin.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/navare_mesle_adam.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/apple.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/apple_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/armour.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/armour_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/beer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/beer_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/bow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/bow_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/bread.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/bread_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/cheese.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/cheese_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/crossbow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/crossbow_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/flour.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/flour_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/hops.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/hops_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/horse.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/horse_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/iron.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/iron_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/leather_armor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/leather_armor_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/mace.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/mace_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/meat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/meat_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/pike.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/pike_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/spear.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/spear_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/stone.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/stone_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/sword.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/sword_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/wheat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/wheat_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/wood.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/newResources/wood_hover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/next_turn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/option.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/option_hover.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/AnimationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/AnimationManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameMenuControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/checknevis.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/CSS/game.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CSS/game.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/CSS/game.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/CSS/game.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/gameMenuControllers/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/units/Unit.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/units/Unit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/AnimationManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/AnimationManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" afterDir="false" />
-
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/GameMenuControl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/checknevis.class" beforeDir="false" />
-=======
->>>>>>> 6aba7563bf40d1379b4bdf0f46977a3d7041602e
->>>>>>> 8b0fc1b0a9711b34f74016e1d75de47a21774339
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,11 +85,8 @@
         <option value="module-info" />
         <option value="Enum" />
         <option value="Class" />
-
         <option value="Interface" />
-=======
         <option value="FxmlFile" />
->>>>>>> 8b0fc1b0a9711b34f74016e1d75de47a21774339
       </list>
     </option>
   </component>
@@ -120,11 +123,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="view" />
@@ -270,15 +274,9 @@
       <workItem from="1688295192963" duration="703000" />
       <workItem from="1688299430848" duration="20888000" />
       <workItem from="1688299430848" duration="4150000" />
-
       <workItem from="1688384277851" duration="38126000" />
       <workItem from="1688456586927" duration="15433000" />
-=======
-
       <workItem from="1688398114479" duration="819000" />
-=======
->>>>>>> 6aba7563bf40d1379b4bdf0f46977a3d7041602e
->>>>>>> 8b0fc1b0a9711b34f74016e1d75de47a21774339
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>

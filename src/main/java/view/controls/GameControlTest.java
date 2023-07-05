@@ -1,5 +1,16 @@
 package view.controls;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.input.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import controller.MapMenuController;
 import controller.PatchFinding;
 import controller.gameMenuControllers.GameController;
@@ -13,22 +24,16 @@ import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.*;
 import model.buildings.Building;
@@ -38,10 +43,10 @@ import model.units.UnitEnum;
 import view.GetStyle;
 import view.enums.GameControllerOut;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GameControlTest {
@@ -93,9 +98,12 @@ public class GameControlTest {
     private boolean selectActive = false;
     private boolean hoverActive = true;
 
+    private Pane overlayPane = new Pane();
+
 
     //todo: don't forget to update minimap whenever you change the main map.
     private GridPane miniMap = new GridPane();
+    private Stage pauseWindow;
 
     public void start(Stage primaryStage, User currentPlayer) {
         this.currentPlayer = currentPlayer;
@@ -130,10 +138,104 @@ public class GameControlTest {
         copySetUp();
         clipBoardSetUp();
         selectBuildingSetUp();
+        nextTurnSetUp();
+        addShortcutKeys();
 
         primaryStage.setScene(new Scene(root, 1530, 800));
         primaryStage.getScene().addEventFilter(ScrollEvent.ANY, this::handleMouseScroll);
         primaryStage.show();
+    }
+
+    private void nextTurnSetUp() {
+        Button addButton = new Button();
+        ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/next_turn.png").toExternalForm()));
+        imageView.setFitWidth(25);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        addButton.setGraphic(imageView);
+        addButton.setLayoutX(1485);
+        addButton.setLayoutY(170);
+        addButton.setOnAction(event -> {
+            gameController.produce();
+            gameController.setTargets();
+            gameController.mapMotion();
+            gameController.foodRateEffect();
+            gameController.taxRateEffect();
+            gameController.fearRateEffect();
+            gameController.churchEffect();
+            //set target, fight , move , update resources , govern functions lie here
+            //soldier's damage should be set according to the fear rate at each turn
+            this.currentPlayer = Governance.getNextPlayer(this.currentPlayer);
+            gameController.setCurrentUser(this.currentPlayer);
+            gameController.prepareForNextPlayer(this.currentPlayer);
+
+            //reset the map and all of its components
+            Label turnText = new Label("pLAyEr: " + this.currentPlayer.getUsername());
+            turnText.setFont(Font.font("monospace", FontWeight.BOLD, 100));
+            turnText.setTextFill(Color.DARKSLATEBLUE);
+            root.getChildren().add(turnText);
+            int index = root.getChildren().indexOf(turnText);
+            turnText.setLayoutX(400);
+            turnText.setLayoutY(300);
+
+            Timeline twinkle = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(turnText.opacityProperty(), MAX_OPACITY)),
+                    new KeyFrame(TWINKLE_DURATION.divide(2), new KeyValue(turnText.opacityProperty(), MIN_OPACITY)),
+                    new KeyFrame(TWINKLE_DURATION, new KeyValue(turnText.opacityProperty(), MAX_OPACITY))
+            );
+            twinkle.setCycleCount((int) 1.2);
+            AnimationManager.timers.add(twinkle);
+            twinkle.play();
+            twinkle.setOnFinished(eve -> {
+                root.getChildren().get(index).setVisible(false);
+                resetMapForNextTurn();
+            });
+        });
+        root.getChildren().add(addButton);
+    }
+
+    private void resetMapForNextTurn() {
+        scroll(0, 0);
+        clipBoardBox = new VBox();
+        createBarBook();
+        resetBuffers();
+    }
+
+    private void addShortcutKeys() {
+        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
+            if ("Q".equals(event.getCode().getName())) {
+                primaryStage.close();
+                System.exit(0);
+            } else if ("E".equals(event.getCode().getName())) {
+                AnimationManager.freezeTime();
+                root.getChildren().add(overlayPane);
+                pauseWindow.showAndWait();
+                root.getChildren().remove(overlayPane);
+            } else if ("V".equals(event.getCode().getName())) {
+                if (!clipboardPaneUp) {
+                    clipBoardBox = extractClipBoard();
+                    navar.setPrefWidth(160);
+                    navar.setLayoutX(1380);
+                } else {
+                    if (clipBoardBox != null) root.getChildren().remove(clipBoardBox);
+                    navar.setPrefWidth(80);
+                    navar.setLayoutX(1480);
+                    clipBoardBox = null;
+                }
+                clipboardPaneUp = !clipboardPaneUp;
+            } else if ("P".equals(event.getCode().getName())) {
+                if (popularityFactorsBar != null && popularityFactorsBar.getChildren().size() != 0 && popularityFactorsBar.getChildren().get(0).isVisible())
+                    enterMainBar();
+                else enterPopularityBar();
+            }
+        });
+        pauseWindow.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
+            if ("W".equals(event.getCode().getName())) {
+                pauseWindow.close();
+                AnimationManager.startTime();
+            }
+        });
     }
 
     private void selectBuildingSetUp() {
@@ -145,7 +247,7 @@ public class GameControlTest {
         imageView.setCache(true);
         addButton.setGraphic(imageView);
         addButton.setLayoutX(1485);
-        addButton.setLayoutY(150);
+        addButton.setLayoutY(120);
         addButton.setOnMouseClicked(mouseEvent -> {
             selectActive = !selectActive;
             if (selectActive)
@@ -189,7 +291,7 @@ public class GameControlTest {
         imageView.setCache(true);
         addButton.setGraphic(imageView);
         addButton.setLayoutX(1485);
-        addButton.setLayoutY(90);
+        addButton.setLayoutY(65);
 
         addButton.setOnMouseClicked(mouseEvent -> {
             if (!clipboardPaneUp) {
@@ -243,7 +345,7 @@ public class GameControlTest {
             counter++;
         }
         vBox.setLayoutX(1400);
-        vBox.setLayoutY(180);
+        vBox.setLayoutY(230);
         root.getChildren().add(vBox);
         return vBox;
     }
@@ -257,7 +359,7 @@ public class GameControlTest {
         imageView.setCache(true);
         addButton.setGraphic(imageView);
         addButton.setLayoutX(1485);
-        addButton.setLayoutY(30);
+        addButton.setLayoutY(10);
         addButton.setOnAction(event -> {
             isCopyActive = !isCopyActive;
             if (isCopyActive) {
@@ -309,6 +411,7 @@ public class GameControlTest {
                     entry.getKey().setOnMouseClicked(mouseEvent -> {
                         if (selectedBuilding.get(currentPlayer).getType() == BuildingEnum.MARKET)
                             try {
+                                ShopMenuControl.setCurentUser(currentPlayer);
                                 LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
@@ -425,7 +528,7 @@ public class GameControlTest {
             Label info = simpleLabelStyler(infoStr);
             info.setStyle("-fx-alignment: center; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-background-color: rgba(40,37,37,0.38);" +
                     "; -fx-font-size: 25; -fx-font-weight: bold");
-            if(!hoverActive) return;
+            if (!hoverActive) return;
             if (indexOfHoveringTilesTogether >= 0)
                 root.getChildren().set(indexOfHoveringTilesTogether, info);
             else {
@@ -547,17 +650,21 @@ public class GameControlTest {
     }
 
     private void addBar(Pane root) {
-        setBarScene("/Images/governance.png");
-        createBarBook();
+        setBarScene("/Images/governance.png"); //adds 1 child. we also have 50 children from addTile.
+        createBarBook(); //adds 3 more children.
         enterMainBar();
-        //todo: don't make them go to the last row
     }
 
     private void createBarBook() {
-        //should change
         Label population = new Label(currentPlayer.getGovernance().getUnemployedPopulation() + " / " +
                 currentPlayer.getGovernance().getMaximumPopulation());
         population.setStyle("-fx-alignment: center; -fx-font-family: x fantasy; -fx-font-style: italic; -fx-text-fill: #3d3535; -fx-padding: 20 0 0 8; -fx-font-weight: bold; -fx-font-size: 15");
+        ImageView coins = new ImageView(new Image(GameControlTest.class.getResource("/Images/coin.png").toExternalForm(), 20, 20, false, false));
+        Label coin = new Label("" + currentPlayer.getGovernance().getGold());
+        coin.setStyle("-fx-alignment: center; -fx-font-family: x fantasy; -fx-font-style: italic; -fx-text-fill: #3d3535; -fx-font-weight: bold; -fx-font-size: 15");
+        HBox treasure = new HBox();
+        treasure.getChildren().addAll(coins, coin);
+        treasure.setPadding(new Insets(20, 0, -20, 0));
         Label popularity = new Label("" + currentPlayer.getGovernance().getPopularity());
         popularity.setStyle("-fx-alignment: center; -fx-font-family: x fantasy; -fx-font-style: italic; -fx-text-fill: #3d3535; -fx-padding: 0 0 0 23; -fx-font-weight: bold; -fx-font-size: 25");
 
@@ -573,7 +680,7 @@ public class GameControlTest {
 
         Button changeFactorButton = new Button();
         ImageView change = new ImageView(new Image(GameControlTest.class.getResource("/Images/changeFactor.png").toExternalForm(), 25, 25, false, false));
-        changeFactorButton.setStyle("-fx-background-color: transparent; -fx-padding: 35 0 -35 0;");
+        changeFactorButton.setStyle("-fx-background-color: transparent;");
         changeFactorButton.setGraphic(change);
         changeFactorButton.setOnMouseClicked(mouseEvent -> {
             System.out.println("playing with change");
@@ -587,7 +694,7 @@ public class GameControlTest {
 
         Button deleteButton = new Button();
         ImageView deleteImage = new ImageView(new Image(GameControlTest.class.getResource("/Images/delete.png").toExternalForm(), 25, 25, false, false));
-        deleteButton.setStyle("-fx-background-color: transparent; -fx-padding: 35 -0 -35 0;");
+        deleteButton.setStyle("-fx-background-color: transparent;");
         deleteButton.setGraphic(deleteImage);
         deleteButton.setOnMouseClicked(mouseEvent -> deleteButton(deleteButton));
         root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -605,7 +712,7 @@ public class GameControlTest {
 
         Button undoButton = new Button();
         ImageView undoImage = new ImageView(new Image(GameControlTest.class.getResource("/Images/undo.png").toExternalForm(), 25, 25, false, false));
-        undoButton.setStyle("-fx-background-color: transparent; -fx-padding: 35 -0 -35 0;");
+        undoButton.setStyle("-fx-background-color: transparent;");
         undoButton.setGraphic(undoImage);
         undoButton.setOnMouseClicked(mouseEvent -> {
             if (doWeHaveUndo) {
@@ -629,6 +736,12 @@ public class GameControlTest {
             }
         });
 
+        Button resourceButton = new Button();
+        ImageView resource = new ImageView(new Image(GameControlTest.class.getResource("/Images/resources.png").toExternalForm(), 25, 25, false, false));
+        resourceButton.setStyle("-fx-background-color: transparent;");
+        resourceButton.setGraphic(resource);
+        resourceButton.setOnMouseClicked(mouseEvent -> showResourceMenu());
+
 
         miniMap = new GridPane();
         ImageView imageView = new ImageView(new Image(GameMenuControl.class.getResource("/Images/minimapFrame.jpg")
@@ -639,10 +752,55 @@ public class GameControlTest {
         imageView.setCache(true);
         resetAddMiniMapDetails();
 
-        HBox buttons = new HBox(changeFactorButton, deleteButton, undoButton);
-        buttons.setSpacing(30);
-        barBook.getChildren().addAll(popularity, population, mask, buttons);
-        barBook.setSpacing(-20);
+
+        // Create the overlay pane with a dark shade
+        overlayPane = new Pane();
+        overlayPane.setStyle("-fx-background-color: rgba(0,0,0,0.65);");
+        overlayPane.setPrefHeight(800);
+        overlayPane.setPrefWidth(1530);
+
+
+        // Create the pause window
+        pauseWindow = createPauseWindow();
+        Button optionButton = new Button();
+        ImageView option = new ImageView(new Image(GameControlTest.class.getResource("/Images/option.png").toExternalForm(), 25, 25, false, false));
+        optionButton.setStyle("-fx-background-color: transparent;");
+        optionButton.setGraphic(option);
+        optionButton.setOnMouseEntered(mouseEvent -> optionButton.setGraphic(new ImageView(new Image(GameControlTest.class.getResource("/Images/option_hover.png").toExternalForm(), 25, 25, false, false))));
+        optionButton.setOnMouseExited(mouseEvent -> optionButton.setGraphic(new ImageView(new Image(GameControlTest.class.getResource("/Images/option.png").toExternalForm(), 25, 25, false, false))));
+        optionButton.setOnMouseClicked(mouseEvent -> {
+            AnimationManager.freezeTime();
+            root.getChildren().add(overlayPane);
+            pauseWindow.showAndWait();
+            root.getChildren().remove(overlayPane);
+        });
+
+        // Create the brief window
+        Stage briefWindow = createBriefWindow();
+        Button briefButton = new Button();
+        ImageView brief = new ImageView(new Image(GameControlTest.class.getResource("/Images/briefing.png").toExternalForm(), 25, 25, false, false));
+        briefButton.setStyle("-fx-background-color: transparent;");
+        briefButton.setGraphic(brief);
+        briefButton.setOnMouseEntered(mouseEvent -> briefButton.setGraphic(new ImageView(new Image(GameControlTest.class.getResource("/Images/brefing_hover.png").toExternalForm(), 25, 25, false, false))));
+        briefButton.setOnMouseExited(mouseEvent -> briefButton.setGraphic(new ImageView(new Image(GameControlTest.class.getResource("/Images/briefing.png").toExternalForm(), 25, 25, false, false))));
+        briefButton.setOnMouseClicked(mouseEvent -> {
+            AnimationManager.freezeTime();
+            root.getChildren().add(overlayPane);
+            briefWindow.showAndWait();
+            root.getChildren().remove(overlayPane);
+        });
+
+
+        HBox buttons = new HBox(changeFactorButton, deleteButton, undoButton, optionButton, briefButton, resourceButton);
+        buttons.setSpacing(15);
+        buttons.getStylesheets().add(GameControlTest.class.getResource("/CSS/game.css").toExternalForm());
+        buttons.getStyleClass().add("background");
+
+        VBox sample = new VBox();
+        sample.getChildren().addAll(popularity, population, mask, treasure);
+        sample.setSpacing(-28);
+        barBook.setSpacing(45);
+        barBook.getChildren().addAll(sample, buttons);
         barBook.setLayoutY(660);
         barBook.setLayoutX(1150);
         imageView.setLayoutY(450);
@@ -650,7 +808,192 @@ public class GameControlTest {
         miniMap.setLayoutY(474);
         miniMap.setLayoutX(1318);
 
-        root.getChildren().addAll(barBook, imageView, miniMap);
+        if (root.getChildren().contains(barBook)) {
+            root.getChildren().set(51 , barBook);
+            root.getChildren().set(52 , imageView);
+            root.getChildren().set(53 , miniMap);
+        } else
+            root.getChildren().addAll(barBook, imageView, miniMap);
+    }
+
+    private void showResourceMenu() {
+        AnimationManager.freezeTime();
+        GridPane gridPane = new GridPane();
+        gridPane.setStyle("-fx-background-color: linear-gradient(rgba(101, 0, 0, 0.74) 10%, rgba(155, 2, 2, 0.74) 20%," +
+                "rgba(155, 57, 2, 0.74) 35%, rgba(138, 89, 0, 0.74) 45%);");
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        ImageView[] imageViews = new ImageView[20];
+        Image[] lively = new Image[20];
+        Image[] deadLooking = new Image[20];
+        ArrayList<ResourceEnum> resourceEnums = createResourceList();
+        for (int i = 0; i < 20; i++) {
+            Image image = new Image(GameMenuControl.class.getResource("/Images/newResources/" + resourceEnums.get(i).getName()
+                    + "_hover.png").toExternalForm());
+            Image image2 = new Image(GameMenuControl.class.getResource("/Images/newResources/" + resourceEnums.get(i).getName()
+                    + ".png").toExternalForm());
+            imageViews[i] = new ImageView(image);
+            imageViews[i].setFitWidth(35);
+            imageViews[i].setFitHeight(40);
+            lively[i] = image2;
+            deadLooking[i] = image;
+        }
+
+        Label[] labels = new Label[20];
+        for (int i = 0; i < 20; i++) {
+            labels[i] = new Label("" + currentPlayer.getGovernance().getResourceAmount(resourceEnums.get(i)));
+            labels[i].setVisible(false);
+            labels[i].setStyle("-fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-padding: 0 -0 0 0; -fx-font-size: 18");
+        }
+
+        for (int i = 0; i < 20; i++) {
+            int index = i;
+            imageViews[i].setOnMouseEntered(event -> {
+                imageViews[index].setImage(lively[index]);
+                labels[index].setVisible(true);
+            });
+            imageViews[i].setOnMouseExited(event -> {
+                imageViews[index].setImage(deadLooking[index]);
+                labels[index].setVisible(false);
+            });
+        }
+
+        gridPane.snapSpaceX(-20);
+        gridPane.snapSpaceY(-20);
+        HBox hBox;
+        for (int i = 0; i < 20; i++) {
+            hBox = new HBox();
+            hBox.setSpacing(8);
+            hBox.getChildren().addAll(imageViews[i],labels[i]);
+            gridPane.add(hBox, i % 5, i / 5);
+        }
+
+        Stage resourceWindow = new Stage();
+        resourceWindow.initModality(Modality.APPLICATION_MODAL);
+        resourceWindow.initOwner(primaryStage);
+        Button resumeButton = buttonCreator("back");
+        resumeButton.setOnMouseClicked(event -> {
+            resourceWindow.close();
+            AnimationManager.startTime();
+        });
+        gridPane.add(resumeButton,2,5);
+        Scene sourceScene = new Scene(gridPane, 350, 300);
+        root.getChildren().add(overlayPane);
+        resourceWindow.setScene(sourceScene);
+        resourceWindow.showAndWait();
+        root.getChildren().remove(overlayPane);
+    }
+
+    private ArrayList<ResourceEnum> createResourceList() {
+        ArrayList<ResourceEnum> result = new ArrayList<>();
+        for (ResourceEnum value : ResourceEnum.values()) {
+            if(value != ResourceEnum.NULL && value != ResourceEnum.HORSEANDBOW && value != ResourceEnum.OIL)
+                result.add(value);
+        }
+        return result;
+    }
+
+    private Stage createBriefWindow() {
+        Stage briefWindow = new Stage();
+        briefWindow.initModality(Modality.APPLICATION_MODAL);
+        briefWindow.initOwner(primaryStage);
+
+        VBox briefContent = new VBox();
+        briefContent.setStyle("-fx-background-color: linear-gradient(rgba(101, 0, 0, 0.74) 10%, rgba(155, 2, 2, 0.74) 20%," +
+                "rgba(155, 57, 2, 0.74) 35%, rgba(138, 89, 0, 0.74) 45%);;");
+        briefContent.setSpacing(10);
+
+        Label label = new Label();
+        label.setStyle("-fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-font-size: 22");
+        String briefing = "Empires:";
+        for (User empire : Governance.getEmpires()) {
+            briefing += "\nname: " + empire.getUsername() + "(aka " + empire.getNickname() + ") , gold: " +
+                    empire.getGovernance().getGold();
+            if (empire.getSlogan() != null) briefing += "---" + empire.getSlogan();
+        }
+
+        Button resumeButton = buttonCreator("Resume Game");
+        resumeButton.setOnMouseClicked(event -> {
+            briefWindow.close();
+            AnimationManager.startTime();
+        });
+
+        label.setText(briefing);
+        label.setPadding(new Insets(0, -20, 0, 20));
+        briefContent.getChildren().addAll(label, resumeButton);
+        briefContent.setAlignment(Pos.CENTER);
+        Scene briefScene = new Scene(briefContent, 400, 400);
+        briefWindow.setScene(briefScene);
+        return briefWindow;
+    }
+
+    private Stage createPauseWindow() {
+        Stage pauseWindow = new Stage();
+        pauseWindow.initModality(Modality.APPLICATION_MODAL);
+        pauseWindow.initOwner(primaryStage);
+
+        VBox pauseContent = new VBox();
+        pauseContent.setStyle("-fx-background-color: linear-gradient(rgba(101, 0, 0, 0.74) 10%, rgba(155, 2, 2, 0.74) 20%," +
+                "rgba(155, 57, 2, 0.74) 35%, rgba(138, 89, 0, 0.74) 45%);");
+        pauseContent.setSpacing(10);
+        Button helpButton = buttonCreator("help");
+        Button quitButton = buttonCreator("Quit Mission");
+        Button exitButton = buttonCreator("Exit Game");
+        Button resumeButton = buttonCreator("Resume Game");
+        Button backToMain = buttonCreator("back");
+        Hyperlink hyperlink = new Hyperlink("Open Link");
+        hyperlink.setStyle("-fx-font-size: 22");
+        Label label = new Label("Looks like you need some help!\nClick the link below to get some\nguidelines. And" +
+                " yes, I know; I'm\nlazy as a sloth on a hammock\nsipping margaritas :)");
+        label.setStyle("-fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-padding: 0 -0 0 0; -fx-font-size: 22");
+        Label label2 = new Label("Oh, forgot to tell you the shortcut keys:\nV -> open clipboard\n" +
+                "P -> open popularity menu\nE -> enter pause window\nW -> exit pause window\nQ -> exit game (careful with that!)");
+        label2.setStyle("-fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-padding: 10 -10 0 10; -fx-font-size: 22");
+        helpButton.setOnMouseClicked(event -> {
+            pauseContent.getChildren().removeAll(helpButton, quitButton, exitButton, resumeButton);
+            pauseContent.getChildren().addAll(label, hyperlink, label2, backToMain);
+        });
+        hyperlink.setOnAction(event -> {
+            try {
+                Desktop.getDesktop().browse(new URI("https://steamcommunity.com/app/40970/guides/#scrollTop=0"));
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
+        });
+        backToMain.setOnMouseClicked(event -> {
+            pauseContent.getChildren().removeAll(label, hyperlink, label2, backToMain);
+            pauseContent.getChildren().addAll(helpButton, quitButton, exitButton, resumeButton);
+        });
+        resumeButton.setOnMouseClicked(event -> {
+            pauseWindow.close();
+            AnimationManager.startTime();
+        });
+        exitButton.setOnMouseClicked(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Attention");
+            alert.setHeaderText("Exit");
+            alert.setContentText("Are you sure you want to leave?");
+            Optional<ButtonType> option = alert.showAndWait();
+            if (option.get() == ButtonType.OK) {
+                pauseWindow.close();
+                javafx.application.Platform.exit();
+            }
+        });
+
+        //todo: deal with exit mission
+
+        pauseContent.getChildren().addAll(helpButton, quitButton, exitButton, resumeButton);
+        pauseContent.setAlignment(Pos.CENTER);
+        Scene pauseScene = new Scene(pauseContent, 400, 500);
+        pauseWindow.setScene(pauseScene);
+        return pauseWindow;
+    }
+
+    private Button buttonCreator(String name) {
+        Button button = new Button(name);
+        button.getStylesheets().add(GetStyle.class.getResource("/CSS/shopAndTrade.css").toExternalForm());
+        button.getStyleClass().add("Button");
+        return button;
     }
 
     private void resetAddMiniMapDetails() {
@@ -1113,7 +1456,7 @@ public class GameControlTest {
             Tile tile = linkedHouses.get(panes[properIndexes[0]][properIndexes[1]]);
             int troopNumber = Integer.parseInt(troopNumberField.getText());
             root.getChildren().remove(grid);
-            if(tile.getPlayersUnits() != null && tile.getPlayersUnits().size() != 0) {
+            if (tile.getPlayersUnits() != null && tile.getPlayersUnits().size() != 0) {
                 showError("There is no empty space to add a new unit!", "Failed to create unit");
                 return;
             }
@@ -1131,15 +1474,14 @@ public class GameControlTest {
             else {
                 ImageView unitMember;
                 Image image;
-                if(troopNumber < 4) {
+                if (troopNumber < 4) {
                     if (unitEnum.isArab())
                         image = new Image(GameControlTest.class.getResource("/Images/units/arabian/" +
                                 unitEnum.getName() + ".png").toExternalForm());
                     else
                         image = new Image(GameControlTest.class.getResource("/Images/units/european/" +
                                 unitEnum.getName() + ".png").toExternalForm());
-                }
-                else {
+                } else {
                     image = new Image(GameControlTest.class.getResource("/Images/unitCrowd/" +
                             unitEnum.getName() + ".png").toExternalForm());
                 }
@@ -1147,15 +1489,15 @@ public class GameControlTest {
                 GridPane gridPane = new GridPane();
                 gridPane.maxHeight(TILE_SIZE - 30);
                 gridPane.maxWidth(TILE_SIZE - 30);
-                if(troopNumber < 4)
-                for (int j = 0; j < troopNumber; j++) {
-                    unitMember = new ImageView(image);
-                    unitMember.setSmooth(true);
-                    unitMember.setCache(true);
-                    gridPane.add(unitMember, j, 0);
-                    units.put(gridPane, currentPlayer.getGovernance().getUnits().get
-                            (currentPlayer.getGovernance().getUnits().size() - 1));
-                }
+                if (troopNumber < 4)
+                    for (int j = 0; j < troopNumber; j++) {
+                        unitMember = new ImageView(image);
+                        unitMember.setSmooth(true);
+                        unitMember.setCache(true);
+                        gridPane.add(unitMember, j, 0);
+                        units.put(gridPane, currentPlayer.getGovernance().getUnits().get
+                                (currentPlayer.getGovernance().getUnits().size() - 1));
+                    }
                 else {
                     unitMember = new ImageView(image);
                     unitMember.setSmooth(true);
@@ -1180,7 +1522,7 @@ public class GameControlTest {
                             "; -fx-font-size: 25; -fx-font-weight: bold");
                     info.setLayoutX(mouseEvent.getScreenX() - TILE_SIZE);
                     info.setLayoutY(mouseEvent.getScreenY() - 20);
-                    if(!hoverActive) return;
+                    if (!hoverActive) return;
 
                     if (indexOfHoveringUnit >= 0)
                         root.getChildren().set(indexOfHoveringUnit, info);
@@ -1199,7 +1541,7 @@ public class GameControlTest {
                 gridPane.setOnMouseClicked(mouseEvent -> {
                     if (!selectActive) return;
                     hoverActive = false;
-                    openWindow(gridPane,tile,properIndexes);
+                    openWindow(gridPane, tile, properIndexes);
                     closeHovers();
                 });
 
@@ -1237,10 +1579,10 @@ public class GameControlTest {
         moveBtn.setToggleGroup(moveAttackGroup);
         attackBtn.setToggleGroup(moveAttackGroup);
 
-        HBox buttons =  new HBox();
+        HBox buttons = new HBox();
         Button okBtn = new Button("OK");
         Button cancelBtn = new Button("Cancel");
-        buttons.getChildren().addAll(okBtn,cancelBtn);
+        buttons.getChildren().addAll(okBtn, cancelBtn);
         buttons.setAlignment(Pos.CENTER);
 
         Label state = new Label("Choose unit state:");
@@ -1269,7 +1611,7 @@ public class GameControlTest {
                 Unit unit = units.get(gridPane);
                 unit.setOnMove(true);
                 RadioButton selectedAction = (RadioButton) moveAttackGroup.getSelectedToggle();
-                if(selectedAction.getText().equals("Attack"))
+                if (selectedAction.getText().equals("Attack"))
                     showBannerAndWait(unit);
 
                 root.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -1296,7 +1638,10 @@ public class GameControlTest {
             window.close();
         });
 
-        cancelBtn.setOnAction(event -> {window.close(); hoverActive = true;});
+        cancelBtn.setOnAction(event -> {
+            window.close();
+            hoverActive = true;
+        });
     }
 
 
@@ -1340,7 +1685,7 @@ public class GameControlTest {
         }
         indexOfHoveringUnit = -1;
         if (indexOfHoveringTile > -1) {
-            if(disarrangement) indexOfHoveringTile--;
+            if (disarrangement) indexOfHoveringTile--;
             root.getChildren().remove(indexOfHoveringTile);
         }
         indexOfHoveringTile = -1;
@@ -1356,7 +1701,7 @@ public class GameControlTest {
         changingUnit.setOriginTile(targetTile);
         changingUnit.setTargetTile(null);
         map.getTile(targetTile.getY(), targetTile.getX()).addUnitToTile(changingUnit);
-        if(!targetTile.areEnemiesHere(currentPlayer)) changingUnit.setAttack(false);
+        if (!targetTile.areEnemiesHere(currentPlayer)) changingUnit.setAttack(false);
     }
 
     private void moveUnitsOnScreen(List<Point> pathPoints, Unit unit, GridPane gridPane, int[] properIndexes, int[] targetIndexes, Tile tile, Tile targetTile) {
@@ -1441,7 +1786,7 @@ public class GameControlTest {
                 Yindex = Math.min(Yindex, 3);
                 if (linkedHouses.get(panes[Xindex][Yindex]).getTexture().isWalkability()) {
                     if (i == 0 && j == 0) continue;
-                    if(linkedHouses.get(panes[Xindex][Yindex]).getPlayersUnits() != null &&
+                    if (linkedHouses.get(panes[Xindex][Yindex]).getPlayersUnits() != null &&
                             linkedHouses.get(panes[Xindex][Yindex]).getPlayersUnits().size() != 0)
                         continue;
                     indexes[0] = Xindex;
@@ -1510,7 +1855,7 @@ public class GameControlTest {
             Label info = simpleLabelStyler(infoStr);
             info.setStyle("-fx-alignment: center; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-background-color: rgba(40,37,37,0.25);" +
                     "; -fx-font-size: 25; -fx-font-weight: bold");
-            if(!hoverActive) return;
+            if (!hoverActive) return;
             if (indexOfHoveringTile >= 0)
                 root.getChildren().set(indexOfHoveringTile, info);
             else {
@@ -1673,7 +2018,7 @@ public class GameControlTest {
             info.setStyle("-fx-alignment: center; -fx-font-family: Garamond; -fx-text-fill: #EEE2BBFF; -fx-background-color: rgba(40,37,37,0.25);" +
                     "; -fx-font-size: 25; -fx-font-weight: bold");
 
-            if(!hoverActive) return;
+            if (!hoverActive) return;
             if (indexOfHoveringBuilding >= 0)
                 root.getChildren().set(indexOfHoveringBuilding, info);
             else {

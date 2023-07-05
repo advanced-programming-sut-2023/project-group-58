@@ -45,6 +45,9 @@ public class GameController {
         return CurrentUser;
     }
 
+    public void setCurrentUser(User currentUser) {
+        CurrentUser = currentUser;
+    }
 
     public String showPopularityFactors() {
         String ans = "";

@@ -22,6 +22,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="APP" options="--add-exports java.datatransfer/java.awt=APP --add-exports javafx.controls/javafx=APP" />
+      <module name="APPafinal" options="" />
     </option>
   </component>
 </project>
