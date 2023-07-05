@@ -32,9 +32,10 @@ public class LoginMenu extends Application {
     public void start(Stage primaryStage) throws Exception {
         LoginRegisterMenuControl loginMenuControl = new LoginRegisterMenuControl();
         stage = new Stage();
-        loginMenuControl.openCaptcha();
+        //loginMenuControl.openCaptcha();
         LoginMenuController.extractUserData();
         User user = new User("test","test","test","test","test",0,"test",0);
+        User user1 = new User("test","test","test","test","test",0,"test",0);
         ShopMenuControl.setCurentUser(user);
         ShopMenuControl shopMenuControl = new ShopMenuControl();
         Governance.getAllTrades().add(new TradeItem("1234" , user , User.getUsers().get(0) , ResourceEnum.MEAT, 1 , 100 , "hi0", true, false));
@@ -42,7 +43,9 @@ public class LoginMenu extends Application {
         Governance.getAllTrades().add(new TradeItem("1204" , User.getUsers().get(0) , user  , ResourceEnum.CHEESE, 3 , 50 , "hi0", true, false));
          //shopMenuControl.enterTrade();
         //LoginRegisterMenuControl.openAddress("/FXML/shopMenu.fxml");
-        new GameControlTest().start(LoginMenu.getStage(), user);
+        //Governance.getEmpires().add(user);
+        //Governance.getEmpires().add(user1);
+        //new GameControlTest().start(LoginMenu.getStage(), user);
 
         //todo---------------------------------------------------------------
         //todo: add again once registration and login are completed
@@ -60,6 +63,7 @@ public class LoginMenu extends Application {
         BorderPane pane = FXMLLoader.load(url);
         Scene scene = new Scene(pane);
         stage.setScene(scene);
+        System.out.println(User.getUsers().size());
         //stage.setFullScreen(true);
         stage.show();
         //todo---------------------------------------------------------------

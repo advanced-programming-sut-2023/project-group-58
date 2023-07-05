@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import model.User;
 import view.*;
 import view.enums.Commands;
@@ -30,10 +31,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,7 +64,7 @@ public class LoginRegisterMenuControl implements Initializable {
     public TextField question3Ans;
     @FXML
     ToggleGroup group;
-    private RegisterMenuController registerMenuController = new RegisterMenuController();
+    private static RegisterMenuController registerMenuController = new RegisterMenuController();
 
 
     public void login() throws IOException {
@@ -75,6 +73,7 @@ public class LoginRegisterMenuControl implements Initializable {
 
     public void register() throws IOException {
         openAddress("/FXML/registerMenu.fxml");
+        registerMenuController = new RegisterMenuController();
     }
 
     public void exit(MouseEvent mouseEvent) {
@@ -376,7 +375,15 @@ public class LoginRegisterMenuControl implements Initializable {
         alert.setHeaderText("Registration's first level: complete");
         alert.setContentText("If you think filling the form was the end of it, You couldn't be more wrong\nI'm gonna make you cry\n" +
                 "let's head to security questions:");
+        String data = "user create -u " + username.getText() + " -p " + password.getText() + " " + password.getText() +
+                " --email " + email.getText() + " -n " + nickname.getText();
+        if(sloganTextField != null && sloganTextField.getText().length() != 0)
+            data += " -s " + sloganTextField;
+        System.out.println(data);
+        System.out.println("----------------");
+        registerMenuController.validateBeforeCreation(data);
         Optional<ButtonType> option = alert.showAndWait();
+        CaptchaGraphic.setRegisterMenuController(registerMenuController);
         openAddress("/FXML/securityQuestion.fxml");
         //should now go to the other stuff
     }
@@ -385,11 +392,11 @@ public class LoginRegisterMenuControl implements Initializable {
         String ans = "question pick -q ";
         RadioButton radioButton = (RadioButton) group.getSelectedToggle();
         if (question1.equals(radioButton) && question1Ans != null && question1Ans.getText().length() != 0)
-            ans += "1  -a " + question1Ans + " -c " + question1Ans;
+            ans += "1 -a " + question1Ans.getText() + " -c " + question1Ans.getText();
         else if (question2.equals(radioButton) && question2Ans != null && question2Ans.getText().length() != 0)
-            ans += "2  -a " + question2Ans + " -c " + question2Ans;
+            ans += "2 -a " + question2Ans.getText() + " -c " + question2Ans.getText();
         else if (question3.equals(radioButton) && question3Ans != null && question3Ans.getText().length() != 0)
-            ans += "3  -a " + question3Ans + " -c " + question3Ans;
+            ans += "3 -a " + question3Ans.getText() + " -c " + question3Ans.getText();
         else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -433,6 +440,7 @@ public class LoginRegisterMenuControl implements Initializable {
         LoginMenu.getStage().setScene(scene);
         //LoginMenu.getStage().setFullScreen(true);
         LoginMenu.getStage().show();
+        registerMenuController = CaptchaGraphic.getRegisterMenuController();
     }
     public void loginValidate(MouseEvent mouseEvent, boolean stayed) throws IOException {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -501,4 +509,40 @@ public class LoginRegisterMenuControl implements Initializable {
     public void forgotValidate(MouseEvent mouseEvent) {
 
     }
+
+    public void randomAvatar(MouseEvent mouseEvent) throws Exception {
+        Random random = new Random();
+        int number = random.nextInt(10-1)+1;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Avatar Selected");
+        alert.setContentText("Are you sure to choose avatar "+number+"?");
+        if ( alert.showAndWait().get().getButtonData().isCancelButton()) return;
+        selectedSuccessfully(getClass().getResource("/Images/avatar"+number+".png").toString(), null);
+    }
+
+    public void chooseMyAvatar(MouseEvent mouseEvent) throws Exception {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(LoginMenu.getStage());
+        if (file == null) return;
+        String s = "file:/"+file.toString().replaceAll("\\\\", "/");
+        selectedSuccessfully(s, null);
+    }
+    public void selectedSuccessfully(String avatarUrl, User user) throws Exception {
+        //  System.out.println(avatarUrl);
+//        saveUrlToJson(user, avatarUrl);
+//        user.setAvatarUrl(avatarUrl);
+//        if (!isProfile) {
+//            MainMenu mainMenu = new MainMenu(MainMenu.onMusic, user);
+//            mainMenu.start(LoginMenu.getStage());
+//        }
+//        else {
+//            ProfileMenu profileMenu = new ProfileMenu(user);
+//            profileMenu.start(LoginMenu.getStage());
+//        }
+        registerMenuController.url = avatarUrl;
+        openCaptcha();
+    };
 }

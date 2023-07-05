@@ -5,6 +5,7 @@ module APP {
     requires javafx.fxml;
     requires javafx.controls;
     requires javafx.media;
+    requires java.desktop;
     exports view.controls;
     exports view;
     exports model;

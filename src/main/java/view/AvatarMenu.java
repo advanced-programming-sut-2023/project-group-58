@@ -17,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.User;
 import view.controls.CaptchaGraphic;
 
 import java.io.IOException;
@@ -33,11 +34,11 @@ public class AvatarMenu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         AvatarMenu.stage = stage;
-        URL url = AvatarMenu.class.getResource("/fxml/avatarMenu.fxml");
+        URL url = getClass().getResource("/FXML/avater.fxml");
         Pane pane = new Pane();
-        ImageView backGround= new ImageView(new Image(AvatarMenu.class.getResource("/image/avatarMenu.png").toExternalForm(), 800, 4+600, false, false));
+//        ImageView backGround= new ImageView(new Image(AvatarMenu.class.getResource("/image/avatarMenu.png").toExternalForm(), 800, 4+600, false, false));
         BorderPane borderPane = FXMLLoader.load(url);
-        pane.getChildren().addAll(backGround);
+  //      pane.getChildren().addAll(backGround);
         borderPane.setCenter(avatars());
         pane.getChildren().addAll(borderPane);
         Scene scene = new Scene(pane);
@@ -57,7 +58,7 @@ public class AvatarMenu extends Application {
             VBox hBox2 = new VBox();
             hBox2.setAlignment(Pos.CENTER);
             hBox2.setSpacing(5);
-            imageView = new ImageView(new Image(AvatarMenu.class.getResource("/image/avatar"+i+".png").toExternalForm(), 120, 80, false, false));
+            imageView = new ImageView(new Image(AvatarMenu.class.getResource("/Images/avatar"+i+".png").toExternalForm(), 120, 80, false, false));
             imageView.setPickOnBounds(true);
             int finalI = i;
             imageView.setOnMouseClicked((MouseEvent e) -> {
@@ -87,7 +88,7 @@ public class AvatarMenu extends Application {
         alert.setHeaderText("Avatar Selected");
         alert.setContentText("Are you sure to choose avatar "+number+"?");
         if ( alert.showAndWait().get().getButtonData().isCancelButton()) return;
-       // AvatarChoosingControl.selectedSuccessfully(AvatarMenu.class.getResource("/image/avatar"+number+".png").toString(), LoginMenuControl.getUser());
+        selectedSuccessfully(AvatarMenu.class.getResource("/Images/avatar"+number+".png").toString(), null);
         openCaptcha();
     }
     public void openCaptcha() throws IOException {
@@ -101,5 +102,20 @@ public class AvatarMenu extends Application {
         //LoginMenu.getStage().setFullScreen(true);
         LoginMenu.getStage().show();
     }
+    public void selectedSuccessfully(String avatarUrl, User user) throws Exception {
+        //  System.out.println(avatarUrl);
+//        saveUrlToJson(user, avatarUrl);
+//        user.setAvatarUrl(avatarUrl);
+//        if (!isProfile) {
+//            MainMenu mainMenu = new MainMenu(MainMenu.onMusic, user);
+//            mainMenu.start(LoginMenu.getStage());
+//        }
+//        else {
+//            ProfileMenu profileMenu = new ProfileMenu(user);
+//            profileMenu.start(LoginMenu.getStage());
+//        }
+        registerMenuController.url = avatarUrl;
+        openCaptcha();
+    };
 
 }

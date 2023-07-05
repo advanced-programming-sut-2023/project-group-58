@@ -37,6 +37,7 @@ public class Unit {
     User master;
     //private HashMap<UnitEnum, ArrayList<Troop>> troops = new HashMap<>();
     private ArrayList<Troop> troops = new ArrayList<>();
+    private Tile currentTile;
 
     public Unit(User master, UnitEnum type, int count, int yOrigin, int xOrigin) {
         this.master = master;
@@ -223,5 +224,8 @@ public class Unit {
         this.targetTile = targetTile;
     }
 
+    public Tile getCurrentTile() {return currentTile;}
+
+    public void setCurrentTile(Tile currentTile) {this.currentTile = currentTile;}
 }
 

@@ -24,6 +24,7 @@ public class RegisterMenuController {
     private String email;
     private String nickname;
     private String slogan;
+    public String url;
     int questionNumber;
     String answer;
     int numberOfSlogans = 5;
@@ -172,8 +173,10 @@ public class RegisterMenuController {
     }
 
     public String createUser() throws IOException {
-        if (slogan==null || nickname==null) return null;
+        System.out.println("all the data gathered so far:");
+        System.out.println(password + " , " + username + " , " + nickname + " , " + email + " , " + slogan);
         boolean randomSlogan = false;
+        if(slogan == null) slogan = "";
         //handling random slogan:
         if (slogan.equals("random")) {
             int pickSlogan = (int) (numberOfSlogans * Math.random());
