@@ -56,6 +56,7 @@ public class GameControlTest {
     private User currentPlayer;
     private ImageView buildingImageView = new ImageView();
     private HashMap<ImageView, Building> buildings = new HashMap<>();
+    private HashMap<Building , VBox> buildingAndFiresAddingToRoot = new HashMap<>();
     private HashMap<GridPane, Unit> units = new HashMap<>();
 
     private static final double SCALE_DELTA = 1.1;
@@ -158,8 +159,6 @@ public class GameControlTest {
         addButton.setLayoutX(1485);
         addButton.setLayoutY(170);
         addButton.setOnAction(event -> {
-            
-
             if (sickland) {
                 currentPlayer.getGovernance().changePopularity(-10);
                 sickland = false;
@@ -1949,12 +1948,12 @@ public class GameControlTest {
                 , false));
         int random = (int) (100 * Math.random());
         if (random == 5) {
-            ImageView fire = new ImageView(new Image(GameControlTest.class.getResource("/Images/fire.png").toExternalForm()));
-            fire.setFitWidth(TILE_SIZE - 10);
-            fire.setPreserveRatio(true);
-            fire.setSmooth(true);
-            fire.setCache(true);
-            section.getChildren().add(fire);
+//            ImageView fire = new ImageView(new Image(GameControlTest.class.getResource("/Images/fire.png").toExternalForm()));
+//            fire.setFitWidth(TILE_SIZE - 10);
+//            fire.setPreserveRatio(true);
+//            fire.setSmooth(true);
+//            fire.setCache(true);
+//            section.getChildren().add(fire);
 //            FireAnimation fireAnimation = new FireAnimation(fire);
 //            AnimationManager.animations.add(fireAnimation);
 //            fireAnimation.play();
@@ -1974,15 +1973,20 @@ public class GameControlTest {
                 buildingImageView.setPreserveRatio(true);
                 buildingImageView.setSmooth(true);
                 buildingImageView.setCache(true);
-                section.getChildren().add(buildingImageView);
+                VBox vBox = new VBox();
+                vBox.getChildren().add(buildingImageView);
+                buildingAndFiresAddingToRoot.put(building,vBox);
+                section.getChildren().add(vBox);
                 if (building.isOnFire()) {
-                    ImageView fire = new ImageView(new Image(GameControlTest.class.getResource("/Images/fire.png").toExternalForm()));
-                    fire.setFitWidth(TILE_SIZE - 10);
-                    fire.setPreserveRatio(true);
-                    fire.setSmooth(true);
-                    fire.setCache(true);
-                    section.getChildren().add(fire);
-//                    System.out.println("i'm seeing fire");
+//                    resetBuffers();
+//                    ImageView fire = new ImageView(new Image(GameControlTest.class.getResource("/Images/fire.png").toExternalForm()));
+//                    fire.setFitWidth(TILE_SIZE - 10);
+//                    fire.setPreserveRatio(true);
+//                    fire.setSmooth(true);
+//                    fire.setCache(true);
+//                    VBox vBox1 = buildingAndFiresAddingToRoot.get(building);
+//                    vBox1.getChildren().add(fire);
+//                    root.getChildren().set(root.getChildren().indexOf(buildingAndFiresAddingToRoot.get(building)),fire);
 //                    FireAnimation fireAnimation = new FireAnimation(fire);
 //                    AnimationManager.animations.add(fireAnimation);
 //                    fireAnimation.play();

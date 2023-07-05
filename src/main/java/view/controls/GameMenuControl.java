@@ -6,10 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import model.Point;
 
@@ -150,6 +147,9 @@ public class GameMenuControl {
             buildingImageView.setOnMouseDragged(this::onMouseDragged);
             buildingImageView.setOnMouseReleased(this::onMouseReleased);
             buildingImageView.setUserData(new double[]{event.getX(), event.getY()});
+
+            VBox vBox = new VBox();
+            vBox.getChildren().add(buildingImageView);
 
             // Add the building to the pane
             ((AnchorPane) primaryStage.getScene().getRoot()).getChildren().add(buildingImageView);

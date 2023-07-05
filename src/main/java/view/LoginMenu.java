@@ -39,7 +39,7 @@ public class LoginMenu extends Application {
         LoginMenuController.extractUserData();
 
         User user = new User("test","test","test","test","test",0,"test",0);
-        User user1 = new User("test","test","test","test","test",0,"test",0);
+        User user1 = new User("test1","test","test","test","test",0,"test",0);
         ShopMenuControl.setCurentUser(user);
         ShopMenuControl shopMenuControl = new ShopMenuControl();
 

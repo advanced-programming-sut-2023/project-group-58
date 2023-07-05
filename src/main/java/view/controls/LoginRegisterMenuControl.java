@@ -426,7 +426,6 @@ public class LoginRegisterMenuControl implements Initializable {
             else {
                 AvatarMenu avatarMenu = new AvatarMenu(registerMenuController);
                 avatarMenu.start(LoginMenu.getStage());
-
             }
         }
     }
@@ -497,7 +496,7 @@ public class LoginRegisterMenuControl implements Initializable {
         alert.setContentText("Welcome to the game, lets go and fight for world!");
         loginUser = user;
         Optional<ButtonType> option = alert.showAndWait();
-        //openAddress("/FXML/securityQuestion.fxml");
+        openAddress("/FXML/securityQuestion.fxml");
         URL url = LoginMenu.class.getResource("/FXML/LoginCaptcha.fxml");
         BorderPane pane = FXMLLoader.load(url);
         CaptchaGraphic.pane = pane;

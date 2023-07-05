@@ -879,6 +879,7 @@ public class GameController {
 
     private boolean smellsDanger(ArrayList<Unit> value) {
         for (Unit unit : value) {
+            System.out.println(unit.getPresentTypes());
             if (unit.getPresentTypes().contains("fire thrower"))
                 return true;
         }
