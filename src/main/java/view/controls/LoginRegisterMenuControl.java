@@ -19,10 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import model.User;
-import view.GetStyle;
-import view.LoginMenu;
-import view.ProfileMenu;
-import view.ScanMatch;
+import view.*;
 import view.enums.Commands;
 import view.enums.ProfisterControllerOut;
 
@@ -54,6 +51,7 @@ public class LoginRegisterMenuControl implements Initializable {
     public ListView listView;
     public Button eye;
     public TextField answer;
+    private static User currentUser;
     public PasswordField newPass;
     public PasswordField reNewPass;
     public HBox TheHbox;
@@ -383,7 +381,7 @@ public class LoginRegisterMenuControl implements Initializable {
         //should now go to the other stuff
     }
 
-    public void saveSecurityAndJumpToCaptcha(MouseEvent mouseEvent) throws IOException {
+    public void saveSecurityAndJumpToCaptcha(MouseEvent mouseEvent) throws Exception {
         String ans = "question pick -q ";
         RadioButton radioButton = (RadioButton) group.getSelectedToggle();
         if (question1.equals(radioButton) && question1Ans != null && question1Ans.getText().length() != 0)
@@ -410,7 +408,8 @@ public class LoginRegisterMenuControl implements Initializable {
                 alert.show();
             }
             else {
-                openCaptcha();
+                AvatarMenu avatarMenu = new AvatarMenu(registerMenuController);
+                avatarMenu.start(LoginMenu.getStage());
             }
         }
     }
@@ -472,7 +471,7 @@ public class LoginRegisterMenuControl implements Initializable {
             }
             loginMenuController.saveUserStayed(user);
         }
-
+        currentUser = user;
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
         alert.setHeaderText("Login : complete");
