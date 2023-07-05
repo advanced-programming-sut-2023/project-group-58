@@ -12,6 +12,16 @@ public class User {
     private int securityQuestion;
     private String securityAnswer;
     private int highScore;
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     private static ArrayList<User> users = new ArrayList<>();
 
     public User(String Username,
