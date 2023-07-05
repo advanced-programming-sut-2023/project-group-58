@@ -166,6 +166,7 @@ public class ChangeProfileController {
             newUserDetails.put("securityQuestion", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("securityQuestion").toString()));
             newUserDetails.put("securityAnswer", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString()));
             newUserDetails.put("username", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("username").toString()));
+            newUserDetails.put("url", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("url").toString()));
             newUserDetails.put("highScore", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("highScore").toString()));
             newUserDetails.put("password", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("password").toString()));
             if (!isTheOne)

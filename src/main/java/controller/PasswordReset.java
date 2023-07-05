@@ -117,6 +117,7 @@ public class PasswordReset {
             newUserDetails.put("securityAnswer", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("securityAnswer").toString()));
             newUserDetails.put("username", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("username").toString()));
             newUserDetails.put("highScore", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("highScore").toString()));
+            newUserDetails.put("url", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("url").toString()));
             if (!isTheOne)
                 newUserDetails.put("password", correctDoubleQuotation(jsonObject.get("user").getAsJsonObject().get("password").toString()));
             if (isTheOne) {

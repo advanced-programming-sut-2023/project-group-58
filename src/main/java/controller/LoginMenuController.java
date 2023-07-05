@@ -132,8 +132,10 @@ public class LoginMenuController {
                     String slogan = jsonObject.get("user").getAsJsonObject().get("slogan").toString().replaceAll("\"", "");
                     String email = jsonObject.get("user").getAsJsonObject().get("email").toString().replaceAll("\"", "");
                     String username = jsonObject.get("user").getAsJsonObject().get("username").toString().replaceAll("\"", "");
+                    String url = jsonObject.get("user").getAsJsonObject().get("url").toString().replaceAll("\"", "");
                     int highScore = Integer.parseInt(jsonObject.get("user").getAsJsonObject().get("highScore").toString().replaceAll("\"", ""));
                     User addingUser = new User(username, password, nickname, email, slogan, securityQuestion, securityAnswer, highScore);
+                    addingUser.setUrl(url);
                     addingUser.addUserToArrayList();
                 }
             }

@@ -24,6 +24,7 @@ public class RegisterMenuController {
     private String email;
     private String nickname;
     private String slogan;
+
     public String url;
     int questionNumber;
     String answer;
@@ -56,6 +57,7 @@ public class RegisterMenuController {
         userDetails.put("securityQuestion", 0);
         userDetails.put("securityAnswer", "");
         userDetails.put("highScore", -1);
+        userDetails.put("url", "");
         JSONObject userObject = new JSONObject();
         userObject.put("user", userDetails);
 
@@ -204,7 +206,7 @@ public class RegisterMenuController {
         userDetails.put("securityQuestion", questionNumber);
         userDetails.put("securityAnswer", answer);
         userDetails.put("highScore", 0);
-
+        userDetails.put("url", "");
 
         JSONObject eachUserAsObject = new JSONObject();
         eachUserAsObject.put("user", userDetails);

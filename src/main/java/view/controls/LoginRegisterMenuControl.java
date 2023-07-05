@@ -530,7 +530,7 @@ public class LoginRegisterMenuControl implements Initializable {
         alert.setTitle("Confirmation");
         alert.setHeaderText("Avatar Selected");
         alert.setContentText("Are you sure to choose avatar "+number+"?");
-        if ( alert.showAndWait().get().getButtonData().isCancelButton()) return;
+        if (alert.showAndWait().get().getButtonData().isCancelButton()) return;
         selectedSuccessfully(getClass().getResource("/Images/avatar"+number+".png").toString(), null);
     }
 
