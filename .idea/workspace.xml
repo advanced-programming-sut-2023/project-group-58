@@ -6,11 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/ChangeProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/ChangeProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/PasswordReset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/PasswordReset.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/ChangeProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/ChangeProfileController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/LoginMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/LoginMenuController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/PasswordReset.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/PasswordReset.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/controller/RegisterMenuController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/LoginMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/GameControlTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/LoginRegisterMenuControl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/MainMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/MainMenuControl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +112,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="view.LoginMenu" />
-      <module name="4u" />
+      <module name="APPafinal" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="view.controls.*" />

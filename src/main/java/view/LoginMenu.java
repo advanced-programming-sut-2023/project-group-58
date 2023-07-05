@@ -42,6 +42,9 @@ public class LoginMenu extends Application {
         User user1 = new User("test","test","test","test","test",0,"test",0);
         ShopMenuControl.setCurentUser(user);
         ShopMenuControl shopMenuControl = new ShopMenuControl();
+
+        User.getUsers().add(user);
+        User.getUsers().add(user1);
         Governance.getAllTrades().add(new TradeItem("1234" , user , User.getUsers().get(0) , ResourceEnum.MEAT, 1 , 100 , "hi0", true, false));
         Governance.getAllTrades().add(new TradeItem("1200" , User.getUsers().get(0) , user  , ResourceEnum.BREAD, 1 , 0 , "hi0", true, true));
         Governance.getAllTrades().add(new TradeItem("1204" , User.getUsers().get(0) , user  , ResourceEnum.CHEESE, 3 , 50 , "hi0", true, false));

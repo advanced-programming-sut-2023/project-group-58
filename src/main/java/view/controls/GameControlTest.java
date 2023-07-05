@@ -158,6 +158,8 @@ public class GameControlTest {
         addButton.setLayoutX(1485);
         addButton.setLayoutY(170);
         addButton.setOnAction(event -> {
+            
+
             if (sickland) {
                 currentPlayer.getGovernance().changePopularity(-10);
                 sickland = false;
