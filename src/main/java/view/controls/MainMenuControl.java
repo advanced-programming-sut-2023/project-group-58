@@ -29,7 +29,7 @@ public class MainMenuControl {
         Scene scene = new Scene(pane);
         LoginMenu.getStage().setScene(scene);
         ProfileControl.currentUser = currentUser;
-        System.out.println("main menu: " + ProfileControl.currentUser.getUsername());
+        //System.out.println("main menu: " + ProfileControl.currentUser.getUsername());
         LoginMenu.getStage().show();
     }
 

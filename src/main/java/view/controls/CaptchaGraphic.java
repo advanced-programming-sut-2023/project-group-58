@@ -175,7 +175,7 @@ public class CaptchaGraphic  {
             Scene scene = new Scene(pane);
             LoginMenu.getStage().setScene(scene);
             MainMenuControl.currentUser = currentUser;
-            System.out.println("captcha user: " + currentUser.getUsername());
+            //System.out.println("captcha user: " + currentUser.getUsername());
             LoginMenu.getStage().show();
         }
     }
