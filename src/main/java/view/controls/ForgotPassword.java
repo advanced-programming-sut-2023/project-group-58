@@ -63,23 +63,31 @@ public class ForgotPassword {
 
     public void forgotValidate(MouseEvent mouseEvent) throws NoSuchAlgorithmException, IOException {
         Alert alert;
-//        if (!user.getSecurityAnswer().equals(answer)){
-//            alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Error");
-//            alert.setHeaderText("Recovery Failed");
-//            alert.setContentText("Your answer is wrong");
-//            alert.showAndWait();
-//         //   return;
-//        }
-//        passwordReset = new PasswordReset();
-//        if (!newPass.getText().equals(reNewPass.getText()) || !passwordReset.checkPasswordFormat(newPass.getText()).equals(ProfisterControllerOut.VALID)){
-//            alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Error");
-//            alert.setHeaderText("Recovery Failed");
-//            alert.setContentText("Your Password is not in correct format");
-//            alert.showAndWait();
-//           // return;
-//        }
+        if (user==null){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Recovery Failed");
+            alert.setContentText("Username doesnt exist");
+            alert.showAndWait();
+            return;
+        };
+        if (!user.getSecurityAnswer().equals(answer)){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Recovery Failed");
+            alert.setContentText("Your answer is wrong");
+            alert.showAndWait();
+            return;
+        }
+        passwordReset = new PasswordReset();
+        if (!newPass.getText().equals(reNewPass.getText()) || !passwordReset.checkPasswordFormat(newPass.getText()).equals(ProfisterControllerOut.VALID)){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Recovery Failed");
+            alert.setContentText("Your Password is not in correct format");
+            alert.showAndWait();
+            return;
+        }
 
         Stage stage = new Stage();
         ForgotPassword.stage = stage;
@@ -91,7 +99,7 @@ public class ForgotPassword {
         stage.setScene(new Scene(pane));
         stage.showAndWait();
         if (stage.isShowing());
-        //      user.setPassword(password);
+              user.setPassword(password);
         if (ForgotPassword.stage!=LoginMenu.getStage()){
             alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Success");

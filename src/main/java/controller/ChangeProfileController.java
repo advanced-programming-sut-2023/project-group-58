@@ -140,7 +140,7 @@ public class ChangeProfileController {
         changeDetail(user.getUsername(), "slogan", "");
     }
 
-    private void changeDetail(String username, String toChange, String forChange) {
+    public void changeDetail(String username, String toChange, String forChange) {
         //  System.out.println(toChange + ": "+ forChange);
         String userInfoAddress = System.getProperty("user.dir") + "/DataBase/userInfo.json";
         Gson gson = new Gson();
@@ -202,5 +202,8 @@ public class ChangeProfileController {
                 return input.substring(1, input.length() - 1);
         }
         return input;
+    }
+
+    public ChangeProfileController() {
     }
 }
