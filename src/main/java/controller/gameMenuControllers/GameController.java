@@ -182,6 +182,7 @@ public class GameController {
             getCurrentUser().getGovernance().changeResourceAmount(unitType.getWeaponType(), -1 * count);
         Unit addingUnit = new Unit(getCurrentUser(), unitType, count, yOFSelectedBuilding, xOFSelectedBuilding);
         selectedMap.getTile(yOFSelectedBuilding, xOFSelectedBuilding).addUnitToTile(addingUnit);
+        addingUnit.setCurrentTile(selectedMap.getTile(yOFSelectedBuilding, xOFSelectedBuilding));
         getCurrentUser().getGovernance().addUnit(addingUnit);
         return GameControllerOut.SUCCESSFULLY_CREATED_UNIT;
     }
@@ -457,6 +458,7 @@ public class GameController {
 
             selectedMap.getTile(previousY, previousX).removeAUnit(unit);
             selectedMap.getTile(yPresent, xPresent).addUnitToTile(unit);
+            unit.setCurrentTile(selectedMap.getTile(yPresent, xPresent));
 
             //battle and traps:
             getCaughtByTraps(selectedMap.getTile(yPresent, xPresent), unit);
@@ -468,19 +470,18 @@ public class GameController {
             previousX = xPresent;
             previousY = yPresent;
         }
-        if(xPresent != unit.getxDestination() || yPresent != unit.getyDestination())
+        if (xPresent != unit.getxDestination() || yPresent != unit.getyDestination())
             return;
         if (unit.isOnPatrol()) {
             if (unit.getPatrolDestinations()[0].getX() == xPresent &&
                     unit.getPatrolDestinations()[0].getY() == yPresent) {
                 unit.setxDestination(unit.getPatrolDestinations()[1].getX());
                 unit.setyDestination(unit.getPatrolDestinations()[1].getY());
-            } else{
+            } else {
                 unit.setxDestination(unit.getPatrolDestinations()[0].getX());
                 unit.setyDestination(unit.getPatrolDestinations()[0].getY());
             }
-        }
-        else {
+        } else {
             unit.setxDestination(-1);
             unit.setyDestination(-1);
         }
@@ -494,9 +495,32 @@ public class GameController {
                 totalDamage += troop.getType().getDamage() * performance;
         }
         for (Building building : tile.getBuildings()) {
-            if (!building.getOwner().getUsername().equals(unit.getMaster().getUsername()))
+            if (!building.getOwner().getUsername().equals(unit.getMaster().getUsername())) {
+                if (unit.getPresentTypes().contains("fire thrower")) {
+                    building.resetTurnsOnFire();
+                }
                 building.takeDamage(totalDamage / 100);
+            }
         }
+    }
+
+    public void setOnFire() {
+        for (int i = 0; i < selectedMap.getWidth(); i++)
+            for (int j = 0; j < selectedMap.getLength(); j++) {
+                outer:
+                for (Building building : selectedMap.getTile(i, j).getBuildings()) {
+                    for (java.util.Map.Entry<String, ArrayList<Unit>> stringArrayListEntry : selectedMap.getTile(i, j).getPlayersUnits().entrySet()) {
+                        if (!stringArrayListEntry.getKey().equals(building.getOwner().getUsername())) {
+                            boolean isInDanger = smellsDanger(stringArrayListEntry.getValue());
+                            if (isInDanger) {
+                                System.out.println("I'm seeing fire");
+                                building.resetTurnsOnFire();
+                                continue outer;
+                            }
+                        }
+                    }
+                }
+            }
     }
 
     private void fight(Tile tile) {
@@ -682,15 +706,15 @@ public class GameController {
                     }
                     int[] currentLocation = findUnit(empire, unit.getxOrigin(), unit.getyOrigin(), selectedMap);
                     List<Point> patchPoints = new ArrayList<>();
-                    if(!unit.isOnPatrol() && unit.getxDestination() != -1 && unit.getyDestination() != -1)
+                    if (!unit.isOnPatrol() && unit.getxDestination() != -1 && unit.getyDestination() != -1)
                         patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
                                 new Point(unit.getxDestination(), unit.getyDestination()), true);
-                    else if(unit.isOnPatrol()) {
+                    else if (unit.isOnPatrol()) {
                         Point des;
-                        if(unit.getPatrolDestinations()[0].getX() == currentLocation[1] && unit.getPatrolDestinations()[0].getY() == currentLocation[0])
-                            des = new Point(unit.getPatrolDestinations()[1].getX(),unit.getPatrolDestinations()[1].getY());
+                        if (unit.getPatrolDestinations()[0].getX() == currentLocation[1] && unit.getPatrolDestinations()[0].getY() == currentLocation[0])
+                            des = new Point(unit.getPatrolDestinations()[1].getX(), unit.getPatrolDestinations()[1].getY());
                         else
-                            des = new Point(unit.getPatrolDestinations()[0].getX(),unit.getPatrolDestinations()[0].getY());
+                            des = new Point(unit.getPatrolDestinations()[0].getX(), unit.getPatrolDestinations()[0].getY());
                         patchPoints = PatchFinding.findPath(selectedMap, new Point(currentLocation[1], currentLocation[0]),
                                 des, true);
                     }
@@ -850,5 +874,14 @@ public class GameController {
 
     public void setyOFSelectedBuilding(int yOFSelectedBuilding) {
         this.yOFSelectedBuilding = yOFSelectedBuilding;
+    }
+
+
+    private boolean smellsDanger(ArrayList<Unit> value) {
+        for (Unit unit : value) {
+            if (unit.getPresentTypes().contains("fire thrower"))
+                return true;
+        }
+        return false;
     }
 }

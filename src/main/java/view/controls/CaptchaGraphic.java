@@ -75,6 +75,10 @@ public class CaptchaGraphic  {
         }
     }
 
+    public static RegisterMenuController getRegisterMenuController() {
+        return registerMenuController;
+    }
+
     public void changeCaptcha() throws IOException {
         int picNum = countPictures();
         int randomPick = (int) (picNum * Math.random());
@@ -100,13 +104,12 @@ public class CaptchaGraphic  {
             changeCaptcha();
         }
         else {
+            registerMenuController.createUser();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Registered successfully");
             alert.setHeaderText("Welcome to the club!");
             alert.setContentText("Just wanted to let you know that the registration was successful!");
             alert.showAndWait();
-            //todo: check if it works
-            registerMenuController.createUser();
             URL url = LoginMenu.class.getResource("/FXML/firstMenu.fxml");
             BorderPane pane = FXMLLoader.load(url);
             Scene scene = new Scene(pane);

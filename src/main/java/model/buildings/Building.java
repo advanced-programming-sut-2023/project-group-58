@@ -9,6 +9,8 @@ public class Building {
     protected int direction;
     protected boolean active;
     protected boolean destroyed = false;
+    private boolean onFire = false;
+    private int turnsOnFire = 1;
 
     public Building(BuildingEnum type, User owner, int direction, boolean active) {
         this.type = type;
@@ -59,5 +61,31 @@ public class Building {
             destroyed = true;
             active = false;
         }
+    }
+
+    public boolean isOnFire() {
+        return onFire;
+    }
+
+    public void setOnFire(boolean onFire) {
+        this.onFire = onFire;
+    }
+
+    public int getTurnsOnFire() {
+        return turnsOnFire;
+    }
+
+    public void addTurnsOnFire() {
+        if(!isOnFire()) return;
+        this.turnsOnFire+= 1;
+        if(turnsOnFire > 3) {
+            turnsOnFire = 1;
+            onFire = false;
+        }
+    }
+
+    public void resetTurnsOnFire() {
+        setOnFire(true);
+        this.turnsOnFire = 1;
     }
 }

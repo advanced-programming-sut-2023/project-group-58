@@ -100,8 +100,7 @@ public class GameControlTest {
 
     private Pane overlayPane = new Pane();
 
-
-    //todo: don't forget to update minimap whenever you change the main map.
+    private HashMap<ImageView, HashMap<Building, Pane>> fires = new HashMap<>();
     private GridPane miniMap = new GridPane();
     private Stage pauseWindow;
 
@@ -164,6 +163,7 @@ public class GameControlTest {
             gameController.taxRateEffect();
             gameController.fearRateEffect();
             gameController.churchEffect();
+            gameController.setOnFire();
             //set target, fight , move , update resources , govern functions lie here
             //soldier's damage should be set according to the fear rate at each turn
             this.currentPlayer = Governance.getNextPlayer(this.currentPlayer);
@@ -196,10 +196,19 @@ public class GameControlTest {
     }
 
     private void resetMapForNextTurn() {
+        resetBuffers();
+        for (User empire : Governance.getEmpires()) {
+            for (Building building : empire.getGovernance().getBuildings()) {
+                if (building.isOnFire()) {
+                    building.takeDamage(50);
+                    building.addTurnsOnFire();
+                }
+            }
+        }
         scroll(0, 0);
         clipBoardBox = new VBox();
         createBarBook();
-        resetBuffers();
+        enterMainBar();
     }
 
     private void addShortcutKeys() {
@@ -605,6 +614,7 @@ public class GameControlTest {
     }
 
     private void scroll(int xChange, int yChange) {
+        AnimationManager.freezeTime();
         xCenter += xChange;
         yCenter += yChange;
         for (int i = 0; i < 50; i++)
@@ -613,6 +623,8 @@ public class GameControlTest {
             int[] coordinates = assignTileToScreen(i);
             setUpTile(panes[i % 10][i / 10], map.getTile(coordinates[1], coordinates[0]));
         }
+
+        AnimationManager.startTime();
     }
 
     private void resetBuffers() {
@@ -809,9 +821,9 @@ public class GameControlTest {
         miniMap.setLayoutX(1318);
 
         if (root.getChildren().contains(barBook)) {
-            root.getChildren().set(51 , barBook);
-            root.getChildren().set(52 , imageView);
-            root.getChildren().set(53 , miniMap);
+            root.getChildren().set(51, barBook);
+            root.getChildren().set(52, imageView);
+            root.getChildren().set(53, miniMap);
         } else
             root.getChildren().addAll(barBook, imageView, miniMap);
     }
@@ -864,7 +876,7 @@ public class GameControlTest {
         for (int i = 0; i < 20; i++) {
             hBox = new HBox();
             hBox.setSpacing(8);
-            hBox.getChildren().addAll(imageViews[i],labels[i]);
+            hBox.getChildren().addAll(imageViews[i], labels[i]);
             gridPane.add(hBox, i % 5, i / 5);
         }
 
@@ -876,7 +888,7 @@ public class GameControlTest {
             resourceWindow.close();
             AnimationManager.startTime();
         });
-        gridPane.add(resumeButton,2,5);
+        gridPane.add(resumeButton, 2, 5);
         Scene sourceScene = new Scene(gridPane, 350, 300);
         root.getChildren().add(overlayPane);
         resourceWindow.setScene(sourceScene);
@@ -887,7 +899,7 @@ public class GameControlTest {
     private ArrayList<ResourceEnum> createResourceList() {
         ArrayList<ResourceEnum> result = new ArrayList<>();
         for (ResourceEnum value : ResourceEnum.values()) {
-            if(value != ResourceEnum.NULL && value != ResourceEnum.HORSEANDBOW && value != ResourceEnum.OIL)
+            if (value != ResourceEnum.NULL && value != ResourceEnum.HORSEANDBOW && value != ResourceEnum.OIL)
                 result.add(value);
         }
         return result;
@@ -1391,6 +1403,7 @@ public class GameControlTest {
             root.getChildren().add(mainBar);
         } else {
             mainBar.getChildren().set(0, vBox);
+            mainBar.toFront();
         }
     }
 
@@ -1701,6 +1714,7 @@ public class GameControlTest {
         changingUnit.setOriginTile(targetTile);
         changingUnit.setTargetTile(null);
         map.getTile(targetTile.getY(), targetTile.getX()).addUnitToTile(changingUnit);
+        changingUnit.setCurrentTile(map.getTile(targetTile.getY(), targetTile.getX()));
         if (!targetTile.areEnemiesHere(currentPlayer)) changingUnit.setAttack(false);
     }
 
@@ -1835,6 +1849,15 @@ public class GameControlTest {
             }
         }
 
+        for (java.util.Map.Entry<GridPane, Unit> gridPaneUnitEntry : units.entrySet()) {
+            for (Node child : root.getChildren()) {
+                if (child.equals(gridPaneUnitEntry.getKey())) {
+                    root.getChildren().remove(child);
+                    break;
+                }
+            }
+        }
+
         buildings = new HashMap<>();
         Pane section = new Pane();
         section.setStyle("-fx-border-color: black;");
@@ -1912,6 +1935,7 @@ public class GameControlTest {
     }
 
 
+
     private void setUpTile(Pane section, Tile tile) {
         //todo add units and trees
         if (tile.getBuildings() != null)
@@ -1924,7 +1948,35 @@ public class GameControlTest {
                 buildingImageView.setSmooth(true);
                 buildingImageView.setCache(true);
                 section.getChildren().add(buildingImageView);
+                if (building.isOnFire()) {
+                    ImageView fire = new ImageView(new Image(GameMenuControl.class.getResource("/Images/fire.png").toExternalForm()));
+                    fire.setFitWidth(TILE_SIZE - 10);
+                    fire.setPreserveRatio(true);
+                    fire.setSmooth(true);
+                    fire.setCache(true);
+                    section.getChildren().add(fire);
+                    System.out.println("i'm seeing fire");
+                    FireAnimation fireAnimation = new FireAnimation(fire);
+                    AnimationManager.animations.add(fireAnimation);
+                    fireAnimation.play();
+                }
             }
+
+        for (java.util.Map.Entry<String, ArrayList<Unit>> stringArrayListEntry : tile.getPlayersUnits().entrySet()) {
+            for (Unit unit : stringArrayListEntry.getValue()) {
+                GridPane gridPane = findGridPaneByUnit(unit);
+                if (gridPane != null)
+                    section.getChildren().add(gridPane);
+            }
+        }
+    }
+
+    private GridPane findGridPaneByUnit(Unit unit) {
+        for (java.util.Map.Entry<GridPane, Unit> gridPaneUnitEntry : units.entrySet()) {
+            if (gridPaneUnitEntry.getValue() == unit)
+                return gridPaneUnitEntry.getKey();
+        }
+        return null;
     }
 
     private int[] assignTileToScreen(int index) {
