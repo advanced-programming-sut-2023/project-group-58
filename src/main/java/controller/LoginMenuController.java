@@ -279,7 +279,7 @@ public class LoginMenuController {
     }
     public boolean passwordMatch(String username, String inputPassword) {
         for (int i = 0; i < User.getUsers().size(); i++) {
-            if (User.getUsers().get(i).getUsername().equals(inputUsername)) {
+            if (User.getUsers().get(i).getUsername().equals(username)) {
                 user = User.getUsers().get(i);
             }
         }

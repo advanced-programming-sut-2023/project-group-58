@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 
 public class LoginRegisterMenuControl implements Initializable {
 
+    public static User loginUser;
     public TextField username;
     public PasswordField password;
     public TextField nickname;
@@ -115,6 +116,7 @@ public class LoginRegisterMenuControl implements Initializable {
     }
 
     public void emptyTheOne(TextField main, Label error) {
+        if(error == null) return;
         if (main != null)
             main.textProperty().addListener((observable, oldText, newText) -> {
                 if (main.getText().length() != 0)
@@ -131,7 +133,7 @@ public class LoginRegisterMenuControl implements Initializable {
         emptyTheOne(password, passwordErrorHandler);
 
 
-        if (sloganCheckBox != null && sloganTextField != null)
+        if (sloganCheckBox != null && sloganTextField != null && sloganErrorHandler != null)
             sloganTextField.textProperty().addListener((observable, oldText, newText) -> {
                 if (sloganCheckBox.isSelected() || (sloganTextField != null && sloganTextField.getText().length() != 0))
                     sloganErrorHandler.setText("");
@@ -147,7 +149,7 @@ public class LoginRegisterMenuControl implements Initializable {
                 }
             });
 
-        if (username != null)
+        if (username != null && usernameErrorHandler != null)
             username.textProperty().addListener((observable, oldText, newText) -> {
                 if (checkUsername(username.getText()) != null) {
                     usernameErrorHandler.setText(checkUsername(username.getText()).getContent());
@@ -168,14 +170,14 @@ public class LoginRegisterMenuControl implements Initializable {
             });
 
 
-//        if (password != null)
-//            password.textProperty().addListener((observable, oldText, newText) -> {
-//                if (CommonController.checkPasswordFormat(password.getText()) != ProfisterControllerOut.VALID)
-//                    passwordErrorHandler.setText(CommonController.checkPasswordFormat(password.getText()).getContent());
-//                else
-//                    passwordErrorHandler.setText("");
-//            });
-//
+        if (password != null && passwordErrorHandler != null)
+            password.textProperty().addListener((observable, oldText, newText) -> {
+                if (CommonController.checkPasswordFormat(password.getText()) != ProfisterControllerOut.VALID)
+                    passwordErrorHandler.setText(CommonController.checkPasswordFormat(password.getText()).getContent());
+                else
+                    passwordErrorHandler.setText("");
+            });
+
 
 //        if (TheHbox != null && TheHbox.getChildren() != null && TheHbox.getChildren().get(3) != null) {
 //            if (TheHbox.getChildren().get(3) instanceof TextField) {
@@ -199,7 +201,7 @@ public class LoginRegisterMenuControl implements Initializable {
 //        }
 
 
-        addListenerToPassword();
+        //addListenerToPassword();
 
         if (sloganCheckBox != null)
             sloganCheckBox.setOnAction(event -> {
@@ -216,38 +218,47 @@ public class LoginRegisterMenuControl implements Initializable {
         if (eye != null)
             eye.setOnMouseClicked(event -> {
                 if (TheHbox.getChildren().get(3) instanceof PasswordField) {
-                    String saving = ((PasswordField) TheHbox.getChildren().get(3)).getText();
-
+                    String saving = ((PasswordField)TheHbox.getChildren().get(3)).getText();
                     TheHbox.getChildren().set(3, GetStyle.textField(""));
                     TheHbox.getChildren().get(3).setStyle("-fx-fill: darkred; -fx-prompt-text-fill: darkred");
-                    ((TextField) TheHbox.getChildren().get(3)).setText(saving);
-                    addListenerToPassword();
+                    ((TextField)TheHbox.getChildren().get(3)).setText(saving);
 
                 } else {
-
-
-                    String saving = ((TextField) TheHbox.getChildren().get(3)).getText();
+                    String saving = ((TextField)TheHbox.getChildren().get(3)).getText();
                     TheHbox.getChildren().set(3, GetStyle.passwordField(""));
-                    ((PasswordField) TheHbox.getChildren().get(3)).setText(saving);
-                    addListenerToPassword();
+                    ((PasswordField)TheHbox.getChildren().get(3)).setText(saving);
                 }
+//                if (TheHbox.getChildren().get(3) instanceof PasswordField) {
+//                    String saving = ((PasswordField) TheHbox.getChildren().get(3)).getText();
+//
+//                    TheHbox.getChildren().set(3, GetStyle.textField(""));
+//                    TheHbox.getChildren().get(3).setStyle("-fx-fill: darkred; -fx-prompt-text-fill: darkred");
+//                    ((TextField) TheHbox.getChildren().get(3)).setText(saving);
+//                    addListenerToPassword();
+//
+//                } else {
+//
+//
+//                    String saving = ((TextField) TheHbox.getChildren().get(3)).getText();
+//                    TheHbox.getChildren().set(3, GetStyle.passwordField(""));
+//                    ((PasswordField) TheHbox.getChildren().get(3)).setText(saving);
+//                    addListenerToPassword();
+//                }
             });
 
         if (group != null) {
             group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
                 @Override
                 public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle t1) {
-                    if(t1.equals(question1)) {
+                    if (t1.equals(question1)) {
                         question1Ans.setVisible(true);
                         question2Ans.setVisible(false);
                         question3Ans.setVisible(false);
-                    }
-                    else if(t1.equals(question2)) {
+                    } else if (t1.equals(question2)) {
                         question2Ans.setVisible(true);
                         question3Ans.setVisible(false);
                         question1Ans.setVisible(false);
-                    }
-                    else if(t1.equals(question3)) {
+                    } else if (t1.equals(question3)) {
                         question3Ans.setVisible(true);
                         question1Ans.setVisible(false);
                         question2Ans.setVisible(false);
@@ -260,7 +271,7 @@ public class LoginRegisterMenuControl implements Initializable {
     private void addListenerToPassword() {
         String text;
         if (TheHbox != null && TheHbox.getChildren() != null && TheHbox.getChildren().get(3) != null) {
-            if(TheHbox.getChildren().get(3) instanceof TextField) {
+            if (TheHbox.getChildren().get(3) instanceof TextField) {
                 text = ((TextField) TheHbox.getChildren().get(3)).getText();
                 ((TextField) TheHbox.getChildren().get(3)).textProperty().addListener((observable, oldText, newText) -> {
 
@@ -270,8 +281,7 @@ public class LoginRegisterMenuControl implements Initializable {
                         passwordErrorHandler.setText("");
                 });
 
-            }
-            else {
+            } else {
                 text = ((PasswordField) TheHbox.getChildren().get(3)).getText();
                 ((PasswordField) TheHbox.getChildren().get(3)).textProperty().addListener((observable, oldText, newText) -> {
 
@@ -381,7 +391,7 @@ public class LoginRegisterMenuControl implements Initializable {
                 "let's head to security questions:");
         String data = "user create -u " + username.getText() + " -p " + password.getText() + " " + password.getText() +
                 " --email " + email.getText() + " -n " + nickname.getText();
-        if(sloganTextField != null && sloganTextField.getText().length() != 0)
+        if (sloganTextField != null && sloganTextField.getText().length() != 0)
             data += " -s " + sloganTextField;
         System.out.println(data);
         System.out.println("----------------");
@@ -417,8 +427,7 @@ public class LoginRegisterMenuControl implements Initializable {
                 alert.setHeaderText("Failed to pass security");
                 alert.setContentText("You have to pick one question, and type your answer in its field.");
                 alert.show();
-            }
-            else {
+            } else {
                 openCaptcha();
             }
         }
@@ -445,6 +454,7 @@ public class LoginRegisterMenuControl implements Initializable {
         LoginMenu.getStage().show();
         registerMenuController = CaptchaGraphic.getRegisterMenuController();
     }
+
     public void loginValidate(MouseEvent mouseEvent, boolean stayed) throws IOException {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -469,15 +479,15 @@ public class LoginRegisterMenuControl implements Initializable {
             alert.setContentText("This username doesn't exist!");
             dead = true;
         }
-         if (dead) {
-             alert.showAndWait();
-             //  return;
-         }
+        if (dead) {
+            alert.showAndWait();
+            return;
+        }
         User user = null;
-        if (stayed){
-            for (User u : User.getUsers()){
-                if (u.getUsername().equals(username.getText())){
-                    user=u;
+        if (stayed) {
+            for (User u : User.getUsers()) {
+                if (u.getUsername().equals(username.getText())) {
+                    user = u;
                 }
             }
             loginMenuController.saveUserStayed(user);
@@ -487,8 +497,9 @@ public class LoginRegisterMenuControl implements Initializable {
         alert.setTitle("Success");
         alert.setHeaderText("Login : complete");
         alert.setContentText("Welcome to the game, lets go and fight for world!");
+        loginUser = user;
         Optional<ButtonType> option = alert.showAndWait();
-        openAddress("/FXML/securityQuestion.fxml");
+        //openAddress("/FXML/securityQuestion.fxml");
         URL url = LoginMenu.class.getResource("/FXML/LoginCaptcha.fxml");
         BorderPane pane = FXMLLoader.load(url);
         CaptchaGraphic.pane = pane;
@@ -498,6 +509,7 @@ public class LoginRegisterMenuControl implements Initializable {
         LoginMenu.getStage().setScene(scene);
         //LoginMenu.getStage().setFullScreen(true);
         LoginMenu.getStage().show();
+        CaptchaGraphic.currentUser = user;
         //should now go to the other stuff
     }
 

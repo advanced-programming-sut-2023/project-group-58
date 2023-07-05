@@ -104,6 +104,8 @@ public class GameControlTest {
     private GridPane miniMap = new GridPane();
     private Stage pauseWindow;
 
+    boolean sickland = false;
+
     public void start(Stage primaryStage, User currentPlayer) {
         this.currentPlayer = currentPlayer;
         MapMenuController mapMenuController = new MapMenuController();
@@ -156,6 +158,10 @@ public class GameControlTest {
         addButton.setLayoutX(1485);
         addButton.setLayoutY(170);
         addButton.setOnAction(event -> {
+            if (sickland) {
+                currentPlayer.getGovernance().changePopularity(-10);
+                sickland = false;
+            }
             gameController.produce();
             gameController.setTargets();
             gameController.mapMotion();
@@ -812,7 +818,11 @@ public class GameControlTest {
         sample.getChildren().addAll(popularity, population, mask, treasure);
         sample.setSpacing(-28);
         barBook.setSpacing(45);
-        barBook.getChildren().addAll(sample, buttons);
+        if (barBook != null && barBook.getChildren().size() != 0) {
+            barBook.getChildren().set(0, sample);
+            barBook.getChildren().set(1, buttons);
+        } else
+            barBook.getChildren().addAll(sample, buttons);
         barBook.setLayoutY(660);
         barBook.setLayoutX(1150);
         imageView.setLayoutY(450);
@@ -1932,12 +1942,27 @@ public class GameControlTest {
         imageView.setCache(true);
         imageView.setCacheHint(CacheHint.SPEED);
         section.getChildren().add(imageView);
+
+        ImageView sickness = new ImageView(new Image(GameMenuControl.class.getResource("/Images/sickness.png").toExternalForm(), TILE_SIZE, TILE_SIZE, false
+                , false));
+        int random = (int) (100 * Math.random());
+        if (random == 5) {
+            ImageView fire = new ImageView(new Image(GameControlTest.class.getResource("/Images/fire.png").toExternalForm()));
+            fire.setFitWidth(TILE_SIZE - 10);
+            fire.setPreserveRatio(true);
+            fire.setSmooth(true);
+            fire.setCache(true);
+            section.getChildren().add(fire);
+//            FireAnimation fireAnimation = new FireAnimation(fire);
+//            AnimationManager.animations.add(fireAnimation);
+//            fireAnimation.play();
+            section.getChildren().add(sickness);
+            sickland = true;
+        }
     }
 
 
-
     private void setUpTile(Pane section, Tile tile) {
-        //todo add units and trees
         if (tile.getBuildings() != null)
             for (Building building : tile.getBuildings()) {
                 //System.out.println("this is going to be a building " + building.getType().getName());
@@ -1949,16 +1974,16 @@ public class GameControlTest {
                 buildingImageView.setCache(true);
                 section.getChildren().add(buildingImageView);
                 if (building.isOnFire()) {
-                    ImageView fire = new ImageView(new Image(GameMenuControl.class.getResource("/Images/fire.png").toExternalForm()));
+                    ImageView fire = new ImageView(new Image(GameControlTest.class.getResource("/Images/fire.png").toExternalForm()));
                     fire.setFitWidth(TILE_SIZE - 10);
                     fire.setPreserveRatio(true);
                     fire.setSmooth(true);
                     fire.setCache(true);
                     section.getChildren().add(fire);
-                    System.out.println("i'm seeing fire");
-                    FireAnimation fireAnimation = new FireAnimation(fire);
-                    AnimationManager.animations.add(fireAnimation);
-                    fireAnimation.play();
+//                    System.out.println("i'm seeing fire");
+//                    FireAnimation fireAnimation = new FireAnimation(fire);
+//                    AnimationManager.animations.add(fireAnimation);
+//                    fireAnimation.play();
                 }
             }
 

@@ -8,12 +8,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.User;
 import view.LoginMenu;
 
 import java.io.IOException;
 import java.net.URL;
 
 public class MainMenuControl {
+
+    public static User currentUser;
     public void startGame(MouseEvent mouseEvent) {
     }
 
@@ -25,6 +28,8 @@ public class MainMenuControl {
         BorderPane pane = FXMLLoader.load(url);
         Scene scene = new Scene(pane);
         LoginMenu.getStage().setScene(scene);
+        ProfileControl.currentUser = currentUser;
+        System.out.println("main menu: " + ProfileControl.currentUser.getUsername());
         LoginMenu.getStage().show();
     }
 

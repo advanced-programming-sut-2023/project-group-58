@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import model.User;
 import view.LoginMenu;
 import view.controls.changers.*;
 
@@ -17,12 +18,21 @@ public class ProfileControl {
     public Label nickname;
     public Label email;
     public Label slogan;
+    public static User currentUser;
     @FXML
     public void initialize(){
-        username.setText("ali");
-        nickname.setText("king");
-        email.setText("wa@wdw.c");
-        slogan.setText("death");
+        if(currentUser != null) {
+            username.setText(currentUser.getUsername());
+            nickname.setText(currentUser.getNickname());
+            email.setText(currentUser.getEmail());
+            slogan.setText(currentUser.getSlogan());
+        }
+        else {
+            username.setText("ali");
+            nickname.setText("king");
+            email.setText("wa@wdw.c");
+            slogan.setText("death");
+        }
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {

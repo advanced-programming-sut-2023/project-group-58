@@ -5,21 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/controls/FireAnimation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Images/fire.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/RegisterMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/gameMenuControllers/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/buildings/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/buildings/Building.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/units/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/LoginMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/CaptchaGraphic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/FireAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/FireAnimation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/MainMenuControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/MainMenuControl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/ProfileControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/ProfileControl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/CaptchaGraphic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/ForgotPassword.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/ForgotPassword.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/MainMenuControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/MainMenuControl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/ProfileControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/ProfileControl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,7 +229,7 @@
       <workItem from="1688384277851" duration="38126000" />
       <workItem from="1688456586927" duration="15433000" />
       <workItem from="1688398114479" duration="819000" />
-      <workItem from="1688543588651" duration="12797000" />
+      <workItem from="1688543588651" duration="25012000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
@@ -269,12 +267,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/view/controls/MainMenuControl.java</url>
-          <line>25</line>
-          <option name="temporary" value="true" />
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

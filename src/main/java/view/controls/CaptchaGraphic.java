@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import model.User;
 import view.LoginMenu;
 import view.RegisterMenu;
 
@@ -30,6 +31,7 @@ import java.util.ResourceBundle;
 
 public class CaptchaGraphic  {
 
+    public static User currentUser;
     public static Pane pane;
     private static int currentCaptcha;
     private static String currentPath;
@@ -153,6 +155,7 @@ public class CaptchaGraphic  {
     }
 
     public void submitLogin(MouseEvent mouseEvent) throws IOException {
+        currentUser = LoginRegisterMenuControl.loginUser;
         int index = currentPath.lastIndexOf("\\") + 1;
         String photoName = currentPath.substring(index, currentPath.length() - 4);
         if(userCaptchaAnswer == null || userCaptchaAnswer.getText().length() == 0 ||
@@ -171,6 +174,8 @@ public class CaptchaGraphic  {
             BorderPane pane = FXMLLoader.load(url);
             Scene scene = new Scene(pane);
             LoginMenu.getStage().setScene(scene);
+            MainMenuControl.currentUser = currentUser;
+            System.out.println("captcha user: " + currentUser.getUsername());
             LoginMenu.getStage().show();
         }
     }
