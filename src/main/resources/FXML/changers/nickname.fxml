@@ -17,7 +17,7 @@
     <center>
         <VBox alignment="CENTER" spacing="55">
             <Label  text="Enter new nickname and confirm" textFill="aliceblue" scaleX="4" scaleY="4"/>
-            <TextField promptText="nickname" maxWidth="200" styleClass="TextField" fx:id="username"/>
+            <TextField promptText="nickname" maxWidth="200" styleClass="TextField" fx:id="nickname"/>
             <Button styleClass="Button" onMouseClicked="#changeCaptcha" style="-fx-max-width: 15; -fx-max-height: 15">
                 <graphic>
                     <ImageView style="-fx-graphic-text-gap: 1" fitWidth="40" fitHeight="40">

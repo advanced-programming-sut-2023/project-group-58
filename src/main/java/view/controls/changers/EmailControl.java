@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import view.controls.MainMenuControl;
+import view.controls.ProfileControl;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -95,6 +96,11 @@ public class EmailControl {
             alert.showAndWait();
             MainMenuControl.openMenu("/FXML/profile.fxml");
             MainMenuControl.openMenu("/FXML/profile.fxml");
+            System.out.println(email.getText());
+            System.out.println(ProfileControl.profileControl.email1);
+            System.out.println(email.getText());
+            ProfileControl.profileControl.email1 = email.getText();
+            ProfileControl.profileControl.initialize();
         }
     }
 

@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import view.controls.MainMenuControl;
+import view.controls.ProfileControl;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -94,6 +95,8 @@ public class SloganControl {
             alert.setHeaderText("your Slogan changed successfully");
             alert.showAndWait();
             MainMenuControl.openMenu("/FXML/profile.fxml");
+            ProfileControl.profileControl.slogan1 = slogan.getText();
+            ProfileControl.profileControl.initialize();
         }
     }
 

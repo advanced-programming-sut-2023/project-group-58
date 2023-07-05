@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import view.controls.MainMenuControl;
+import view.controls.ProfileControl;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -95,6 +96,8 @@ public class NicknameControl {
             alert.showAndWait();
             MainMenuControl.openMenu("/FXML/profile.fxml");
             MainMenuControl.openMenu("/FXML/profile.fxml");
+            ProfileControl.profileControl.nickname1 = nickname.getText();
+            ProfileControl.profileControl.initialize();
         }
     }
 

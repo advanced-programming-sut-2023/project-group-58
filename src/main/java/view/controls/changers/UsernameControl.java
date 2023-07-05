@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.User;
 import view.controls.MainMenuControl;
+import view.controls.ProfileControl;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -126,6 +127,8 @@ public class UsernameControl {
             MainMenuControl.openMenu("/FXML/profile.fxml");
             ChangeProfileController changeProfileController = new ChangeProfileController();
             changeProfileController.changeDetail("", "username", username.getText());
+            ProfileControl.profileControl.username1 = username.getText();
+            ProfileControl.profileControl.initialize();
         }
     }
 

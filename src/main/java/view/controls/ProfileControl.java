@@ -17,12 +17,22 @@ public class ProfileControl {
     public Label nickname;
     public Label email;
     public Label slogan;
+    public static ProfileControl profileControl;
+    public String username1 = "ali";
+    public  String nickname1 = "king";
+    public  String email1 = "ali@king.com";
+    public  String slogan1 = "death is better than life";
+
+    public ProfileControl() {
+        profileControl = this;
+    }
+
     @FXML
     public void initialize(){
-        username.setText("ali");
-        nickname.setText("king");
-        email.setText("wa@wdw.c");
-        slogan.setText("death");
+        username.setText(username1);
+        nickname.setText(nickname1);
+        email.setText(email1);
+        slogan.setText(slogan1);
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
@@ -48,8 +58,8 @@ public class ProfileControl {
         UsernameControl.enterCaptcha();
         Scene scene = new Scene(pane);
         LoginMenu.getStage().setScene(scene);
-        LoginMenu.getStage().show();
-
+        LoginMenu.getStage().showAndWait();
+        initialize();
     }
     public void passwordChange(MouseEvent mouseEvent) throws IOException {
         URL url = LoginMenu.class.getResource("/FXML/changers/password.fxml");
@@ -58,7 +68,8 @@ public class ProfileControl {
         Password.enterCaptcha();
         Scene scene = new Scene(pane);
         LoginMenu.getStage().setScene(scene);
-        LoginMenu.getStage().show();
+        LoginMenu.getStage().showAndWait();
+        initialize();
     }
     public void nicknameChange(MouseEvent mouseEvent) throws IOException {
         URL url = LoginMenu.class.getResource("/FXML/changers/nickname.fxml");
@@ -67,7 +78,8 @@ public class ProfileControl {
         NicknameControl.enterCaptcha();
         Scene scene = new Scene(pane);
         LoginMenu.getStage().setScene(scene);
-        LoginMenu.getStage().show();
+        LoginMenu.getStage().showAndWait();
+        initialize();
     }
     public void emailChange(MouseEvent mouseEvent) throws IOException {
         URL url = LoginMenu.class.getResource("/FXML/changers/email.fxml");
@@ -76,7 +88,8 @@ public class ProfileControl {
         EmailControl.enterCaptcha();
         Scene scene = new Scene(pane);
         LoginMenu.getStage().setScene(scene);
-        LoginMenu.getStage().show();
+        LoginMenu.getStage().showAndWait();
+        initialize();
     }
     public void sloganChange(MouseEvent mouseEvent) throws IOException {
         openMenu("/FXML/changers/slogan.fxml");
@@ -86,7 +99,8 @@ public class ProfileControl {
         SloganControl.enterCaptcha();
         Scene scene = new Scene(pane);
         LoginMenu.getStage().setScene(scene);
-        LoginMenu.getStage().show();
+        LoginMenu.getStage().showAndWait();
+        initialize();
     }
     public static void openMenu(String s) throws IOException {
 
