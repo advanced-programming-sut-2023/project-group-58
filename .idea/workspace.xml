@@ -4,33 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase/userInfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase/userInfo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/ProfileControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/ProfileControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/changers/EmailControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/changers/EmailControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/changers/NicknameControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/changers/NicknameControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/changers/SloganControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/changers/SloganControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/view/controls/changers/UsernameControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/controls/changers/UsernameControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/CSS/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CSS/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/changers/email.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/changers/email.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/changers/nickname.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/changers/nickname.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/FXML/changers/slogan.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/FXML/changers/slogan.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/CSS/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/CSS/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FXML/changers/email.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXML/changers/email.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FXML/changers/nickname.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXML/changers/nickname.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FXML/changers/slogan.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FXML/changers/slogan.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/ProfileControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/ProfileControl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/changers/EmailControl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/changers/EmailControl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/changers/EmailControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/changers/EmailControl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/changers/NicknameControl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/changers/NicknameControl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/changers/NicknameControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/changers/NicknameControl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/changers/SloganControl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/changers/SloganControl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/changers/SloganControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/changers/SloganControl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/changers/UsernameControl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/changers/UsernameControl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/view/controls/changers/UsernameControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/controls/changers/UsernameControl.class" afterDir="false" />
-    </list>
+    <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
