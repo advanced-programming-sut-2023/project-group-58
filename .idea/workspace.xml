@@ -4,7 +4,93 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!" />
+    <list default="true" id="4deba8ef-90a4-43dd-871e-0b9d86a4425e" name="Changes" comment="map started, with a colourful terminal!">
+      <change afterPath="$PROJECT_DIR$/Client/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/Captcha.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/Governance.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/Map.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/Packet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/Point.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/Resource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/ResourceEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/Tile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/TileGraphicTexture.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/TileTexture.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/TradeItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/Tree.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/buildings/Building.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/buildings/BuildingEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/buildings/BuildingEnumType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/buildings/ForceRecruitment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/buildings/Gate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/buildings/ResourceMaker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/buildings/Storage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/buildings/Tower.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/buildings/Trap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/units/NotTroop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/units/ResourceType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/units/Troop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/units/Unit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/model/units/UnitEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/AvatarMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/CaptchaMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/GameMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/GetStyle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/LoginMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/MainMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/MapMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/ProfileMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/RegisterMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/ScanMatch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/ShopMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/TradeMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/AnimationManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/BuildingType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/CaptchaGraphic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/FireAnimation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/ForgotPassword.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/GameControlTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/GameMenuControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/LoginRegisterMenuControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/MainMenuControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/MoveAnimation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/ProfileControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/ShopMenuControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/TradeMenuControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/changers/EmailControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/changers/NicknameControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/changers/Password.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/changers/SloganControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/controls/changers/UsernameControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/enums/Commands.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/enums/GameControllerOut.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/enums/LobbyControllerOut.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/enums/LoginControllerOut.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/enums/ProfisterControllerOut.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/enums/ShopAndTradeControllerOut.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Client/src/main/java/view/enums/TreeTypes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/controller/PacketController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/model/Chat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/model/Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/model/Packet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/view/Connection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/src/main/java/view/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,8 +150,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="E:/java-proj/a" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Server" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RecentsManager">
@@ -224,6 +313,8 @@
       <workItem from="1688398114479" duration="819000" />
       <workItem from="1688579403476" duration="846000" />
       <workItem from="1688543588651" duration="12797000" />
+      <workItem from="1688638016169" duration="680000" />
+      <workItem from="1688638715016" duration="1807000" />
     </task>
     <task id="LOCAL-00001" summary="map started, with a colourful terminal!">
       <created>1682122926651</created>
@@ -263,7 +354,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/view/controls/LoginRegisterMenuControl.java</url>
-          <line>68</line>
+          <line>67</line>
           <properties class="view.controls.LoginRegisterMenuControl">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -272,7 +363,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/view/controls/MainMenuControl.java</url>
-          <line>25</line>
+          <line>22</line>
           <option name="temporary" value="true" />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
